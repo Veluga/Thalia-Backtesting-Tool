@@ -1,0 +1,45 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{graphicx}  %%% for including graphics
+\usepackage{url}       %%% for including URLs
+\usepackage{times}
+\usepackage{natbib}
+\usepackage[margin=25mm]{geometry}
+
+\title{Architecture Report Draft}
+\date{}
+
+\author{Daniel Joeffe\\
+       Affiliation\\
+       \texttt{example@email.org}
+  \and Someone Else\\
+       Another Affiliation\\
+       \texttt{another@email.org}
+}
+
+\begin{document}
+\maketitle
+
+\section{4 Layers architecture}
+	We have chosen an alteration to the classic 3 layered architecture by including a layer dedicated to gathering data. This is because each data point can come from different sources that have different api's requirements, uptimes. It adds reliability by isolating the  "messines". This also allows for a separation of work. The api module as a crucial component might require extra time this approach allows for paralel working. 
+	
+
+\bibliographystyle{chicago} % or any other style
+\bibliography{mybib}
+
+\section{Technologies}
+\subsection{General}
+As for technologies we have only decided on the things were our present expertise is sufficient. Between the Client and the Server there will be 2 main types of data transfered the webpage itself(HTML, CSS, Javascript) and the portofolio infomation trough JSON datasets. 
+\subsection{API Layer Specific}
+The API layer will be a separated module. This porvides some extra security because the webserver does not have write or modify acces to the financial datasets in the sorage. In addition it needs to be pointed out that there will be no concurency problems with having 2 separated programs reading and writing to the same database. Since the webserver and the API module read and write to different tables.
+\subsection{Buisness Logic(Interacation between Client and Server)}
+We have chosen to separate the protofolio specifications when regarding its performance. The client construct the portofolio specifications and Graphs the performance. The Server takes the specifications from the client and computes the performance using the data from the Database. The benefits of this are: -We are saving bandwith, the client only gets the requested info, and the server does not disclose more information than it was asked for. No matter the technology used the numerical processing will be faster on the Server side. On the bad side all the numerical computations are done on the Server and that could lead to a slow response. 
+
+\section{Technologies to be Used}
+\subsection{Backend}
+	Django framework will be used as our backend. This is unlikely to change.
+\subsection{Fronend}
+Classic HTML, CSS, and plotly.js as the main plotting library.
+
+
+\end{document}
