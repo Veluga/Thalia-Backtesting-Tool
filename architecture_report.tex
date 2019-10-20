@@ -9,39 +9,44 @@
 \title{Architecture Report Draft}
 \date{}
 
-\author{Daniel Joeffe\\
-       Affiliation\\
-       \texttt{example@email.org}
-  \and Someone Else\\
-       Another Affiliation\\
-       \texttt{another@email.org}
+\author{Daniel Joffe\\
+  \and George Stoian\\
 }
 
 \begin{document}
 \maketitle
 
-\section{4 Layers architecture}
-	We have chosen an alteration to the classic 3 layered architecture by including a layer dedicated to gathering data. This is because each data point can come from different sources that have different api's requirements, uptimes. It adds reliability by isolating the  "messines". This also allows for a separation of work. The api module as a crucial component might require extra time this approach allows for paralel working. 
-	
+\section{4 Layer architecture}
+We have chosen to alter the classic 3 layer architecture by including an layer dedicated to gathering data. This is because each data point can come from various different sources that have different APIs. It adds isolates the "messines" of code; there is no clean way to use several APIs for one task like this, but by putting all the logic for that in one dedicated layer, the rest of the codebase doesn't have to suffer.
 
-\bibliographystyle{chicago} % or any other style
-\bibliography{mybib}
+This is also good for security - the main source of attacks will likely be from users giving the server malicious data, but the webserver they're interacting with does not have write permission for the main database.
 
-\section{Technologies}
-\subsection{General}
-As for technologies we have only decided on the things were our present expertise is sufficient. Between the Client and the Server there will be 2 main types of data transfered the webpage itself(HTML, CSS, Javascript) and the portofolio infomation trough JSON datasets. 
-\subsection{API Layer Specific}
-The API layer will be a separated module. This porvides some extra security because the webserver does not have write or modify acces to the financial datasets in the sorage. In addition it needs to be pointed out that there will be no concurency problems with having 2 separated programs reading and writing to the same database. Since the webserver and the API module read and write to different tables.
-\subsection{Buisness Logic(Interacation between Client and Server)}
-We have chosen to separate the protofolio specifications when regarding its performance. The client construct the portofolio specifications and Graphs the performance. The Server takes the specifications from the client and computes the performance using the data from the Database. The benefits of this are: -We are saving bandwith, the client only gets the requested info, and the server does not disclose more information than it was asked for. No matter the technology used the numerical processing will be faster on the Server side. On the bad side all the numerical computations are done on the Server and that could lead to a slow response. 
+We don't forsee any concurrency issues, as only one process will be writing to the database.
+
+\section{Other Design Decisions}
+\subsection{Portfolio Data Representation}
+We have chosen to create two seperate data types for a portfolio - one for its specification (how much to invest in what) and one for its performance (how much money one has at a given moment in time). The client constructs the specification based on user input and sends it to the server. Once received, the server does the necessary computations and sends back the portfolio performance to the client. \break
+
+Benefits:
+\begin{itemize}
+  \item The client does not need to have a high-end CPU to get their information quickly.
+  \item Minimal information is passed over networks, which can be slow and unreliable.
+\end{itemize}
+
+Drawbacks:
+\begin{itemize}
+  \item Performance may suffer when serving multiple clients.
+\end{itemize}
+
 
 \section{Technologies to be Used}
-\subsection{Backend}
-	Django framework will be used as our backend. This is unlikely to change.
+\subsection{Framework}
+Probably Django.
 \subsection{Frontend}
-Classic HTML, CSS, and plotly.js as the main plotting library.
-
-\subsection{API module}
-Probably python. With whatever API God Emperor Albert has collected.
+HTML, CSS and Javascript, as is customary for the web. Plotly.js for graphs.
+\subsection{Communication}
+Aside from the markup for the webpage, communication between the client and server will mostly be done using JSON files.
+\subsection{Data Collection Module}
+A python script using the APIs found by Albert.
 
 \end{document}
