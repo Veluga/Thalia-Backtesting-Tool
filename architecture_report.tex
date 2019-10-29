@@ -1,0 +1,52 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{graphicx}  %%% for including graphics
+\usepackage{url}       %%% for including URLs
+\usepackage{times}
+\usepackage{natbib}
+\usepackage[margin=25mm]{geometry}
+
+\title{Architecture Report Draft}
+\date{}
+
+\author{Daniel Joffe\\
+  \and George Stoian\\
+}
+
+\begin{document}
+\maketitle
+
+\section{4 Layer architecture}
+We have chosen to alter the classic 3 layer architecture by including an layer dedicated to gathering data. This is because each data point can come from various different sources that have different APIs. It adds isolates the "messines" of code; there is no clean way to use several APIs for one task like this, but by putting all the logic for that in one dedicated layer, the rest of the codebase doesn't have to suffer.
+
+This is also good for security - the main source of attacks will likely be from users giving the server malicious data, but the webserver they're interacting with does not have write permission for the main database.
+
+We don't forsee any concurrency issues, as only one process will be writing to the database.
+
+\section{Other Design Decisions}
+\subsection{Portfolio Data Representation}
+We have chosen to create two seperate data types for a portfolio - one for its specification (how much to invest in what) and one for its performance (how much money one has at a given moment in time). The client constructs the specification based on user input and sends it to the server. Once received, the server does the necessary computations and sends back the portfolio performance to the client. \break
+
+Benefits:
+\begin{itemize}
+  \item The client does not need to have a high-end CPU to get their information quickly.
+  \item Minimal information is passed over networks, which can be slow and unreliable.
+\end{itemize}
+
+Drawbacks:
+\begin{itemize}
+  \item Performance may suffer when serving multiple clients.
+\end{itemize}
+
+
+\section{Technologies to be Used}
+\subsection{Framework}
+Probably Django.
+\subsection{Frontend}
+HTML, CSS and Javascript, as is customary for the web. Plotly.js for graphs.
+\subsection{Communication}
+Aside from the markup for the webpage, communication between the client and server will mostly be done using JSON files.
+\subsection{Data Collection Module}
+A python script using the APIs found by Albert.
+
+\end{document}
