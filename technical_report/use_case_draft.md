@@ -25,3 +25,10 @@ He asks his more experienced friend to have a look and sends him a link to his p
 His friend tests a couple of changes to the portfolio and when she thinks she found a possible edge, she sends a link to the new portfolio and strategy.
 Sam likes the changes and proceeds to change his original portfolio based on these recommendations.
 
+**Adriana** - 55 year old gardener and single mom
+
+Adriana is nearing retirement. She has invested a significant amount of her savings with a Financial Advisor who manages her portfolio for her.
+While she trusts her advisor, she double checks whether her portfolio is exposing her life savings to a lot of unwanted volatility.
+She does this by plotting its performance against an index with {MVG}.
+Unfortunately, her portfolio has historically both performed worse than a simple 60/40 split and been more volatile over the same timeframe.
+Better informed, she decides to take matters into her own hands instead of relying on her ex-Financial Advisor. 
