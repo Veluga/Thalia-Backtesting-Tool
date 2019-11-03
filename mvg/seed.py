@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from collections import namedtuple
 
-from MVG.models import AssetClass, Asset, Value
+from database.models import AssetClass, Asset, Value
 
 Datapoint = namedtuple('Datapoint', 'date open close lo hi')
 
