@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="post" class="uniForm">
+        {{ my_formset|crispy }}
+        <h1>Hello world!</h1>
+        <a href="{% url 'portfolio:portfolio'%}">
+            <button type="button" class="btn btn-primary btn-lg">Let's go</button>
+        </a>
+    </form>
+{% endblock %}
