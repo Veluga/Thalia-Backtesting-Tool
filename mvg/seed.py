@@ -86,20 +86,20 @@ def populate_dow():
     for i, datum in enumerate(read_dow()):
         dow_data.create(
             date=datum.date,
-            open_price=datum.open, 
+            open_price=datum.open,
             close_price=datum.close,
             low_price=datum.lo,
             high_price=datum.hi
         )
 
-        if i & 255 == 255:
-            print(i)
+        if i % 200 == 0:
+            print(f"{i} entries")
 
 
 def read_dow():
     with open('../Financial Data/Equities/Dow Jones.csv') as src:
-        reader = csv.reader(src, delimiter = ',')
-        next(reader) # Ignore headings.
+        reader = csv.reader(src, delimiter=',')
+        next(reader)    # Ignore headings.
         for i, row in enumerate(reader):
             date = datetime.strptime(row[0], '%Y-%m-%d')
             open_price = Decimal(row[1])
@@ -107,7 +107,9 @@ def read_dow():
             low_price = Decimal(row[3])
             close_price = Decimal(row[4])
 
-            yield Datapoint(date, open_price, close_price, low_price, high_price)
+            yield Datapoint(
+                date, open_price, close_price, low_price, high_price
+            )
 
 
 if __name__ == '__main__':
