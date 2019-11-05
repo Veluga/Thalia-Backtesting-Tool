@@ -1,5 +1,13 @@
 # Initial Project Plan
 
+## Team Organisation
+
+Our workflow is centered around the GitHub platform and the tools it provides. Code is reviewed by other team members
+before any changes are pushed to the production system. Since there are no fixed responsibilities in our team (i.e.
+everybody will at some point developing a feature for each part of the system), we are using the Egalitarian Team
+structure. Not only does this save us from introducing any sort of artificial hierarchy (we are all equally experienced)
+into our development process, every one of also has a holistic understanding of how the system works across all layers.
+
 ## Budget
 
 As we are developing this product as part of a university module, we do not have any budget restrictions other than
