@@ -20,7 +20,7 @@ Economic factors are closely intertwined with the stock market. Not only do low 
 
 #### Social
 
-Cultural factors can also influence investment behaviours, as some people may prefer investing into opening their own business over financial investments. For example, a financial study showed that less than half of affluent millennials feel confident about investing and retirement planning.<sup>[citation needed]</sup>
+Cultural factors can also influence investment behaviours, as some people may prefer investing into opening their own business over financial investments. For example, a financial study showed that less than half of affluent millennials feel confident about investing and retirement planning.<sup>[4]</sup>
 
 #### Technological
 
@@ -28,7 +28,7 @@ Technological advancements offer more and more elaborate means to analyse data, 
 
 ### Competitor analysis
 
-Our competitors are of two types. Financial advisors, who offer backtesting as part of their service, and competing financial software. We have already established that we do not aim to compete with the service provided by financial advisors, as they satisfy another demand altogether. Our main competitors are thus other pieces of software that offer backtesting features.
+Our competitors are of two types - financial advisors, who offer backtesting as part of their service, and competing financial software. We have already established that we do not aim to compete with the service provided by financial advisors, as they satisfy another demand altogether. Our main competitors are thus other pieces of software that offer backtesting features.
 Some of these are broker and various third-party trading software, such as Fidelity, MetaTrader and NinjaTrader. They are also typically heavily priced due to their nature as a trading software. Other companies, such as ETFreplay, do not offer trading as a service, and solely focus on backtesting. There is a wide range of these as well, considering their quality and pricing.
 Most companies of both groups decided to commercialise their products based on a monthly/yearly subscription model, but some of them also offer lifetime licenses. For trading software this ranges between \$100 and \$300 per month, which can be significantly lowered by a lifetime/yearly subscription. However, for a small retail investor who would not use this software on a daily basis, investing hundreds of dollars into a financial software would not be worth it.
 On the other hand, for a simple backtesting software this range is \$0 - \$200, and the quality varies with it as well. Some investors are even willing test their portfolios manually, i.e. with the help of excel or using a programming language such as Python, R or MATLAB. The use of these methods shows that there is indeed demand for a high-quality, affordable backtester.
@@ -55,8 +55,8 @@ Some of our competitors also use trial periods. Risk-averse retail investors wou
 
 ### Financial plan
 
-In order to obtain initial funding, we have two options, we can seek investment from venture capitalists (VC) or apply for a bank loan. Since obtaining a loan of this size for a start-up is quite difficult, we will focus on the first of these options. According to the National Bureau of Economic Research a VC can expect a return on investment between 15% and 35%, but 25% in most cases,<sup>[4]</sup> significantly increasing our costs.
-As our revenues come from subscriptions, one of our most important figures would be the customer retention rate. Aiming at a 25% retention rate for monthly periods - which is an average rate for media and finance industries<sup>[5][6]</sup> - would provide us with a steady stream of subscribers. Considering this figure as a benchmark this project will be profitable after 12 – 18 months.
+In order to obtain initial funding, we have two options, we can seek investment from venture capitalists (VC) or apply for a bank loan. Since obtaining a loan of this size for a start-up is quite difficult, we will focus on the first of these options. According to the National Bureau of Economic Research a VC can expect a return on investment between 15% and 35%, but 25% in most cases,<sup>[5]</sup> significantly increasing our costs.
+As our revenues come from subscriptions, one of our most important figures would be the customer retention rate. Aiming at a 25% retention rate for monthly periods - which is an average rate for media and finance industries<sup>[6][7]</sup> - would provide us with a steady stream of subscribers. Considering this figure as a benchmark this project will be profitable after 12 – 18 months.
 
 ---
 
@@ -66,10 +66,12 @@ As our revenues come from subscriptions, one of our most important figures would
 
 2. [Investopedia - Retail Investor Definition](https://www.investopedia.com/terms/r/retailinvestor.asp)
 
-3. [Survey of Consumer Finances - Federal Reserve September 2017 Vol. 103, No. 3](FIND SOURCE)
+3. [Gallup - U.S. Stock Ownership Down Among All but Older, Higher-Income](https://news.gallup.com/poll/211052/stock-ownership-down-among-older-higher-income.aspx) (This might be a problem)
 
-4. [National Bureau of Economic Research: How High are VC Returns?](https://www.nber.org/digest/may01/w8066.html)
+4. [Investopedia - The Affluent Millennial Investing Survey](https://www.investopedia.com/the-investopedia-affluent-millennials-study-4769751)
 
-5. [Sophia Bernazzani - Customer Retention](https://blog.hubspot.com/service/customer-retention)
+5. [National Bureau of Economic Research: How High are VC Returns?](https://www.nber.org/digest/may01/w8066.html)
 
-6. [Society For Human Resource Management](https://www.shrm.org/hr-today/trends-and-forecasting/research-and-surveys/Documents/2017-Human-Capital-Benchmarking.pdf)
+6. [Sophia Bernazzani - Customer Retention](https://blog.hubspot.com/service/customer-retention)
+
+7. [Society For Human Resource Management](https://www.shrm.org/hr-today/trends-and-forecasting/research-and-surveys/Documents/2017-Human-Capital-Benchmarking.pdf)
