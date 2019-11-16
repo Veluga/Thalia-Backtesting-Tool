@@ -46,18 +46,32 @@ included in our product. For an overview, please have a look at appendix X.
 
 ## Schedule
 
-As this term we had a chance to set up the working environment and measure the velocity of development, we can make a prediction of the schedule. During the second semester, we will have a total of 11 weeks for developing the product. As we are following the Agile approach, we have divided the time available into weeklong sprints. Each one of which will include the development of some or multiple features, as well as testing and deployment. Thus, at the end of each week, we aim to have a fully functional product. The scope for each sprint is defined as follows:
+Longterm planning is just as important in Agile development as in alternative planning procedures .[[https://www.atlassian.com/agile/product-management/roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)] As this term we had a chance to set up the working environment and measure the velocity of development, we can make a prediction of the schedule. During the second semester, we will have a total of 12 weeks for developing the product. As we are following the Agile approach,  we have divided the schedule according to milestones. 
 
-- Week 1 - Preparing work environment
-- Week 2 - Key metrics
-- Week 3 - Additional benchmarks
-- Week 4 - Integration of historical datasets
-- Week 5 - Creating user accounts
-- Week 6 - Integration of live data APIs
-- Week 7 - Exporting portfolio
-- Week 8 - Contribution and Rebalancing
-- Week 9 to 11 - Optional Features
+Each one of these periods will include the development of some or multiple features, as well as testing and deployment. Thus, at each milestone, we aim to have a fully functional product. The scope for each is defined as follows:
 
-The following gantt chart is of this schedule:
+- Week 4 - Closed Beta:
+  
+  - Key metrics
+  
+  - Integration of historical datasets
+  
+  - Additional benchmarks
+
+- Week 8 - Open Release:
+  
+  - Creating user accounts
+  
+  - Integration of live data APIs
+  
+  - Contribution and Rebalancing
+
+- Week 12 - Launch:
+  
+  - Exporting portfolio
+  
+  - Additional Features
+
+As previously stated, we aim at including a number of additional features in order to better distinguish our product. The ffollowing is a product roadmap based on this schedule: 
 
 
