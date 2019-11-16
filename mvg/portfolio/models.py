@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+
 from . import assetclasses
 
 
@@ -67,5 +68,7 @@ class Asset_temp(models.Model):
     percentage = models.IntegerField()
 
     """ Defines how to show the isntances as strings """
+    '''
     def __str__(self):
         return (self.category + ": " + str(self.percentage))
+    '''

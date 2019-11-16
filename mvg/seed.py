@@ -94,8 +94,9 @@ def populate_dow():
 
         if i % 200 == 0:
             print(f"{i} entries")
-            # Remove this later.
-            return
+            # For speed of testing. Remove later.
+            if i > 1:
+                return
 
 
 def read_dow():
