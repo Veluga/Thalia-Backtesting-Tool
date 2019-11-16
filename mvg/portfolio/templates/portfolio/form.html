@@ -8,7 +8,7 @@
     <div class="col-md-8">
         <br>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <form method="post">
+        <form action="{% url 'portfolio:portfolio' %}" method="post">
             {% csrf_token %}
             {% crispy form1 %}
             {% crispy form2 %}
@@ -16,6 +16,7 @@
             {% crispy form4 %}
             {% crispy form5 %}
             <br>
+            <input type="submit" class="btn btn-info" value="Submit Button">
         </form>
     </div>
 </div>

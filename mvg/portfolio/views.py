@@ -30,9 +30,9 @@ class PortfolioView(TemplateView):
             for f in FORMS:
                 if f.is_valid():
                     percentage = f.cleaned_data["percentage"]
-                    category = f.cleaned_data["category"]
+                    category = f.cleaned_data["assetTicker"]
                     print (percentage,category)
-                    f.save()
+                    print ()
 
             return self.get(request)
 
