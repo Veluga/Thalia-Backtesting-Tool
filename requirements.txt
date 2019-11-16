@@ -1,2 +1,5 @@
 pytest
 flake8
+django
+django-crispy-forms
+django-betterforms
