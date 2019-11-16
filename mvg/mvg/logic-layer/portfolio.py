@@ -1,10 +1,7 @@
 '''
-#############################################################################
-#Class holding information and methods in regards to a single user portfolio#
-#############################################################################
 
-Arthur-Louis Heath
-1.11.2019
+Class holding information and methods in regards to a single user portfolio
+
 '''
 from decimal import Decimal
 from datetime import date, timedelta
@@ -12,9 +9,8 @@ import dataLayer
 import numpy as np
 from operator import add
 
-
 class Portfolio:
-    def getValues(self, startDate, endDate):
+    def values(self, startDate, endDate):
         '''
         Return series of values of portfolio on days between startDate and
         endDates expressed as percentages of the starting value
@@ -48,7 +44,7 @@ class Portfolio:
         return [[startDate + timedelta(days=a),
                  totals[a]] for a in range(len(totals))]
 
-    def getAssetCorrelations(self, startDate, endDate):
+    def assetCorrelations(self, startDate, endDate):
         '''
         Get correlation coefficient of each asset in regards to toal value of
         portfolio
@@ -56,7 +52,7 @@ class Portfolio:
         returns dict of form {asset id's:correlation coefficients}
         '''
         # calculate mean of portfolio values
-        pfValues = [val[1] for val in self.getValues(startDate, endDate)]
+        pfValues = [val[1] for val in self.values(startDate, endDate)]
         pfValMean = np.mean(pfValues)
         # calulate mean of all values for each asset
         keys = list(self.assets.keys())
@@ -102,9 +98,7 @@ class Portfolio:
                                      (Decimal(len(pfValues)) +
                                       Decimal('1')), standardizedAssetVals))
         # put it in a cozy dictionary
-        results = {}
-        for i in range(len(keys)):
-            results[keys[i]] = standardizedAssetVals[i]
+        results = dict(zip(keys, standardizedAssetVals))
         return results
 
     def __init__(self,
@@ -124,7 +118,9 @@ if __name__ == '__main__':
     # porto = Portfolio({ 'ass1':1,'ass2':1, 'ass3':50,'ass4':50,'ass5':1})
     porto = Portfolio({'ass4': 50})
     # print(porto.getValues(12,12))
-    print(porto.getValues(date(day=1, month=10, year=2019),
-                          date(day=29, month=10, year=2019)))
-    print(porto.getAssetCorrelations(date(day=1, month=10, year=2019),
-                                     date(day=29, month=10, year=2019)))
+    print(porto.values(
+                        date(day=1, month=10, year=2019),
+                        date(day=5, month=10, year=2019)))
+    print(porto.assetCorrelations(
+                        date(day=1, month=10, year=2019),
+                        date(day=29, month=10, year=2019)))
