@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from collections import namedtuple
 
-from database.models import AssetClass, Asset, Value
+from portfolio.models import AssetClass, Asset, Value
 
 Datapoint = namedtuple('Datapoint', 'date open close lo hi')
 
@@ -94,6 +94,8 @@ def populate_dow():
 
         if i % 200 == 0:
             print(f"{i} entries")
+            # Remove this later.
+            return
 
 
 def read_dow():
