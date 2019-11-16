@@ -2,9 +2,15 @@
 
 ## Team Organisation
 
-Our workflow is centred around the GitHub platform and the tools it provides such as a ticketing system, pull requests and a scrum board for ongoing tasks. Code is reviewed by other team members before any changes are pushed to the production system. We are committed to the Egalitarian Team structure, and as such, there are no fixed responsibilities in our team, and everybody will at some point be required to develop a feature for each part of the system. This save us from introducing any sort of artificial hierarchy into our development process. Consequently, every team member is guaranteed to have a holistic understanding of how the system works across all layers.
+Our workflow is centred around the GitHub platform and the tools it provides such as a ticketing system, pull requests and a scrum board for ongoing tasks. We are committed to the Egalitarian Team structure, and as such, there are no fixed responsibilities in our team, and everybody will at some point be required to develop a feature for each part of the system. This save us from introducing any sort of artificial hierarchy into our development process. Consequently, every team member is guaranteed to have a holistic understanding of how the system works across all layers.
 
 To measure productivity, we use effort-oriented metrics, and assign story points to each ticket, based on the time needed and the functionality of the task. This is done by the team member that the ticket was assigned to, and is later reviewed by another member, optimally by the end of the following day. Story points are based on numbers of the Fibonacci sequence, which forces us to consider the value of each ticket carefully and motivates splitting it into two separate tasks if necessary.
+
+## Evaluation Strategy and Testing
+
+We also plan to make use of the tools offerred by GitHub for testing and reviewing. Each pull request is reviewed by other team members before any changes are pushed to the production system. CI scripts are also in place to ensure the code quality and integrity, this is done by enforcing the use of Pytest, and a style-checker, which is still to be determined.
+
+We will also heavily depend on continuous user testing through development [[https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/](https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/)]. Our plan is to obtain the necessary ethical approval from the university before the start of development. Continuous user testing is our main part of the evaluation strategy, and as such it will help us to develop features unlike or better than existing ones. This is of key importance as we are about to enter an established market and we would like our product to be as distinguishable as possible.
 
 ## Budget
 
@@ -14,7 +20,7 @@ beyond that if needed. In order to ensure that we are up to schedule, weekly mee
 
 ## Milestones
 
-Altough agile methods offer a great amount of flexibility, they do require some sort of governance [[https://disciplinedagiledelivery.com/dad-milestones/](https://disciplinedagiledelivery.com/dad-milestones/)]. For this reason we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two, due to the nature of our product. These are the following:
+Although agile methods offer a great amount of flexibility, they do require some sort of governance [[https://disciplinedagiledelivery.com/dad-milestones/](https://disciplinedagiledelivery.com/dad-milestones/)]. For this reason we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two, due to the nature of our product. These are the following:
 
 ### Minimum Viable Product
 
@@ -40,7 +46,7 @@ If time permits and development goes as planned, we have an array of additional 
 
 ## Schedule
 
-Longterm planning is just as important in Agile development as in alternative planning procedures .[[https://www.atlassian.com/agile/product-management/roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)] As this term we had a chance to set up the working environment and measure the velocity of development, we can make a prediction of the schedule. During the second semester, we will have a total of 12 weeks for developing the product. As we are following the Agile approach, we have divided the schedule according to milestones.
+Long-term planning is just as important in Agile development as in alternative planning procedures .[[https://www.atlassian.com/agile/product-management/roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)] As this term we had a chance to set up the working environment and measure the velocity of development, we can make a prediction of the schedule. During the second semester, we will have a total of 12 weeks for developing the product. As we are following the Agile approach, we have divided the schedule according to milestones.
 
 Each one of these periods will include the development of some or multiple features, as well as testing and deployment. Thus, at each milestone, we aim to have a fully functional product. The scope for each is defined as follows:
 
