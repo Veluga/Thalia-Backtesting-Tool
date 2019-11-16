@@ -12,15 +12,13 @@ def getAssetPrices(assetName: str, startDate: datetime, endDate: datetime) -> [[
     startDate and endDate inclusive.
     '''
     
-    
     assetVals = generateAssetsQuery(assetName)
     
     return sorted([
         [v.date, v.open_price] for v in assetVals
-        if startDate <= v.date <= endDate
+        if startDate <= datetime.combine(v.date, datetime.min.time()) <= endDate
     ])
-    '''
-    pass
+
 def getAvailableAssets():
     pass
 

@@ -6,7 +6,7 @@
 
 from datetime import date
 from decimal import Decimal
-from userPortfolio import Portfolio
+from . import userPortfolio
 import numpy as np
 
 
