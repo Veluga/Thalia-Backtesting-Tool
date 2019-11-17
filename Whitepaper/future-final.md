@@ -1,41 +1,38 @@
 # MOVING FORWARDS
 
-### INITIAL DEPLOYMENT
-The prototype version of <*Product Nejm*> already includes the key features sought after by our target market, therefore only a few small steps separate us from initial deployment. As with development we will pursue an agile strategy for deployment. This means we wil aim to be as flexible as possible, deffering decisions regarding specific technologies and solutions as long as possible. Our main focus will be to ensure flexibility and transparency througout the entire process.
+### INITIAL RELEASE
+The following are the steps that need to be taken to ready the first version of Thalia for release.  As with initial development, we will be pursuing an agile development strategy leading up to and following the intial release. Decisions regarding what technologies and service providers to use will therefore also be deferred in the interst of ensuring flexability.
 
-The following is a roadmap of the steps to be taken before our software is ready for its official launch, and the approximate time needed for each. With the exception of the security audit and user testing, witch must be preformde once the others are completed. As we are a small team, much of this work will be outsourced to external contractors, allowing us to avoid the overhead of providing training to team members and speeding the process up considerably.
+The following is the tentative release plan for the first versions of Thalia, and is still subject to change. A buffer of several weeks will also be accounted for when declaring the official release date. This will be done to accommodate any unforseen blockers that may arise during this process.
 
-![Big gnatt "marty you have taught me well"](https://i.imgur.com/FyyDC6E.png)
+![Critical Path Diagram of Tentative Release Schedule](https://i.imgur.com/SUbISlR.png)
 
+##### HOSTING AND CROSS PLATFORM COMPATIBILITY
+Hosting of the application will be outsourced to a hosting service provider. This will allow us to ensure scalability and quality of service of our product, as major service providers provide guarantees for both of those things. In addition to this, support will slowly be added for additional browsers and platforms. In addition to Mozilla Firefox and Google Chrome, that will already be supported by the first version of Thalia, support will be added for remaining major desktop browsers. We will also work to make the website easy to use on mobile browsers.
 
-##### 1. HOSTING AND CROSS PLATFORM COMPATIBILITY (1 week)
-Hosting of the application will be outsourced to a dedicated hosting service provider. This will allow us to ensure scalability, security and quality of service of our product. Support will slowly be added for additional browsers and platforms. In addition to Mozilla Firefox and Google Chrome witch the application already supports, we will also be compatible with major mobile browsers such as Apple's Safari and Samsungs Internet.
+##### DATA GATHERING
+Throughout the time leading up to release, data will be gathered on additional commonly traded assets. The more assets we aquire the more appealing out platform will be to investors, therefore we will continue this process after release. Commodities and Stocks differ from other asset classes like cryptocurrencies and indecies, in that a wide range of both of these is commonly invested in.
+Prices for these will be easier to gather once we have established a userbase, and have the additional capital required to approach larger entities such as exchanges for data.
 
-
-##### 2. DATA GATHERING (2 weeks)
-Although not a prerequisit to deployment, additional data on asset prices will be gathered throughout this process. Although there are countless assets available to traders, when considering their popularity the majority of these are in the 'long tail' of the distribution. Only traders in commodities and stocks prefer a large number of assets to be represented, prices for these can be gathered once we have deployed the product and are free to approach exchanges for their data.
-
-
-##### 3. PAYMENT SUPPORT INTEGRATION (1 week)
+##### PAYMENT SUPPORT INTEGRATION
 After registering as a business and opening a business account we will begin working on support for payments. Our target is to deploy our platform with support implemented for Paypal, Visa, Union Pay and Mastercard payments as these are used for the majority of online commerce [2]. There are a number of integrated payment solutions providers on the market that could offer support for all of these and more.
 
+##### SECURITY AUDIT
+There are two reasons why a security audit is a necessery step before release. Firstly, as we are handling clients' payments through the platform, we must ensure that their payment and account information is kept safe. Secondly, as we aquire more data on historical prices, some of that data may no longer come from public sources. Therefore, we will hire an external contractor to perform a full security audit. Assuring a high overall degree of security will allow us to manage the risk inherent to providing cloud based solutions and as our codebase is relatively small, handling mostly non sensative data, we expect the allocated timeframe should suffice.
 
-##### 5. SECURITY AUDIT (1 week)
-There are two reasons why a security audit is a neccessery step before deployment. Firstly, as we are handling clients payments through the platform, we must ensure that their payment and account information is kept safely. Secondly, as we accrew more data on historic prices, some of that data may no longer come from public sources. Therefore we will hire an external contractor to perform a full security audit. The allocated timeframe should suffice, as our codebase is relatively small, and the majority of data we will be handling at the start is non sensative.
-
-
-##### 4. TESTING (2 weeks)
-Before deployment extensive testing will be conducted to detect any bugs in our software and asses weather or not further changes need to be made. To do this we will assemble a focus group of investors to trial our product. If deemed necessery we will also hire software testers.
-
+##### TESTING AND EVALUATION
+Before release extensive testing will be conducted to detect any bugs in our software and assess wether or not further changes need to be made. The aim of testing will be to assess wether or not we have met the goals of each phase. Evaluation of the value of our software will also be preformed among users. After seeking approval from the University Ethics Committee, a focus group of retail investors will be assembled with the goal of trialing our product. they will be asked to evaluate the usability of the interface and the feature set we provide. The decision to make further changes or add aditional features and key figures can then be made. If deemed neccessery the servies of deciated software testers can be employed to give a final evaluation of Thalia's functionality.
 
 ### LONG TERM FUTURE AND EXPANSION STRATEGY
-Due to the accessible pricepoint of our tool we expect a large increase in the number of users on our platform in the months following deployment. We also expect the structure of our user base to change over time. It is reasonable to expect an increase in the proportions of both users new to trading, and advanced users relative to the size of our user base. Both are less likely to be early adoptors as these groups tend to prefer software that is either more established or already more familiar to them respectively. The ease of use of our software’s interface compared with the low price point should already make us an appealing choice for the former of these two groups. We have identified several features that could be implemented going forwards to better cater to these groups:
+Following Thalia's release, the team will continue to add additional features and assets to our offering. Financial analysis is a dynamic field and metrics for portfolio evaluation popular with investors change frequently. In addition, new financial assets such as new cryptocurrencies and new company stocks also frequently enter the market. This means that ongoing development is necessary if we are to become and remain competetive in the fintech industry.
 
-  - A markup language in which users could define strategies or specify constraints. This would allow them to better simulate their portfolio as part of a their specific trading strategy.
+Due to the accessible price point of our tool we expect a large increase in the number of users on our platform in the months following deployment. As product adoption improves, we also expect to see more advanced users, that have been using backtesting solutions for a longer period of time to switch to switch to Thalia. As our platform becomes more established and as advertising and media coverage increase we also expect to attract newer users, who lack knowledge of existing backtesting solutions. We have identified several major features that could be implemented going forwards to better cater to these groups:
+
+  - Support for a limited scripting language to be used within Thalia. this could allow users to automate reactions to sudden market movements, allowing them to better simulate their portfolio as part of a dynamic trading strategy.
   - Algorithms to highlight market movements and common market patterns. This would be especially appealing to investors that rely heavily on technical analysis of markets and stocks.
-  - Significant events that affected the historic prices could be flagged to users, allowing them to form a deeper understanding of the results of their simulations.
+  - Significant events that affected the historic prices could be flagged, allowing them to form a deeper understanding of the results of their simulations.
 
-As part of our future plan for monetization, our team will also begin development on a version of our product aimed at integration with other retail trading platforms. This we would sell on a subscription basis allowing us to break into a much larger market. The brokerage market in the US alone is valued at around 380 billion dollars[1]. we can simultaneously enter the market by applying the opposite strategy. Tracking of live prices of assets, options to buy and sell commodities (through integration of other platforms or selling them ourselves) and other tools commonly employed by our target audience can be added to our platform. This would allow us to create our own ecosystem for investors and providing us with a good jumping board to enter the brokerage market direcly.
+As part of our future plan for monetization, our team will also begin assessing the feasibility of a version of our product aimed at integration with online brokerage platforms. This would be sold to platforms on a subscription basis, allowing us to further take advantage of the massive brokerage market, witch in the US alone grosses around 380 billion dollars[1]. Another potential strategy for market entry we will consider is the adding of features to Thalia similar to those found on online brokerage sites. These include, but are not limited to the tracking of live prices of assets and options to buy and sell commodities (through integration of other platforms or selling them ourselves). This would allow us to shift from providing an isolated service to creating our own self contained ecosystem of financial tools.
 
 
 [1] https://www.prnewswire.com/in/news-releases/us-financial-brokerage-market-revenue-is-expected-to-reach-over-usd-379-4-billion-by-the-year-ending-2023-ken-research-895718200.html
