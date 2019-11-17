@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="1024px" viewBox="0 0 1440 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>Desktop HD</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="25" width="300" height="1"></rect>
+        <filter x="-0.7%" y="-200.0%" width="101.3%" height="500.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feGaussianBlur stdDeviation="1.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <circle id="path-3" cx="8" cy="10" r="8"></circle>
+        <filter x="-12.5%" y="-12.5%" width="125.0%" height="125.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feGaussianBlur stdDeviation="1.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <circle id="path-5" cx="8" cy="10" r="8"></circle>
+        <filter x="-12.5%" y="-12.5%" width="125.0%" height="125.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feGaussianBlur stdDeviation="1.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-7" x="0" y="1" width="16" height="16" rx="2"></rect>
+        <filter x="-12.5%" y="-12.5%" width="125.0%" height="125.0%" filterUnits="objectBoundingBox" id="filter-8">
+            <feGaussianBlur stdDeviation="1.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-9" x="0" y="1" width="16" height="16" rx="2"></rect>
+        <filter x="-12.5%" y="-12.5%" width="125.0%" height="125.0%" filterUnits="objectBoundingBox" id="filter-10">
+            <feGaussianBlur stdDeviation="1.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-11" x="0" y="0" width="300" height="30"></rect>
+        <filter x="-0.1%" y="-0.8%" width="100.2%" height="101.7%" filterUnits="objectBoundingBox" id="filter-12">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.780392157   0 0 0 0 0.780392157   0 0 0 0 0.780392157  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-13" x="0" y="0" width="148" height="30"></rect>
+        <filter x="-0.2%" y="-0.8%" width="100.3%" height="101.7%" filterUnits="objectBoundingBox" id="filter-14">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.780392157   0 0 0 0 0.780392157   0 0 0 0 0.780392157  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-15" x="0" y="0" width="445" height="30"></rect>
+        <filter x="-0.1%" y="-0.8%" width="100.1%" height="101.7%" filterUnits="objectBoundingBox" id="filter-16">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.780392157   0 0 0 0 0.780392157   0 0 0 0 0.780392157  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-17" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-18">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-19" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-20">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-21" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-22">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-23" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-24">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-25" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-26">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-27" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-28">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-29" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-30">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-31" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-32">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-33" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-34">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-35" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-36">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-37" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-38">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-39" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-40">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-41" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-42">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-43" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-44">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-45" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-46">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-47" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-48">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-49" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-50">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-51" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-52">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-53" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-54">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-55" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-56">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-57" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-58">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-59" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-60">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-61" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-62">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-63" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-64">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-65" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-66">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-67" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-68">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-69" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-70">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-71" x="16" y="0" width="284" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.2%" height="150.0%" filterUnits="objectBoundingBox" id="filter-72">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-73" x="16" y="0" width="132" height="1"></rect>
+        <filter x="-0.2%" y="-25.0%" width="100.4%" height="150.0%" filterUnits="objectBoundingBox" id="filter-74">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <rect id="path-75" x="16" y="0" width="429" height="1"></rect>
+        <filter x="-0.1%" y="-25.0%" width="100.1%" height="150.0%" filterUnits="objectBoundingBox" id="filter-76">
+            <feOffset dx="0" dy="-0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <path d="M75.5,151 C117.197499,151 151,117.197499 151,75.5 C151,33.8025014 117.197499,0 75.5,0 C33.8025014,0 0,33.8025014 0,75.5 C0,117.197499 33.8025014,151 75.5,151 Z" id="path-77"></path>
+        <path d="M78.5,157 C121.854353,157 157,121.854353 157,78.5 C157,35.1456471 121.854353,0 78.5,0 C35.1456471,0 0,35.1456471 0,78.5 C0,121.854353 35.1456471,157 78.5,157 Z" id="path-79"></path>
+    </defs>
+    <g id="Desktop-HD" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#FFFFFF" x="0" y="0" width="1440" height="1024"></rect>
+        <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="0" y="0" width="550" height="1024"></rect>
+        <g id="Form-/-Legend" transform="translate(31.000000, 129.000000)">
+            <g id="hr">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <rect stroke="#979797" stroke-width="1" stroke-linejoin="square" x="0.5" y="25.5" width="299" height="1"></rect>
+            </g>
+            <text id="Form-Elements" font-family="AvenirNext-Medium, Avenir Next" font-size="16" font-weight="400" fill="#4A4A4A">
+                <tspan x="10" y="16">Form Elements</tspan>
+            </text>
+        </g>
+        <text id="Backtest-settings" font-family="AvenirNext-Bold, Avenir Next" font-size="24" font-weight="bold" fill="#000000">
+            <tspan x="19.696" y="111">Backtest settings</tspan>
+        </text>
+        <g id="Ovals" transform="translate(114.000000, 291.000000)" stroke="#4A4A4A" stroke-width="4">
+            <g id="Oval-2" transform="translate(0.000000, 180.000000)">
+                <ellipse id="Oval-1-Copy-7" cx="4" cy="3.5" rx="2" ry="1.5"></ellipse>
+            </g>
+            <g id="Oval-2" transform="translate(104.000000, 57.000000)">
+                <ellipse id="Oval-1-Copy-7" cx="4" cy="3.5" rx="2" ry="1.5"></ellipse>
+            </g>
+            <g id="Oval-2" transform="translate(205.000000, 0.000000)">
+                <ellipse id="Oval-1-Copy-7" cx="4" cy="3.5" rx="2" ry="1.5"></ellipse>
+            </g>
+            <g id="Oval-2" transform="translate(307.000000, 50.000000)">
+                <ellipse id="Oval-1-Copy-7" cx="4" cy="3.5" rx="2" ry="1.5"></ellipse>
+            </g>
+            <g id="Oval-2" transform="translate(408.000000, 87.000000)">
+                <ellipse id="Oval-1-Copy-7" cx="4" cy="3.5" rx="2" ry="1.5"></ellipse>
+            </g>
+        </g>
+        <g id="Group" transform="translate(550.000000, 1.000000)" fill="#D8D8D8" stroke="#000000">
+            <rect id="Rectangle" x="0" y="0" width="445" height="221"></rect>
+        </g>
+        <g id="Group" transform="translate(550.000000, 222.000000)" fill="#D8D8D8" stroke="#000000">
+            <rect id="Rectangle" x="0" y="0" width="445" height="221"></rect>
+        </g>
+        <g id="Group" transform="translate(994.000000, 2.000000)" fill="#D8D8D8" stroke="#000000">
+            <rect id="Rectangle" x="1" y="0" width="445" height="221"></rect>
+        </g>
+        <g id="Group" transform="translate(995.000000, 222.000000)" stroke="#000000">
+            <rect id="Rectangle" fill="#D8D8D8" x="0" y="1" width="448" height="220"></rect>
+            <path d="M0,221 C52.6350048,163.759928 101.505528,144.827771 146.611571,164.203528 L187.446793,79.8311248 L204.265884,45.0800678 L313.628341,112.939066 L413.141118,0 L448,45.0800678" id="Path" stroke-width="3"></path>
+        </g>
+        <line x1="553" y1="536" x2="1443" y2="536" id="Line" stroke="#979797" stroke-linecap="square"></line>
+        <g id="Radio-/-Unchecked" transform="translate(406.000000, 178.000000)">
+            <g id="Radio-Background">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                <circle stroke="#979797" stroke-width="1" stroke-linejoin="square" cx="8" cy="10" r="7.5"></circle>
+            </g>
+            <text id="Radio-Label" font-family="AvenirNext-Regular, Avenir Next" font-size="14" font-weight="normal" fill="#4A4A4A">
+                <tspan x="23" y="14">Radio Label</tspan>
+            </text>
+        </g>
+        <g id="Radio-/-Unchecked" transform="translate(424.000000, 273.000000)">
+            <g id="Radio-Background">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-5"></use>
+                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                <circle stroke="#979797" stroke-width="1" stroke-linejoin="square" cx="8" cy="10" r="7.5"></circle>
+            </g>
+            <text id="Radio-Label" font-family="AvenirNext-Regular, Avenir Next" font-size="14" font-weight="normal" fill="#4A4A4A">
+                <tspan x="23" y="14">Radio Label</tspan>
+            </text>
+        </g>
+        <g id="Button-/-Primary" transform="translate(410.000000, 313.000000)">
+            <rect id="background" fill="#6A6F81" fill-rule="evenodd" x="0" y="0" width="120" height="40" rx="4"></rect>
+            <text id="Label" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#FFFFFF">
+                <tspan x="38.7172475" y="25">Button</tspan>
+            </text>
+        </g>
+        <g id="Checkbox-/-Checked" transform="translate(406.000000, 210.000000)">
+            <g id="Check-Background">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-7"></use>
+                <use fill="black" fill-opacity="1" filter="url(#filter-8)" xlink:href="#path-7"></use>
+                <rect stroke="#979797" stroke-width="1" stroke-linejoin="square" x="0.5" y="1.5" width="15" height="15" rx="2"></rect>
+            </g>
+            <polygon id="Rectangle-34" fill="#4A90E2" fill-rule="evenodd" points="8 13 3 8 5 6 8 9 16 1 18 3"></polygon>
+            <text id="Check-Label" font-family="AvenirNext-Regular, Avenir Next" font-size="14" font-weight="normal" fill="#4A4A4A">
+                <tspan x="23" y="14">Checkbox Label</tspan>
+            </text>
+        </g>
+        <g id="Checkbox-/-Checked" transform="translate(406.000000, 241.000000)">
+            <g id="Check-Background">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-9"></use>
+                <use fill="black" fill-opacity="1" filter="url(#filter-10)" xlink:href="#path-9"></use>
+                <rect stroke="#979797" stroke-width="1" stroke-linejoin="square" x="0.5" y="1.5" width="15" height="15" rx="2"></rect>
+            </g>
+            <polygon id="Rectangle-34" fill="#4A90E2" fill-rule="evenodd" points="8 13 3 8 5 6 8 9 16 1 18 3"></polygon>
+            <text id="Check-Label" font-family="AvenirNext-Regular, Avenir Next" font-size="14" font-weight="normal" fill="#4A4A4A">
+                <tspan x="23" y="14">Checkbox Label</tspan>
+            </text>
+        </g>
+        <text id="MVG" font-family="AvenirNext-Bold, Avenir Next" font-size="36" font-weight="bold" fill="#4A4A4A">
+            <tspan x="31" y="59">MVG</tspan>
+        </text>
+        <g id="Input--/-Select" transform="translate(31.000000, 222.000000)">
+            <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="2.5" width="350" height="38" rx="4"></rect>
+            <g id="Icon-/-Select" transform="translate(319.999447, 9.499405)" fill="#6A6F81" fill-rule="evenodd">
+                <polygon id="Triangle" transform="translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) " points="12 9 17 15 7 15"></polygon>
+            </g>
+            <text id="Select…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                <tspan x="8" y="26.5">Select… </tspan>
+            </text>
+            <polygon id="path" fill="#6A6F81" fill-rule="nonzero" points="312 2.15194472 312.03845 40.85 314 40.8480553 313.96155 2.15"></polygon>
+        </g>
+        <g id="Container/Sharp/Fill" transform="translate(19.000000, 432.000000)" fill="#F2F2F2">
+            <rect id="Border" x="0" y="0" width="514" height="425"></rect>
+        </g>
+        <g id="Input--/-Select" transform="translate(31.000000, 270.000000)">
+            <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="2.5" width="350" height="38" rx="4"></rect>
+            <g id="Icon-/-Select" transform="translate(319.999447, 9.499405)" fill="#6A6F81" fill-rule="evenodd">
+                <polygon id="Triangle" transform="translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) " points="12 9 17 15 7 15"></polygon>
+            </g>
+            <text id="Select…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                <tspan x="8" y="26.5">Select… </tspan>
+            </text>
+            <polygon id="path" fill="#6A6F81" fill-rule="nonzero" points="312 2.15194472 312.03845 40.85 314 40.8480553 313.96155 2.15"></polygon>
+        </g>
+        <g id="Input--/-Select" transform="translate(31.000000, 319.000000)">
+            <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="2.5" width="350" height="38" rx="4"></rect>
+            <g id="Icon-/-Select" transform="translate(319.999447, 9.499405)" fill="#6A6F81" fill-rule="evenodd">
+                <polygon id="Triangle" transform="translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) " points="12 9 17 15 7 15"></polygon>
+            </g>
+            <text id="Select…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                <tspan x="8" y="26.5">Select… </tspan>
+            </text>
+            <polygon id="path" fill="#6A6F81" fill-rule="nonzero" points="312 2.15194472 312.03845 40.85 314 40.8480553 313.96155 2.15"></polygon>
+        </g>
+        <g id="Group-12" transform="translate(26.000000, 176.000000)">
+            <g id="ticker-selection" transform="translate(0.000000, 244.000000)">
+                <g id="Group-3">
+                    <g id="Input-/-Search" transform="translate(67.000000, 0.000000)">
+                        <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="26.5" width="153" height="38" rx="4"></rect>
+                        <text id="Search…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                            <tspan x="40" y="50.5">Search…</tspan>
+                        </text>
+                        <g id="Icon-/-Search" transform="translate(7.999447, 33.498741)" stroke="#6A6F81" stroke-width="2">
+                            <path d="M12.0000069,23 L12.0001352,23 L12.0010745,16.0550325 L12.8770959,15.9456873 C16.35758,15.5112522 19,12.5397408 19,9 C19,5.13400675 15.8659932,2 12,2 C8.13400675,2 5,5.13400675 5,9 C5,12.540068 7.64289719,15.5117583 11.1237825,15.9457969 L12.0000548,16.055061 L12.0000069,23 Z" id="Search" transform="translate(12.000000, 12.500000) rotate(-45.000000) translate(-12.000000, -12.500000) "></path>
+                        </g>
+                    </g>
+                    <text id="Asset-1" font-family="AvenirNext-Regular, Avenir Next" font-size="16" font-weight="normal" fill="#000000">
+                        <tspan x="3.088" y="51">Asset 1</tspan>
+                    </text>
+                    <g id="Form/Selection-controls/Sliders/Continous" transform="translate(238.000000, 30.000000)">
+                        <g id="Miscellaneous/Divider" transform="translate(0.000000, 11.000000)" fill="#B2B2B2" fill-rule="evenodd">
+                            <polygon id="Line" points="0 2 234 2 234 0 0 0"></polygon>
+                        </g>
+                        <line x1="50" y1="12" x2="0" y2="12" id="active" stroke="#C1C7D0" stroke-width="4"></line>
+                        <g id="Controller" stroke-width="1" fill-rule="evenodd" transform="translate(41.000000, 4.000000)">
+                            <rect id="controller" fill="#7F7F7F" x="8" y="0" width="16" height="16" rx="8"></rect>
+                            <text id="Value" font-family="Helvetica-Bold, Helvetica" font-size="12" font-weight="bold" line-spacing="16" letter-spacing="0.200000003" fill="#B2B2B2">
+                                <tspan x="0.485351555" y="31">16.66</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group-3-Copy" transform="translate(0.000000, 59.000000)">
+                    <g id="Input-/-Search" transform="translate(67.000000, 0.000000)">
+                        <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="26" width="153" height="38" rx="4"></rect>
+                        <text id="Search…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                            <tspan x="40" y="50">Search…</tspan>
+                        </text>
+                        <g id="Icon-/-Search" transform="translate(7.999447, 32.998755)" stroke="#6A6F81" stroke-width="2">
+                            <path d="M12.0000069,23 L12.0001352,23 L12.0010745,16.0550325 L12.8770959,15.9456873 C16.35758,15.5112522 19,12.5397408 19,9 C19,5.13400675 15.8659932,2 12,2 C8.13400675,2 5,5.13400675 5,9 C5,12.540068 7.64289719,15.5117583 11.1237825,15.9457969 L12.0000548,16.055061 L12.0000069,23 Z" id="Search" transform="translate(12.000000, 12.500000) rotate(-45.000000) translate(-12.000000, -12.500000) "></path>
+                        </g>
+                    </g>
+                    <text id="Asset-2" font-family="AvenirNext-Regular, Avenir Next" font-size="16" font-weight="normal" fill="#000000">
+                        <tspan x="3.088" y="48">Asset 2</tspan>
+                    </text>
+                    <g id="Form/Selection-controls/Sliders/Continous" transform="translate(238.000000, 29.000000)">
+                        <g id="Miscellaneous/Divider" transform="translate(0.000000, 11.000000)" fill="#B2B2B2" fill-rule="evenodd">
+                            <polygon id="Line" points="0 2 234 2 234 0 0 0"></polygon>
+                        </g>
+                        <line x1="50" y1="12" x2="0" y2="12" id="active" stroke="#C1C7D0" stroke-width="4"></line>
+                        <g id="Controller" stroke-width="1" fill-rule="evenodd" transform="translate(41.000000, 4.000000)">
+                            <rect id="controller" fill="#7F7F7F" x="8" y="0" width="16" height="16" rx="8"></rect>
+                            <text id="Value" font-family="Helvetica-Bold, Helvetica" font-size="12" font-weight="bold" line-spacing="16" letter-spacing="0.200000003" fill="#B2B2B2">
+                                <tspan x="0.485351555" y="31">16.66</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group-3-Copy-2" transform="translate(0.000000, 118.000000)">
+                    <g id="Input-/-Search" transform="translate(67.000000, 0.000000)">
+                        <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="26.5" width="153" height="38" rx="4"></rect>
+                        <text id="Search…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                            <tspan x="40" y="50.5">Search…</tspan>
+                        </text>
+                        <g id="Icon-/-Search" transform="translate(7.999447, 33.498741)" stroke="#6A6F81" stroke-width="2">
+                            <path d="M12.0000069,23 L12.0001352,23 L12.0010745,16.0550325 L12.8770959,15.9456873 C16.35758,15.5112522 19,12.5397408 19,9 C19,5.13400675 15.8659932,2 12,2 C8.13400675,2 5,5.13400675 5,9 C5,12.540068 7.64289719,15.5117583 11.1237825,15.9457969 L12.0000548,16.055061 L12.0000069,23 Z" id="Search" transform="translate(12.000000, 12.500000) rotate(-45.000000) translate(-12.000000, -12.500000) "></path>
+                        </g>
+                    </g>
+                    <text id="Asset-3" font-family="AvenirNext-Regular, Avenir Next" font-size="16" font-weight="normal" fill="#000000">
+                        <tspan x="3.088" y="49">Asset 3</tspan>
+                    </text>
+                    <g id="Form/Selection-controls/Sliders/Continous" transform="translate(238.000000, 30.000000)">
+                        <g id="Miscellaneous/Divider" transform="translate(0.000000, 11.000000)" fill="#B2B2B2" fill-rule="evenodd">
+                            <polygon id="Line" points="0 2 234 2 234 0 0 0"></polygon>
+                        </g>
+                        <line x1="50" y1="12" x2="0" y2="12" id="active" stroke="#C1C7D0" stroke-width="4"></line>
+                        <g id="Controller" stroke-width="1" fill-rule="evenodd" transform="translate(41.000000, 4.000000)">
+                            <rect id="controller" fill="#7F7F7F" x="8" y="0" width="16" height="16" rx="8"></rect>
+                            <text id="Value" font-family="Helvetica-Bold, Helvetica" font-size="12" font-weight="bold" line-spacing="16" letter-spacing="0.200000003" fill="#B2B2B2">
+                                <tspan x="0.485351555" y="31">16.66</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group-3-Copy-5" transform="translate(0.000000, 176.000000)">
+                    <g id="Input-/-Search" transform="translate(67.000000, 0.000000)">
+                        <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="26.5" width="153" height="38" rx="4"></rect>
+                        <text id="Search…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                            <tspan x="40" y="50.5">Search…</tspan>
+                        </text>
+                        <g id="Icon-/-Search" transform="translate(7.999447, 33.498741)" stroke="#6A6F81" stroke-width="2">
+                            <path d="M12.0000069,23 L12.0001352,23 L12.0010745,16.0550325 L12.8770959,15.9456873 C16.35758,15.5112522 19,12.5397408 19,9 C19,5.13400675 15.8659932,2 12,2 C8.13400675,2 5,5.13400675 5,9 C5,12.540068 7.64289719,15.5117583 11.1237825,15.9457969 L12.0000548,16.055061 L12.0000069,23 Z" id="Search" transform="translate(12.000000, 12.500000) rotate(-45.000000) translate(-12.000000, -12.500000) "></path>
+                        </g>
+                    </g>
+                    <text id="Asset-4" font-family="AvenirNext-Regular, Avenir Next" font-size="16" font-weight="normal" fill="#000000">
+                        <tspan x="3.088" y="49">Asset 4</tspan>
+                    </text>
+                    <g id="Form/Selection-controls/Sliders/Continous" transform="translate(238.000000, 30.000000)">
+                        <g id="Miscellaneous/Divider" transform="translate(0.000000, 11.000000)" fill="#B2B2B2" fill-rule="evenodd">
+                            <polygon id="Line" points="0 2 234 2 234 0 0 0"></polygon>
+                        </g>
+                        <line x1="50" y1="12" x2="0" y2="12" id="active" stroke="#C1C7D0" stroke-width="4"></line>
+                        <g id="Controller" stroke-width="1" fill-rule="evenodd" transform="translate(41.000000, 4.000000)">
+                            <rect id="controller" fill="#7F7F7F" x="8" y="0" width="16" height="16" rx="8"></rect>
+                            <text id="Value" font-family="Helvetica-Bold, Helvetica" font-size="12" font-weight="bold" line-spacing="16" letter-spacing="0.200000003" fill="#B2B2B2">
+                                <tspan x="0.485351555" y="31">16.66</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group-3-Copy-4" transform="translate(0.000000, 236.000000)">
+                    <g id="Input-/-Search" transform="translate(67.000000, 0.000000)">
+                        <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="26" width="153" height="38" rx="4"></rect>
+                        <text id="Search…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                            <tspan x="40" y="50">Search…</tspan>
+                        </text>
+                        <g id="Icon-/-Search" transform="translate(7.999447, 32.998755)" stroke="#6A6F81" stroke-width="2">
+                            <path d="M12.0000069,23 L12.0001352,23 L12.0010745,16.0550325 L12.8770959,15.9456873 C16.35758,15.5112522 19,12.5397408 19,9 C19,5.13400675 15.8659932,2 12,2 C8.13400675,2 5,5.13400675 5,9 C5,12.540068 7.64289719,15.5117583 11.1237825,15.9457969 L12.0000548,16.055061 L12.0000069,23 Z" id="Search" transform="translate(12.000000, 12.500000) rotate(-45.000000) translate(-12.000000, -12.500000) "></path>
+                        </g>
+                    </g>
+                    <text id="Asset-5" font-family="AvenirNext-Regular, Avenir Next" font-size="16" font-weight="normal" fill="#000000">
+                        <tspan x="3.088" y="48">Asset 5</tspan>
+                    </text>
+                    <g id="Form/Selection-controls/Sliders/Continous" transform="translate(238.000000, 29.000000)">
+                        <g id="Miscellaneous/Divider" transform="translate(0.000000, 11.000000)" fill="#B2B2B2" fill-rule="evenodd">
+                            <polygon id="Line" points="0 2 234 2 234 0 0 0"></polygon>
+                        </g>
+                        <line x1="50" y1="12" x2="0" y2="12" id="active" stroke="#C1C7D0" stroke-width="4"></line>
+                        <g id="Controller" stroke-width="1" fill-rule="evenodd" transform="translate(41.000000, 4.000000)">
+                            <rect id="controller" fill="#7F7F7F" x="8" y="0" width="16" height="16" rx="8"></rect>
+                            <text id="Value" font-family="Helvetica-Bold, Helvetica" font-size="12" font-weight="bold" line-spacing="16" letter-spacing="0.200000003" fill="#B2B2B2">
+                                <tspan x="0.485351555" y="31">16.66</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group-3-Copy-3" transform="translate(0.000000, 294.000000)">
+                    <g id="Input-/-Search" transform="translate(67.000000, 0.000000)">
+                        <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="26.5" width="153" height="38" rx="4"></rect>
+                        <text id="Search…" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                            <tspan x="40" y="50.5">Search…</tspan>
+                        </text>
+                        <g id="Icon-/-Search" transform="translate(7.999447, 33.498741)" stroke="#6A6F81" stroke-width="2">
+                            <path d="M12.0000069,23 L12.0001352,23 L12.0010745,16.0550325 L12.8770959,15.9456873 C16.35758,15.5112522 19,12.5397408 19,9 C19,5.13400675 15.8659932,2 12,2 C8.13400675,2 5,5.13400675 5,9 C5,12.540068 7.64289719,15.5117583 11.1237825,15.9457969 L12.0000548,16.055061 L12.0000069,23 Z" id="Search" transform="translate(12.000000, 12.500000) rotate(-45.000000) translate(-12.000000, -12.500000) "></path>
+                        </g>
+                    </g>
+                    <text id="Asset-2" font-family="AvenirNext-Regular, Avenir Next" font-size="16" font-weight="normal" fill="#000000">
+                        <tspan x="3.088" y="49">Asset 6</tspan>
+                    </text>
+                    <g id="Form/Selection-controls/Sliders/Continous" transform="translate(238.000000, 30.000000)">
+                        <g id="Miscellaneous/Divider" transform="translate(0.000000, 11.000000)" fill="#B2B2B2" fill-rule="evenodd">
+                            <polygon id="Line" points="0 2 234 2 234 0 0 0"></polygon>
+                        </g>
+                        <line x1="50" y1="12" x2="0" y2="12" id="active" stroke="#C1C7D0" stroke-width="4"></line>
+                        <g id="Controller" stroke-width="1" fill-rule="evenodd" transform="translate(41.000000, 4.000000)">
+                            <rect id="controller" fill="#7F7F7F" x="8" y="0" width="16" height="16" rx="8"></rect>
+                            <text id="Value" font-family="Helvetica-Bold, Helvetica" font-size="12" font-weight="bold" line-spacing="16" letter-spacing="0.200000003" fill="#B2B2B2">
+                                <tspan x="0.485351555" y="31">16.66</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <g id="Components-/-Tooltip-right" transform="translate(82.000000, 631.000000)">
+                <path d="M1,0 L79,0 C79.5522847,-1.01453063e-16 80,0.44771525 80,1 L80,31 C80,31.5522847 79.5522847,32 79,32 L1,32 C0.44771525,32 6.76353751e-17,31.5522847 0,31 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z" id="background" fill="#A0A4B1" fill-rule="evenodd"></path>
+                <path d="M89.0011421,12 L83.7592676,18.1143563 C83.3998061,18.5336484 82.7685015,18.5821505 82.3492095,18.2226889 C82.3103576,18.189381 82.2741199,18.1531399 82.2408156,18.1142849 L77,12 L77,12 L89.0011421,12 Z" id="source" fill="#A0A4B1" fill-rule="evenodd" transform="translate(83.000571, 15.500000) scale(1, -1) rotate(-90.000000) translate(-83.000571, -15.500000) "></path>
+                <text id="Tooltip" font-family="SourceSansPro-Regular, Source Sans Pro" font-size="12" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="13.408" y="12">Add  ticker</tspan>
+                </text>
+            </g>
+            <g id="System-elements/scrollbar" transform="translate(491.480469, 465.281250) rotate(90.000000) translate(-491.480469, -465.281250) translate(331.480469, 461.281250)">
+                <g id="Container/Rounded/Border-fill">
+                    <rect id="Fill" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="320" height="8" rx="4"></rect>
+                    <g id="Container/Rounded/Border" stroke="#4C4C4C" stroke-width="1">
+                        <rect id="Border" x="0.5" y="0.5" width="319" height="7" rx="3.5"></rect>
+                    </g>
+                </g>
+                <g id="Container/Rounded/Fill" transform="translate(2.000000, 2.000000)" fill="#CCCCCC" fill-rule="evenodd">
+                    <rect id="Fill" x="0" y="0" width="318" height="4" rx="2"></rect>
+                </g>
+            </g>
+            <g id="Group-2" transform="translate(5.000000, 0.000000)">
+                <g id="Input-/-Date">
+                    <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="1" width="164" height="38" rx="4"></rect>
+                    <g id="Icon-/-Date" transform="translate(133.999447, 7.999447)" fill="#6A6F81" fill-rule="nonzero">
+                        <path d="M8,3 L8,6 L16,6 L16,3 L18,3 L18,6 L21,6 L21,21 L3,21 L3,6 L6,6 L6,3 L8,3 Z M5,15.999 L5,19 L19,19 L19,16 L5,15.999 Z M6,8 L5,8 L5,13.999 L19,14 L19,8 L18,8 L18,9 L16,9 L16,8 L8,8 L8,9 L6,9 L6,8 Z" id="Date"></path>
+                    </g>
+                    <text id="Date" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                        <tspan x="8" y="25">DD/MM/YY</tspan>
+                    </text>
+                </g>
+                <g id="Input-/-Date" transform="translate(187.000000, 0.000000)">
+                    <rect id="background" stroke="#6A6F81" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" x="1" y="1" width="164" height="38" rx="4"></rect>
+                    <g id="Icon-/-Date" transform="translate(133.999447, 7.999447)" fill="#6A6F81" fill-rule="nonzero">
+                        <path d="M8,3 L8,6 L16,6 L16,3 L18,3 L18,6 L21,6 L21,21 L3,21 L3,6 L6,6 L6,3 L8,3 Z M5,15.999 L5,19 L19,19 L19,16 L5,15.999 Z M6,8 L5,8 L5,13.999 L19,14 L19,8 L18,8 L18,9 L16,9 L16,8 L8,8 L8,9 L6,9 L6,8 Z" id="Date"></path>
+                    </g>
+                    <text id="Date" font-family="Helvetica" font-size="16" font-weight="normal" line-spacing="20" letter-spacing="-0.615384582" fill="#A0A4B1">
+                        <tspan x="8" y="25">DD/MM/YY</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+        <text id="Portfolios" font-family="AvenirNext-Bold, Avenir Next" font-size="24" font-weight="bold" fill="#000000">
+            <tspan x="31.872" y="407">Portfolios</tspan>
+        </text>
+        <g id="Group-4" transform="translate(206.000000, 789.000000)">
+            <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="0" y="17" width="113" height="33" rx="2"></rect>
+            <text id="+" font-family="AvenirNext-Regular, Avenir Next" font-size="50" font-weight="normal" fill="#6A6F81">
+                <tspan x="39.85" y="50">+</tspan>
+            </text>
+        </g>
+        <g id="Navigation/Tabs/Text/Tabs-5" transform="translate(550.000000, 452.000000)">
+            <g id="Miscellaneous/Divider" transform="translate(0.000000, 82.250000)" fill="#B2B2B2" fill-rule="evenodd">
+                <polygon id="Line" points="0 1.75 500 1.75 500 0 0 0"></polygon>
+            </g>
+            <g id="Navigation/Tabs/Text/Tab" transform="translate(399.621212, 0.000000)">
+                <rect id="Container" x="0" y="0" width="88" height="82.25"></rect>
+                <text id="Text" font-family="Helvetica-Bold, Helvetica" font-size="14" font-weight="bold" line-spacing="24" fill="#B2B2B2">
+                    <tspan x="27.265625" y="49.25">Nav5</tspan>
+                </text>
+                <rect id="Border" x="0" y="82" width="88" height="2"></rect>
+            </g>
+            <g id="Navigation/Tabs/Text/Tab" transform="translate(299.242424, 0.000000)">
+                <rect id="Container" x="0" y="0" width="88" height="82.25"></rect>
+                <text id="Text" font-family="Helvetica-Bold, Helvetica" font-size="14" font-weight="bold" line-spacing="24" fill="#B2B2B2">
+                    <tspan x="27.265625" y="49.25">Nav4</tspan>
+                </text>
+                <rect id="Border" x="0" y="82" width="88" height="2"></rect>
+            </g>
+            <g id="Navigation/Tabs/Text/Tab" transform="translate(200.757576, 0.000000)">
+                <rect id="Container" x="0" y="0" width="88" height="82.25"></rect>
+                <text id="Text" font-family="Helvetica-Bold, Helvetica" font-size="14" font-weight="bold" line-spacing="24" fill="#B2B2B2">
+                    <tspan x="27.265625" y="49.25">Nav3</tspan>
+                </text>
+                <rect id="Border" x="0" y="82" width="88" height="2"></rect>
+            </g>
+            <g id="Navigation/Tabs/Text/Tab" transform="translate(100.378788, 0.000000)">
+                <rect id="Container" x="0" y="0" width="88" height="82.25"></rect>
+                <text id="Text" font-family="Helvetica-Bold, Helvetica" font-size="14" font-weight="bold" line-spacing="24" fill="#B2B2B2">
+                    <tspan x="27.265625" y="49.25">Nav2</tspan>
+                </text>
+                <rect id="Border" x="0" y="82" width="88" height="2"></rect>
+            </g>
+            <g id="Navigation/Tabs/Text/Tab">
+                <rect id="Container" x="0" y="0" width="88" height="82.25"></rect>
+                <text id="Text" font-family="Helvetica-Bold, Helvetica" font-size="14" font-weight="bold" line-spacing="24" fill="#2D2F30">
+                    <tspan x="27.265625" y="49.25">Nav1</tspan>
+                </text>
+                <rect id="Border" fill="#000000" fill-rule="evenodd" x="0" y="82" width="88" height="2"></rect>
+            </g>
+        </g>
+        <g id="Group-11" transform="translate(550.000000, 536.000000)">
+            <g id="Cells/Table/Cell-Title" transform="translate(148.000000, 0.000000)">
+                <g id="Rectangle">
+                    <use fill="#EFEFF4" fill-rule="evenodd" xlink:href="#path-11"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-12)" xlink:href="#path-11"></use>
+                </g>
+                <text id="Cell-Title" font-family="Helvetica" font-size="13" font-weight="normal" letter-spacing="-0.0799999982" fill="#6D6D72">
+                    <tspan x="15" y="22">CELL TITLE</tspan>
+                </text>
+            </g>
+            <g id="Cells/Table/Cell-Title">
+                <g id="Rectangle">
+                    <use fill="#EFEFF4" fill-rule="evenodd" xlink:href="#path-13"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-14)" xlink:href="#path-13"></use>
+                </g>
+                <text id="Cell-Title" font-family="Helvetica" font-size="13" font-weight="normal" letter-spacing="-0.0799999982" fill="#6D6D72">
+                    <tspan x="15" y="22">CELL TITLE</tspan>
+                </text>
+            </g>
+            <g id="Cells/Table/Cell-Title" transform="translate(448.000000, 0.000000)">
+                <g id="Rectangle">
+                    <use fill="#EFEFF4" fill-rule="evenodd" xlink:href="#path-15"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-16)" xlink:href="#path-15"></use>
+                </g>
+                <text id="Cell-Title" font-family="Helvetica" font-size="13" font-weight="normal" letter-spacing="-0.0799999982" fill="#6D6D72">
+                    <tspan x="15" y="22">CELL TITLE</tspan>
+                </text>
+            </g>
+            <g id="Cells/Table/Divider" transform="translate(0.000000, 206.000000)">
+                <rect id="Bar" fill="#F7F7F7" fill-rule="evenodd" x="0" y="0" width="890" height="32.3653846"></rect>
+                <text id="Label" font-family="Helvetica" font-size="15" font-weight="normal" letter-spacing="-0.239999995" fill="#030303">
+                    <tspan x="14.5" y="23.1346154">Some other data</tspan>
+                </text>
+            </g>
+            <g id="Cells/Table/Divider" transform="translate(3.000000, 370.000000)">
+                <rect id="Bar" fill="#F7F7F7" fill-rule="evenodd" x="0" y="0" width="890" height="32.3653846"></rect>
+                <text id="Label" font-family="Helvetica" font-size="15" font-weight="normal" letter-spacing="-0.239999995" fill="#030303">
+                    <tspan x="14.5" y="23.1346154">Some other data</tspan>
+                </text>
+            </g>
+            <g id="Group-5" transform="translate(3.000000, 30.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-18)" xlink:href="#path-17"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-20)" xlink:href="#path-19"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-22)" xlink:href="#path-21"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy" transform="translate(3.000000, 74.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-24)" xlink:href="#path-23"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-26)" xlink:href="#path-25"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-28)" xlink:href="#path-27"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-3" transform="translate(3.000000, 119.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-30)" xlink:href="#path-29"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-32)" xlink:href="#path-31"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-34)" xlink:href="#path-33"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-2" transform="translate(3.000000, 163.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-36)" xlink:href="#path-35"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-38)" xlink:href="#path-37"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-40)" xlink:href="#path-39"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-7" transform="translate(3.000000, 240.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-42)" xlink:href="#path-41"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-44)" xlink:href="#path-43"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-46)" xlink:href="#path-45"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-6" transform="translate(3.000000, 284.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-48)" xlink:href="#path-47"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-50)" xlink:href="#path-49"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-52)" xlink:href="#path-51"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-5" transform="translate(3.000000, 329.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-54)" xlink:href="#path-53"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-56)" xlink:href="#path-55"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-58)" xlink:href="#path-57"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-4" transform="translate(3.000000, 403.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-60)" xlink:href="#path-59"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-62)" xlink:href="#path-61"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-64)" xlink:href="#path-63"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-9" transform="translate(3.000000, 329.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-66)" xlink:href="#path-65"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-68)" xlink:href="#path-67"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-70)" xlink:href="#path-69"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-5-Copy-8" transform="translate(3.000000, 443.000000)">
+                <g id="Cells/Table/Cell" transform="translate(147.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="300" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-72)" xlink:href="#path-71"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(176.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="148" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-74)" xlink:href="#path-73"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(24.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Cells/Table/Cell" transform="translate(445.000000, 0.000000)">
+                    <rect id="Cell" fill="#FFFFFF" fill-rule="evenodd" x="0" y="0" width="445" height="44"></rect>
+                    <g id="Overrides/Cell/Borders/Indented-16pt" transform="translate(0.000000, 43.000000)" fill="black" fill-opacity="1">
+                        <g id="Border">
+                            <use filter="url(#filter-76)" xlink:href="#path-75"></use>
+                        </g>
+                    </g>
+                    <g id="Overrides/Cell/Accessory/Disclosure-Indicator" transform="translate(321.000000, 0.000000)" fill="#000000" fill-opacity="0.25" fill-rule="evenodd">
+                        <polygon id="Disclosure-Indicator" points="100 16.5 101.5 15 108 21.5 101.5 28 100 26.5 105 21.5"></polygon>
+                    </g>
+                    <g id="Overrides/Cell/Label/Label" fill="#030303" font-family="Helvetica" font-size="17" font-weight="normal" letter-spacing="-0.409999996">
+                        <text id="Label">
+                            <tspan x="15" y="28">Label</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Miscellaneous/Divider" transform="translate(152.000000, 294.000000) rotate(90.000000) translate(-152.000000, -294.000000) translate(-112.000000, 293.000000)" fill="#B2B2B2">
+                <polygon id="Line" points="0 2 528 2 528 0 0 0"></polygon>
+            </g>
+            <g id="Miscellaneous/Divider" transform="translate(454.000000, 294.000000) rotate(90.000000) translate(-454.000000, -294.000000) translate(190.000000, 293.000000)" fill="#B2B2B2">
+                <polygon id="Line" points="0 2 528 2 528 0 0 0"></polygon>
+            </g>
+        </g>
+        <g id="Group-10" transform="translate(26.000000, 864.000000)" fill="#4A4A4A">
+            <text id="Disclaimer" font-family="AvenirNext-Bold, Avenir Next" font-size="24" font-weight="bold">
+                <tspan x="0" y="24">Disclaimer</tspan>
+            </text>
+            <text id="&quot;Lorem-ipsum-dolor-s" font-family="AvenirNext-Regular, Avenir Next" font-size="10" font-weight="normal" line-spacing="15">
+                <tspan x="1" y="53">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et </tspan>
+                <tspan x="1" y="68">dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip </tspan>
+                <tspan x="1" y="83">ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore </tspan>
+                <tspan x="1" y="98">eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia </tspan>
+                <tspan x="1" y="113">deserunt mollit anim id est laborum."</tspan>
+            </text>
+        </g>
+        <g id="Group-9" transform="translate(505.000000, -1.000000)">
+            <g id="Group-7" transform="translate(48.000000, 0.000000)">
+                <g id="Bars" transform="translate(0.000000, 66.000000)" fill="#6A6F81">
+                    <rect id="Rectangle-3" x="0.333333333" y="103.5" width="73" height="50.5"></rect>
+                    <rect id="Rectangle-3-Copy" x="90.5" y="60.5" width="73" height="93.5"></rect>
+                    <rect id="Rectangle-3-Copy-2" x="180.666667" y="7.5" width="73" height="146.5"></rect>
+                    <rect id="Rectangle-3-Copy-3" x="270.833333" y="14.5" width="73" height="139.5"></rect>
+                    <polygon id="Rectangle-3-Copy-4" points="361 0 434 0 434 154 361 154"></polygon>
+                </g>
+                <polyline id="Path" stroke="#979797" stroke-width="3" points="36.6464844 203.570312 127.328125 67.9589844 217.119141 3.60742188 308.039062 60.1152344 398.435547 101.783203"></polyline>
+                <g id="Ovals" transform="translate(31.500000, 0.000000)" stroke="#4A4A4A" stroke-width="4">
+                    <g id="Oval-2" transform="translate(0.000000, 201.500000)">
+                        <circle id="Oval-1-Copy-7" cx="3.75" cy="3.75" r="1.75"></circle>
+                    </g>
+                    <g id="Oval-2" transform="translate(92.000000, 64.000000)">
+                        <circle id="Oval-1-Copy-7" cx="3.75" cy="3.75" r="1.75"></circle>
+                    </g>
+                    <g id="Oval-2" transform="translate(182.000000, 0.000000)">
+                        <circle id="Oval-1-Copy-7" cx="3.75" cy="3.75" r="1.75"></circle>
+                    </g>
+                    <g id="Oval-2" transform="translate(272.500000, 56.500000)">
+                        <circle id="Oval-1-Copy-7" cx="3.75" cy="3.75" r="1.75"></circle>
+                    </g>
+                    <g id="Oval-2" transform="translate(362.500000, 97.500000)">
+                        <circle id="Oval-1-Copy-7" cx="3.75" cy="3.75" r="1.75"></circle>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-6" transform="translate(527.000000, 35.000000)">
+                <g id="PieChartFg">
+                    <mask id="mask-78" fill="white">
+                        <use xlink:href="#path-77"></use>
+                    </mask>
+                    <use id="Mask" stroke="#979797" stroke-width="5" opacity="0.747726213" xlink:href="#path-77"></use>
+                    <polygon id="Path-23" fill="#B9B9B9" mask="url(#mask-78)" points="75.4800291 75.5189436 75.4800291 171.172441 168.33918 106.707186"></polygon>
+                    <polygon id="Path-24" fill="#C5C5C5" mask="url(#mask-78)" points="75.4795648 75.4820677 174.495814 108.675929 140.032245 -34.6149248"></polygon>
+                    <polygon id="Path-25" fill="#D8D8D8" mask="url(#mask-78)" points="75.5100195 75.5370633 119.491215 0.389519458 87.551732 -10.1219413"></polygon>
+                    <polygon id="Path-26" fill="#9B9B9B" mask="url(#mask-78)" points="75.4833916 75.5732856 89.2466981 -18.5121904 -10.9799971 12.8341097"></polygon>
+                    <polygon id="Path-27" fill="#B3B3B3" mask="url(#mask-78)" points="75.5051461 75.5273046 75.5534198 177.197966 -10.0184404 139.21648"></polygon>
+                    <polygon id="Path-28" fill="#A7A7A7" mask="url(#mask-78)" points="75.5357783 75.5785789 -14.7616745 10.0651828 -9.41301592 139.55258"></polygon>
+                </g>
+            </g>
+            <g id="Group-6" transform="translate(800.500000, 110.500000) rotate(119.000000) translate(-800.500000, -110.500000) translate(722.000000, 32.000000)" opacity="0.507054571">
+                <g id="PiChartBg">
+                    <mask id="mask-80" fill="white">
+                        <use xlink:href="#path-79"></use>
+                    </mask>
+                    <g id="Mask"></g>
+                    <polygon id="Path-23" fill="#B9B9B9" mask="url(#mask-80)" points="78.2861035 78.2861035 78.2861035 177.53406 174.53951 110.646335"></polygon>
+                    <polygon id="Path-24" fill="#C5C5C5" mask="url(#mask-80)" points="78.2861035 78.4505904 180.956403 112.93733 144.553521 -36.3674433"></polygon>
+                    <polygon id="Path-25" fill="#D8D8D8" mask="url(#mask-80)" points="78.2861035 78.7138965 123.460921 0.122582651 90.818629 -10.26703"></polygon>
+                    <polygon id="Path-26" fill="#9B9B9B" mask="url(#mask-80)" points="78.497215 78.7138965 92.1925914 -19.777552 -11.5504087 13.3880127"></polygon>
+                    <polygon id="Path-27" fill="#B3B3B3" mask="url(#mask-80)" points="78.6636995 78.2861035 78.7138965 183.950954 -10.26703 144.477344"></polygon>
+                    <polygon id="Path-28" fill="#A7A7A7" mask="url(#mask-80)" points="78.7138965 78.4454222 -15.400545 10.26703 -9.82579172 145.021798"></polygon>
+                </g>
+            </g>
+            <g id="Group-8" transform="translate(0.000000, 236.000000)">
+                <path d="M46.00131,206.985855 C45.9983625,113.1314 46.00131,19.2769419 46.00131,19.2769419 L120.217049,81.7984977 L194.312162,132.696391 L268.278828,58.6281649 L342.359382,0 L416.282018,20.3945776 L490,58.2168152 L489.999992,208 L46.0072369,208" id="Area" stroke="#979797" stroke-width="2" fill="#6A6F81" transform="translate(268.000000, 104.000000) scale(-1, 1) translate(-268.000000, -104.000000) "></path>
+                <g id="Ticks" transform="translate(0.000000, 202.000000)" stroke="#D6D6D6" stroke-linecap="square">
+                    <line x1="1.31094527" y1="0.545454545" x2="1.31094527" y2="11.4545455" id="Line"></line>
+                    <line x1="75.5978441" y1="0.545454545" x2="75.5978441" y2="11.4545455" id="Line-Copy"></line>
+                    <line x1="149.884743" y1="0.545454545" x2="149.884743" y2="11.4545455" id="Line-Copy-2"></line>
+                    <line x1="224.171642" y1="0.545454545" x2="224.171642" y2="11.4545455" id="Line-Copy-3"></line>
+                    <line x1="298.458541" y1="0.545454545" x2="298.458541" y2="11.4545455" id="Line-Copy-4"></line>
+                    <line x1="372.745439" y1="0.545454545" x2="372.745439" y2="11.4545455" id="Line-Copy-5"></line>
+                    <line x1="447.032338" y1="0.545454545" x2="447.032338" y2="11.4545455" id="Line-Copy-6"></line>
+                    <line x1="525.689055" y1="0.545454545" x2="525.689055" y2="11.4545455" id="Line-Copy-7"></line>
+                </g>
+            </g>
+            <g id="Group-8-Copy" transform="translate(0.000000, 338.000000)">
+                <path d="M46.00131,105.483176 C45.9983625,57.653502 46.00131,9.82382617 46.00131,9.82382617 L120.217049,41.6857729 L194.312162,67.6241223 L268.278828,29.8778148 L342.359382,0 L416.282018,10.3933905 L490,29.6681847 L489.999992,106 L46.0072369,106" id="Area-Copy" stroke="#979797" stroke-width="2" fill="#A0A4B1" transform="translate(268.000000, 53.000000) scale(-1, 1) translate(-268.000000, -53.000000) "></path>
+                <g id="Ticks-Copy" transform="translate(0.000000, 100.000000)" stroke="#D6D6D6" stroke-linecap="square">
+                    <line x1="1.31094527" y1="0.545454545" x2="1.31094527" y2="11.4545455" id="Line"></line>
+                    <line x1="75.5978441" y1="0.545454545" x2="75.5978441" y2="11.4545455" id="Line-Copy"></line>
+                    <line x1="149.884743" y1="0.545454545" x2="149.884743" y2="11.4545455" id="Line-Copy-2"></line>
+                    <line x1="224.171642" y1="0.545454545" x2="224.171642" y2="11.4545455" id="Line-Copy-3"></line>
+                    <line x1="298.458541" y1="0.545454545" x2="298.458541" y2="11.4545455" id="Line-Copy-4"></line>
+                    <line x1="372.745439" y1="0.545454545" x2="372.745439" y2="11.4545455" id="Line-Copy-5"></line>
+                    <line x1="447.032338" y1="0.545454545" x2="447.032338" y2="11.4545455" id="Line-Copy-6"></line>
+                    <line x1="525.689055" y1="0.545454545" x2="525.689055" y2="11.4545455" id="Line-Copy-7"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
