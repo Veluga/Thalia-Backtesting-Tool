@@ -78,13 +78,14 @@ def fill_asset_set(asset_set, source_list):
 
 
 def populate_values():
-    populate_dow()
+    populate_equity('DOW', '../Financial Data/Equities/Dow Jones.csv')
 
-
-def populate_dow():
-    dow_data = Asset.objects.get(abbreviation='DOW').value_set
-    for i, datum in enumerate(read_dow()):
-        dow_data.create(
+def populate_equity(ticker, filepath):
+    print(f"Collecting {ticker} from {filepath}")
+    equity_data = Asset.objects.get(abbreviation=ticker).value_set
+    i = 0
+    for datum in read_equity(filepath):
+        equity_data.create(
             date=datum.date,
             open_price=datum.open,
             close_price=datum.close,
@@ -92,15 +93,15 @@ def populate_dow():
             high_price=datum.hi
         )
 
-        if i % 200 == 0:
+        if i % 500 == 0:
             print(f"{i} entries")
-            # For speed of testing. Remove later.
-            if i > 1:
-                return
+        i += 1
+
+    print(f"Finished {ticker} with {i} entries")
 
 
-def read_dow():
-    with open('../Financial Data/Equities/Dow Jones.csv') as src:
+def read_equity(filepath):
+    with open(filepath) as src:
         reader = csv.reader(src, delimiter=',')
         next(reader)    # Ignore headings.
         for i, row in enumerate(reader):
