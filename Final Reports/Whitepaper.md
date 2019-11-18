@@ -105,21 +105,67 @@ Aiming for a 25% retention rate for monthly periods - which is an average rate f
 
 ## Overview
 
-Thalia is a website for creating custom portfolios and measuring their performance with different backtesting functions. We have a database of historical asset data that periodically updates itself with daily data from different financial data sources. The backtest results are reported to the users in both graphical and tabular formats.
+Thalia is a website for creating custom portfolios and measuring their performance with different backtesting functions. We have a database of historical asset data that periodically updates itself with daily data from different financial data sources. The backtesting results are reported to the users in both graphical and tabular formats.
 
-![Currently discussed wireframes](./Resources Whitepaper/wireframes.svg)
+![Currently discussed wireframes](./wireframesLabelledRenderpng.png)
 
 ## Technologies
 
 We use the open-source Python web framework 'Django' to manage our databases and to get a tried and tested web architecture and commonly needed functionalities [14]. We decided on Python and Django for their maturity, prominent use in industry and ease of adoption. This allows us to get to market more quickly.
 
-In addition to static historical data, we need to update our tickers with daily data from different financial trackers. To do this we use several different APIs, some with wrapper libraries and some without, as no single API satisfies all of our data needs. We aim to use mature and free open source libraries for our web application where possible. Howver, for the data gathering layer, we may at times need to use proprietary software or data.
+In addition to static historical data, we need to update our tickers with daily data from different financial trackers. To do this we use several different APIs, some with wrapper libraries and some without, as no single API satisfies all of our data needs. We aim to use mature and free open source libraries for our web application where possible. Howver, for the data gathering layer, we may at times need to use proprietary software or data, as not all API wrapper libraries and asset price data sets are openly available. Our team is commited to continue vetting each of our sources to assure they are reputable and reliable. We will also aim to increase the number of these going further to provide redundancy in the case that downtime issues should arise.
 
 ## Architecture
 
-We use the tried and tested three-tier architecture as a base. We augment it with an additional data gathering layer, which periodically updates the internal asset storage with daily data. We make this separation to have a clearer data flow, improve security and increase modularity. The rest of the systems architecture follows the MVT-architecture provided by the Django Framework.
 
-![Very high level look at the architecture](./Resources Whitepaper/architecture.svg)
+We use the tried and tested three-tier architecture as a base with an additional data gathering layer, which periodically updates the internal asset storage with daily data as it becomes available. We make this separation to have a clearer data flow, improve security and increase modularity. It also allows us to easily make changes related to specific asset sources as we can modify the code that updates and tracks them separately. This helps us in mitigating the harms that would generally be associated with gathering data from multiple sources. Specifically, it allows us to add, remove and modify data sources without having to interfere with the rest of the application. The rest of the systems architecture follows the MVT-architecture provided by the Django Framework.
+
+![High level overview of Thalia architecture](./WP_architecture.svg)
+
+# Moving forward
+
+## Initial Release
+
+The following section outlines the steps that need to be taken to release the first version of Thalia. As with initial development, we will be pursuing an agile development strategy leading up to and following the intial release. Decisions regarding what 
+
+The figure below shows our release plan for the first versions of Thalia. A buffer of several weeks will also be accounted for when declaring the official release date. This will be done to accommodate for any unforseen delays in the release process that may arise unexpectedly.
+
+![Critical Path Diagram of Tentative Release Schedule](./Resources Whitepaper/critical_path_product_future.png)
+
+### Hosting and Cross Platform Compatability
+
+Hosting of the application will be outsourced to a hosting service provider. This will allow us to ensure scalability and quality of service of our product, as major service providers provide guarantees for both of those things. In addition to this, support will slowly be added for additional browsers and platforms. In addition to Mozilla Firefox and Google Chrome, that will already be supported by the first version of Thalia, support will be added for remaining major desktop browsers. We also aim for making the website easy to use on mobile browsers.
+
+### Data Gathering
+
+Throughout the time leading up to release, data will be gathered on additional commonly traded assets. The more assets we acquire, the more appealing our platform will be to investors. Therefore, we will continue this evaluation process even after releasing the first version of Thalia. 
+Commodities and Stocks differ from other asset classes like cryptocurrencies and indices, as there is wider range of assets that investors would like to include in their model portfolios. Prices for these will be easier to gather once we have established a userbase and have the capital required to approach larger entities (such as exchanges) for data.
+
+### Payment Service Integration
+
+After registering as a business and opening a business account, we will begin working on support for payments. Our target is to deploy our platform with support for Paypal, Visa, Union Pay and Mastercard payments, as these are used for the majority of online commerce [15]. There are a number of integrated payment solution providers on the market that could offer support for all of these and more (e.g. Stripe).
+
+### Security Audit
+
+There are two reasons why a security audit is a necessery step before release. Firstly, as we are handling clients' payments through the platform, we must ensure that their payment and account information is kept safe. Secondly, as we aquire more data on historical prices, some of that data may no longer come from publicly available sources. Therefore, we will hire an external contractor to perform a full security audit. Assuring a high overall degree of security will allow us to manage the risk inherent in providing a web service. As our codebase is relatively small and handles mostly non-sensetive data, we expect the timeframe allocated for the risk assessment to suffice.
+
+### Testing and Evaluation
+
+Before conducting our release, we will engage in ongoing and extensive testing to detect any bugs in our software. This allows us to assess whether or not further changes need to be made. Additionally, testing provides a clear-cut metric for measuring whether we have met the goals of each phase. Evaluation of the value of our software will also be performed through gathering user feedback. After seeking approval from the University Ethics Committee, a focus group of retail investors will be assembled with the goal of trialing our product. They will be asked to evaluate the usability of the interface and the feature set we provide. The decision to make further changes or add aditional features and key figures can then be made. If deemed neccessary, the services of experienced software testers can be used to give a final evaluation of Thalia's functionality.
+
+## Long term future and expansion strategy
+
+Following Thalia's release, the team will continue to add additional features and assets to our offering. Financial analysis is a dynamic field and metrics for portfolio evaluation popular with investors change frequently. In addition, new financial assets such as new cryptocurrencies and new stocks also frequently enter the market. This means that ongoing development is necessary if we are to become and remain competetive in the fintech industry.
+
+Due to the accessible price point of our tool we expect a large increase in the number of users on our platform in the months following deployment. As product adoption improves, we also expect to see more advanced users - those who have been using backtesting solutions for a longer period of time - to switch to Thalia. As our platform becomes more established and as advertising and media coverage increase we also expect to attract newer users, who lack knowledge of existing backtesting solutions. We have identified several major features that could be implemented going forwards to better cater to these groups:
+
+- Support for a limited scripting language to be used within Thalia. This could allow users to automate reactions to sudden market movements, allowing them to better simulate their portfolio as part of a dynamic trading strategy.
+
+- Algorithms to highlight market movements and common market patterns. This would be especially appealing to investors that rely heavily on technical analysis of markets and stocks.
+
+- Significant events that affected the historic prices could be flagged, allowing them to form a deeper understanding of the results of their simulations.
+
+As part of our future plan for monetization, our team will also begin assessing the feasibility of a version of our product aimed at integration with online brokerage platforms. This would be sold to platforms on a subscription basis, allowing us to further take advantage of the massive brokerage market, which in the US alone grosses around \$380B every year [16]. Another potential strategy for market entry we will consider is adding features to Thalia which are similar to those found on online brokerage sites. These include, but are not limited to, the tracking of live prices of assets and options to buy and sell assets (through integration of other platforms or selling them ourselves). This would allow us to shift from providing an isolated service to creating our own self contained ecosystem of financial tools.
 
 # Appendixes
 
@@ -157,6 +203,10 @@ The following is an analysis of the prices charged by competing backtesting soft
 
 [13] [Society For Human Resource Management](https://www.shrm.org/hr-today/trends-for theirand-forecasting/research-and-surveys/Documents/2017-Human-Capital-Benchmarking.pdf)
 
-[14] [Django]([https://www.djangoproject.com/](https://www.djangoproject.com/)
+[14] [Django](https://www.djangoproject.com/](https://www.djangoproject.com/)
+
+[15] [Largest payments methods](https://www.atmmarketplace.com/news/union-pay-bumps-visa-to-no-2-spot-in-global-payments-value/)
+
+[16] [Online brokerages](https://www.prnewswire.com/in/news-releases/us-financial-brokerage-market-revenue-is-expected-to-reach-over-usd-379-4-billion-by-the-year-ending-2023-ken-research-895718200.html)
 
 
