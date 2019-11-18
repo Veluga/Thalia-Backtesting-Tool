@@ -111,7 +111,7 @@ Thalia is a website for creating custom portfolios and measuring their performan
 
 ## Technologies
 
-We use the open-source Python web framework 'Django' to manage our databases and to get a tried and tested web architecture and commonly needed functionalities [14]. We decided on Python and Django for their maturity, prominent use in industry and ease of adoption. This allows us to get to market more quickly.
+We use the open-source Python web framework 'Django' to manage our databases and to get a powerful and well defined web architecture and commonly needed functionalities [14]. We decided on Python and Django for their maturity, prominent use in industry and ease of adoption. This allows us to get to market more quickly.
 
 In addition to static historical data, we need to update our tickers with daily data from different financial trackers. To do this we use several different APIs, some with wrapper libraries and some without, as no single API satisfies all of our data needs. We aim to use mature and free open source libraries for our web application where possible. However, for the data gathering layer, we may at times need to use proprietary software or data, as not all API wrapper libraries and asset price data sets are openly available. Our team is committed to continue vetting each of our sources to assure they are reputable and reliable. We will also aim to increase the number of these going further to provide redundancy in the case that downtime issues should arise.
 
