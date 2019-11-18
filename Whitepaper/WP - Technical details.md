@@ -4,7 +4,7 @@
 
 Thalia is a website for creating custom portfolios and measuring their performance with different backtesting functions. We have a database of historical asset data that periodically updates itself with daily data from different financial data sources. The backtesting results are reported to the users in both graphical and tabular formats.
 
-![Currently discussed wireframes](./wireframes.svg)
+![Currently discussed wireframes](./wireframesLabelledRenderpng.png)
 
 ## Technologies
 
