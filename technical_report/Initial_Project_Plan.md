@@ -10,7 +10,7 @@ To measure productivity, we use effort-oriented metrics, and assign story points
 
 ## Evaluation Strategy and Testing
 
-We also plan to make use of the tools offerred by GitHub for testing and reviewing. Each pull request is reviewed by other team members before any changes are pushed to the production system. CI scripts are also in place to ensure the code quality and integrity, this is done by enforcing the use of Pytest, and a style-checker, which is still to be determined.
+We also plan to make use of the tools offerred by GitHub for testing and reviewing. Each pull request is reviewed by other team members before any changes are pushed to the production system. CI scripts are also in place to ensure the code quality and integrity, this is done by enforcing the use of Pytest, and a style-checker, either flake-8 or black.
 
 We will also heavily depend on continuous user testing through development [[https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/](https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/)]. Our plan is to obtain the necessary ethical approval from the university before the start of development. Continuous user testing is our main part of the evaluation strategy, and as such it will help us to develop features unlike or better than existing ones. This is of key importance as we are about to enter an established market and we would like our product to be as distinguishable as possible.
 
