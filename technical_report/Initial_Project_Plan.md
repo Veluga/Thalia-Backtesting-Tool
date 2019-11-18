@@ -22,7 +22,7 @@ beyond that if needed. In order to ensure that we are up to schedule, weekly mee
 
 ## Milestones
 
-Although agile methods offer a great amount of flexibility, they do require some sort of governance [[https://disciplinedagiledelivery.com/dad-milestones/](https://disciplinedagiledelivery.com/dad-milestones/)]. For this reason we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two, due to the nature of our product. These are the following:
+Although agile methods offer a great amount of flexibility, they do require some sort of governance [https://www.agilest.org/agile-project-management/governance/]. For this reason we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two, due to the nature of our product. These are the following:
 
 ### Minimum Viable Product
 
