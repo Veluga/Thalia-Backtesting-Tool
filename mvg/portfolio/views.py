@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import AssetForm
 from django.views.generic import TemplateView
 from django.urls import reverse
+from . import keyFigures
 
 """ Main input view """
 class PortfolioView(TemplateView):
@@ -9,35 +10,48 @@ class PortfolioView(TemplateView):
 
     """ GET request """
     def get(self,request):
-        form1 = AssetForm()
-        form2 = AssetForm()
-        form3 = AssetForm()
-        form4 = AssetForm()
-        form5 = AssetForm()
-        args = {'form1': form1, 'form2': form2,'form3': form3, 'form4': form4,'form5': form5}
+        form = AssetForm()
+        args = {'form': form}
         return render(request, self.template_name, args)
 
     """ POST request """
     def post(self, request):
-        if request.method == "POST":
-            form1 = AssetForm(request.POST)
-            form2 = AssetForm(request.POST)
-            form3 = AssetForm(request.POST)
-            form4 = AssetForm(request.POST)
-            form5 = AssetForm(request.POST)
-            FORMS = [form1,form2,form3,form4,form5]
+        return self.get(request)
 
-            for f in FORMS:
-                if f.is_valid():
-                    percentage = f.cleaned_data["percentage"]
-                    category = f.cleaned_data["assetTicker"]
-                    print (percentage,category)
-                    print ()
 
-            return self.get(request)
+""" Main output view """
+class ResultsView(TemplateView):
+    template_name = "portfolio/out.html"
 
-        else:
-            print("\nHow would you even end up here?\n")
-            # Somehow I did, then it magically stopped...
-            return self.get(request)
+    """ GET request """
+    def get(self,request):
+        args = {}
+        return render(request, self.template_name, args)
+
+    """ POST request """
+    def post(self, request):
+        form = AssetForm(request.POST)
+        if form.is_valid():
+            asset1 = form.cleaned_data["asset1"]
+            percentage1 = form.cleaned_data["percentage1"]
+
+            asset2 = form.cleaned_data["asset2"]
+            percentage2 = form.cleaned_data["percentage2"]
+
+            asset3 = form.cleaned_data["asset3"]
+            percentage3 = form.cleaned_data["percentage3"]
+            
+            print (asset1,percentage1)
+            print (asset2,percentage2)
+            print (asset3,percentage3)
+
+
+            """ Initialise portfolio as a portfolio object """
+            """ Its attributes are printed in the form if named correctly """
+            portfolio = 1  
+            args = { "portfolio": portfolio }
+
+
+        return render(request, self.template_name, args)
+
 
