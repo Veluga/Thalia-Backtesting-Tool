@@ -6,7 +6,7 @@ Navigating through the world of Finance is a daunting task for the average retai
 
 ## Problem
 
-To make informed investing decisions, an investor requires data. While past performance certainly isn’t indicative of future results, it is very valuable to look at the historical performance of a given asset allocation. 
+To make informed investing decisions, an investor requires data. While past performance certainly isn’t indicative of future results, it is very valuable to look at the historical performance of a given asset allocation.
 Imagine you’re nearing retirement and can’t afford sitting patiently through another financial crisis, waiting for your investments to regain in value what they have lost. Wouldn’t it be useful to check a variety of portfolios for how much they’ve lost in the worst year over the last 50?
 This process is known as backtesting and is usually done with the assistance of a computer. Existing backtesting software typically falls into one of two categories: Too restricted in features to be useful or too expensive to be affordable.
 
@@ -14,14 +14,14 @@ This process is known as backtesting and is usually done with the assistance of 
 
 MVG is affordable and feature rich backtesting software that allows investors to assess the viability of investment strategies. With MVG, you can:
 • Specify an asset allocation using hundreds of assets across five major asset classes
-• Plot the performance of strategies against each other and an index benchmark 
+• Plot the performance of strategies against each other and an index benchmark
 • Gain insight into a strategy’s key risk and performance metrics
 • Save and share a portfolio to discuss it with friends and your financial advisor
 • Model regular contributions and rebalancing strategies
 
 ### Specification of Asset Allocation
 
-Our platform allows you to pick assets from five asset classes: Equities, Fixed Income, Currencies, Commodities and Cryptocurrencies. You will be able to design a portfolio using any number of these assets and assign weights to each one (e.g. 25% Apple, 25% Bitcoin, 25% Japanese Yen, 25% Gold). 
+Our platform allows you to pick assets from five asset classes: Equities, Fixed Income, Currencies, Commodities and Cryptocurrencies. You will be able to design a portfolio using any number of these assets and assign weights to each one (e.g. 25% Apple, 25% Bitcoin, 25% Japanese Yen, 25% Gold).
 
 ### Performance Plots
 
