@@ -79,6 +79,8 @@ def fill_asset_set(asset_set, source_list):
 
 def populate_values():
     populate_equity('DOW', '../Financial Data/Equities/Dow Jones.csv')
+    populate_equity('NASDAQ', '../Financial Data/Equities/NASDAQ.csv')
+    populate_equity('S&P500', '../Financial Data/Equities/S&P500.csv')
 
 def populate_equity(ticker, filepath):
     print(f"Collecting {ticker} from {filepath}")
