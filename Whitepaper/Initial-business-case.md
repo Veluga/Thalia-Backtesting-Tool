@@ -4,19 +4,19 @@
 
 ### Market analysis
 
-First and foremost, let us better understand the market we are about to enter. This is of key importance as 42% of startups fail due to the fact that there is no market need for their service.<sup>[1]</sup> Retail investment is a relatively new, but growing market. In the year 2017 in the U.S. alone 54% of households owned stocks or had some other investment plans.<sup>[2][3]</sup> Our target audience consists of these individual investors, who instead of seeking the full package that comes with financial advising, would like to take the wheel, and assess the viability of their investment strategies themselves. In general retail investors are non-professionals and would like to invest smaller amounts. Considering that the typical price of a financial advice service is \$1,500 to \$2,500 for the one-time creation of a full financial plan, the door is closed to many potential individual investors.
+First and foremost, let us better understand the market we are about to enter. This is of key importance as 42% of startups fail due to the fact that there is no market need for their service.<sup>[1]</sup> Retail investment is a relatively new, but growing market. In the year 2017 in the U.S. alone 54% of households owned stocks or had some other investment plans.<sup>[2][3]</sup> Our target audience consists of these individual investors, who instead of seeking the full package that comes with financial advising, would like to take the wheel, and assess the viability of their investment strategies themselves. In general retail investors are non-professionals and would like to invest smaller amounts. Considering that the typical price of a financial advice service for an individual looking to invest around \$50000 (a reasonable pension pot) is between 1 and 3 percento or \$500 to \$1500 for the one-time creation of a full financial plan, the door is closed to many potential individual investors [8].
 
 ### Trend analysis
 
-Let us first consider the macro environmental factors that can influence the investment sector, using PEST analysis. 
+Let us first consider the macro environmental factors that can influence the investment sector, using PEST analysis.
 
 #### Political
 
-Political factors such as regulations and government policies can affect the investment sector. In general, people are more willing to invest in politically stable environments, as political disruptions cause hindrances for most businesses. Consequently, investment strategies become less reliable and riskier. 
+Political factors such as regulations and government policies can affect the investment sector. In general, people are more willing to invest in politically stable environments, as political disruptions cause hindrances for most businesses. Consequently, investment strategies become less reliable and riskier.
 
 #### Economic
 
-Economic factors are closely intertwined with the stock market. Not only do low levels of income mean that households have no capability to invest, but economic recessions impact large businesses as well, causing declining revenues and indirectly reducing stock prices.
+Economic factors are closely intertwined with the stock market. Not only do low levels of income mean that households have no capability to invest, but economic recessions impact large businesses as well, causing declining revenues and indirectly reducing stock prices [9].
 
 #### Social
 
@@ -24,7 +24,7 @@ Cultural factors can also influence investment behaviours, as some people may pr
 
 #### Technological
 
-Technological advancements offer more and more elaborate means to analyse data, and thus more accurate evaluations of a given investment strategy. In general, new technological trends motivate investment, as well as boosts the occurrence of new businesses. 
+Technological advancements offer more and more elaborate means to analyse data, and thus more accurate evaluations of a given investment strategy. In general, new technological trends motivate investment, as well as boosts the occurrence of new businesses.
 
 ### Competitor analysis
 
@@ -49,9 +49,8 @@ In order to conduct further research, let us now discuss some external factors. 
 
 ### Commercialising our product
 
-Our strategy is to use a subscription-based business model in order to generate a steady flow of revenue. Based on our previous market analysis we will commercialise our product for a subscription cost of £9.99 (\$12.77) per month, or alternatively £99.99 (\$127.78) per annum. This would make {{MVG}} one of the most accessible backtesters on the market. A trial period of 30 days would also be offered upon registering, with somewhat limited features, but still providing all core functionalities.
-The trial period is of key importance: retail investors may be reluctant to spend money on a backtesting product when there are others that seemingly do the same thing. By allowing them to use our software freely for a brief time, we let them see why {{MVG}} is better-suited to their needs. In the event that the customer *doesn't* like our product, the worst thing they can do is write an angry review warning others against it. They are less likely to do so if they don't feel that they lost anything trying it out.
-Some of our competitors also use trial periods. Risk-averse retail investors would be more willing to try their product than ours.
+Our strategy is to use a subscription-based business model in order to generate a steady flow of revenue. Based on our previous market analysis we will commercialise our product for a subscription cost of £9.99 (\$12.77) per month, or alternatively £99.99 (\$127.78) per annum. This would make Thalia one of the most accessible backtesters on the market [10]. A trial period of 30 days would also be offered upon registering, with somewhat limited features, but still providing all core functionalities.
+The trial period is of key importance: retail investors may be reluctant to spend money on a backtesting product when there are others that seemingly do the same thing, allowing them to test our product for free allows them to form a clearer picture of the feature set we provide. Some of our competitors also use trial periods. Risk-averse retail investors would be more willing to try their product than ours.
 
 ### Financial plan
 
@@ -75,3 +74,9 @@ As our revenues come from subscriptions, one of our most important figures would
 6. [Sophia Bernazzani - Customer Retention](https://blog.hubspot.com/service/customer-retention)
 
 7. [Society For Human Resource Management](https://www.shrm.org/hr-today/trends-and-forecasting/research-and-surveys/Documents/2017-Human-Capital-Benchmarking.pdf)
+
+8. [Advisory HQ](https://www.advisoryhq.com/articles/financial-advisor-fees-wealth-managers-planners-and-fee-only-advisors/)
+
+9. [Bucher-Koenen, Tabea and Ziegelmeyer, Michael Heinrich, Who Lost the Most? Financial Literacy, Cognitive Abilities, and the Financial Crisis - ECB Working Paper No. 1299.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1761512)
+
+10. [Appendix 1: Competitor Pricing](./CompetitorPricing.md)
