@@ -5,7 +5,7 @@ The following are the steps that need to be taken to ready the first version of 
 
 The following is the tentative release plan for the first versions of Thalia, and is still subject to change. A buffer of several weeks will also be accounted for when declaring the official release date. This will be done to accommodate any unforseen blockers that may arise during this process.
 
-![Critical Path Diagram of Tentative Release Schedule](https://i.imgur.com/SUbISlR.png)
+![Critical Path Diagram of Tentative Release Schedule](./critical-path-product-future.png)
 
 ##### HOSTING AND CROSS PLATFORM COMPATIBILITY
 Hosting of the application will be outsourced to a hosting service provider. This will allow us to ensure scalability and quality of service of our product, as major service providers provide guarantees for both of those things. In addition to this, support will slowly be added for additional browsers and platforms. In addition to Mozilla Firefox and Google Chrome, that will already be supported by the first version of Thalia, support will be added for remaining major desktop browsers. We will also work to make the website easy to use on mobile browsers.
@@ -37,5 +37,8 @@ As part of our future plan for monetization, our team will also begin assessing 
 
 [1] https://www.prnewswire.com/in/news-releases/us-financial-brokerage-market-revenue-is-expected-to-reach-over-usd-379-4-billion-by-the-year-ending-2023-ken-research-895718200.html
 
-[2]https://www.atmmarketplace.com/news/union-pay-bumps-visa-to-no-2-spot-in-global-payments-value/
+[2] https://www.atmmarketplace.com/news/union-pay-bumps-visa-to-no-2-spot-in-global-payments-value/
+
+[3] Editor link to lucidchart with critical path diagram:
+https://www.lucidchart.com/invitations/accept/e7c67529-36b9-47ce-bdfe-94c73888acca
 
