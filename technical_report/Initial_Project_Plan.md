@@ -2,9 +2,11 @@
 
 ## Team Organisation
 
-Our workflow is centred around the GitHub platform and the tools it provides such as a ticketing system, pull requests and a scrum board for ongoing tasks. We are committed to the Egalitarian Team structure, and as such, there are no fixed responsibilities in our team, and everybody will at some point be required to develop a feature for each part of the system. This save us from introducing any sort of artificial hierarchy into our development process. Consequently, every team member is guaranteed to have a holistic understanding of how the system works across all layers.
+Our workflow is centred around the GitHub platform and the tools it provides such as a ticketing system, pull requests and a scrum board for ongoing tasks. Our goal is not to have fixed responsibilities in our team, so that everybody at some point will be required to develop a feature for each part of the system. Studies have also shown that any sort of status difference within a team can distort the error-correcting mechanism. [[https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208/2177](https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208/2177)]. Because of these reasons we have decided to commit ourselves to the Egalitarian Team structure, which will introduce the required amount of flexibility into our team.
 
-To measure productivity, we use effort-oriented metrics, and assign story points to each ticket, based on the time needed and the functionality of the task. This is done by the team member that the ticket was assigned to, and is later reviewed by another member, optimally by the end of the following day. Story points are based on numbers of the Fibonacci sequence, which forces us to consider the value of each ticket carefully and motivates splitting it into two separate tasks if necessary.
+On the other hand, this also save us from introducing any sort of artificial hierarchy into our development process. Consequently, every team member is guaranteed to have a holistic understanding of how the system works across all layers.
+
+To measure productivity, we use effort-oriented metrics, and assign story points to each ticket, based on the time needed and the functionality of the task. This is done by the team member that the ticket was assigned to, and is later reviewed by another member. As in many Agile teams, story points are based on numbers of the Fibonacci sequence, which forces us to consider the value of each ticket carefully and motivates splitting it into two separate tasks if necessary [[https://www.atlassian.com/agile/project-management/estimation](https://www.atlassian.com/agile/project-management/estimation)].
 
 ## Evaluation Strategy and Testing
 
@@ -46,9 +48,9 @@ If time permits and development goes as planned, we have an array of additional 
 
 ## Schedule
 
-Long-term planning is just as important in Agile development as in alternative planning procedures .[[https://www.atlassian.com/agile/product-management/roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)] As this term we had a chance to set up the working environment and measure the velocity of development, we can make a prediction of the schedule. During the second semester, we will have a total of 12 weeks for developing the product. As we are following the Agile approach, we have divided the schedule according to milestones.
+Long-term planning is just as important in Agile development as in alternative planning procedures [[https://www.atlassian.com/agile/product-management/roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)]. As this term we had a chance to set up the working environment and measure the velocity of development, we can make a prediction of the schedule. During the second semester, we will have a total of 12 weeks for developing the product. As we are following the Agile approach, we have divided the schedule according to milestones.
 
-Each one of these periods will include the development of some or multiple features, as well as testing and deployment. Thus, at each milestone, we aim to have a fully functional product. The scope for each is defined as follows:
+Each one of these periods will include the development of some or multiple features, as well as testing and deployment, leaving us with a fully functional product. The scope for each milestone is defined as follows:
 
 -   Week 4 - Closed Beta:
     
