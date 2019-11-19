@@ -52,16 +52,18 @@ class ResultsView(TemplateView):
             """ Initialise portfolio as a portfolio object """
             """ Its attributes are printed in the form if named correctly """
             #The following parameters are not provided by user
-            startDate = datetime.datetime(day=1,month=1,year=2014)
-            endDate = datetime.datetime(day=1,month=1,year=2015)
+            #2019-09-30
+            #2019-10-04
+            startDate = datetime.datetime(day=1,month=9,year=2017)
+            endDate = datetime.datetime(day=4,month=10,year=2019)
             initialVal = 100
 
             assets = {}
-            if(percentage1 != None):
+            if(percentage1 != '' and percentage1 != None ):
                 assets[asset1]=percentage1
-            if(percentage2 != None):
+            if(percentage2 != '' and percentage2 != None ):
                 assets[asset2]=percentage2
-            if(percentage3 != None):
+            if(percentage3 != '' and percentage3 != None ):
                 assets[asset3]=percentage3
 
             print('#' * 100)
@@ -70,8 +72,18 @@ class ResultsView(TemplateView):
             if(len(assets.keys()) == 0):
                 assets['ERROR':0]
             porto = userPortfolio.Portfolio(assets)
+            #print(porto.values(startDate, endDate))
             kfg = keyFigures.keyFigureGenerator(porto, startDate, endDate, initialVal)
-            args = { "portfolio": kfg}
+            args = {
+                'initial_balance':kfg.initialBalance,
+                'end_balance':kfg.finalBalance,
+                'best_year':kfg.bestYear,
+                'worst_year':kfg.worstYear,
+                'sortino_ratio':kfg.sortino,
+                'sharpe_ratio':kfg.sharpe,
+                'max_drawdown':kfg.maxDrawdown,
+                }
+            #args = { "portfolio": kfg}
 
         return render(request, self.template_name, args)
 

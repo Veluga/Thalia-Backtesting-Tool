@@ -188,8 +188,8 @@ class keyFigureGenerator:
         endDate: datetime.date date at witch to end calculation
         '''
         self.portfolio = portofolio
-        self.startDate = startDate
-        self.endDate = endDate
+        self.startDate = startDate.date()
+        self.endDate = endDate.date()
         self.initialBal = initialBalance
         self.values = self.portfolio.values(self.startDate, self.endDate)
 
@@ -201,7 +201,7 @@ if __name__ == '__main__':
     porto = Portfolio({'ass1': 0, 'ass2': 1, 'ass3': 0, 'ass4': 0, 'ass5': 0})
     kfg = keyFigureGenerator(porto,
                              date(day=1, month=10, year=2019),
-                             date(day=29, month=10, year=2030),
+                             date(day=29, month=10, year=2019),
                              Decimal('200'))
     print(kfg.initialBalance)
     print(kfg.finalBalance)

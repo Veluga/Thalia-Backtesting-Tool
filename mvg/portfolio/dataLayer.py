@@ -11,12 +11,13 @@ def getAssetPrices(assetName: str, startDate: datetime, endDate: datetime) -> [[
     @param assetName: the ticker/abbreviation of the asset you want.
     startDate and endDate inclusive.
     '''
-    
+
     assetVals = generateAssetsQuery(assetName)
-    
+
     return sorted([
         [v.date, v.open_price] for v in assetVals
-        if startDate <= datetime.combine(v.date, datetime.min.time()) <= endDate
+        #if startDate <= datetime.combine(v.date, datetime.min.time()) <= endDate
+        if startDate <= v.date <= endDate
     ])
 
 def getAvailableAssets():
@@ -25,7 +26,7 @@ def getAvailableAssets():
 
 def generateAssetsQuery(abbr: str):
     '''
-    Query all stored value of an asset, defined by 
+    Query all stored value of an asset, defined by
     param: abbreviation
     '''
     return models.Value.objects.raw(
