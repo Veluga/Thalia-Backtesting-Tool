@@ -20,7 +20,7 @@ class keyFigureGenerator:
         '''
         # check if timespan within one year
         if(self.startDate.year == self.endDate.year):
-            return self.startDate.year
+            return None
 
         allVals = self.values
         yearlyReturns = {}
@@ -57,7 +57,7 @@ class keyFigureGenerator:
         '''
         # check if timespan within one year
         if(self.startDate.year == self.endDate.year):
-            return self.startDate.year
+            return None
 
         allVals = self.values
         yearlyReturns = {}
