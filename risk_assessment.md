@@ -1,5 +1,3 @@
-
- 
 # Initial Risk Assessment
 The following section will highlight some of the biggest risks that may affect the successful delivery of the software product, ordered by their level of impact. For each case we will first discuss its nature followed by our strategy in mitigating it. Finally, we will see how these scenarios lay out in a simplified 3D risk matrix.
 
