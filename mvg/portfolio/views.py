@@ -4,6 +4,8 @@ from django.views.generic import TemplateView
 from django.urls import reverse
 from . import keyFigures
 from . import userPortfolio
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
 import datetime
 from decimal import Decimal
 
@@ -48,6 +50,14 @@ class ResultsView(TemplateView):
             print (asset2,percentage2)
             print (asset3,percentage3)
 
+            x_data = [0,1,2,3]
+            y_data = [x**2 for x in x_data]
+            plot_div = plot([Scatter(x=x_data, y=y_data,
+                        mode='lines', name='test',
+                        opacity=0.8, marker_color='green')],
+               output_type='div')
+
+            
 
             """ Initialise portfolio as a portfolio object """
             """ Its attributes are printed in the form if named correctly """
@@ -85,6 +95,7 @@ class ResultsView(TemplateView):
                 }
             #args = { "portfolio": kfg}
 
+            args = { "portfolio": porto, 'plot_div': plot_div}
+
+
         return render(request, self.template_name, args)
-
-
