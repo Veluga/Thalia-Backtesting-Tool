@@ -27,14 +27,10 @@ Unfortunately at times we must accept user input into the business logic. This i
 
 Another potentially erronous external input could come from our live data third-party APIs. Although we do carefully select our APIs, we should not blindly trust them. We have the convenience of having alternative sources for live data sources so we can verify our primary data sources output against others. As our live data updated daily, the additional overhead of verifying our data will not affect performance of the UX. We make the assumption that the majority APIs won't have an error at the same time as this would defeat the purpose.
 
-~~## Resources~~
-
-~~Testing will be performed along side code production, so we the system should always be have comprehensive test coverage at all times. The need for integration test will need to be identified by the developer themselves or the code reviewer. For black box testing we expect [see schedule to see].~~
-
 ## References
 
-1.  Merkel, Dirk. "Docker: lightweight linux containers for consistent development and deployment." *Linux Journal* 2014.239 (2014): 2.
-    
-2.  https://aws.amazon.com/docker/#Run_Docker_on_AWS
-    
-3.  https://azure.microsoft.com/en-gb/services/kubernetes-service/docker/
+1. Merkel, Dirk. "Docker: lightweight linux containers for consistent development and deployment." *Linux Journal* 2014.239 (2014): 2.
+
+2. https://aws.amazon.com/docker/#Run_Docker_on_AWS
+
+3. https://azure.microsoft.com/en-gb/services/kubernetes-service/docker/
