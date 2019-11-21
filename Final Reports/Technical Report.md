@@ -78,9 +78,9 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 
 - Interfacing
   
-  - The data gathering module must never use APIs stated to-be-deprecated within a month.
+  - The Data Gathering Module must never use APIs stated to-be-deprecated within a month.
   
-  - The data gathering module must not exceed its contractual usage limits.
+  - The Data Gathering Module must not exceed its contractual usage limits.
 
 - Operations
   
@@ -89,8 +89,7 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 - Packaging
   
   - The product needs to work inside a Linux container (e.g. Docker).
-
-- All dependencies need to be installable with a single command.
+  - All dependencies need to be installable with a single command.
 
 - Legal
   
@@ -104,7 +103,7 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 
 # Architecture Choice
 
-We started by looking at the main architecture types [3] and checking their advantages and disadvantages with respect to the specifics of our application. This has helped us greatly reduce the number of candidate architectures. The remaining ones specific to web developement were *Client-Server*, *Data Centric* and the *Layered* types [4] . The options that proved to be the most advantageous were the *Hexagonal* and the *Three Layer* architectures. However, due to the fact that a large part of our business logic revolves around data collection and processing, it was decided that steps should be taken in order to isolate the financial data management. As a result,  we have modified the *Hexagonal* architecture to include a marginal *Financial Data Manager*. For the *Three Layer* architecture we have added an extra layer below the data storage layer. After comparing the two we have decided that the modified *Three Layer* represented our application well while offering more simplicity than the Hexagonal architecture.
+We started by looking at the main architecture types [3] and checking their advantages and disadvantages with respect to the specifics of our application. This has helped us greatly reduce the number of candidate architectures. The remaining ones specific to web developement were *Client-Server*, *Data Centric* and the *Layered* types [4] . The options that proved to be the most advantageous were the *Hexagonal* and the *Three Layer* architectures. However, due to the fact that a large part of our business logic revolves around data collection and processing, it was decided that steps should be taken in order to isolate the financial data management. As a result,  we have modified the *Hexagonal* architecture to include a marginal *Financial Data Manager*. For the *Three Layer* architecture we have added an extra layer below the data storage layer. After comparing the two we have decided that the modified *Three Layer* represented our application well while offering more simplicity than the **Hexagonal** architecture.
 
 # Architecture Diagram
 
@@ -164,7 +163,7 @@ The following diagram contains a typical user interaction with our website.
 
 # Inter-Layer Comunication
 
-Our Inter layer comunications have been based on the principle of *Separation of Concerns* [7] . Following this principle, we have made sure that at each step each layer knows only as much is it needs. The style and presentation is sent to the client machine, upon whichonly the client is able to interactt with it. The Busisness Logic has been placed as a separate module on the web-server and it only has read access to the financial data on the database. The logic of the Data Harvester is outside of the Django Web-Server and it does not have any connection with any of the website components other than the write access to the database.
+Our Inter-layer communications have been based on the principle of *Separation of Concerns* [7]. Following this principle, we have made sure that at each step each layer knows only as much is it needs. The style and presentation is sent to the client machine, upon which only the client is able to interact with it. The Busisness Logic has been placed as a separate module on the web-server and it only has read access to the financial data on the database. The logic of the Data Harvester is outside of the Django Web-Server and it does not have any connection with any of the website components other than the write access to the database.
 
 # User Interaction Process Diagram
 
@@ -250,7 +249,7 @@ Consequently, we have based our schedule and any estimates on a conservative amo
 
 As reported by our supervisor, it is possible (although unlikely) that members of the team drop out of the course due to unforeseen circumstances. A reduced headcount puts us at risk of being unable to meet the requirements and could result in loss of product knowledge if it were to be isolated in the person who dropped out.
 
-Preventing this issue altogether is impossible. However, you can minimise the damage it may cause to the development of the project. The egalitarian team structure (see section {sectionNo}) maximises our 'truck factor', which is a measure of the number of people who would have to stop working on the project to cause development to stall [12]. Every team member is familiar with the code underlying other parts of the product which are outside the scope of his weekly development efforts. Nevertheless, we would have to organise emergency meetings to discuss the impact of such a situation as it arises.
+Preventing this issue altogether is impossible. However, you can minimise the damage it may cause to the development of the project. The Egalitarian Team Structure (see section {sectionNo}) maximises our 'truck factor', which is a measure of the number of people who would have to stop working on the project to cause development to stall [12]. Every team member is familiar with the code underlying other parts of the product which are outside the scope of his weekly development efforts. Nevertheless, we would have to organise emergency meetings to discuss the impact of such a situation as it arises.
 
 ## Software Version Control Hosting
 
@@ -292,7 +291,7 @@ As defined in our whitepaper, we strive to support five key use cases upon publi
 
 - Weighing assets relative to each other by assigning a percentage to them using a range input.
 
-- Plotting of a portfolio's performance over a time series upon user request.
+- Plotting of a portfolio's performance over a timeseries upon user request.
 
 - Selection of one of multiple indexing strategies and lazy portfolios from a drop-down list.
 
@@ -318,7 +317,7 @@ Each one of these periods will include the development of some or multiple featu
 
 - Integration of Historical Datasets
 
-- Additional Benchmarks
+- Additional Lazy Portfolios (Benchmarks)
 
 **Week 4 - 8: Open Beta**
 
@@ -403,5 +402,3 @@ TBD
 [17]  [Governance in Agile](https://www.agilest.org/agile-project-management/governance/)
 
 [18] [Agile Roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)
-
-
