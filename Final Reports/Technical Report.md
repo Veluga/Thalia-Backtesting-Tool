@@ -162,7 +162,7 @@ The following diagram contains a typical user interaction with our website.
 
 ![Activity Diagram](./Resources Technical Report/act_diagram.png)
 
-# Inter-Layer Comunications
+# Inter-Layer Comunication
 
 Our Inter layer comunications have been based on the principle of *Separation of Concerns* [citation needed]. Following this principle, we have made sure that at each step each layer knows only as much is it needs. The style and presentation is sent to the client machine, upon whichonly the client is able to interactt with it. The Busisness Logic has been placed as a separate module on the web-server and it only has read access to the financial data on the database. The logic of the Data Harvester is outside of the Django Web-Server and it does not have any connection with any of the website components other than the write access to the database.
 
@@ -192,7 +192,7 @@ To gain market share, we have identified three key factors we can leverage to bu
 
 * Feature Set - Solutions on the market are either too expensive or limited in functionality (see appendix {appendixNo}). We want to offer an extensive suite of features that attracts investors from different backgrounds.
 
-Metrics for evaluating whether we have delivered on all of the above can be found in section {sectionNo} discussing our evaluation strategy.
+Metrics for evaluating whether we have delivered on all of the above can be found in section {sectionNo}, which discusses our evaluation strategy.
 
 ## Access to Historical and Live Data
 
@@ -202,7 +202,7 @@ Fortunately, our product does not require access to expensive datasets for initi
 
 Moreover, we are able to aggregate price data for multiple sources for the same asset into a single datapoint in our asset price database. This reduces the effect of noisy data that may be a result of poor data gathering practices by the data providers. As for the availability of commodity price data, we are able to cover the majority of commodities with free data. For those that remain, we are actively exploring a subscription-based model with multiple data providers.
 
-Relying on APIs for providing live data makes us reliant on the uptime of these APIs. If any of them were to stop providing their services, we would have to find a replacement quickly to minimize downtime of our own platform. Thus, as a precaution, we are using at least two data and up to four (where available) providers for every asset live feed. This redundancy will keep our operations running in case one of them stops servicing our requests and gives us enough time to find a replacement.
+Relying on APIs for providing live data makes us reliant on the uptime of these APIs. If any of them were to stop providing their services, we would have to find a replacement quickly to minimize downtime of our own platform. Thus, as a precaution, we are using at least two and up to four (where available) data providers for every asset live feed. This redundancy will keep our operations running in case one of them stops servicing our requests and gives us enough time to find a replacement.
 
 ## Software Library Bugs
 
@@ -222,13 +222,17 @@ A challenge of detecting this risk is that it becomes apparent only as developme
 
 ## Feature Creep
 
-The number of additional features that could be implemented on top of the core functionality is very large (see appendix {appendixNo} for a full list of all optional features), which risks both overcomplicating the product and shifting the focus from core functionalities to extensions.
+The number of additional features that could be implemented on top of the core functionality is very large (see appendix A for a full list of all optional features), which risks both overcomplicating the product and shifting the focus from core functionalities to extensions.
 
 We have identified two key strategies for limiting feature creep: preventing a feature with low utility from being developed and pruning features which are rarely used [citations needed]. The former can be implemented by asking our customers for features they would like to see added to Thalia. Commonly requested features would then be discussed by the team with a vote serving as a decision mechanism for whether it should be implemented. Decisions on which features to prune is a matter of collecting usage statistics. For example, a customer will have to activate the display of a non-standard performance metric via the settings menu (an action we can track in anonymized fashion). This allows us to gain insight on the popularity of any given feature after it has been deployed.
 
 ## Cloud Hosting Provider Attack Vectors
 
+Hosting our application on a machine that is not controlled by us (i.e. in the cloud) exposes us to security risks. These are often hard to estimate, as is evident by several security breaches that have occurred in the past [https://techcrunch.com/2019/10/21/nordvpn-confirms-it-was-hacked/ ] . Additionally, we have to place our trust in the hosting provider to deliver on the promised uptime guarantees. 
 
+Since we are not processing payments ourselves, the types of sensitive data contained in our system are restricted to personal data of users (excluding payment information) and API access keys. Security concerns involving the latter are covered below (Software Version Control Hosting). To reduce the attack surface, the former is stored in a database which, on top of being secured by a password, accepts connections only from a preconfigured set of IP addresses (the web-facing Django server and our Data Harvester system).
+
+Cloud Hosting is a highly competitive business and the cost of switiching provider in case of missed uptime guarantees is low. Thus, we will monitor the uptime of our systems and switch provider in case it is necessary.
 
 ## Lack of Domain Knowledge
 
@@ -238,7 +242,7 @@ This risk is entirely internal to our operations and thus more easily controlled
 
 ## Time Constraints
 
-As for any project, tight deadlines can negatively affect the quality of the end result [citation needed]. Since this product is developed within the scope of a university course, the time each member can allocate to its development is affected by a variety of external factors.
+As for any project, tight deadlines can negatively affect the quality of the end result [The Mythical Man Month]. Since this product is developed within the scope of a university course, the time each member can allocate to its development is affected by a variety of external factors.
 
 Consequently, we have based our schedule and any estimates on a conservative amount of time each member has to commit to the project to allow for successful delivery (8 hours per week). This gives us confidence in being able to deliver a working product that passes our quality checks in the evaluation stage. If required, we may adjust the schedule by reducing the time spent on developing optional features towards the end of the semester and prioritise core deliverables instead. Hence, we are minimising the likelihood of having to rush development in fear of being unable to meet the deadline otherwise.
 
@@ -258,33 +262,31 @@ As mentioned previously, we have decided to treat the Data Processing Module (Da
 
 ## Team Organisation
 
-Our workflow is centred around the GitHub platform and the tools it provides such as a ticketing system, pull requests and a scrum board for ongoing tasks. Our goal is not to have fixed responsibilities in our team, so that everybody at some point will be required to develop a feature for each part of the system. Studies have also shown that any sort of status difference within a team can distort the error-correcting mechanism. [[https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208/2177](https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208/2177)]. Because of these reasons we have decided to commit ourselves to the Egalitarian Team structure, which will introduce the required amount of flexibility into our team.
+Our workflow is centred around the GitHub platform and the tools it provides, such as a ticketing system, pull requests and a scrum board for ongoing tasks. Our goal is not to have fixed responsibilities in our team, so that everybody at some point will be required to develop a feature for each part of the system. Studies have also shown that any sort of status difference within a team can distort the error-correcting mechanism [[https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208/2177](https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208/2177)]. Because of these reasons we have decided to commit ourselves to the Egalitarian Team structure, which will introduce the required amount of flexibility into our team.
 
-On the other hand, this also save us from introducing any sort of artificial hierarchy into our development process. Consequently, every team member is guaranteed to have a holistic understanding of how the system works across all layers.
-
-To measure productivity, we use effort-oriented metrics, and assign story points to each ticket, based on the time needed and the functionality of the task. This is done by the team member that the ticket was assigned to, and is later reviewed by another member. As in many Agile teams, story points are based on numbers of the Fibonacci sequence, which forces us to consider the value of each ticket carefully and motivates splitting it into two separate tasks if necessary [[https://www.atlassian.com/agile/project-management/estimation](https://www.atlassian.com/agile/project-management/estimation)].
+To measure productivity, we use effort-oriented metrics, and assign story points to each ticket, based on the time needed and the functionality of the task. This is done by the team member that the ticket was assigned to, and is later reviewed by another member. As in many Agile teams, story points are based on numbers of the Fibonacci sequence, which forces us to consider the value of each ticket carefully and motivates splitting it into two separate tasks if necessary [https://www.atlassian.com/agile/project-management/estimation](https://www.atlassian.com/agile/project-management/estimation)].
 
 ## Evaluation Strategy and Testing
 
-We also plan to make use of the tools offerred by GitHub for testing and reviewing. Each pull request is reviewed by other team members before any changes are pushed to the production system. CI scripts are also in place to ensure the code quality and integrity, this is done by enforcing the use of Pytest, and a style-checker, either flake-8 or black.
+We also plan to make use of the tools offerred by GitHub for testing and reviewing. Each pull request is reviewed by other team members before any changes are pushed to the production system. CI scripts are also in place to ensure the code quality and integrity. This is done by enforcing the use of Pytest, and a style-checker (either flake-8 or black).
 
-We will also heavily depend on continuous user testing through development [[https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/](https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/)]. Our plan is to obtain the necessary ethical approval from the university before the start of development. Continuous user testing is our main part of the evaluation strategy, and as such it will help us to develop features unlike or better than existing ones. This is of key importance as we are about to enter an established market and we would like our product to be as distinguishable as possible.
+We will also heavily depend on continuous user testing throughout development [[https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/](https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/)]. Our plan is to obtain the necessary ethical approval from the university before the start of development. Continuous user testing is our main part of the evaluation strategy, and as such it will help us to develop features unlike or better than existing ones. This is of key importance as we are about to enter an established market and we would like our product to be as distinguishable as possible.
 
 ## Budget
 
-As we are developing this product as part of a university module, we do not have any budget restrictions other than time. All of us are committed to allocating a minimum of 10 hours per week to development efforts and are willing to go beyond that if needed. In order to ensure that we are up to schedule, weekly meetings will be held, which allow the adjustment of workload.
+As we are developing this product as part of a university module, we do not have any budget restrictions other than time. All of us are committed to allocating a minimum of 10 hours per week to development efforts and are willing to go beyond that if needed. In order to ensure that we are up to schedule, weekly meetings will be held, which allow the adjustment of workloads.
 
 ## Milestones
 
-Although agile methods offer a great amount of flexibility, they do require some sort of governance [https://www.agilest.org/agile-project-management/governance/]. For this reason we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two, due to the nature of our product. These are the following:
+Although agile methods offer a great amount of flexibility, they do require some sort of governance [https://www.agilest.org/agile-project-management/governance/]. For this reason, we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two. These are the following:
 
 ### Minimum Viable Product
 
 This version enables an investor to create a portfolio from a core set of assets and plot its performance versus a predetermined indexing strategy. Since this is not a prototype but a functional product, all future development will expand on this codebase by adding additional features.
 
-### MVG Release 1.0
+### Thalia Release 1.0
 
-As defined in our whitepaper, we strive to support five key use cases upon release of our public release of Thalia. Hence, this requires the following features to be fully functional:
+As defined in our whitepaper, we strive to support five key use cases upon public release of Thalia. Hence, this requires the following features to be fully functional:
 
 - Creating a portfolio from a large set of assets drawn from the major asset classes using input forms.
 
@@ -302,7 +304,7 @@ We consider reaching this milestone as sufficient for the scope of this course.
 
 ### Development of Additional Features
 
-If time permits and development goes as planned, we have an array of additional features that we would like to see included in our product. As an example, and also the first of these features, we would like to add exportability to portfolios, allowing users to share their strategies, via a link or a downloadable PDF. For an overview, please have a look at appendix X.
+If time permits and development goes as planned, we have an array of additional features that we would like to see included in our product. As an example, and also the first of these features, we would like to add exportability to portfolios, allowing users to share their strategies via a link or a downloadable PDF. For an overview, please have a look at appendix A.
 
 ## Schedule
 
@@ -310,25 +312,25 @@ Long-term planning is just as important in Agile development as in alternative p
 
 Each one of these periods will include the development of some or multiple features, as well as testing and deployment, leaving us with a fully functional product. The scope for each milestone is defined as follows:
 
-- Week 4 - Closed Beta:
+**Week 0 - 4: MVP / Closed Alpha**
 
-- Key metrics
+- Key Metrics
 
-- Integration of historical datasets
+- Integration of Historical Datasets
 
-- Additional benchmarks
+- Additional Benchmarks
 
-- Week 8 - Open Release:
+**Week 4 - 8: Open Beta**
 
-- Creating user accounts
+- Creating User Accounts
 
-- Integration of live data APIs
+- Integration of Live Data APIs
 
-- Contribution and Rebalancing
+- Regular Contribution and Rebalancing
 
-- Week 12 - Launch:
+**Week 8 - 12: Public Release**
 
-- Exporting portfolio
+- Exporting Portfolio to PDF
 
 - Additional Features
 
