@@ -104,7 +104,7 @@ We classify our requirements using the established FURPS+ model [citation needed
 
 # Architecture Choice
 
-We started by looking at the main architecture types [2] and checking their advantages and disadvantages with respect to the specifics of our application. This has helped us greatly reduce the number of candidate architectures. The remaining ones specific to web developement were *Client-Server*, *Data Centric* and the *Layered* types. The options that proved to be the most advantageous were the *Hexagonal* and the *Three Layer* architectures. However, due to the fact that the key point of our application is data collection and processing, it was decided that steps should be taken in order to isolate the financial data management. As a result doing this we have modified our *Hexagonal* architecture to include a marginal *Financial Data Manager*. For the *Three Layer* architecture we have added a extra layer below the data storage layer. After comparing the two we have decided that the modified *Three Layer* had a more clear representation of our application.
+We started by looking at the main architecture types [2] and checking their advantages and disadvantages with respect to the specifics of our application. This has helped us greatly reduce the number of candidate architectures. The remaining ones specific to web developement were *Client-Server*, *Data Centric* and the *Layered* types [citation needed]. The options that proved to be the most advantageous were the *Hexagonal* and the *Three Layer* architectures. However, due to the fact that a large part of our business logic revolves around data collection and processing, it was decided that steps should be taken in order to isolate the financial data management. As a result,  we have modified our *Hexagonal* architecture to include a marginal *Financial Data Manager*. For the *Three Layer* architecture we have added a extra layer below the data storage layer. After comparing the two we have decided that the modified *Three Layer* represented our application more clearly [Why?].
 
 # Architecture Diagram
 
@@ -112,7 +112,7 @@ We started by looking at the main architecture types [2] and checking their adva
 
 # Reasoning for making a Financial Data Retrieval layer
 
-The first argument comes from the need of extra Security. Guidelines have been obtained from the National Cyber Security Centre for Separation and cloud security [3]. While the data we have can be found for free in small quantities, getting it from multiple sources and storing it all in one place make it have financial value. In addition this is a good way to make sure that we have a clear-cut control procedures over our data. By giving the web-server limited permissions to the to the financial data, we limit the type of attacks that can take place. In addition, by not including the financial data retrieval in the business logic core allows for added availability since the web-sever and the data retrieval can work independently and can be modified independently. In addition the calls to the financial application programming interfaces require private keys that we want to keep in a more secure manner than having the web server have access to them. An additional argument would clean data flow provided by this architecture.
+The first argument comes from the need of extra security (guidelines have been obtained from the National Cyber Security Centre for Separation and cloud security [3].) While the data we have can be found for free in small quantities, getting it from multiple sources and storing it all in one place cause it be valueable. In addition, this is a good way to make sure that we have full control over our data [why?]. By giving the web-server limited permissions for accessing the financial data, we limit the type of attacks that can take place. Not including the financial data retrieval in the business logic core also allows for higher availability since the web-sever and the data retrieval can work independently and thus also be modified independently. Finally, the calls to the financial application programming interfaces (i.e. third party APIs) require private keys that we want to keep in a more secure manner than having the web server have access to them.
 
 # Layer View of the Architecture
 
@@ -124,7 +124,9 @@ We have chosen to create two separate data types for a portfolio - one for its s
 
 Benefits:
 
-- The client does not need to have a high-end CPU to get their information quickly.
+- The client does not need to perform expensive computation on their machine.
+
+- Letting the client access as little information as possible (e.g. preventing access to business logic code) is more secure.
 
 - Minimal information is passed over networks, which can be slow and unreliable.
 
@@ -134,37 +136,39 @@ Drawbacks:
 
 # Data Harvester
 
-It connects to a series of financial application programming interfaces and continuously updates the data based on the restrictions imposed by each application programming interface. The module is connected to the database and does some light parsing on the data it receives. It standardizes the collected data so that it can be saved in a SQL database. The standardization can be done in two ways. If the interface allows than the data is pulled in a pandas data frame, then it is cleaned from unecessary infromation, converted to csv and passed to the database. Otherwise it is parsed as simple text, the data not used will be cleaned, the text will be placed in a csv format and passed to the database.
+The Data Harvester is a generic adapter for third party APIs offering financial data.  Hence, it allows for configuration of the API endpoint, the maximum requests per minute/hour/day and the parser required for formatting to received data. Every module is connected to the database and does some light parsing on the data it receives. It standardizes the collected data so that it can be saved in a SQL database. The standardization can be done in two ways. If supported by the API, the data is pulled into a 'pandas data frame' [citation needed], cleaned from unnecessary information, converted to CSV and inserted into to the database. Otherwise, it is parsed as text, cleaned from unwanted values, placed in CSV format and inserted into to the database.
 
 # Time events Diagram for Data Harvester
 
 ![Time Diagram](./Resources Technical Report/time_diagram.png)
 
-# Data usage Legalities
+# Data Usage Legalities
 
-We have consulted the Terms and Conditions for the data we use. After conducting this reasearch we have observed that for the APIs we are using no legal problems could arise. The companies providing the data have full control over what data they are releasing because of that everybody is compling with their requirements automatically.
+We have consulted the Terms and Conditions for the data we use. After conducting this reasearch, we have observed that for the APIs we are using no legal problems could arise.
 
-# Framework
+# Choice of Framework
 
-We have used the django framework without the ORM, in order to have complete control over our data processing. This decision was made because we prefer a batteries-included approach to web-application making while we prefer a bare-metal full control type of approach to data management. [citation needed]
+We have used the Django framework without its Object-Relational Mapping (ORM) in order to have complete control over our data processing. The decision to use a Python framework has been made as a matter of familiarity with the programming language. The two popular frameworks, Django and Flask, exhibit different philosophies. The former provides you with a variety of built-in functionality (e.g. Authentication, Prevention of SQL Injection) at a cost of less flexibility in the development process. A more minimal framework, Flask sets its priorities the other way around. Since the complexity of our application lies within the business logic (which is fully framework-agnostic), we have decided to use Django over Flask to make the development of non-business logic components as simple as possible.
 
-# Frontend
+# Choice of Frontend Technologies
 
-The attached wire frame will display the base of how the main page will look like. This wireframe model will be implemented using bootstrap like libraries in order to speed up the process. The base of our frontend will be composed of HTML5, CSS and JavaScript. For CSS we have decided to not use pre-processors since it does not provide any substantial advantage. In the case of JavaScript we will use plotting libraries such as plot.ly in order to get attractive graphs. [citations needed]
+The attached wire frame is a displays of how our main page will look like. This wireframe model will be implemented using bootstrap-like libraries in order to speed up the process. The base of our frontend will be composed of HTML5, CSS3 and JavaScript. In the case of JavaScript, we will use plotting libraries such as plot.ly in order to get attractive graphs. [citations and justifications needed]
 
 ![Wire Frame](./Resources Technical Report/wireframe.png)
 
-# Activity Diagram (Non-Technical Aspects)
+# Activity Diagram
 
 The following diagram contains a typical user interaction with our website.
 
 ![Activity Diagram](./Resources Technical Report/act_diagram.png)
 
-# Inter Layer Comunications
+# Inter-Layer Comunications
 
-Our Inter layer comunications have been based on the principles of *Separation of Concerns*. Going on this idea we have made sure that at each step each layer knows only as much is it needs. The style and presentation is sent to the client machine and then only the client has interactions with it. The Buisness Logic has been placed as a separate module on the web-server and it only has read writes to the financial data on the database. The logic of the Data Harvester is outside of the Django Web-Server and it does not have any connection with any of the website components other than the write acces to the database. [citations needed]
+Our Inter layer comunications have been based on the principle of *Separation of Concerns* [citation needed]. Following this principle, we have made sure that at each step each layer knows only as much is it needs. The style and presentation is sent to the client machine, upon whichonly the client is able to interactt with it. The Busisness Logic has been placed as a separate module on the web-server and it only has read access to the financial data on the database. The logic of the Data Harvester is outside of the Django Web-Server and it does not have any connection with any of the website components other than the write access to the database.
 
-# User interaction process Diagram (Technical Aspects)
+# User Interaction Process Diagram
+
+The following diagram illustrates the full backtesting cycle from the viewpoint of communication between components.
 
 ![User interaction Diagram](./Resources Technical Report/request_response_cycle.png)
 
@@ -224,7 +228,7 @@ We have identified two key strategies for limiting feature creep: preventing a f
 
 ## Cloud Hosting Provider Attack Vectors
 
-TODO: Most relevant attack vectors and strategies for mitigation
+
 
 ## Lack of Domain Knowledge
 
@@ -246,7 +250,9 @@ Preventing this issue altogether is impossible. However, you can minimise the da
 
 ## Software Version Control Hosting
 
-Security breaches involving SVN hosting providers such as GitHub are not unheard of [https://techcrunch.com/2017/11/21/uber-data-breach-from-2016-affected-57-million-riders-and-drivers/]. Rest TODO.
+Security breaches involving SVN hosting providers such as GitHub are not unheard of [https://techcrunch.com/2017/11/21/uber-data-breach-from-2016-affected-57-million-riders-and-drivers/]. Commonly, these are the result of storing sensitive information (such as access keys) in a public repository.
+
+As mentioned previously, we have decided to treat the Data Processing Module (Data Harvester) as a seperate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that isn't tracked by our SVC system. This minimizes the probability of us exposing sensitive data.
 
 # Initial Project Plan
 
@@ -357,6 +363,8 @@ TBD
 - Support for Technical Analysis Patterns
 
 - Scripting Language
+
+## Appendix B - Comparison of Existing Backtesting Tools
 
 # References
 
