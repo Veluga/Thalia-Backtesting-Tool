@@ -1,26 +1,3 @@
-## Needs to answer:
-
-How we test, how we address QA, testing structure, example test cases (2 for report or more than 2 in appendix).
-
-**Secondarily:**
-
--   Devised before any code is actually written
-    
--   Test items (classes, packages, components, subsystems, interfaces. . . )
-    
--   Features to be tested
-    
--   Features not to be tested
-    
--   Speciﬁc techniques and tools to be used
-    
--   Criteria for item pass/fail
-    
--   Deliverables (test cases speciﬁcation, logs)
-    
--   Managerial organisation (people, tasks, schedules, contingency plans)
-    
-
 # Testing plan
 
 ## Scope
