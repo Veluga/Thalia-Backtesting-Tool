@@ -197,6 +197,7 @@ class keyFigureGenerator:
 '''
 Testing code; dont mess with this; dont use this; remove this;
 '''
+'''
 if __name__ == '__main__':
     porto = Portfolio({'ass1': 0, 'ass2': 1, 'ass3': 0, 'ass4': 0, 'ass5': 0})
     kfg = keyFigureGenerator(porto,
@@ -210,3 +211,4 @@ if __name__ == '__main__':
     print(kfg.maxDrawdown)
     print(kfg.sharpe)
     print(str(kfg.sortino))
+'''

@@ -3,8 +3,11 @@ from .forms import AssetForm
 from django.views.generic import TemplateView
 from django.urls import reverse
 from . import keyFigures
+from . import userPortfolio
 from plotly.offline import plot
 from plotly.graph_objs import Scatter
+from datetime import date
+from decimal import Decimal
 
 """ Main input view """
 class PortfolioView(TemplateView):
@@ -58,8 +61,17 @@ class ResultsView(TemplateView):
 
             """ Initialise portfolio as a portfolio object """
             """ Its attributes are printed in the form if named correctly """
-            portfolio = 1  
-            args = { "portfolio": portfolio, 'plot_div': plot_div}
+            porto = userPortfolio.Portfolio({'ass1': 0, 'ass2': 1, 'ass3': 0, 'ass4': 0, 'ass5': 0})
+            kfg = keyFigures.keyFigureGenerator(porto,
+                             date(day=1, month=10, year=2019),
+                             date(day=29, month=10, year=2030),
+                             Decimal('200'))
+            
+            print(porto.values(
+                        date(day=1, month=10, year=2019),
+                        date(day=5, month=10, year=2019)))
+
+            args = { "portfolio": porto, 'plot_div': plot_div}
 
 
         return render(request, self.template_name, args)
