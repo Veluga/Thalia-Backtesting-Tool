@@ -48,16 +48,7 @@ class ResultsView(TemplateView):
 
             print (asset1,percentage1)
             print (asset2,percentage2)
-            print (asset3,percentage3)
-
-            x_data = [0,1,2,3]
-            y_data = [x**2 for x in x_data]
-            plot_div = plot([Scatter(x=x_data, y=y_data,
-                        mode='lines', name='test',
-                        opacity=0.8, marker_color='green')],
-               output_type='div')
-
-            
+            print (asset3,percentage3) 
 
             """ Initialise portfolio as a portfolio object """
             """ Its attributes are printed in the form if named correctly """
@@ -82,7 +73,27 @@ class ResultsView(TemplateView):
             if(len(assets.keys()) == 0):
                 assets['ERROR':0]
             porto = userPortfolio.Portfolio(assets)
-            #print(porto.values(startDate, endDate))
+            values_to_plot =  porto.values(
+                        datetime.date(day=1, month=10, year=2018),
+                        datetime.date(day=5, month=10, year=2019))
+
+            y_data = []
+            for y in values_to_plot:
+                y_data.append(y[1])
+            
+            x_data = []
+            counter = 0
+            for x in y_data:
+                x_data.append(counter)
+                counter +=1 
+            
+            plot_div = plot([Scatter(x=x_data, y=y_data,
+                        mode='lines', name='test',
+                        opacity=0.8, marker_color='green')],
+               output_type='div')
+
+            
+            
             kfg = keyFigures.keyFigureGenerator(porto, startDate, endDate, initialVal)
             args = {
                 'initial_balance':kfg.initialBalance,
