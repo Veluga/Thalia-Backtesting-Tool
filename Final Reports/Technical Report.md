@@ -109,7 +109,7 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 
 # Architecture Choice
 
-We started by looking at the main architecture types [3] and checking their advantages and disadvantages with respect to the specifics of our application. This has helped us greatly reduce the number of candidate architectures. The remaining ones specific to web developement were *Client-Server*, *Data Centric* and the *Layered* types [4] . The options that proved to be the most advantageous were the *Hexagonal* and the *Three Layer* architectures. However, due to the fact that a large part of our business logic revolves around data collection and processing, it was decided that steps should be taken in order to isolate the financial data management. As a result,  we have modified the *Hexagonal* architecture to include a marginal *Financial Data Manager*. For the *Three Layer* architecture we have added an extra layer below the data storage layer. After comparing the two we have decided that the modified *Three Layer* represented our application well while offering more simplicity than the **Hexagonal** architecture.
+We started by looking at the main architecture types [3] and checking their advantages and disadvantages with respect to the specifics of our application. This has helped us greatly reduce the number of candidate architectures. The remaining ones specific to web developement were *Client-Server*, *Data Centric* and the *Layered* types [4] . The options that proved to be the most advantageous were the *Hexagonal* and the *Three Layer* architectures. However, due to the fact that a large part of our business logic revolves around data collection and processing, it was decided that steps should be taken in order to isolate the financial data management. As a result,  we have modified the *Hexagonal* architecture to include a marginal *Financial Data Manager*. For the *Three Layer* architecture we have added an extra layer below the data storage layer. After comparing the two we have decided that the modified *Three Layer* represented our application well while offering more simplicity than the *Hexagonal* architecture.
 
 # Architecture Diagram
 
@@ -346,6 +346,12 @@ As previously stated, we aim at including a number of additional features in ord
 # Proof of Concept
 
 TBD
+
+# Conclusion
+
+In this report, we presented our findings in developing a backtesting service. We have shown how our architecture choices serve both our functional and non-functional requirements. As part of this, we outlined the specification for our Data Gathering Module and shown how it integrates into a traditional Three Tier Architecture. 
+
+Moving forward, we are implementing the measures identified in the risk assessment to minimise the probability of failure. Together with reaching the milestones defined in our roadmap, this will allow us to deliver a fully-functional product that is secure for our customers  to use.
 
 # Appendices
 
