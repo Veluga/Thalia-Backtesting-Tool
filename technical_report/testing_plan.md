@@ -16,7 +16,7 @@ Closer to the deployment date, we need to also test if the application works in 
 
 ## Not in scope
 
-We assume our third-party libraries will work as advertised and as such we won't be testing them. Testing them would cause a large amount of overhead and would make the project impossible to achieve in our allocated time frame. To alleviate this, we will only use mature libraries with large communities and develop our own code when this is not possible.
+We assume our third-party libraries will work as advertised and as such we will not be testing them. Testing them would cause a large amount of overhead and would make the project impossible to achieve in our allocated time frame. To alleviate this, we will only use mature libraries with large communities and develop our own code when this is not possible.
 
 ## Strategy in brief
 
