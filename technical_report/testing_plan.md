@@ -4,9 +4,9 @@
 
 Our biggest concern is ensuring that the results we show to our users are correct. Outlined below are the main functionalities we need to be especially careful about when we test.
 
-1. Results of  key metric functions, e.g. Sharpe Ratio.
+1. Results of  key metric functions, e.g. Sharpe Ratio
 
-2. Data plotting results.
+2. Data plotting results
 
 3. Handling of third-party API data
 
@@ -16,11 +16,11 @@ Closer to the deployment date, we need to also test if the application works in 
 
 ## Not in scope
 
-We assume our third-party libraries will work as advertised and as such we won't be testing them. Testing them would cause a large amount of overhead and would make the project impossible to achieve in our allocated time frame. To alleviate this, we will only use mature libraries with large communities and develop our code when this is not possible.
+We assume our third-party libraries will work as advertised and as such we won't be testing them. Testing them would cause a large amount of overhead and would make the project impossible to achieve in our allocated time frame. To alleviate this, we will only use mature libraries with large communities and develop our own code when this is not possible.
 
 ## Strategy in brief
 
-For most of our testing, just employing good testing practices will be enough. All public APis should have unit tests, all interfacing modules should have integration tests and the most critical code should have extensive tests for different branching paths and boundary checking.
+For most of our testing, just employing good testing practices will be enough. All public APIs should have unit tests, all interfacing modules should have integration tests and the most critical code should have extensive tests for different branching paths and boundary checking.
 
 No assumptions should be made about user input since the nature of our application demands rigorous verification of intent. Input should be verified to be acceptable for the system and any problematic portfolios should be returned as erroneous with an appropriate error message to the user.
 
