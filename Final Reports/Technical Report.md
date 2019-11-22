@@ -345,7 +345,17 @@ As previously stated, we aim at including a number of additional features in ord
 
 # Proof of Concept
 
-TBD
+## Things that work as expected
+
+Since all of us have extensive experience with the Python programming language, getting the proof-of-concept Django application up and running was not a great challenge. The functionalities offered by Django work as expected and we have had no issues in creating the basic building blocks (i.e. Data Gathering Module, sqlite database and web-server).
+
+Over the course of the semester, we have used the GitHub issue tracker and ticketing system to organise our work. Having both systems on the same platform has been of great use to us, since it is easy to reference issues within tickets and vice versa. We expected a ticketing system to help us structure our development process and found that to be true throughout the course.
+
+Finally, the use of Continuous Integration scripts has ensured coherence of our codebase and allowed us to verify  whether any commit would disrupt existing functionality before merging it.
+
+## Changes to be made
+
+As we are moving towards hosting our service, we will 'containerize'  (using Docker, Vagrant, or the like) our application to avoid issue with deploying to a machine different to the one used for development.  
 
 # Conclusion
 
