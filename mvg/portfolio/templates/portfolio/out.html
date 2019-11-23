@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% crispy form form.helper %}
-
-
 {% block content %}
+
+
 <div class="container">
 	<div class="col-md-8">
 		<br>
@@ -45,4 +45,16 @@
 			<br>
 	</div>
 </div>
+
+
+<div style="width:600;height:500">
+
+</div>
+
+{% autoescape off %}
+{{ plot_div }}
+{% endautoescape %}
+
+
+
 {% endblock %}
