@@ -1,6 +1,6 @@
 # Introduction
 
-This report will present our findings and progess over the course of the semester. 
+This report will present our findings and progess over the course of the semester.
 
 First, we will describe both the functional and non-functional requirements. We then move on to discussing the System Architecture. Next, we present the risks we have identified as non-negligible and the strategies we have developed for mitigating them. This will be followed by our Initial Project Plan, which defines our approach to creating the product and specifies a schedule for development. Finally, we will discuss problems we have encountered and the solutions we have found in trying to solve them.
 
@@ -51,60 +51,60 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 ## Non-functional requirements
 
 - Usability
-  
+
   - The product must be easily usable for users who already have some financial investment experience.
-  
+
   - Basic backtesting interface needs to look familiar to people already experienced with backtesting.
-  
+
   - The product will have detailed instructions on how to use its advertised functions.
-  
+
   - All major functions must be visible from the initial landing page.
-  
+
   - Must work in both desktop and mobile browsers.
-  
+
   - The results page should scale with mobile.
 
 - Reliability
-  
+
   - The product must have a greater than 99% uptime.
-  
+
   - All our assets need to have up to date daily data where the asset is still publicly tradeable.
-  
+
   - All assets supported by the system must provide all publicly available historical data.
 
 - Performance
-  
+
   - The website should load within 3 seconds on mobile [2].
-  
+
   - Large portfolios must be supported - up to 300 different assets.
 
 - Implementations
-  
+
   - The system needs to work on a cloud hosting provider.
 
 - Interfacing
-  
+
   - The Data Gathering Module must never use APIs stated to-be-deprecated within a month.
-  
+
   - The Data Gathering Module must not exceed its contractual usage limits.
 
 - Operations
-  
+
   - An administrator on-call will be necessary for unexpected issues.
 
 - Packaging
-  
+
   - The product needs to work inside a Linux container (e.g. Docker).
   - All dependencies need to be installable with a single command.
 
 - Legal
-  
+
   - All user testing must be done with ethical approval from the University.
-  
+
   - UI must display a clear legal disclaimer about the service not providing financial advice.
-  
+
   - All third-party code should allow for commercial use without requiring source disclosure (e.g. no GPL-3).
-  
+
   - User data handling should comply with GDPR.
 
 # Architecture Choice
@@ -233,7 +233,7 @@ We have identified two key strategies for limiting feature creep: preventing a f
 
 ## Cloud Hosting Provider Attack Vectors
 
-Hosting our application on a machine that is not controlled by us (i.e. in the cloud) exposes us to security risks. These are often hard to estimate, as is evident by several security breaches that have occurred in the past [10] . Additionally, we have to place our trust in the hosting provider to deliver on the promised uptime guarantees. 
+Hosting our application on a machine that is not controlled by us (i.e. in the cloud) exposes us to security risks. These are often hard to estimate, as is evident by several security breaches that have occurred in the past [10] . Additionally, we have to place our trust in the hosting provider to deliver on the promised uptime guarantees.
 
 Since we are not processing payments ourselves, the types of sensitive data contained in our system are restricted to personal data of users (excluding payment information) and API access keys. Security concerns involving the latter are covered below (Software Version Control Hosting). To reduce the attack surface, the former is stored in a database which, on top of being secured by a password, accepts connections only from a preconfigured set of IP addresses (the web-facing Django server and our Data Harvester system).
 
@@ -345,6 +345,24 @@ As previously stated, we aim at including a number of additional features in ord
 
 # Proof of Concept
 
+## Our journey
+
+Our primary challenge for this project has so far been training all the members for next springs development. As we wanted to avoid any one person being fully responsible for any single task, as per our egalitarian team philosophy. This was made even more important as we noticed that our 'truck factor' was one because our projects artificer was leaving half-way through.
+
+The biggest skill gaps that we identified were familiarity with finance, web development experience and lack of experience with professional software development practices in general. During the fall, we spent a lot of time learning about backtesting and agile processes in aims of making the spring terms development easier.
+
+Specifically, we have had a lot of workshops and assigned people tasks in areas they weren't familiar with before. This did mean that we spent quite a bit of time reviewing and teaching, but in the effort to have the whole team participate in the design and review process this was deemed necessary.
+
+## Achievements
+
+For the proof of concept, we wanted to test our key features. Those being the financial data gathering, financial algorithms and working with Django. The proof of concept is a basic Django app that runs on localhost, uses some financial data, can calculate some of the more important backtesting metrics and displays a graph of the portfolio's performance for the past 2 years.
+
+Something else worth mentioning is the success in adopting our agile process. We use scrum style sprints [19], which in combination with our continuous integration practices, have made the process of creating work tasks, dividing them and reviewing them relatively painless.
+
+## Problems
+
+The biggest problem we faced was getting accustomed to working as a new team and trying to find the right way that we want to work. Another problem has been evaluating the time it takes to complete tasks, this is largely related to the previous point but calculating work velocity has been difficult as most of our efforts have been on initial design and learning.
+
 ## Things that work as expected
 
 Since all of us have extensive experience with the Python programming language, getting the proof-of-concept Django application up and running was not a great challenge. The functionalities offered by Django work as expected and we have had no issues in creating the basic building blocks (i.e. Data Gathering Module, sqlite database and web-server).
@@ -355,11 +373,11 @@ Finally, the use of Continuous Integration scripts has ensured coherence of our 
 
 ## Changes to be made
 
-As we are moving towards hosting our service, we will 'containerize'  (using Docker, Vagrant, or the like) our application to avoid issue with deploying to a machine different to the one used for development.  
+As we are moving towards hosting our service, we will 'containerize'  (using Docker, Vagrant, or the like) our application to avoid issue with deploying to a machine different to the one used for development.
 
 # Conclusion
 
-In this report, we presented our findings in developing a backtesting service. We have shown how our architecture choices serve both our functional and non-functional requirements. As part of this, we outlined the specification for our Data Gathering Module and shown how it integrates into a traditional Three Tier Architecture. 
+In this report, we presented our findings in developing a backtesting service. We have shown how our architecture choices serve both our functional and non-functional requirements. As part of this, we outlined the specification for our Data Gathering Module and shown how it integrates into a traditional Three Tier Architecture.
 
 Moving forward, we are implementing the measures identified in the risk assessment to minimise the probability of failure. Together with reaching the milestones defined in our roadmap, this will allow us to deliver a fully-functional product that is secure for our customers  to use.
 
@@ -387,31 +405,31 @@ Moving forward, we are implementing the measures identified in the risk assessme
 
 ## Appendix B - Glossary
 
-- Portfolio - A portfolio is a grouping of financial assets such as stocks, bonds, 
+- Portfolio - A portfolio is a grouping of financial assets such as stocks, bonds,
   commodities, currencies and cash equivalents, as well as their fund counterparts, including mutual, exchange-traded and closed funds. An investors portfolio is the group of assets they have currently invested in. [[https://www.investopedia.com/terms/p/portfolio.asp]](https://www.investopedia.com/terms/p/portfolio.asp%5D)
 
-- Asset - Generally an asset that gets its value from being owned; can be traded 
+- Asset - Generally an asset that gets its value from being owned; can be traded
   on financial markets. Stocks, bonds, commodities, (crypto-)currencies are all types of financial assets. [[https://www.investopedia.com/terms/a/asset.asp]](https://www.investopedia.com/terms/a/asset.asp%5D)
 
-- Asset Class - An asset class is a grouping of investments that exhibit similar 
-  characteristics and are subject to the same laws and regulations. Asset 
-  classes are made up of instruments which often behave similarly to one 
+- Asset Class - An asset class is a grouping of investments that exhibit similar
+  characteristics and are subject to the same laws and regulations. Asset
+  classes are made up of instruments which often behave similarly to one
   another in the marketplace. [[https://www.investopedia.com/terms/a/assetclasses.asp]](https://www.investopedia.com/terms/a/assetclasses.asp%5D)
 
-- Backtesting - Backtesting is the general method for seeing how well a strategy or 
-  model would have done ex-post. Backtesting assesses the viability of a trading strategy by discovering how it would play out using historical data. 
+- Backtesting - Backtesting is the general method for seeing how well a strategy or
+  model would have done ex-post. Backtesting assesses the viability of a trading strategy by discovering how it would play out using historical data.
   [[https://www.investopedia.com/terms/b/backtesting.asp]](https://www.investopedia.com/terms/b/backtesting.asp%5D)
 
-- Standard Strategy / Lazy Portfolios - A lazy portfolio is a collection of investments that require very little maintenance. 
+- Standard Strategy / Lazy Portfolios - A lazy portfolio is a collection of investments that require very little maintenance.
   [[https://www.thebalance.com/how-to-build-the-best-lazy-portfolio-2466533]](https://www.thebalance.com/how-to-build-the-best-lazy-portfolio-2466533%5D)
 
 - Rebalancing - Rebalancing is the process of realigning the weightings of a portolio of assets. Rebalancing involves periodically buying or selling assets in a portfolio to maintain an original or desired level of asset allocation or risk.
-  
+
   [[https://www.investopedia.com/terms/r/rebalancing.asp]](https://www.investopedia.com/terms/r/rebalancing.asp%5D)
 
 - Key metrics - Performance measures of a portfolio that are of high interest to the majority of investors.
 
-- Standard Deviation - The standard deviation is a statistic that measures the dispersion of a dataset relative to its mean. 
+- Standard Deviation - The standard deviation is a statistic that measures the dispersion of a dataset relative to its mean.
   [[https://www.investopedia.com/terms/s/standarddeviation.asp]](https://www.investopedia.com/terms/s/standarddeviation.asp%5D)
 
 - Worst Year - The worst performance over any given 365 day period starting from January 1st of some year.
@@ -423,14 +441,14 @@ Moving forward, we are implementing the measures identified in the risk assessme
   [[https://www.investopedia.com/terms/s/sortinoratio.asp]](https://www.investopedia.com/terms/s/sortinoratio.asp%5D)
 
 - Inflation - Inflation is a quantitative measure of the rate at which the average price level of a basket of selected goods and services in an economy increases over a period of time.
-  
+
   [[https://www.investopedia.com/terms/i/inflation.asp]](https://www.investopedia.com/terms/i/inflation.asp%5D)
 
 - Nominal Values - A value that is unadjusted for inflation.
 
 - Real Values - A value that is adjusted for inflation.
 
-- Equity - Equity is typically referred to as shareholder equity (also known as shareholders' equity) which represents the amount of money that would be returned to a company’s shareholders if all of the assets were liquidated and all of 
+- Equity - Equity is typically referred to as shareholder equity (also known as shareholders' equity) which represents the amount of money that would be returned to a company’s shareholders if all of the assets were liquidated and all of
   the company's debt was paid off.
 
 - Fixed Income - Fixed income is a type of investment security that pays investors fixed interest payments until its maturity date.
@@ -444,14 +462,14 @@ Moving forward, we are implementing the measures identified in the risk assessme
 - Overfitting - Overfitting is a modeling error which occurs when a function is too closely fit to a limited set of data points.
   [[https://www.investopedia.com/terms/o/overfitting.asp]](https://www.investopedia.com/terms/o/overfitting.asp%5D)
 
-- Leverage - Leverage results from using borrowed capital as a funding source when 
-  investing to expand the firm's asset base and generate returns on risk 
+- Leverage - Leverage results from using borrowed capital as a funding source when
+  investing to expand the firm's asset base and generate returns on risk
   capital.
   [[https://www.investopedia.com/terms/l/leverage.asp]](https://www.investopedia.com/terms/l/leverage.asp%5D)
 
-- Technical Analysis - Technical analysis is a trading discipline employed to 
-  evaluate investments and identify trading opportunities by analyzing 
-  statistical trends gathered from trading activity, such as price 
+- Technical Analysis - Technical analysis is a trading discipline employed to
+  evaluate investments and identify trading opportunities by analyzing
+  statistical trends gathered from trading activity, such as price
   movement and volume. [[https://www.investopedia.com/terms/t/technicalanalysis.asp]](https://www.investopedia.com/terms/t/technicalanalysis.asp%5D)
 
 # References
@@ -491,3 +509,5 @@ Moving forward, we are implementing the measures identified in the risk assessme
 [17]  [Governance in Agile](https://www.agilest.org/agile-project-management/governance/)
 
 [18] [Agile Roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)
+
+[19] [Scrum guide – sprints]([https://www.scrumguides.org/scrum-guide.html#events-sprint])
