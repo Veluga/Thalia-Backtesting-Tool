@@ -103,10 +103,9 @@ class ResultsView(TemplateView):
                 'sortino_ratio':kfg.sortino,
                 'sharpe_ratio':kfg.sharpe,
                 'max_drawdown':kfg.maxDrawdown,
-                }
-            #args = { "portfolio": kfg}
-
-            args = { "portfolio": porto, 'plot_div': plot_div}
+                'plot_div': plot_div,
+               }
+           
 
 
         return render(request, self.template_name, args)
