@@ -73,26 +73,23 @@ class ResultsView(TemplateView):
             if(len(assets.keys()) == 0):
                 assets['ERROR':0]
             porto = userPortfolio.Portfolio(assets)
-            values_to_plot =  porto.values(
-                        datetime.date(day=1, month=10, year=2018),
-                        datetime.date(day=5, month=10, year=2019))
+            values_to_plot = porto.values(startDate.date(), endDate.date())
 
-            y_data = []
-            for y in values_to_plot:
-                y_data.append(y[1])
+            x_data, y_data = zip(*values_to_plot)
             
-            x_data = []
-            counter = 0
-            for x in y_data:
-                x_data.append(counter)
-                counter +=1 
-            
-            plot_div = plot([Scatter(x=x_data, y=y_data,
-                        mode='lines', name='test',
-                        opacity=0.8, marker_color='green')],
-               output_type='div')
-
-            
+            plot_div = plot(
+                [
+                    Scatter(
+                        x=x_data,
+                        y=y_data,
+                        mode="lines",
+                        name="test",
+                        opacity=0.8,
+                        marker_color="green",
+                    )
+                ],
+                output_type="div",
+            )
             
             kfg = keyFigures.keyFigureGenerator(porto, startDate, endDate, initialVal)
             args = {
