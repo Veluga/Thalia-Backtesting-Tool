@@ -283,7 +283,7 @@ As we are developing this product as part of a university module, we do not have
 
 ## Milestones
 
-Although agile methods offer a great amount of flexibility, they do require some sort of governance [17]. For this reason, we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two. These are the following:
+Although Agile methods offer a great amount of flexibility, they do require some sort of governance [17]. For this reason, we introduced some important milestones, which will help us to stay on track. We have identified three milestones in the development process, with the last one being much more open ended than the first two. These are the following:
 
 ### Minimum Viable Product
 
@@ -347,21 +347,21 @@ As previously stated, we aim at including a number of additional features in ord
 
 ## Our journey
 
-Our primary challenge for this project has so far been training all the members for next springs development. As we wanted to avoid any one person being fully responsible for any single task, as per our egalitarian team philosophy. This was made even more important as we noticed that our 'truck factor' was one because our projects artificer was leaving half-way through.
+Our primary challenge for this project has so far been training all the members for next spring's development. As we wanted to avoid any one person being fully responsible for any single task, which is in line with our egalitarian team philosophy. This was made even more important as we noticed that our 'truck factor' was one because only one of our team members had any substantial experience with financial markets.
 
-The biggest skill gaps that we identified were familiarity with finance, web development experience and lack of experience with professional software development practices in general. During the fall, we spent a lot of time learning about backtesting and agile processes in aims of making the spring terms development easier.
+The biggest skill gaps that we identified were familiarity with finance, web development experience and lack of experience with professional software development practices in general. During the fall, we spent a lot of time learning about backtesting and Agile processes in aims of making the spring terms development easier.
 
-Specifically, we have had a lot of workshops and assigned people tasks in areas they weren't familiar with before. This did mean that we spent quite a bit of time reviewing and teaching, but in the effort to have the whole team participate in the design and review process this was deemed necessary.
+Specifically, we have had a lot of workshops and assigned people tasks in areas they weren't familiar with before. This did mean that we spent quite a bit of time reviewing and teaching, but in the effort of having the whole team participate in the design and review process this was highly beneficial.
 
 ## Achievements
 
-For the proof of concept, we wanted to test our key features. Those being the financial data gathering, financial algorithms and working with Django. The proof of concept is a basic Django app that runs on localhost, uses some financial data, can calculate some of the more important backtesting metrics and displays a graph of the portfolio's performance for the past 2 years.
+For the proof of concept, we wanted to test our key fetures. This required us to develop the Data Gathering Module, implement a subset of the metric algorithms and setting up a Django web app. The proof of concept is a basic Django app that runs on localhost, uses some financial data, can calculate some of the more important backtesting metrics and displays a graph of the portfolio's performance for the past 2 years.
 
-Something else worth mentioning is the success in adopting our agile process. We use scrum style sprints [19], which in combination with our continuous integration practices, have made the process of creating work tasks, dividing them and reviewing them relatively painless.
+Something else worth mentioning is the success in adopting our Agile process. We use scrum style sprints [19], which in combination with our continuous integration practices, have made the process of creating work tasks, dividing them and reviewing them relatively painless.
 
 ## Problems
 
-The biggest problem we faced was getting accustomed to working as a new team and trying to find the right way that we want to work. Another problem has been evaluating the time it takes to complete tasks, this is largely related to the previous point but calculating work velocity has been difficult as most of our efforts have been on initial design and learning.
+The biggest problem we faced was getting accustomed to working as a new team and trying to find the right way that we want to work. Another problem has been evaluating how much work we can get done. Calculating work velocity has been difficult as most of our efforts have been on initial design and learning.
 
 ## Things that work as expected
 
