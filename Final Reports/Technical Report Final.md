@@ -1,4 +1,60 @@
+# Thalia – Technical Report
+
 ## Table of Contents
+
+- [Introduction](#introduction)
+- [Requirements](#requirements)
+  * [Functional Requirements](#functional-requirements)
+  * [Non-functional Requirements](#non-functional-requirements)
+- [Architecture Choice](#architecture-choice)
+  * [Architecture Diagram](#architecture-diagram)
+  * [Justifying a Financial Data Retrieval layer](#justifying-a-financial-data-retrieval-layer)
+  * [Layer View of the Architecture](#layer-view-of-the-architecture)
+  * [Portfolio Data Representation](#portfolio-data-representation)
+  * [Data Harvester](#data-harvester)
+  * [Time Events Diagram for Data Harvester](#time-events-diagram-for-data-harvester)
+  * [Data Usage Legalities](#data-usage-legalities)
+  * [Choice of Framework](#choice-of-framework)
+  * [Choice of Frontend Technologies](#choice-of-frontend-technologies)
+  * [Activity Diagram](#activity-diagram)
+  * [Inter-Layer Communication](#inter-layer-communication)
+  * [User Interaction Process Diagram](#user-interaction-process-diagram)
+- [Initial Risk Assessment](#initial-risk-assessment)
+  * [Penetration of Established Market](#penetration-of-established-market)
+  * [Access to Historical and Live Data](#access-to-historical-and-live-data)
+  * [Software Library Bugs](#software-library-bugs)
+  * [Lack of Software Engineering Experience](#lack-of-software-engineering-experience)
+  * [Feature Creep](#feature-creep)
+  * [Cloud Hosting Provider Attack Vectors](#cloud-hosting-provider-attack-vectors)
+  * [Lack of Domain Knowledge](#lack-of-domain-knowledge)
+  * [Time Constraints](#time-constraints)
+  * [Team Member Dropout](#team-member-dropout)
+  * [Software Version Control Hosting](#software-version-control-hosting)
+- [Initial Project Plan](#initial-project-plan)
+  * [Team Organisation](#team-organisation)
+  * [Evaluation Strategy](#evaluation-strategy)
+  * [Budget](#budget)
+  * [Milestones](#milestones)
+    + [Minimum Viable Product](#minimum-viable-product)
+    + [Thalia Release 1.0](#thalia-release-10)
+    + [Development of Additional Features](#development-of-additional-features)
+  * [Schedule](#schedule)
+- [Testing Strategy](#testing-strategy)
+  * [Scope](#scope)
+  * [Not in Scope](#not-in-scope)
+  * [Strategy in Brief](#strategy-in-brief)
+- [Proof of Concept](#proof-of-concept)
+  * [Our Journey](#our-journey)
+  * [Achievements](#achievements)
+  * [Problems](#problems)
+  * [Things that Work as Expected](#things-that-work-as-expected)
+  * [Changes to be made](#changes-to-be-made)
+- [Conclusion](#conclusion)
+- [Appendices](#appendices)
+  * [Appendix A - Optional Features](#appendix-a---optional-features)
+  * [Appendix B - Glossary](#appendix-b---glossary)
+  * [Appendix C - Proof of Concept Use Case](#appendix-c---proof-of-concept-use-case)
+- [References](#references)
 
 ## Introduction
 
@@ -114,7 +170,7 @@ We started by looking at the main architecture types [3] and checking their adva
 
 ### Architecture Diagram
 
-![Simple Architecture Diagram](./Resources Technical Report/simple_architecture_diagram.png)
+![Simple Architecture Diagram](Resources_Technical_Report/simple_architecture_diagram.png)
 
 ### Justifying a Financial Data Retrieval layer
 
@@ -122,7 +178,7 @@ The first argument comes from the need for extra security (guidelines have been 
 
 ### Layer View of the Architecture
 
-![Layer View of the Architecture](./Resources Technical Report/module_diagram.png)
+![Layer View of the Architecture](Resources_Technical_Report/module_diagram.png)
 
 ### Portfolio Data Representation
 
@@ -146,7 +202,7 @@ The Data Harvester is a generic adapter for third party APIs offering financial 
 
 ### Time Events Diagram for Data Harvester
 
-![Time Diagram](./Resources Technical Report/time_diagram.png)
+![Time Diagram](Resources_Technical_Report/time_diagram.png)
 
 ### Data Usage Legalities
 
@@ -160,13 +216,13 @@ We have used the Django framework without its Object-Relational Mapping (ORM) in
 
 The wireframe diagram below is a display of how our main page will look like. This wireframe model will be implemented using bootstrap-like libraries in order to speed up the process. The base of our frontend will be composed of HTML5, CSS3, and JavaScript which handle content, style, and functionality, respectively. We have chosen these technologies for the greatest browser compatibility to avoid restricting us in the future development of the frontend. In addition to using JavaScript, we will be using the plot.ly library for creating attractive graphs, which strikes the right balance between functionality and complexity for our needs.
 
-![Wire Frame](./Resources Technical Report/wireframe.png)
+![Wire Frame](Resources_Technical_Report/wireframe.png)
 
 ### Activity Diagram
 
 The following diagram contains a typical user interaction with our website.
 
-![](./Resources Technical Report/activity_diagram.png)
+![](Resources_Technical_Report/activity_diagram.png)
 
 ### Inter-Layer Communication
 
@@ -176,13 +232,13 @@ Our Inter-Layer communication has been based on the principle of *Separation of 
 
 The following diagram illustrates the full backtesting cycle from the viewpoint of communication between components.
 
-![User interaction Diagram](./Resources Technical Report/request_response_cycle.png)
+![User interaction Diagram](Resources_Technical_Report/request_response_cycle.png)
 
 ## Initial Risk Assessment
 
 The following section will highlight the risks that may affect the successful delivery of the software product. We have analyzed the impact of all risks across three dimensions - likelihood, severity, and detectability. The result of this analysis can be summarised in the following risk assessment matrix.
 
-![](./Resources Technical Report//3D_risk_matrix_filled.png)
+![](Resources_Technical_Report//3D_risk_matrix_filled.png)
 
 For additional details and insight into our mitigation strategies, we will cover each risk from most to least impactful.
 
@@ -342,7 +398,7 @@ Each one of these periods will include the development of some or multiple featu
 
 As previously stated, we aim at including a number of additional features in order to better distinguish our product. The following is a product roadmap based on this schedule:
 
-![](./Resources Technical Report/roadmap.png)
+![](Resources_Technical_Report/roadmap.png)
 
 ## Testing Strategy
 
@@ -505,68 +561,66 @@ Moving forward, we are implementing the measures identified in the risk assessme
 
 After initially connecting to the website, click "Let's go" to begin using Thalia.
 
-![](./Resources Technical Report/landing_page.png)
+![](Resources_Technical_Report/landing_page.png)
 Thalia currently only supports 3 indices - the Dow Jones, S&P500, and the NASDAQ. Select these from the drop-down menus in any order.
 
-![](./Resources Technical Report/allocation_specification.png)
+![](Resources_Technical_Report/allocation_specification.png)
 Thalia doesn't yet support absolute currency values, so enter your investment in each as a percentage without using the '%' sign. If you don't want to invest at all in an asset, enter 0.
 
 When you're done, click "Submit Button".
 
 This will take you to the results page, where you can see how your portfolio has performed over the past couple of years.
 
-![](./Resources Technical Report/results_page.png)
+![](Resources_Technical_Report/results_page.png)
 All financial results are given as a percentage of your initial investment - an end balance of 120 means your portfolio's value has increased by 20%.
 There are two parts to the results page - a dashboard of key figures and a graph. The definition of the key figures can be found in Appendix B.
 The graph is a more complete view of your portfolio's value at specific points in time.
 
-![](./Resources Technical Report/inspect_graph.png)
+![](Resources_Technical_Report/inspect_graph.png)
 Note that all the assets Thalia currently supports are highly correlated, so you can expect the graph and dashboard to look fairly similar for different portfolios.
 
 ## References
 
-[1] [FURPS+](http://www.cs.sjsu.edu/faculty/pearce/modules/lectures/ooa/requirements/IdentifyingURPS.htm)
+[1][FURPS+]http://www.cs.sjsu.edu/faculty/pearce/modules/lectures/ooa/requirements/IdentifyingURPS.htm
 
-[2] [Loading times for mobile users]([Google Data, Global, n=3,700 aggregated, anonymized Google Analytics data from a sample of mWeb sites opted into sharing benchmark data, March 2016.])
+[2] [Loading times for mobile users][Google Data, Global, n=3,700 aggregated, anonymized Google Analytics data from a sample of mWeb sites opted into sharing benchmark data, March 2016.]
 
-[3] [Architecture types](IEEE Software 2006 Vol. 23 Issue No. 02 -March/April. Particularly *Software Architecture-Centric Methods and Agile Development*)
+[3] [Architecture types]IEEE Software 2006 Vol. 23 Issue No. 02 -March/April. Particularly *Software Architecture-Centric Methods and Agile Development*
 
-[4] [Web Service Architectures](https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures)
+[4] [Web Service Architectures]https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
 
-[5] [Security guidelines](https://www.ncsc.gov.uk/guidance/separation-and-cloud-security)
+[5] [Security guidelines]https://www.ncsc.gov.uk/guidance/separation-and-cloud-security
 
-[6] [Pandas]([https://pandas.pydata.org/](https://pandas.pydata.org/)
+[6] [Pandas][https://pandas.pydata.org/]https://pandas.pydata.org/
 
-[7] [Separation of Concerns](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.29.5223)
+[7] [Separation of Concerns]http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.29.5223
 
-[8] [Agile Retros]([https://www.atlassian.com/team-playbook/plays/retrospective)
+[8] [Agile Retros][https://www.atlassian.com/team-playbook/plays/retrospective
 
-[9] [Pair Programming](https://collaboration.csc.ncsu.edu/laurie/Papers/dissertation.pdf)
+[9] [Pair Programming]https://collaboration.csc.ncsu.edu/laurie/Papers/dissertation.pdf
 
-[10] [Cloud Hosting Security](https://techcrunch.com/2019/10/21/nordvpn-confirms-it-was-hacked/)
+[10] [Cloud Hosting Security]https://techcrunch.com/2019/10/21/nordvpn-confirms-it-was-hacked/
 
-[11] [Adding Programmers to a late project makes it later](The Mythical Man-Month, Fred Brooks, 1975)
+[11] [Adding Programmers to a late project makes it later]The Mythical Man-Month, Fred Brooks, 1975
 
-[12] [Truck Factor](http://www.agileadvice.com/2005/05/15/agilemanagement/truck-factor/)
+[12] [Truck Factor]http://www.agileadvice.com/2005/05/15/agilemanagement/truck-factor/
 
-[13] [GitHub Security Breach](https://techcrunch.com/2017/11/21/uber-data-breach-from-2016-affected-57-million-riders-and-drivers/)
+[13] [GitHub Security Breach]https://techcrunch.com/2017/11/21/uber-data-breach-from-2016-affected-57-million-riders-and-drivers/
 
-[14] [Team Hierarchies](https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208)
+[14] [Team Hierarchies]https://absel-ojs-ttu.tdl.org/absel/index.php/absel/article/view/2208
 
-[15] [Fibonacci Storypoint Values](https://www.atlassian.com/agile/project-management/estimation)
+[15] [Fibonacci Storypoint Values]https://www.atlassian.com/agile/project-management/estimation
 
-[16]  [User Testing](https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/)
+[16] [User Testing]https://www.system-concepts.com/insights/tips-for-integrating-user-testing-into-an-agile-development-process/
 
-[17]  [Governance in Agile](https://www.agilest.org/agile-project-management/governance/)
+[17]  [Governance in Agile] https://www.agilest.org/agile-project-management/governance/
 
-[18] [Agile Roadmaps](https://www.atlassian.com/agile/product-management/roadmaps)
+[18] [Agile Roadmaps] https://www.atlassian.com/agile/product-management/roadmaps
 
-[19] [Lightweight Linux Containers](https://www.researchgate.net/publication/261960832_Docker_lightweight_Linux_containers_for_consistent_development_and_deployment)
+[19] [Lightweight Linux Containers] https://www.researchgate.net/publication/261960832_Docker_lightweight_Linux_containers_for_consistent_development_and_deployment
 
-[20] [Hosting Docker Containers](https://aws.amazon.com/docker/#Run_Docker_on_AWS)
+[20] [Hosting Docker Containers] https://aws.amazon.com/docker/#Run_Docker_on_AWS
 
-[21] [Docker on Azure](https://azure.microsoft.com/en-gb/services/kubernetes-service/docker/)
+[21] [Docker on Azure] https://azure.microsoft.com/en-gb/services/kubernetes-service/docker/
 
-[22] [Scrum Sprints]([https://www.scrumguides.org/scrum-guide.html#events-sprint])
-
-
+[22] [Scrum Sprints] [https://www.scrumguides.org/scrum-guide.html#events-sprint]
