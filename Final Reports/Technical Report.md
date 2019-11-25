@@ -10,12 +10,12 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 
 ## Functional requirements
 
-| **Portfolio Configuration**                                        |                                                                                                                         |
-| ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| **Portfolio Configuration**                                        |                                                                                                                        |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
 | Allocate fixed amount/proportions of the portfolio to given assets | Choose how much each asset contributes to the portfolio's total value using either percentages or raw monetary amounts |
-| Find assets quickly by category or name                            | When adding an asset the user can search a category for assets or search for a specific asset by its name               |
-| Share portfolio                                                    | Portfolios can be shared between people using a URL                                                                     |
-| Edit portfolio                                                     | Change asset allocation and their distributions in a portfolio                                                          |
+| Find assets quickly by category or name                            | When adding an asset the user can search a category for assets or search for a specific asset by its name              |
+| Share portfolio                                                    | Portfolios can be shared between people using a URL                                                                    |
+| Edit portfolio                                                     | Change asset allocation and their distributions in a portfolio                                                         |
 
 | **Setup portfolio analysis**                                     |                                                                                                                                                                                                                                     |
 | ---------------------------------------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -505,6 +505,34 @@ Moving forward, we are implementing the measures identified in the risk assessme
   evaluate investments and identify trading opportunities by analyzing
   statistical trends gathered from trading activity, such as price
   movement and volume. [[https://www.investopedia.com/terms/t/technicalanalysis.asp]](https://www.investopedia.com/terms/t/technicalanalysis.asp%5D)
+
+## Proof of Concept Use Case
+
+After initally connecting to the website, click "Let's go" to begin using Thalia.
+
+![](./Resources Technical Report/home page.png)
+
+Thalia currently only supports 3 assets - Dow Jones, the S&P500 Index, and the NASDAQ Index. Select these from the drop-down menus in any order.
+
+![](./Resources Technical Report/allocation page.png)
+
+Thalia doesn't yet support absolute currency values, so enter your investment in each as a percentage. (Don't enter an actual '%' sign though.) If you don't want to invest at all in an asset, enter 0.
+
+When you're done, click "Submit Button".
+
+This will take you to the results page, where you can see how your portfolio has performed over the past couple of years.
+
+![](./Resources Technical Report/results page.png)
+
+(All financial results are given as a percentage of your initial investment - an end balance of 120 means your portfolio's value has increased by 20%.)
+
+There are two parts to the results page - a dashboard of key figures and a graph. The definition of the key figures can be found in Appendix B.
+
+The graph is a more complete view of your portfolio's value at specific points in time.
+
+![](./Resources Technical Report/results page with inspect graph.png)
+
+Note that all the assets Thalia currently supports are highly correlated, so you can expect the graph and dashboard to look fairly similar for different portfolios.
 
 # References
 
