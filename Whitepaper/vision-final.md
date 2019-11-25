@@ -53,12 +53,6 @@ Lastly, once you've designed a portfolio you like, you might want to share your 
 [3]
 [https://investor.vanguard.com/investing/how-to-invest/impact-of-costs](https://investor.vanguard.com/investing/how-to-invest/impact-of-costs)
 
-[4]
-[https://www.world-exchanges.org/storage/app/media/research/Studies_Reports/WFE%20Enhancing%20Emerging%20Market%20Retail%20Trading%20Report%20-%203%20August%202017.pdf](https://www.world-exchanges.org/storage/app/media/research/Studies_Reports/WFE%20Enhancing%20Emerging%20Market%20Retail%20Trading%20Report%20-%203%20August%202017.pdf)
-
-[5]
-[https://www.ecb.europa.eu/paym/groups/pdf/fxcg/111005_FX_retail_trading.pdf]
-
 [a1] https://en.wikipedia.org/wiki/Backtesting
 
 [a2] Appendix: ./CompetitorComparison.md
