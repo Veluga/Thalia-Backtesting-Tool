@@ -12,7 +12,7 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 
 | **Portfolio Configuration**                                        |                                                                                                                         |
 | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Allocate fixed amount/proportions of the portfolio to given assets | Choose how much each asset contributes to the portfolio's total value using either percentages or raw monetary amounts. |
+| Allocate fixed amount/proportions of the portfolio to given assets | Choose how much each asset contributes to the portfolio's total value using either percentages or raw monetary amounts |
 | Find assets quickly by category or name                            | When adding an asset the user can search a category for assets or search for a specific asset by its name               |
 | Share portfolio                                                    | Portfolios can be shared between people using a URL                                                                     |
 | Edit portfolio                                                     | Change asset allocation and their distributions in a portfolio                                                          |
