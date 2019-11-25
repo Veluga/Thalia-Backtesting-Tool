@@ -51,60 +51,60 @@ We classify our requirements using the established FURPS+ model [1]. Below you w
 ## Non-functional requirements
 
 - Usability
-
+  
   - The product must be easily usable for users who already have some financial investment experience.
-
+  
   - Basic backtesting interface needs to look familiar to people already experienced with backtesting.
-
+  
   - The product will have detailed instructions on how to use its advertised functions.
-
+  
   - All major functions must be visible from the initial landing page.
-
+  
   - Must work in both desktop and mobile browsers.
-
+  
   - The results page should scale with mobile.
 
 - Reliability
-
+  
   - The product must have a greater than 99% uptime.
-
+  
   - All our assets need to have up to date daily data where the asset is still publicly tradeable.
-
+  
   - All assets supported by the system must provide all publicly available historical data.
 
 - Performance
-
+  
   - The website should load within 3 seconds on mobile [2].
-
+  
   - Large portfolios must be supported - up to 300 different assets.
 
 - Implementations
-
+  
   - The system needs to work on a cloud hosting provider.
 
 - Interfacing
-
+  
   - The Data Gathering Module must never use APIs stated to-be-deprecated within a month.
-
+  
   - The Data Gathering Module must not exceed its contractual usage limits.
 
 - Operations
-
+  
   - An administrator on-call will be necessary for unexpected issues.
 
 - Packaging
-
+  
   - The product needs to work inside a Linux container (e.g. Docker).
   - All dependencies need to be installable with a single command.
 
 - Legal
-
+  
   - All user testing must be done with ethical approval from the University.
-
+  
   - UI must display a clear legal disclaimer about the service not providing financial advice.
-
+  
   - All third-party code should allow for commercial use without requiring source disclosure (e.g. no GPL-3).
-
+  
   - User data handling should comply with GDPR.
 
 # Architecture Choice
@@ -376,8 +376,9 @@ Another potentially erroneous external input could come from our live data third
 2. https://aws.amazon.com/docker/#Run_Docker_on_AWS
 
 3. https://azure.microsoft.com/en-gb/services/kubernetes-service/docker/
-![](./Resources Technical Report/roadmap.png)
-# Proof of Concept
+   ![](./Resources Technical Report/roadmap.png)
+   
+   # Proof of Concept
 
 ## Our journey
 
@@ -458,7 +459,7 @@ Moving forward, we are implementing the measures identified in the risk assessme
   [[https://www.thebalance.com/how-to-build-the-best-lazy-portfolio-2466533]](https://www.thebalance.com/how-to-build-the-best-lazy-portfolio-2466533%5D)
 
 - Rebalancing - Rebalancing is the process of realigning the weightings of a portolio of assets. Rebalancing involves periodically buying or selling assets in a portfolio to maintain an original or desired level of asset allocation or risk.
-
+  
   [[https://www.investopedia.com/terms/r/rebalancing.asp]](https://www.investopedia.com/terms/r/rebalancing.asp%5D)
 
 - Key metrics - Performance measures of a portfolio that are of high interest to the majority of investors.
@@ -475,7 +476,7 @@ Moving forward, we are implementing the measures identified in the risk assessme
   [[https://www.investopedia.com/terms/s/sortinoratio.asp]](https://www.investopedia.com/terms/s/sortinoratio.asp%5D)
 
 - Inflation - Inflation is a quantitative measure of the rate at which the average price level of a basket of selected goods and services in an economy increases over a period of time.
-
+  
   [[https://www.investopedia.com/terms/i/inflation.asp]](https://www.investopedia.com/terms/i/inflation.asp%5D)
 
 - Nominal Values - A value that is unadjusted for inflation.
@@ -505,34 +506,6 @@ Moving forward, we are implementing the measures identified in the risk assessme
   evaluate investments and identify trading opportunities by analyzing
   statistical trends gathered from trading activity, such as price
   movement and volume. [[https://www.investopedia.com/terms/t/technicalanalysis.asp]](https://www.investopedia.com/terms/t/technicalanalysis.asp%5D)
-
-## Proof of Concept Use Case
-
-After initally connecting to the website, click "Let's go" to begin using Thalia.
-
-![](./Resources Technical Report/home page.png)
-
-Thalia currently only supports 3 assets - Dow Jones, the S&P500 Index, and the NASDAQ Index. Select these from the drop-down menus in any order.
-
-![](./Resources Technical Report/allocation page.png)
-
-Thalia doesn't yet support absolute currency values, so enter your investment in each as a percentage. (Don't enter an actual '%' sign though.) If you don't want to invest at all in an asset, enter 0.
-
-When you're done, click "Submit Button".
-
-This will take you to the results page, where you can see how your portfolio has performed over the past couple of years.
-
-![](./Resources Technical Report/results page.png)
-
-(All financial results are given as a percentage of your initial investment - an end balance of 120 means your portfolio's value has increased by 20%.)
-
-There are two parts to the results page - a dashboard of key figures and a graph. The definition of the key figures can be found in Appendix B.
-
-The graph is a more complete view of your portfolio's value at specific points in time.
-
-![](./Resources Technical Report/results page with inspect graph.png)
-
-Note that all the assets Thalia currently supports are highly correlated, so you can expect the graph and dashboard to look fairly similar for different portfolios.
 
 # References
 
