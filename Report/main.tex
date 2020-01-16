@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage{preamble}
+\usepackage{import}
+\usepackage{subfiles}
+
+ 
+\begin{document}
+\pagecolor{white}\afterpage{\nopagecolor}
+ \begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+ 
+        \Huge
+        \textbf{Thalia Project Report}
+ 
+        \vspace{0.5cm}
+        \LARGE
+        Team Charlie
+ 
+        \vspace{1.5cm}
+ 
+        \textbf{Martti Aukia, Albert Boehm, Arthur-Louis Heath, George Stoian, Daniel Joffe, Weronika Kakavou, Marcell Veiner }
+ \vspace{1.5cm}
+ 
+         \includegraphics[width=0.4\textwidth]{Pictures/small_logo.png}
+         
+                 \vfill
+ 
+        \Large
+        University of Aberdeen\\
+        \today
+ 
+    \end{center}
+\end{titlepage}
+ 
+ \section*{Acknowledgement}
+ TO DO: Thank stackoverflow and everyone else here.
+ 
+ 
+\break
+\tableofcontents
+\break
+
+\subfile{01Introduction/introduction.tex}
+\subfile{02Background/background.tex}
+\subfile{03Requirements/requirements.tex}
+\subfile{04Design/design.tex}
+\subfile{05Coding/coding.tex}
+\subfile{06Testing/testing.tex}
+\subfile{07Conclusions/conclusion.tex}
+\subfile{08Appendices/appendices.tex}
+
+\break
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}
