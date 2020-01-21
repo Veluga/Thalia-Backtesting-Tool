@@ -1,2 +1,12 @@
-flake8
 black
+dash
+flake8
+Flask-Login
+Flask-Migrate
+Flask-WTF
+gunicorn
+nbformat
+pandas-datareader
+pip
+psycopg2
+wrapt
