@@ -1,5 +1,5 @@
 import dash
-from config import BaseConfig
+from config import Config
 from flask import Flask
 from flask.helpers import get_root_path
 from flask_login import login_required
@@ -7,7 +7,7 @@ from flask_login import login_required
 
 def create_app():
     server = Flask(__name__)
-    server.config.from_object(BaseConfig)
+    server.config.from_object(Config)
 
     register_dashapps(server)
     register_extensions(server)
@@ -33,9 +33,8 @@ def register_dashapps(app):
         url_base_pathname="/dashboard/",
         assets_folder=get_root_path(__name__) + "/static/",
         meta_tags=[meta_viewport],
-        suppress_callback_exceptions=True
+        suppress_callback_exceptions=True,
     )
-
 
     with app.app_context():
         dashapp.title = "Backtest dashboard"
