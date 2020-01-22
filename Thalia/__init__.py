@@ -21,6 +21,7 @@ def register_dashapps(app):
     from .dashboard.callbacks import register_callbacks
 
     # Meta tags for viewport responsiveness
+    # TODO: came with tutorial code, check if good enough
     meta_viewport = {
         "name": "viewport",
         "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
@@ -30,12 +31,14 @@ def register_dashapps(app):
         __name__,
         server=app,
         url_base_pathname="/dashboard/",
-        assets_folder=get_root_path(__name__) + "/dashboard/assets/",
+        assets_folder=get_root_path(__name__) + "/static/",
         meta_tags=[meta_viewport],
+        suppress_callback_exceptions=True
     )
 
+
     with app.app_context():
-        dashapp.title = "Dashapp 1"
+        dashapp.title = "Backtest dashboard"
         dashapp.layout = layout
         register_callbacks(dashapp)
 
@@ -43,6 +46,9 @@ def register_dashapps(app):
 
 
 def _protect_dashviews(dashapp):
+    """
+    prevent access to dash app without first login in
+    """
     for view_func in dashapp.server.view_functions:
         if view_func.startswith(dashapp.config.url_base_pathname):
             dashapp.server.view_functions[view_func] = login_required(

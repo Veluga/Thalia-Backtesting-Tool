@@ -11,20 +11,38 @@ def create_table(data, columns, id):
     return dash_table.DataTable(id=id, columns=columns, data=data)
 
 
-temp_tickers = [{"label": "Coke", "value": "COKE"},
-                {"label": "Tesla", "value": "TSLA"},
-                {"label": "Apple", "value": "AAPL"}]
+temp_tickers = [
+    {"label": "Coke", "value": "COKE"},
+    {"label": "Tesla", "value": "TSLA"},
+    {"label": "Apple", "value": "AAPL"},
+]
+
+
+def create_ticker_selector(id):
+    return html.Div(
+        [
+            dcc.Dropdown(id=id, options=temp_tickers, className="two-thirds column"),
+            dcc.Input(
+                id=f"{id}-proportion",
+                type="number",
+                min=0,
+                max=100,
+                className="one-third column",
+            ),
+        ],
+        className="container",
+    )
+
 
 layout = html.Div(
     [
         html.H1("Stock Tickers"),
-        dcc.Dropdown(id="ticker1", options=temp_tickers),
-        dcc.Input(id="ticker1-proportion", type='number', min=0, max=100),
-        dcc.Dropdown(id="ticker2", options=temp_tickers),
-        dcc.Input(id="ticker2-proportion", type='number', min=0, max=100),
-        dcc.Dropdown(id="ticker3", options=temp_tickers),
-        dcc.Input(id="ticker3-proportion", type='number', min=0, max=100),
-        html.Button('Submit', 'submit-btn'),
+        html.Div(
+            [
+                html.Div([create_ticker_selector(f"ticker{i}") for i in range(1, 4)]),
+                html.Button("Submit", "submit-btn"),
+            ],
+        ),
         html.Div(id="graph-container"),
         html.Div(id="table-container"),
     ],
