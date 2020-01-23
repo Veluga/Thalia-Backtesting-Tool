@@ -1,9 +1,11 @@
+import pandas as pd
+import decimal
 from decimal import Decimal
 
 decimal.getcontext().prec = 2
 
 
-def total_return(strat) -> {date: Decimal}:
+def total_return(strat) -> pd.Series:
     # Returns the value of the portfolio at each day in the time frame.
     pass
 
