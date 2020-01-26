@@ -2,7 +2,7 @@ import unittest
 import pandas as pd
 from flask import Flask
 from flask_testing import TestCase
-from datetime import date
+from datetime import date, timedelta
 from decimal import Decimal
 
 # This demands that we run from the Thalia directory.
@@ -19,61 +19,93 @@ class TestTotalReturn(TestCase):
         app.config["TESTING"] = True
         return app
 
-    def test(self):
-        start = date(2000, 1, 1)
-        end = date(2000, 1, 7)
-
-        dates = pd.date_range(start=start, end=end, freq="D")
-
-        starting_balance = Decimal("23.46")
-        contribution_interval = None
-        contribution_amount = None
-        rebalancing_interval = None
-
+    def setUp(self):
+        self.start = date(2000, 1, 1)
+        self.end = date(2000, 1, 20)
+        self.dates = pd.date_range(self.start, self.end, freq=timedelta(days=1))
         gold_prices = [
-            [Decimal("1"), Decimal("0.0")],
-            [Decimal("4"), Decimal("0.0")],
-            [Decimal("9"), Decimal("0.0")],
-            [Decimal("16"), Decimal("0.0")],
-            [Decimal("25"), Decimal("0.0")],
-            [Decimal("36"), Decimal("0.0")],
-            [Decimal("49"), Decimal("0.0")],
+            [
+                Decimal("6.00") + i * Decimal("0.03"),
+                Decimal("0.00"),
+                Decimal("0.00"),
+                Decimal("0.00"),
+            ]
+            for (i, _) in enumerate(self.dates)
         ]
-
         silver_prices = [
-            [Decimal("0.5"), Decimal("0.6")],
-            [Decimal("1.0"), Decimal("1.1")],
-            [Decimal("1.5"), Decimal("1.6")],
-            [Decimal("2.0"), Decimal("2.1")],
-            [Decimal("2.5"), Decimal("2.6")],
-            [Decimal("3.0"), Decimal("3.1")],
-            [Decimal("3.5"), Decimal("3.6")],
+            [
+                Decimal("1.00") + i * i * Decimal("0.01"),
+                Decimal("0.00"),
+                Decimal("0.00"),
+                Decimal("0.00"),
+            ]
+            for (i, _) in enumerate(self.dates)
         ]
-
-        gold_data = pd.DataFrame(gold_prices, index=dates, columns=["Open", "Close"])
-        silver_data = pd.DataFrame(
-            silver_prices, index=dates, columns=["Open", "Close"]
+        rock_prices = [
+            [Decimal("1.00"), Decimal("1.00"), Decimal("1.00"), Decimal("1.00"),]
+            for _ in self.dates
+        ]
+        self.gold_data = pd.DataFrame(
+            gold_prices, index=self.dates, columns=["Open", "Low", "High", "Close"]
+        )
+        self.silver_data = pd.DataFrame(
+            silver_prices, index=self.dates, columns=["Open", "Low", "High", "Close"]
+        )
+        self.rock_data = pd.DataFrame(
+            rock_prices, index=self.dates, columns=["Open", "Low", "High", "Close"]
         )
 
-        assets = [
-            {"ticker": "GOLD", "weight": 0.3, "values": gold_data},
-            {"ticker": "SLV", "weight": 0.7, "values": silver_data},
-        ]
+    def test_single_asset(self):
+        starting_balance = Decimal("23.46")
+        contribution_dates = set()
+        contribution_amount = None
+        rebalancing_dates = set()
+
+        assets = [{"ticker": "GOLD", "weight": 1.0, "values": self.gold_data}]
 
         risk_free_rate = None
 
         strategy = Strategy(
-            start,
-            end,
+            self.start,
+            self.end,
             starting_balance,
             assets,
-            contribution_interval,
+            contribution_dates,
             contribution_amount,
-            rebalancing_interval,
+            rebalancing_dates,
             risk_free_rate,
         )
 
-        print(total_return(strategy))
+        roi = total_return(strategy)
+        self.assertEqual(roi.at[self.start], Decimal("23.46"))
+        self.assertEqual(roi.at[date(2000, 1, 12)], Decimal("24.75"))
+        self.assertEqual(roi.at[self.end], Decimal("25.69"))
+
+    def test_contribution(self):
+        starting_balance = Decimal("1.00")
+        contribution_dates = self.dates
+        contribution_amount = Decimal("1.00")
+        rebalancing_dates = set()
+
+        assets = [{"ticker": "ST", "weight": 1.0, "values": self.rock_data}]
+
+        risk_free_rate = None
+
+        strategy = Strategy(
+            self.start,
+            self.end,
+            starting_balance,
+            assets,
+            contribution_dates,
+            contribution_amount,
+            rebalancing_dates,
+            risk_free_rate,
+        )
+
+        roi = total_return(strategy)
+        self.assertEqual(Decimal("2.00"), roi.at[self.start])
+        for (day, next_day) in zip(self.dates, self.dates[1:]):
+            self.assertEqual(roi[day] + Decimal("1.00"), roi[next_day])
 
 
 if __name__ == "__main__":

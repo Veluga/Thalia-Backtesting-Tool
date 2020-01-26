@@ -15,41 +15,75 @@ class Strategy:
         end_date: date,
         starting_balance: Decimal,
         assets: [dict],
-        contribution_interval: timedelta,
+        contribution_dates,  # implements __contains__ for date
         contribution_amount: Decimal,
-        rebalancing_interval: timedelta,
+        rebalancing_dates,  # implements __contains__ for date
         risk_free_rate: pd.DataFrame,
     ):
         self.start_date = start_date
         self.end_date = end_date
         self.starting_balance = starting_balance
         self.assets = assets
-        self.contribution_interval = contribution_interval
+        self.contribution_dates = contribution_dates
         self.contribution_amount = contribution_amount
-        self.rebalancing_interval = rebalancing_interval
+        self.rebalancing_dates = rebalancing_dates
         self.risk_free_rate = risk_free_rate
 
 
-# TODO: Pythonic use of iterators.
+# INTERNAL
+def _allocate_investments(
+    balance: Decimal, asset_weights: [float], asset_vals: [Decimal]
+) -> [Decimal]:
+    return [
+        balance * Decimal(weight) / price
+        for (weight, price) in zip(asset_weights, asset_vals)
+    ]
+
+
+# INTERNAL
+def _measure_weights(asset_vals: [Decimal]) -> [float]:
+    # asset_vals is the current amount of money invested in each asset.
+    total = sum(asset_vals)
+    # TODO: what if total == 0?
+    return [float(val / total) for val in asset_vals]
+
+
 def total_return(strat) -> pd.Series:
     # Returns the value of the portfolio at each day in the time frame.
 
     dates = pd.date_range(strat.start_date, strat.end_date)
 
-    stocks = []  # how many "stocks" you buy in each asset.
-    for asset in strat.assets:
-        stocks.append(
-            Decimal(asset["weight"])
-            * strat.starting_balance
-            / asset["values"].at[strat.start_date, "Open"]
-        )
-
-    value = pd.Series(Decimal("0"), index=dates)
+    ret = pd.Series(Decimal("0"), index=dates)
+    balance = strat.starting_balance
+    investments = _allocate_investments(
+        balance,
+        [asset["weight"] for asset in strat.assets],
+        [asset["values"].at[strat.start_date, "Open"] for asset in strat.assets],
+    )
     for date in dates:
-        for asset, weight in zip(strat.assets, stocks):
-            value.at[date] += weight * asset["values"].at[date, "Open"]
+        if date in strat.contribution_dates:
+            current_weights = _measure_weights(
+                [balance * Decimal(investment) for investment in investments]
+            )
+            balance += strat.contribution_amount
+        if (
+            date == strat.start_date
+            or date in strat.rebalancing_dates
+            or date in strat.contribution_dates
+        ):
+            # Calculate the number of units bought in each asset.
+            investments = _allocate_investments(
+                balance,
+                [asset["weight"] for asset in strat.assets],
+                [asset["values"].at[date, "Open"] for asset in strat.assets],
+            )
+        for asset, weight in zip(strat.assets, investments):
+            balance = (weight * asset["values"].at[date, "Open"]).quantize(
+                Decimal("0.01")
+            )
+            ret.at[date] = balance
 
-    return value
+    return ret
 
 
 def sortino_ratio(strat) -> float:
