@@ -55,7 +55,7 @@ def total_return(strat) -> pd.Series:
 
     ret = pd.Series(Decimal("0"), index=dates)
     balance = strat.starting_balance
-    investments = _allocate_investments(
+    investments = _allocate_investments(  # How many "units" of each asset to buy.
         balance,
         [asset["weight"] for asset in strat.assets],
         [asset["values"].at[strat.start_date, "Open"] for asset in strat.assets],
@@ -66,11 +66,12 @@ def total_return(strat) -> pd.Series:
                 [balance * Decimal(investment) for investment in investments]
             )
             balance += strat.contribution_amount
-        if (
-            date == strat.start_date
-            or date in strat.rebalancing_dates
-            or date in strat.contribution_dates
-        ):
+            investments = _allocate_investments(
+                balance,
+                current_weights,
+                [asset["values"].at[date, "Open"] for asset in strat.assets],
+            )
+        if date == strat.start_date or date in strat.rebalancing_dates:
             # Calculate the number of units bought in each asset.
             investments = _allocate_investments(
                 balance,
