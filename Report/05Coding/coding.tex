@@ -4,7 +4,31 @@
 \begin{document}
 
 \section{Coding and Integration}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\subsection{Web Framework}
+One of the first decisions we had to make was which web framework to use. The two major options for Python are Django and Flask. Although we decided to use Django for our MVP in the first semester, we had to spend a relevant portion of the time available learning the framework, so we had to decide whether we were going to stick with it or learn Flask. In the end, we opted to go with Flask for the following reasons:
 
+\begin{itemize}
+    \item Django has one architecture that all projects must share, and we have designed the architecture for our project ourselves. While neither architecture is wrong, the two are not compatible. Flask, on the other hand, is structure-agnostic, so we can lay out the code as we see fit.
+
+\item Flask comes with the bare minimum for web-development, which means that we don't need to manage the complexity of any feature we're not using. Django has a more complete feature-set from the beginning. This would be desirable in a large web application, but introduces significant overhead in our case, where the website has only a handful of pages.
+
+\item Django all but insists on using its ORM for all database interaction, while we plan to have a more manual approach.
+
+\item Our concerns were also confirmed by more experienced web-developers, suggesting simpler alternatives.
+
+\end{itemize}
+
+\iffalse
+Sources:
+https://www.djangoproject.com/
+
+https://flask.palletsprojects.com/en/1.1.x/
+
+https://www.codementor.io/@garethdwyer/flask-vs-django-why-flask-might-be-better-4xs7mdf8v
+
+http://ddi-dev.com/blog/programming/django-vs-flask-which-better-your-web-app/
+
+https://coderseye.com/django-vs-flask
+\fi
 
 \end{document}
