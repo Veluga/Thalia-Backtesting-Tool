@@ -4,9 +4,9 @@
 \begin{document}
 
 \section{Background and Competitors}
-As a result of our initial competitor analysis, we may group the competing software into two categories. For a comprehensive list of available backtesters please see \cite{listofbacktesters}. The first consists various third-party trading software, such as Fidelity, MetaTrader and NinjaTrader that offer backtesting features as well. Although it may be beneficial to consider some trading features provided by the members of this group, these would only be part of a future development process, and not in the scope of this course.
+As a result of our initial competitor analysis, we may group the competing software into two categories. For a comprehensive list of available backtesters please see \cite{listofbacktesters}. The first consists of various third-party trading software, such as Fidelity, MetaTrader and NinjaTrader that offer backtesting features as well. Although it may be beneficial to consider some trading features provided by the members of this group, these would only be part of a future development process, and not in the scope of this course.
 
-The second category consists pieces of software that do not offer trading as a service, and solely focus on backtesting. Thus, for now, we shall only consider the feature set provided by the second category. In the following paragraphs we will consider some of the design decisions made by competing software, together with the brief analysis and conclusion on each feature.
+The second category consists of pieces of software that do not offer trading as a service, and solely focus on backtesting. Thus, for now, we shall only consider the feature set provided by the second category. In the following paragraphs we will consider some of the design decisions made by competing software, together with the brief analysis and conclusion on each feature.
 
 \subsection{Portfolio Visualizer}
 Our main competitor of the second category is an online backtesting tool named Portfolio Visualizer\cite{portfoliovis}. During the inception phase of development we heavily relied on this website for writing the requirement analysis. Let us now briefly dissect what it has to offer. 
@@ -40,11 +40,11 @@ The UI design is simplistic and has a non-commercial, bare-bones look, and altho
 
 Moreover, users will want to fine-tune their investment strategies, by changing their allocations frequently. The only means to do this using Portfolio Visualizer is to scroll to the top, change the input and send it again. Our goal is to design a more responsive and dynamic system, to ease this procedure. 
 
-The website also has user accounts, these accounts however offer little to no extra features, which further decreases the overall user experience. Finally, as a last remark, which holds for most of the backtesting tools we have tried, the website is heavily US biased, and so the selection of asset classes is limited. Furthermore, we have no means of changing the currency, which is needless to say, suboptimal. 
+The website also has user accounts, these accounts however offer little to no extra features, which further decreases the overall user experience. Finally, as a last remark, which holds for most of the backtesting tools we have tried, the website is heavily US biased, and so the selection of asset classes is limited. Furthermore, we have no means of changing the currency, which would also be an important feature.
 
 \subsection{Other Competing Software}
 
-Fortunately the rest of the alternatives are of a significantly lower quality. In the rest of this section we will briefly consider a few design decisions made by these websites.
+The rest of the alternatives are of a significantly lower quality. In the remaining parts of this section we will briefly consider a few design decisions made by these websites.
 
 \subsubsection*{Tree-like Asset Selection}
 
@@ -64,11 +64,11 @@ One of the better option is what ETFReplay \cite{etfreplay} has implemented, whi
    \caption{ETFReplay - Tree-like Structure}
 \end{figure}
 
-We feel this was the most intuitive to use, and will thus chase a similar approach. Our only criticism was that it opens in a new window, which we would like to avoid. 
+We feel this was the most intuitive to use, and will thus pursue a similar approach. Our only criticism was that it opens in a new window, which we would like to avoid. 
 
 \subsubsection*{Tiles}
 
-It may be worth briefly discussing an example of a backtester with a good layout design. We found the simplistic and tiled design of Backtest Curvo \cite{backtestcurvo} a good choice as it gives the website an overall modern and fresh look, whereas most backtesters looked old and out of date. Our goal is to achieve a layout similar to this. 
+It may be worth briefly discussing an example of a backtester with a good layout design. We found the simplistic and tiled design of Backtest Curvo \cite{backtestcurvo} a good choice as it gives the website an overall modern and fresh look, whereas most backtesters looked old and out of date. Our goal is to achieve a layout similar to this. For a further analysis on design decisions, please see section 4 of this report.
 
 \subsubsection*{Simple Logic}
 
