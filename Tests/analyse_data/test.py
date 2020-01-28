@@ -107,6 +107,42 @@ class TestTotalReturn(TestCase):
         for (day, next_day) in zip(self.dates, self.dates[1:]):
             self.assertEqual(roi[day] + Decimal("1.00"), roi[next_day])
 
+    def test_rebalancing(self):
+        # TODO
+        starting_balance = Decimal("1.00")
+        contribution_dates = set()
+        contribution_amount = Decimal("0.0")
+        rebalancing_dates = self.dates
+
+        assets = None
+
+    def test_mult_assets(self):
+        starting_balance = Decimal("100.00")
+        contribution_dates = set()
+        contribution_amount = Decimal("0.0")
+        rebalancing_dates = set()
+
+        assets = [
+            {"ticker": "GOLD", "weight": 0.4, "values": self.gold_data},
+            {"ticker": "SLV", "weight": 0.6, "values": self.silver_data},
+        ]
+
+        risk_free_rate = None
+
+        strategy = Strategy(
+            self.start,
+            self.end,
+            starting_balance,
+            assets,
+            contribution_dates,
+            contribution_amount,
+            rebalancing_dates,
+            risk_free_rate,
+        )
+
+        roi = total_return(strategy)
+        print(f"\n{roi}\n")
+
 
 if __name__ == "__main__":
     unittest.main()

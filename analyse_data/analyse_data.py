@@ -48,6 +48,7 @@ def _measure_weights(asset_vals: [Decimal]) -> [float]:
     return [float(val / total) for val in asset_vals]
 
 
+# TODO: DRY.
 def total_return(strat) -> pd.Series:
     # Returns the value of the portfolio at each day in the time frame.
 
@@ -78,11 +79,13 @@ def total_return(strat) -> pd.Series:
                 [asset["weight"] for asset in strat.assets],
                 [asset["values"].at[date, "Open"] for asset in strat.assets],
             )
+        # TODO: sum()
+        balance = Decimal("0.00")
         for asset, weight in zip(strat.assets, investments):
-            balance = (weight * asset["values"].at[date, "Open"]).quantize(
+            balance += (weight * asset["values"].at[date, "Open"]).quantize(
                 Decimal("0.01")
             )
-            ret.at[date] = balance
+        ret.at[date] = balance
 
     return ret
 
