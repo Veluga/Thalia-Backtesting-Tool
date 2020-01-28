@@ -111,6 +111,30 @@ class TestTotalReturn(TestCase):
 
         assets = None
 
+    def test_no_money(self):
+        starting_balance = Decimal("0.00")
+        contribution_dates = pd.date_range(self.start, self.end, freq=timedelta(days=4))
+        contribution_amount = Decimal("1000.00")
+        rebalancing_dates = set()
+
+        assets = [anda.Asset("ST", Decimal("1.0"), self.rock_data)]
+
+        risk_free_rate = None
+
+        strategy = anda.Strategy(
+            self.start,
+            self.end,
+            starting_balance,
+            assets,
+            contribution_dates,
+            contribution_amount,
+            rebalancing_dates,
+            risk_free_rate,
+        )
+
+        roi = anda.total_return(strategy)
+        print(roi)
+
     def test_mult_assets(self):
         starting_balance = Decimal("100.00")
         contribution_dates = set()

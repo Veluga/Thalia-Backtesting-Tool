@@ -58,7 +58,7 @@ def _calc_balance(invesments: [Decimal], assets: [Asset], day: date) -> Decimal:
     ).quantize(PENNY)
 
 
-# TODO: split into functions: rebalance, contribute, calculate_on_day.
+# TODO: make numpy and pandas do the work.
 def total_return(strat) -> pd.Series:
     # Returns the value of the portfolio at each day in the time frame.
 
@@ -72,9 +72,12 @@ def total_return(strat) -> pd.Series:
                 [asset.values.at[date, "Close"] for asset in strat.assets],
             )
         if date in strat.contribution_dates:
-            current_weights = _measure_weights(
-                [balance * holdings for holdings in investments]
-            )
+            try:
+                current_weights = _measure_weights(
+                    [balance * holdings for holdings in investments]
+                )
+            except:
+                current_weights = [asset.weight for asset in strat.assets]
             balance += strat.contribution_amount
             investments = _allocate_investments(
                 balance,
