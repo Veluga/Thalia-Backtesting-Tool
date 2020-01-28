@@ -7,6 +7,7 @@ from decimal import Decimal
 
 from analyse_data import analyse_data as anda
 
+
 class TestTotalReturn(TestCase):
     def create_app(self):
         app = Flask(__name__)
@@ -19,19 +20,19 @@ class TestTotalReturn(TestCase):
         self.dates = pd.date_range(self.start, self.end, freq=timedelta(days=1))
         gold_prices = [
             [
+                Decimal("0.00"),
+                Decimal("0.00"),
+                Decimal("0.00"),
                 Decimal("6.00") + i * Decimal("0.03"),
-                Decimal("0.00"),
-                Decimal("0.00"),
-                Decimal("0.00"),
             ]
             for (i, _) in enumerate(self.dates)
         ]
         silver_prices = [
             [
+                Decimal("0.00"),
+                Decimal("0.00"),
+                Decimal("0.00"),
                 Decimal("1.00") + i * i * Decimal("0.01"),
-                Decimal("0.00"),
-                Decimal("0.00"),
-                Decimal("0.00"),
             ]
             for (i, _) in enumerate(self.dates)
         ]
@@ -55,7 +56,7 @@ class TestTotalReturn(TestCase):
         contribution_amount = None
         rebalancing_dates = set()
 
-        assets = [{"ticker": "GOLD", "weight": 1.0, "values": self.gold_data}]
+        assets = [anda.Asset("Gold", Decimal("1.0"), self.gold_data)]
 
         risk_free_rate = None
 
@@ -81,7 +82,7 @@ class TestTotalReturn(TestCase):
         contribution_amount = Decimal("1.00")
         rebalancing_dates = set()
 
-        assets = [{"ticker": "ST", "weight": 1.0, "values": self.rock_data}]
+        assets = [anda.Asset("ST", Decimal(1.0), self.rock_data)]
 
         risk_free_rate = None
 
@@ -117,8 +118,8 @@ class TestTotalReturn(TestCase):
         rebalancing_dates = set()
 
         assets = [
-            {"ticker": "GOLD", "weight": 0.4, "values": self.gold_data},
-            {"ticker": "SLV", "weight": 0.6, "values": self.silver_data},
+            anda.Asset("GOLD", Decimal("0.4"), self.gold_data),
+            anda.Asset("SLV", Decimal("0.6"), self.gold_data),
         ]
 
         risk_free_rate = None
@@ -136,8 +137,8 @@ class TestTotalReturn(TestCase):
 
         roi = anda.total_return(strategy)
         self.assertEqual(roi[self.start], Decimal("100.00"))
-        self.assertEqual(roi[date(2000, 1, 9)], Decimal("140.00"))
-        self.assertEqual(roi[self.end], Decimal("320.40"))
+        self.assertEqual(roi[date(2000, 1, 9)], Decimal("104.00"))
+        self.assertEqual(roi[self.end], Decimal("109.50"))
 
 
 if __name__ == "__main__":
