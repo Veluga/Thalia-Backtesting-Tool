@@ -32,3 +32,5 @@ so far been discussed with Marti and George
 
 - I have added indecies on Asset.AssetClass, Values.AssetTicker
 and Values.IsInterpolated as these are the rows most likely to be merged
+
+[Notes to team discussion](https://github.com/mara42/Thalia/wiki/Topics-discussed#data-interpolation-when)
