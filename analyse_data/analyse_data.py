@@ -1,6 +1,6 @@
 import pandas as pd
 import decimal
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from datetime import date, timedelta
 from collections import namedtuple
 
@@ -76,7 +76,7 @@ def total_return(strat) -> pd.Series:
                 current_weights = _measure_weights(
                     [balance * holdings for holdings in investments]
                 )
-            except:
+            except InvalidOperation: # no money
                 current_weights = [asset.weight for asset in strat.assets]
             balance += strat.contribution_amount
             investments = _allocate_investments(
