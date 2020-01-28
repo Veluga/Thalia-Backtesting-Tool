@@ -141,7 +141,9 @@ class TestTotalReturn(TestCase):
         )
 
         roi = total_return(strategy)
-        print(f"\n{roi}\n")
+        self.assertEqual(roi[self.start], Decimal("100.00"))
+        self.assertEqual(roi[date(2000, 1, 9)], Decimal("140.00"))
+        self.assertEqual(roi[self.end], Decimal("320.40"))
 
 
 if __name__ == "__main__":
