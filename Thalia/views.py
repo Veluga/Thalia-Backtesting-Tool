@@ -22,8 +22,11 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            error = "Invalid username or password"
+        if user is None:
+            error = "Username not recognised"
+            return render_template("login.html", form=form, error=error)
+        elif not user.check_password(form.password.data):
+            error = "Incorrect password"
             return render_template("login.html", form=form, error=error)
 
         login_user(user, remember=form.remember_me.data)
