@@ -3,6 +3,8 @@
 Return pandas dataframe columns,
 | Date | Index | Value |
 
+Remember to add dependacies lewl
+
 # Read
 
 getAssets() : return PDDF of all assets
@@ -46,6 +48,8 @@ deleteAssetClasses(PDDF)
 
 ''Inserts with multiple values''
 
+--- three seperate modules : dfRead fdWrite fdRemove
+
 for all write functions,
 ---  Use INSERT OR REPLACE
 if given multiple rows to insert with same PK, no guaratnee as to witch one
@@ -62,3 +66,5 @@ ensure the data inside it is contiguous
 --- delete functions will delete associate data (deleting asset class deletes all assets, deletes all values) [because there should never be assets in a class that isnt in the asset class table]
 
 --- can totaly compare ISO strings of dates
+
+---  All transaction in SQLite are SERIALIZABLE, because SQLite controls concurrency via a database-wide read-write lock, so that there can only be one writer at a time
