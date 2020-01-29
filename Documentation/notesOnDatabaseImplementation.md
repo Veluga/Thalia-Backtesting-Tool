@@ -17,7 +17,9 @@ conflics (Values for example is a reserved word)
 
 - SQLite doesnt have a seperate date datatype, instead SQLite functions
 can choose what representation to store the datetime in. Ive opted to
-store dates as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
+store dates as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS"). One reason this is
+preferable to storing them as seconds since UST is that some values predate
+the 1970 and would be wierd and negative
 
 - Prices will be stored as TEXT, as the SQLite REAL type is a floating point
 type, and we agreed to prioritize precision

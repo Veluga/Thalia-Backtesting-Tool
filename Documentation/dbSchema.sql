@@ -11,7 +11,10 @@ CREATE TABLE Asset (
 CREATE TABLE AssetValue (
     AssetTicker TEXT,
     ADate TEXT,
-    Price TEXT,
+    AOpen TEXT,
+    AClose TEXT,
+    ALow TEXT,
+    AHigh TEXT,
     IsInterpolated INTEGER,
     PRIMARY KEY (AssetTicker, ADate)
 );

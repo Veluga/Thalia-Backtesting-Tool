@@ -1,0 +1,2 @@
+#Database should not be read and written to
+finData.db

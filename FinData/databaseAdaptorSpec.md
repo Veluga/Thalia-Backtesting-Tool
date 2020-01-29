@@ -1,0 +1,64 @@
+# Specification for the database adaptor module
+
+Return pandas dataframe columns,
+| Date | Index | Value |
+
+# Read
+
+getAssets() : return PDDF of all assets
+
+getAssetClasses() : return PDDF all asset classes
+
+getCollectionOfAssets(list of tickers, startDate, endDate)
+: return PDDF |ticker | date | values |
+
+getAssInClass( class ) : return PDDF of assets rows related to a class, dont return
+  -- return redundatnt rows (all class rows returned will be same), so its easier to operate (provide returned DF as input to) with write functions
+
+# Write
+
+insertAssets(PDDF)
+  ticker, name, asset classes
+check asset class there
+
+
+insertValues(PDDF of format of assetValues table with DEcimal instead of text)
+check assets are there
+check that data is contiguous, and wouldnt create holes
+quietly overwrites overlap
+
+insertAssetClasses(PDDF of asset class names)
+
+# Delete?
+If given input not in db: doesnt complain ;;; this is by design andsomething SQLite does
+
+deleteValues(PDDF)
+    --Only need ticker + day columns
+
+deleteAssets(PDDF)
+    --Only need asset tickers
+    will delete associated values
+
+deleteAssetClasses(PDDF)
+    -- only asset
+    will delete associated assets and values
+
+
+''Inserts with multiple values''
+
+for all write functions,
+---  Use INSERT OR REPLACE
+if given multiple rows to insert with same PK, no guaratnee as to witch one
+ends up in the db
+
+--- while its not the databases responsability to interpolate data, it should
+ensure the data inside it is contiguous
+
+
+--- always take df as input, even if only one value? why?
+
+--- input output stored as text, passed as decimal
+
+--- delete functions will delete associate data (deleting asset class deletes all assets, deletes all values) [because there should never be assets in a class that isnt in the asset class table]
+
+--- can totaly compare ISO strings of dates
