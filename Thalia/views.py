@@ -50,6 +50,11 @@ def register():
 
     form = RegistrationForm()
     if form.validate_on_submit():
+        existing_user = User.query.filter_by(username=form.username.data).first()
+        if existing_user:
+            error = "already registered"
+            return render_template("register.html", form=form, error=error)
+
         user = User(username=form.username.data)
         user.set_password(form.password.data)
         db.session.add(user)
