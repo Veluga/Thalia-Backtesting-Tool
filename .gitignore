@@ -2,4 +2,6 @@
 .DS_STORE
 *.pyc
 venv/*
-__pycache__
+__pycache__.eggs
+*.egg*
+.coverage
