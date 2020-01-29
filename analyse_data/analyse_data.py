@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import decimal
 from decimal import Decimal, InvalidOperation
@@ -63,26 +64,25 @@ def total_return(strat) -> pd.Series:
     # Returns the value of the portfolio at each day in the time frame.
 
     ret = pd.Series(Decimal("0"), index=strat.dates)
+    ideal_weights = np.array([asset.weight for asset in strat.assets])
+    asset_values = [asset.values["Close"] for asset in strat.assets]
     balance = strat.starting_balance
+
     for date in strat.dates:
         if date == strat.dates[0] or date in strat.rebalancing_dates:
             investments = _allocate_investments(
-                balance,
-                [asset.weight for asset in strat.assets],
-                [asset.values.at[date, "Close"] for asset in strat.assets],
+                balance, ideal_weights, [values.at[date] for values in asset_values],
             )
         if date in strat.contribution_dates:
             try:
                 current_weights = _measure_weights(
                     [balance * holdings for holdings in investments]
                 )
-            except InvalidOperation: # no money
-                current_weights = [asset.weight for asset in strat.assets]
+            except InvalidOperation:  # no money
+                current_weights = ideal_weights
             balance += strat.contribution_amount
             investments = _allocate_investments(
-                balance,
-                current_weights,
-                [asset.values.at[date, "Close"] for asset in strat.assets],
+                balance, current_weights, [values[date] for values in asset_values],
             )
         balance = _calc_balance(investments, strat.assets, date)
         ret.at[date] = balance
