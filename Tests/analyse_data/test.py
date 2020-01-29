@@ -113,7 +113,9 @@ class TestTotalReturn(TestCase):
 
     def test_no_money(self):
         starting_balance = Decimal("0.00")
-        contribution_dates = pd.date_range(self.start, self.end, freq=timedelta(days=4))
+        contribution_dates = pd.date_range(
+            self.start, self.end, freq=timedelta(days=4)
+        )[1:]
         contribution_amount = Decimal("1000.00")
         rebalancing_dates = set()
 
@@ -133,7 +135,7 @@ class TestTotalReturn(TestCase):
         )
 
         roi = anda.total_return(strategy)
-        print(roi)
+        # Just the lack of exception *should* be a sign of success.
 
     def test_mult_assets(self):
         starting_balance = Decimal("100.00")
@@ -143,7 +145,7 @@ class TestTotalReturn(TestCase):
 
         assets = [
             anda.Asset("GOLD", Decimal("0.4"), self.gold_data),
-            anda.Asset("SLV", Decimal("0.6"), self.gold_data),
+            anda.Asset("SLV", Decimal("0.6"), self.silver_data),
         ]
 
         risk_free_rate = None
@@ -161,8 +163,8 @@ class TestTotalReturn(TestCase):
 
         roi = anda.total_return(strategy)
         self.assertEqual(roi[self.start], Decimal("100.00"))
-        self.assertEqual(roi[date(2000, 1, 9)], Decimal("104.00"))
-        self.assertEqual(roi[self.end], Decimal("109.50"))
+        self.assertEqual(roi[self.start + timedelta(days=14)], Decimal("220.40"))
+        self.assertEqual(roi[self.end], Decimal("320.40"))
 
 
 if __name__ == "__main__":
