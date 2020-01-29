@@ -48,6 +48,15 @@ deleteAssetClasses(PDDF)
 
 ''Inserts with multiple values''
 
+--- inputs are sanitized but types are not checked to keep in line with python
+duck typing
+
+--- if you try and query for exampla all assets in a class that isnt in the db
+the software will return an empty dataframe. This is in line with how databases
+and SQL in general act when queried. Upside is that programmer can process
+requests without checking against available assets (and querying for them),
+downside is that semantic errors with empty DF might be slightly harder to debug
+
 --- three seperate modules : dfRead fdWrite fdRemove
 
 for all write functions,

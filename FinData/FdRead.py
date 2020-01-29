@@ -3,73 +3,11 @@ Module containing methods for reading from finData.md database
 '''
 import pandas as pd
 import sqlite3
-
-#TODO: Start using typing module
-#TODO: Pep 8 style of naming
+import typing
 
 class FdRead:
     @staticmethod
-    def getAssetValues(assetTickers, startDate=None, endDate=None):
-        '''
-        Summary:
-        Return pd.dataframe of asset values between startDate and endDate for
-        any of the tickers in list assetTickers, if either date not provided
-        do not bound on that side
-
-        Args:
-        assetTickers: List[String] | Names of asset tickers
-        startDate: datetime.Date | lower bound on date
-        endDate: datetime.Date | upper bound on date
-
-        Return:
-        Pandas dataframe of format:
-        {Columns: [ticker<String>, date<datetime.date>, open<Decimal.decimal>, close<Decimal.decimal>,
-                   high<Decimal.decimal>, low<Decimal.decimal>]
-         Index: []}
-        containing AssetValues with date between start and end date and assetTicker
-        in assetTickers
-        '''
-        pass
-
-    @staticmethod
-    def getAssetStructured(assetTickers, startDate=None, endDate=None):
-        '''
-        Summary:
-        Return structured list of all values of assets in list assetTickers
-        between startDate and endDate, if a date is None, do not limit
-
-        Args:
-        assetTickers: list[String] | Names of assetTickers
-        startDate: datetime.Date | returns values after startDate
-        endDate: datetime.Date | return values after endDate
-
-        Return:
-        List of [startDate:datetime.date, endDate:f, Assets]
-        where Assets is List[Asset]
-        and Asset is dict {'ticker':String, 'name':String, 'values':Values}
-        and Values is pd.DataFrame of format
-        {Columns: [open, close, high, low] all of type decimal.Decimal
-        Index: [Date: datetime.date]}
-
-        EG:
-        [1.1.2020, 2.2.2020, [
-            {'ASS1', 'Asset1', pd.DF([
-                                        1.1.2020:[0,1,0.5,0.5],
-                                        2.1.2020:[1,2,1.5,2],
-                                        ...
-                                     ])},
-            {'ASS2', 'Asset2', pd.DF(...)},
-            ...
-        ]]
-
-        Notes:
-        - If asset not in DB, returns empty dataframe of Values
-
-        - return format designed to fit neatly into Strategy interface
-        used by BL library
-        '''
-        pass
-
+    def get
 
     @staticmethod
     def getAssets():
@@ -78,7 +16,7 @@ class FdRead:
         Return data frame of names, tickers and asset class names for all financial assets
         currently stored in the database.
 
-        Args:
+        Input:
         None
 
         Return:
@@ -109,7 +47,7 @@ class FdRead:
         Summary:
         Return all assets in a specified asset class
 
-        Args:
+        Input:
         assetClass: string | Name of asset class
 
         Return:
@@ -150,7 +88,7 @@ class FdRead:
         Return data frame of asset class data for all financial assets
         currently stored in the database.
 
-        Args:
+        Input:
         None
 
         Return:
