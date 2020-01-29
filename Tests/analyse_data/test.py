@@ -104,12 +104,31 @@ class TestTotalReturn(TestCase):
 
     def test_rebalancing(self):
         # TODO
-        starting_balance = Decimal("1.00")
+        starting_balance = Decimal("10000.00")
         contribution_dates = set()
         contribution_amount = Decimal("0.0")
         rebalancing_dates = self.dates
 
-        assets = None
+        assets = [
+            anda.Asset("GOLD", Decimal("0.5"), self.gold_data),
+            anda.Asset("SLV", Decimal("0.5"), self.silver_data),
+        ]
+
+        risk_free_rate = None
+
+        strategy = anda.Strategy(
+            self.start,
+            self.end,
+            starting_balance,
+            assets,
+            contribution_dates,
+            contribution_amount,
+            rebalancing_dates,
+            risk_free_rate,
+        )
+
+        roi = anda.total_return(strategy)
+        print(roi)
 
     def test_no_money(self):
         starting_balance = Decimal("0.00")
