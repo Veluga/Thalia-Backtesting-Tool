@@ -10,10 +10,8 @@ install_requires = [
     "flask-login",
     "flask-migrate",
     "flask-wtf",
-    "flask_assets",
     "pandas",
     "dash",
-    "pathlib",
 ]
 
 
