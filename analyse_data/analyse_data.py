@@ -94,18 +94,29 @@ def total_return(strat) -> pd.Series:
     return ret
 
 
-def sortino_ratio(strat: Strategy) -> float:
-    pass
-
-
-def sharpe_ratio(strat: Strategy) -> float:
-    roi = total_return(strat)
+def _risk_adjusted_returns(strat: Strategy) -> [Decimal]:
+    returns = total_return(strat)
     strat.risk_free_rate = strat.risk_free_rate.map(
         lambda x: Decimal(pow(math.e, math.log(x) / APPROX_DAY_PER_YEAR))
     )
-    risk_adjusted_returns = [
-        (roi[i] / roi[i - 1]) - strat.risk_free_rate[i] for i in range(1, roi.size)
+    return [
+        (returns[i] / returns[i - 1]) - strat.risk_free_rate[i]
+        for i in range(1, returns.size)
     ]
+
+
+def sortino_ratio(strat: Strategy) -> float:
+    risk_adjusted_returns = _risk_adjusted_returns(strat)
+    below_target_std = np.std(list(filter(lambda x: x < 0, risk_adjusted_returns)))
+    return (
+        np.mean(risk_adjusted_returns)
+        / below_target_std
+        * Decimal(math.sqrt(APPROX_DAY_PER_YEAR))
+    )
+
+
+def sharpe_ratio(strat: Strategy) -> float:
+    risk_adjusted_returns = _risk_adjusted_returns(strat)
     return (
         np.mean(risk_adjusted_returns)
         / np.std(risk_adjusted_returns)
@@ -114,11 +125,11 @@ def sharpe_ratio(strat: Strategy) -> float:
 
 
 def max_drawdown(strat: Strategy) -> Decimal:
-    roi = total_return(strat)
+    returns = total_return(strat)
     max_seen, max_diff = 0, 1
-    for i in range(roi.size):
-        max_seen = max(max_seen, roi[i])
-        max_diff = min(max_diff, roi[i] / max_seen)
+    for i in range(returns.size):
+        max_seen = max(max_seen, returns[i])
+        max_diff = min(max_diff, returns[i] / max_seen)
     return (1 - max_diff) * 100
 
 

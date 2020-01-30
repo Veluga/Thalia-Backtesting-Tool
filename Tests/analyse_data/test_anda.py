@@ -196,6 +196,11 @@ class TestSharpeRatio(TestCase):
         return app
 
     def setUp(self):
+        self.starting_balance = Decimal("10000")
+        self.contribution_dates = set()
+        self.contribution_amount = None
+        self.rebalancing_dates = set()
+
         self.msft_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
@@ -221,60 +226,52 @@ class TestSharpeRatio(TestCase):
         self.risk_free_vals.index = pd.to_datetime(self.risk_free_vals.index)
 
     def test_sharpe_ratio_single_asset(self):
-        starting_balance = Decimal("10000")
-        contribution_dates = set()
-        contribution_amount = None
-        rebalancing_dates = set()
         start_date = date(1986, 12, 31)
         end_date = date(2019, 12, 31)
-        risk_free_vals = self.risk_free_vals
 
         self.msft_vals = self.msft_vals.reindex(
             pd.date_range(start_date, end_date)
         ).ffill()
-
+        self.berkshire_vals = self.berkshire_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
         self.risk_free_vals = (
             self.risk_free_vals.dropna()["Close"]
             .reindex(pd.date_range(start_date, end_date))
             .ffill()
         )
+
         assets = [anda.Asset("MSFT", Decimal(1.0), self.msft_vals)]
 
         strategy = anda.Strategy(
             start_date,
             end_date,
-            starting_balance,
+            self.starting_balance,
             assets,
-            contribution_dates,
-            contribution_amount,
-            rebalancing_dates,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
             self.risk_free_vals,
         )
 
         self.assertAlmostEqual(anda.sharpe_ratio(strategy), Decimal(0.74), delta=0.01)
 
     def test_sharpe_ratio_multi_asset(self):
-        starting_balance = Decimal("10000")
-        contribution_dates = set()
-        contribution_amount = None
-        rebalancing_dates = set()
         start_date = date(1989, 12, 29)
         end_date = date(2000, 12, 29)
-        risk_free_vals = self.risk_free_vals
 
         self.msft_vals = self.msft_vals.reindex(
             pd.date_range(start_date, end_date)
         ).ffill()
-
         self.berkshire_vals = self.berkshire_vals.reindex(
             pd.date_range(start_date, end_date)
         ).ffill()
-
         self.risk_free_vals = (
             self.risk_free_vals.dropna()["Close"]
             .reindex(pd.date_range(start_date, end_date))
             .ffill()
         )
+
         assets = [
             anda.Asset("MSFT", Decimal(0.6), self.msft_vals),
             anda.Asset("BRK-A", Decimal(0.4), self.berkshire_vals),
@@ -283,47 +280,219 @@ class TestSharpeRatio(TestCase):
         strategy = anda.Strategy(
             start_date,
             end_date,
-            starting_balance,
+            self.starting_balance,
             assets,
-            contribution_dates,
-            contribution_amount,
-            rebalancing_dates,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
             self.risk_free_vals,
         )
-        # self.assertAlmostEqual(anda.sharpe_ratio(strategy), Decimal(0.76), delta=0.01)
+        # TODO USE CORRECT VALUE
+        self.assertAlmostEqual(anda.sharpe_ratio(strategy), Decimal(-0.06), delta=0.01)
+
+
+class TestMaxDrawdown(TestCase):
+    def create_app(self):
+        app = Flask(__name__)
+        app.config["TESTING"] = True
+        return app
+
+    def setUp(self):
+        self.starting_balance = Decimal("10000")
+        self.contribution_dates = set()
+        self.contribution_amount = None
+        self.rebalancing_dates = set()
+
+        self.msft_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/MSFT.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.berkshire_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/BRK-A.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.risk_free_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/risk_free_rate.csv",
+            index_col="Date",
+        )
+        self.msft_vals.index = pd.to_datetime(self.msft_vals.index)
+        self.berkshire_vals.index = pd.to_datetime(self.berkshire_vals.index)
+        self.risk_free_vals.index = pd.to_datetime(self.risk_free_vals.index)
 
     def test_max_drawdown_single_asset(self):
-        starting_balance = Decimal("10000")
-        contribution_dates = set()
-        contribution_amount = None
-        rebalancing_dates = set()
         start_date = date(1986, 12, 31)
         end_date = date(2019, 12, 31)
-        risk_free_vals = self.risk_free_vals
 
         self.msft_vals = self.msft_vals.reindex(
             pd.date_range(start_date, end_date)
         ).ffill()
-
+        self.berkshire_vals = self.berkshire_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
         self.risk_free_vals = (
             self.risk_free_vals.dropna()["Close"]
             .reindex(pd.date_range(start_date, end_date))
             .ffill()
         )
+
         assets = [anda.Asset("MSFT", Decimal(1.0), self.msft_vals)]
 
         strategy = anda.Strategy(
             start_date,
             end_date,
-            starting_balance,
+            self.starting_balance,
             assets,
-            contribution_dates,
-            contribution_amount,
-            rebalancing_dates,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
             self.risk_free_vals,
         )
-        assert True
-        print(anda.max_drawdown(strategy))
+        # TODO USE CORRECT VALUE
+        self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal(74), delta=1)
+
+    def test_max_drawdown_multi_asset(self):
+        start_date = date(1989, 12, 29)
+        end_date = date(2000, 12, 29)
+
+        self.msft_vals = self.msft_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+        self.berkshire_vals = self.berkshire_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+        self.risk_free_vals = (
+            self.risk_free_vals.dropna()["Close"]
+            .reindex(pd.date_range(start_date, end_date))
+            .ffill()
+        )
+
+        assets = [
+            anda.Asset("MSFT", Decimal(0.6), self.msft_vals),
+            anda.Asset("BRK-A", Decimal(0.4), self.berkshire_vals),
+        ]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
+            self.risk_free_vals,
+        )
+        # TODO USE CORRECT VALUE
+        self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal(61.57), delta=0.01)
+
+
+class TestSortinoRatio(TestCase):
+    def create_app(self):
+        app = Flask(__name__)
+        app.config["TESTING"] = True
+        return app
+
+    def setUp(self):
+        self.starting_balance = Decimal("10000")
+        self.contribution_dates = set()
+        self.contribution_amount = None
+        self.rebalancing_dates = set()
+
+        self.msft_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/MSFT.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.berkshire_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/BRK-A.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.risk_free_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/risk_free_rate.csv",
+            index_col="Date",
+        )
+        self.msft_vals.index = pd.to_datetime(self.msft_vals.index)
+        self.berkshire_vals.index = pd.to_datetime(self.berkshire_vals.index)
+        self.risk_free_vals.index = pd.to_datetime(self.risk_free_vals.index)
+
+    def test_sortino_ratio_single_asset(self):
+        start_date = date(1986, 12, 31)
+        end_date = date(2019, 12, 31)
+
+        self.msft_vals = self.msft_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+        self.berkshire_vals = self.berkshire_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+        self.risk_free_vals = (
+            self.risk_free_vals.dropna()["Close"]
+            .reindex(pd.date_range(start_date, end_date))
+            .ffill()
+        )
+
+        assets = [anda.Asset("MSFT", Decimal(1.0), self.msft_vals)]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
+            self.risk_free_vals,
+        )
+        # TODO USE CORRECT VALUE
+        self.assertAlmostEqual(anda.sortino_ratio(strategy), Decimal(0.92), delta=0.01)
+
+    def test_sortino_ratio_multi_asset(self):
+        start_date = date(1989, 12, 29)
+        end_date = date(2000, 12, 29)
+
+        self.msft_vals = self.msft_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+        self.berkshire_vals = self.berkshire_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+        self.risk_free_vals = (
+            self.risk_free_vals.dropna()["Close"]
+            .reindex(pd.date_range(start_date, end_date))
+            .ffill()
+        )
+
+        assets = [
+            anda.Asset("MSFT", Decimal(0.6), self.msft_vals),
+            anda.Asset("BRK-A", Decimal(0.4), self.berkshire_vals),
+        ]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
+            self.risk_free_vals,
+        )
+        # TODO USE CORRECT VALUE
+        self.assertAlmostEqual(anda.sortino_ratio(strategy), Decimal(-0.07), delta=0.01)
 
 
 if __name__ == "__main__":
