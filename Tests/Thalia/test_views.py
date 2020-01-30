@@ -13,6 +13,7 @@ def test_register(client, app):
     response = client.post(
         "/register", data={"username": "a", "password": "a"}, follow_redirects=True
     )
+    # TODO: more long term test for checking page
     assert b"Sign In" in response.data
 
     # test that the user was inserted into the database
@@ -30,10 +31,9 @@ def test_login_validate_input(auth, username, password, message):
 
 
 def test_logout(client, auth):
-    auth.login()
 
     with client:
-        client.get("/")
+        auth.login()
         assert "user_id" in session, "login needs to work"
         auth.logout()
         assert "user_id" not in session, "user_id should be forgotten on logout"
@@ -68,6 +68,7 @@ def test_login(app, client, auth):
 
     # login request set the user_id in the session
     # check that the user is loaded from the session
+    # TODO: find purpose of this test
     with client:
         client.get("/")
         assert session["user_id"] == "1"
@@ -80,3 +81,5 @@ def test_login(app, client, auth):
     # test redirection of registration page to home when already signed in
     response = client.get("/register", follow_redirects=True)
     assert b"Hi, test" in response.data
+
+# TODO: if trying to access /dashboard while logged out, redirect to login page
