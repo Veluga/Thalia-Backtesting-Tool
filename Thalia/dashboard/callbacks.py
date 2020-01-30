@@ -7,6 +7,12 @@ from dash.exceptions import PreventUpdate
 
 
 def register_callbacks(dashapp):
+    """
+    Works as essentially react component routing.
+    Whenever changes happen in an Input components chosen attribute
+    function is called with Input and States as values and func
+    returns values are sent to Output components
+    """
     dashapp.callback(
         [Output("graph", "figure"), Output("table", "data")],
         [Input("submit-btn", "n_clicks")],

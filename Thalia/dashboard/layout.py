@@ -84,6 +84,7 @@ def options():
 
 
 layout = html.Div(
+    # essentially the applications main HTML layout
     html.Div(
         [
             html.H1("Stock Tickers", className="title"),

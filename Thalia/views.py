@@ -22,20 +22,31 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None:
-            error = "Username not recognised"
-            return render_template("login.html", form=form, error=error)
-        elif not user.check_password(form.password.data):
-            error = "Incorrect password"
+        error = validate_credentials(user, form.password.data)
+        if error:
             return render_template("login.html", form=form, error=error)
 
         login_user(user, remember=form.remember_me.data)
-        next_page = request.args.get("next")
-        if not next_page or url_parse(next_page).netloc != "":
-            next_page = url_for("main.index")
+        next_page = find_next(backup="main.index")
         return redirect(next_page)
 
     return render_template("login.html", title="Sign In", form=form)
+
+
+def find_next(backup):
+    next_page = request.args.get("next")
+    if not next_page or url_parse(next_page).netloc != "":
+        next_page = url_for(backup)
+    return next_page
+
+
+def validate_credentials(user, password):
+    error = None
+    if user is None:
+        error = "Username not recognised"
+    elif not user.check_password(password):
+        error = "Incorrect password"
+    return error
 
 
 @server_bp.route("/logout/")
@@ -53,16 +64,22 @@ def register():
 
     form = RegistrationForm()
     if form.validate_on_submit():
-        existing_user = User.query.filter_by(username=form.username.data).first()
-        if existing_user:
+        if existing_username(form.username.data):
             error = "already registered"
             return render_template("register.html", form=form, error=error)
-
-        user = User(username=form.username.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect(url_for("main.login"))
+        else:
+            save_user(form.username.data, form.password.data)
+            return redirect(url_for("main.login"))
 
     return render_template("register.html", title="Register", form=form)
+
+
+def save_user(username, password):
+    user = User(username=username)
+    user.set_password(password)
+    db.session.add(user)
+    db.session.commit()
+
+
+def existing_username(username):
+    return User.query.filter_by(username=username).first()
