@@ -80,5 +80,22 @@ def test_login(client, auth):
     response = client.get("/register", follow_redirects=True)
     assert b"Hi, test" in response.data
 
-# TODO: if trying to access /dashboard while logged out, redirect to login page
 
+def test_dashboard_access(client, auth):
+    response = client.get("/dashboard", follow_redirects=True)
+
+    assert response.status_code == 200
+
+    assert (
+        b"Sign In" in response.data
+    ), "non-loggedin users should be redirected to login page"
+
+    auth.login()
+
+    response = client.get("/dashboard", follow_redirects=True)
+
+    assert response.status_code == 200
+    # TODO: find a better way of testing what page is loaded
+    assert (
+        b"Backtest dashboard" in response.data
+    ), "logged in users should have access to dashbaord"
