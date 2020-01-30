@@ -24,8 +24,8 @@ def register_dashapps(app):
     from .dashboard.callbacks import register_callbacks
 
     # Meta tags for viewport responsiveness
-    # TODO: came with tutorial code, check if good enough
     meta_viewport = {
+        # TODO: came with tutorial code, check if good enough
         "name": "viewport",
         "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
     }

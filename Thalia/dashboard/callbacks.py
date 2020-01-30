@@ -31,7 +31,7 @@ def update_dashboard(
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
 
-    TODO: make ticker selection and proportion selection matter
+    TODO: make proportion selection matter
     """
     if n_clicks is None:
         raise PreventUpdate
