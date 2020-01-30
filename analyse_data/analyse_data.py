@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 import decimal
+import math
 from decimal import Decimal, InvalidOperation
 from datetime import date, timedelta
 from collections import namedtuple
-import math
 
 PENNY = Decimal("0.01")
 
@@ -14,6 +14,7 @@ Asset = namedtuple("Asset", ("ticker", "weight", "values"))
 # values: pd.DataFrame("Open", "Low", "High", "Close") indexed and sorted by date.
 
 APPROX_TDAY_PER_YEAR = 252
+APPROX_DAY_PER_YEAR = 365
 
 
 class Strategy:
@@ -26,7 +27,7 @@ class Strategy:
         contribution_dates,  # implements __contains__ for date
         contribution_amount: Decimal,
         rebalancing_dates,  # implements __contains__ for date
-        risk_free_rate: Decimal,
+        risk_free_rate: pd.Series,
     ):
         self.dates = pd.date_range(start_date, end_date, freq="D")
         self.starting_balance = starting_balance
@@ -99,14 +100,16 @@ def sortino_ratio(strat: Strategy) -> float:
 
 def sharpe_ratio(strat: Strategy) -> float:
     roi = total_return(strat)
-    # TODO more sophisticaded risk free rate manip
-    simple_returns = [
-        (roi[i] / roi[i - 1]) - strat.risk_free_rate for i in range(1, roi.size)
+    strat.risk_free_rate = strat.risk_free_rate.map(
+        lambda x: Decimal(pow(math.e, math.log(x) / APPROX_DAY_PER_YEAR))
+    )
+    risk_adjusted_returns = [
+        (roi[i] / roi[i - 1]) - strat.risk_free_rate[i] for i in range(1, roi.size)
     ]
     return (
-        np.mean(simple_returns)
-        / np.std(simple_returns)
-        * Decimal(math.sqrt(APPROX_TDAY_PER_YEAR))
+        np.mean(risk_adjusted_returns)
+        / np.std(risk_adjusted_returns)
+        * Decimal(math.sqrt(APPROX_DAY_PER_YEAR))
     )
 
 
