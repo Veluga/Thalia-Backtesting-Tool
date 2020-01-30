@@ -1,7 +1,5 @@
-from datetime import datetime as dt
-from functools import reduce
-
-import pandas_datareader as pdr
+import pandas as pd
+import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -44,12 +42,10 @@ def update_dashboard(
     all_tickers = (ticker1, ticker2, ticker3)
     # TODO: add error handling (UI facing message) for erronous input
     tickers = [dropdown for dropdown in all_tickers if dropdown]
-    dfs = [get_data(ticker) for ticker in tickers]
+    dfs = get_data("")
     # TODO: add error handling for ticker not found
-    porftolio_sum = reduce(lambda x, y: x.add(y), dfs)
-    dfs
     table_data = get_table_data()  # TODO: make interactive
-    return get_figure_data(porftolio_sum), table_data
+    return get_figure(dfs), table_data
 
 
 def get_table_data():
@@ -67,20 +63,20 @@ def get_table_data():
     ]
 
 
-def get_figure_data(df):
-    traces = [
-        create_time_series(df, df.index, df.Close)
-    ]
-    figure = {
-        "data": traces,
-        "layout": {"margin": {"l": 40, "r": 0, "t": 20, "b": 30}},
-    }
-    return figure
+def get_figure(df):
+    fig = go.Figure()
+    fig.add_trace(get_trace(df.index, df.data))
+    return fig
 
 
-def create_time_series(dff, x, y):
-    return dict(x=x, y=y, mode="lines+markers")
+def get_trace(x, y):
+    return go.Scatter(x=x, y=y, mode="lines+markers",)
 
 
-def get_data(tickers):
-    return pdr.get_data_yahoo(tickers, start=dt(2017, 1, 1), end=dt.now())
+def get_data(ticker):
+    import numpy as np
+
+    date_rng = pd.date_range(start="1/1/2010", end="1/08/2010", freq="H")
+    df = pd.DataFrame(date_rng, columns=["date"])
+    df["data"] = np.random.randint(0, 100, size=(len(date_rng)))
+    return df
