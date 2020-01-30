@@ -8,6 +8,7 @@ from decimal import Decimal
 # This demands that we run from the Thalia directory.
 # TODO: make it work no matter which directory it's run from.
 import sys
+import os
 
 sys.path.insert(0, "./analyse_data")
 from analyse_data import *
@@ -106,6 +107,62 @@ class TestTotalReturn(TestCase):
         self.assertEqual(Decimal("2.00"), roi.at[self.start])
         for (day, next_day) in zip(self.dates, self.dates[1:]):
             self.assertEqual(roi[day] + Decimal("1.00"), roi[next_day])
+
+
+class TestSharpeRatio(TestCase):
+    def create_app(self):
+        app = Flask(__name__)
+        app.config["TESTING"] = True
+        return app
+
+    def setUp(self):
+        self.msft_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/MSFT.csv",
+            index_col="Date",
+            converters={
+                "Open": Decimal,
+                "High": Decimal,
+                "Low": Decimal,
+                "Close": Decimal,
+            },
+        )
+        self.risk_free_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/risk_free_rate.csv",
+            index_col="Date",
+        )
+        self.msft_vals.index = pd.to_datetime(self.msft_vals.index)
+        self.risk_free_vals.index = pd.to_datetime(self.risk_free_vals.index)
+
+    def test_sharpe_ratio(self):
+        starting_balance = Decimal("10000")
+        contribution_dates = set()
+        contribution_amount = None
+        rebalancing_dates = set()
+        start_date = date(1986, 3, 13)
+        end_date = date(2020, 1, 24)
+        risk_free_vals = self.risk_free_vals
+
+        self.msft_vals = self.msft_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+
+        assets = [{"ticker": "MSFT", "weight": 1.0, "values": self.msft_vals}]
+
+        strategy = Strategy(
+            start_date,
+            end_date,
+            starting_balance,
+            assets,
+            contribution_dates,
+            contribution_amount,
+            rebalancing_dates,
+            Decimal(1.004388968),
+        )
+        print(sharpe_ratio(strategy))
 
 
 if __name__ == "__main__":

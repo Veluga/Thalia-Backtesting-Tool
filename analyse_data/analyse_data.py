@@ -2,10 +2,14 @@ import pandas as pd
 import decimal
 from decimal import Decimal
 from datetime import date, timedelta
+import math
+import numpy as np
 
 # TODO: figure out how to set it to 2 decimal places, not signicant figures.
 # possibly use quantize
 # decimal.getcontext().prec = 2
+
+APPROX_TDAY_PER_YEAR = 252
 
 
 class Strategy:
@@ -18,7 +22,7 @@ class Strategy:
         contribution_dates,  # implements __contains__ for date
         contribution_amount: Decimal,
         rebalancing_dates,  # implements __contains__ for date
-        risk_free_rate: pd.DataFrame,
+        risk_free_rate: Decimal,
     ):
         self.start_date = start_date
         self.end_date = end_date
@@ -87,15 +91,24 @@ def total_return(strat) -> pd.Series:
     return ret
 
 
-def sortino_ratio(strat) -> float:
+def sortino_ratio(strat: Strategy) -> float:
     pass
 
 
-def sharpe_ratio(strat) -> float:
-    pass
+def sharpe_ratio(strat: Strategy) -> float:
+    roi = total_return(strat)
+    # TODO more sophisticaded risk free rate manip
+    simple_returns = [
+        (roi[i] / roi[i - 1]) - strat.risk_free_rate for i in range(1, roi.size)
+    ]
+    return (
+        np.mean(simple_returns)
+        / np.std(simple_returns)
+        * Decimal(math.sqrt(APPROX_TDAY_PER_YEAR))
+    )
 
 
-def max_drawdown(strat) -> Decimal:
+def max_drawdown(strat: Strategy) -> Decimal:
     pass
 
 
