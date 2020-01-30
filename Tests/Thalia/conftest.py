@@ -23,19 +23,18 @@ def app():
             "WTF_CSRF_ENABLED": False,  # I think necessary for testing forms
         }
     )
-    # TODO: document what app_context means
-    ctx = app.app_context()
+    ctx = app.app_context()  # makes current_app point to this app
     ctx.push()
-    with app.app_context():  # is this duplicate code?
-        db.create_all()  # I think only inits the ORM stuff
 
-        # TODO: move user creation to own fixture?
-        name = "test"
-        pw = "test"
-        new_user = User(username=name)
-        new_user.set_password(pw)
-        db.session.add(new_user)
-        db.session.commit()
+    db.create_all()  # I think only inits the ORM stuff
+
+    # TODO: move user creation to own fixture?
+    name = "test"
+    pw = "test"
+    new_user = User(username=name)
+    new_user.set_password(pw)
+    db.session.add(new_user)
+    db.session.commit()
 
     yield app
 
@@ -46,7 +45,9 @@ def app():
 
 @pytest.fixture
 def client(app):
-    # TODO: explain test_client
+    """
+    Allows test to make requests to the application without running the server
+    """
     return app.test_client()
 
 

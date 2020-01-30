@@ -5,7 +5,7 @@ from flask_login import current_user
 from Thalia.models.user import User
 
 
-def test_register(client, app):
+def test_register(client):
     # test that viewing the page renders without template errors
     assert client.get("/register", follow_redirects=True).status_code == 200
 
@@ -17,8 +17,7 @@ def test_register(client, app):
     assert b"Sign In" in response.data
 
     # test that the user was inserted into the database
-    with app.app_context():
-        assert User.query.filter_by(username="a").first() is not None
+    assert User.query.filter_by(username="a").first() is not None
 
 
 @pytest.mark.parametrize(
@@ -32,7 +31,7 @@ def test_login_validate_input(auth, username, password, message):
 
 def test_logout(client, auth):
 
-    with client:
+    with client:  # context necessary for login
         auth.login()
         assert "user_id" in session, "login needs to work"
         auth.logout()
@@ -55,7 +54,7 @@ def test_register_validate_input(client, username, password, message):
     assert message in response.data
 
 
-def test_login(app, client, auth):
+def test_login(client, auth):
     # test that viewing the page renders without template errors
     assert client.get("/login", follow_redirects=True).status_code == 200
 
@@ -68,7 +67,6 @@ def test_login(app, client, auth):
 
     # login request set the user_id in the session
     # check that the user is loaded from the session
-    # TODO: find purpose of this test
     with client:
         client.get("/")
         assert session["user_id"] == "1"
@@ -83,3 +81,4 @@ def test_login(app, client, auth):
     assert b"Hi, test" in response.data
 
 # TODO: if trying to access /dashboard while logged out, redirect to login page
+
