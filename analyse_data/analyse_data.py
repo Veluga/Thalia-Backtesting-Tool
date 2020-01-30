@@ -114,7 +114,12 @@ def sharpe_ratio(strat: Strategy) -> float:
 
 
 def max_drawdown(strat: Strategy) -> Decimal:
-    pass
+    roi = total_return(strat)
+    max_seen, max_diff = 0, 1
+    for i in range(roi.size):
+        max_seen = max(max_seen, roi[i])
+        max_diff = min(max_diff, roi[i] / max_seen)
+    return (1 - max_diff) * 100
 
 
 def best_year(strat) -> float:

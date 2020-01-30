@@ -201,12 +201,7 @@ class TestSharpeRatio(TestCase):
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/MSFT.csv",
             index_col="Date",
-            converters={
-                "Open": Decimal,
-                "High": Decimal,
-                "Low": Decimal,
-                "Close": Decimal,
-            },
+            converters={"Close": Decimal,},
         )
         self.berkshire_vals = pd.read_csv(
             "file://"
@@ -296,6 +291,39 @@ class TestSharpeRatio(TestCase):
             self.risk_free_vals,
         )
         # self.assertAlmostEqual(anda.sharpe_ratio(strategy), Decimal(0.76), delta=0.01)
+
+    def test_max_drawdown_single_asset(self):
+        starting_balance = Decimal("10000")
+        contribution_dates = set()
+        contribution_amount = None
+        rebalancing_dates = set()
+        start_date = date(1986, 12, 31)
+        end_date = date(2019, 12, 31)
+        risk_free_vals = self.risk_free_vals
+
+        self.msft_vals = self.msft_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+
+        self.risk_free_vals = (
+            self.risk_free_vals.dropna()["Close"]
+            .reindex(pd.date_range(start_date, end_date))
+            .ffill()
+        )
+        assets = [anda.Asset("MSFT", Decimal(1.0), self.msft_vals)]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            starting_balance,
+            assets,
+            contribution_dates,
+            contribution_amount,
+            rebalancing_dates,
+            self.risk_free_vals,
+        )
+        assert True
+        print(anda.max_drawdown(strategy))
 
 
 if __name__ == "__main__":
