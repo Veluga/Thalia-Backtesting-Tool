@@ -1,3 +1,14 @@
+
+Global databases controller
+---register and manage databases
+
+Facade class, register connections, make it one object with permissions:
+
+dbmanager('name' , 'rw')
+use class composition to add submodules
+
+yield
+
 # Specification for the database adaptor module
 
 Return pandas dataframe columns,

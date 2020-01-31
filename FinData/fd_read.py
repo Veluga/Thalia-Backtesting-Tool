@@ -1,21 +1,23 @@
 """
-Module containing methods for reading from finData.md database
-# TODO: Start using typing module
+Module containing methods for reading from financial data database
 """
 
 import df_config as dfc
+
 import pandas as pd
 import sqlite3
 
+#TODO: Remove this
+from datetime import date
 
 class FdRead:
     @staticmethod
     def get_asset_values(asset_tickers, startDate=None, endDate=None):
         """
         Summary:
-        Return pd.dataframe of asset values between startDate and endDate for
-        any of the tickers in list assetTickers, if either date not provided
-        do not bound on that side
+        Return pd.dataframe of asset values in inclusive range from startDate
+        to endDate for any of the tickers in list assetTickers (if either date
+        not provided range unbounded on approp side)
 
         Args:
         assetTickers: List[String] | Names of asset tickers
@@ -34,62 +36,27 @@ class FdRead:
         # Optionally move name to seperate config file later
         conn = sqlite3.connect(dfc.DATABASE_NAME)
         # generate parameter list for subsitution
-        generated_params = str(
-            tuple(["@p" + str(i) for i in range(len(asset_tickers))])
-        ).replace("'", "")
+        generated_params = str(tuple([ '@p' + str(i) for i in range(len(asset_tickers))])).replace('\'', '')
+        # construct query
+        query = "SELECT * \
+                 FROM AssetValue \
+                 WHERE AssetValue.AssetTicker IN " + generated_params + ' '
+        if(startDate != None):
+            query += 'AND (AssetValue.ADate >= @st_date) '
+            asset_tickers.append(str(startDate))
+        if(endDate != None):
+            query += 'AND (AssetValue.ADate <= @end_date) '
+            asset_tickers.append(str(endDate))
         # read data into df
         df0 = pd.read_sql(
-            "SELECT * \
-             FROM AssetValue \
-             WHERE AssetValue.AssetTicker IN "
-            + generated_params
-            + ";",
+            query + ";",
             conn,
-            params=asset_tickers,
+            params=asset_tickers
         )
         conn.close()
         # adjust index if neccesary
         df0.set_index("AssetTicker", inplace=True)
         return df0
-
-    @staticmethod
-    def get_structured_values(asset_tickers, startDate=None, endDate=None):
-        """
-        Summary:
-        Return structured list of all values of assets in list assetTickers
-        between startDate and endDate, if a date is None, do not limit
-
-        Args:
-        assetTickers: list[String] | Names of assetTickers
-        startDate: datetime.Date | returns values after startDate
-        endDate: datetime.Date | return values after endDate
-
-        Return:
-        List of [startDate:datetime.date, endDate:f, Assets]
-        where Assets is List[Asset]
-        and Asset is dict {'ticker':String, 'name':String, 'values':Values}
-        and Values is pd.DataFrame of format
-        {Columns: [open, close, high, low] all of type decimal.Decimal
-        Index: [Date: datetime.date]}
-
-        EG:
-        [1.1.2020, 2.2.2020, [
-            {'ASS1', 'Asset1', pd.DF([
-                                        1.1.2020:[0,1,0.5,0.5],
-                                        2.1.2020:[1,2,1.5,2],
-                                        ...
-                                     ])},
-            {'ASS2', 'Asset2', pd.DF(...)},
-            ...
-        ]]
-
-        Notes:
-        - If asset not in DB, returns empty dataframe of Values
-
-        - return format designed to fit neatly into Strategy interface
-        used by BL library
-        """
-        pass
 
     @staticmethod
     def get_assets():
@@ -200,6 +167,7 @@ class FdRead:
 
 # unit testing code, if you're reading this outside of branch db-adaptor
 # quietly remove it, as i've already moved it to tests
+'''
 print(FdRead.get_assets())
 print("#" * 100)
 print(FdRead.get_asset_classes())
@@ -207,4 +175,6 @@ print("#" * 100)
 print(FdRead.get_assets_in_class("PETROLIUM DERIVATIVE"))
 print("#" * 100)
 print(FdRead.get_assets_in_class("NOTACLASS"))
-print(FdRead.get_asset_values(["GLU", "BRY", "RCK", "NOTANASSET"], 1, 2))
+print("#" * 100)
+print(FdRead.get_asset_values(['GLU', 'BRY','RCK' , 'NOTANASSET'] , date(year=2020, month=1, day=1), date(year=2020, month=1, day=3)))
+'''
