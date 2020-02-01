@@ -1,19 +1,17 @@
 """
 Module containing methods for reading from financial data database
 """
-
-import df_config as dfc
-
 import pandas as pd
 import sqlite3
-
-# TODO: Remove this
 from datetime import date
+from decimal import Decimal
 
 
 class FdRead:
-    @staticmethod
-    def get_asset_values(asset_tickers, startDate=None, endDate=None):
+    def __init__(self, db_address):
+        self.db_address = db_address
+
+    def read_asset_values(self, asset_tickers, startDate=None, endDate=None):
         """Get all values of list of assets in date range
 
         Args:
@@ -30,7 +28,7 @@ class FdRead:
         in assetTickers
         """
         # Optionally move name to seperate config file later
-        conn = sqlite3.connect(dfc.DATABASE_NAME)
+        conn = sqlite3.connect(self.db_address)
         # generate parameter list for subsitution
         generated_params = str(
             tuple(["@p" + str(i) for i in range(len(asset_tickers))])
@@ -43,21 +41,27 @@ class FdRead:
             + generated_params
             + " "
         )
-        if startDate != None:
+        if startDate is not None:
             query += "AND (AssetValue.ADate >= @st_date) "
             asset_tickers.append(str(startDate))
-        if endDate != None:
+        if endDate is not None:
             query += "AND (AssetValue.ADate <= @end_date) "
             asset_tickers.append(str(endDate))
         # read data into df
         df0 = pd.read_sql(query + ";", conn, params=asset_tickers)
         conn.close()
+        # fix types
+        df0["AOpen"] = df0["AOpen"].map(Decimal)
+        df0["AClose"] = df0["AClose"].map(Decimal)
+        df0["AHigh"] = df0["AHigh"].map(Decimal)
+        df0["ALow"] = df0["ALow"].map(Decimal)
+        df0["ADate"] = df0["ADate"].map(date)
         # adjust index if neccesary
         df0.set_index(["AssetTicker", "ADate"], inplace=True)
+
         return df0
 
-    @staticmethod
-    def get_assets():
+    def read_assets(self):
         """Get records of all financial assets stored in db
 
         Args:
@@ -74,7 +78,7 @@ class FdRead:
         If nothing stored will return empty dataframe of same format
         """
         # Optionally move name to seperate config file later
-        conn = sqlite3.connect(dfc.DATABASE_NAME)
+        conn = sqlite3.connect(self.db_address)
         # read data in df
         df0 = pd.read_sql(
             "SELECT * \
@@ -86,8 +90,7 @@ class FdRead:
         df0.set_index("AssetTicker", inplace=True)
         return df0
 
-    @staticmethod
-    def get_assets_in_class(asset_class):
+    def read_assets_in_class(self, asset_class):
         """Get records of all assets in an asset class
 
         Args:
@@ -111,7 +114,7 @@ class FdRead:
         unless needed)
         """
         # Optionally move name to seperate config file later
-        conn = sqlite3.connect(dfc.DATABASE_NAME)
+        conn = sqlite3.connect(self.db_address)
         # read data in df
         df0 = pd.read_sql(
             "SELECT * \
@@ -125,8 +128,7 @@ class FdRead:
         df0.set_index("AssetTicker", inplace=True)
         return df0
 
-    @staticmethod
-    def get_asset_classes():
+    def read_asset_classes(self):
         """Get records of all asset classes stored in fin database
 
         Args:
@@ -142,7 +144,7 @@ class FdRead:
         If nothing stored will return empty dataframe of same format
         """
         # Optionally move name to seperate config file later
-        conn = sqlite3.connect(dfc.DATABASE_NAME)
+        conn = sqlite3.connect(self.db_address)
         # read data in df
         df0 = pd.read_sql(
             "SELECT * \
@@ -167,5 +169,6 @@ print(FdRead.get_assets_in_class("PETROLIUM DERIVATIVE"))
 print("#" * 100)
 print(FdRead.get_assets_in_class("NOTACLASS"))
 print("#" * 100)
-print(FdRead.get_asset_values(['GLU', 'BRY','RCK' , 'NOTANASSET'] , date(year=2020, month=1, day=1), date(year=2020, month=1, day=3)))
+print(FdRead.get_asset_values(['GLU', 'BRY','RCK' , 'NOTANASSET'] ,
+ date(year=2020, month=1, day=1), date(year=2020, month=1, day=3)))
 """

@@ -4,16 +4,14 @@ Module containing methods for writing to financial database
 #TODO: account for column order
 """
 
-import pandas as pd
 import sqlite3
-
-import df_config as dfc
-import fd_read as fdr
 
 
 class FdWrite:
-    @staticmethod
-    def __chceck_df_format(df, names):
+    def __init__(self, db_address):
+        self.db_address = db_address
+
+    def __chceck_df_format(self, df, names):
         """check set of df indecies and column names are euqal to set of names
         except if incorrect
 
@@ -31,8 +29,7 @@ class FdWrite:
         if set(list(df.index.names) + list(df.columns)) != set(names):
             raise Exception("Incorrect DF format (check row and index labels)")
 
-    @staticmethod
-    def __insert_df(recordsDF, tableName):
+    def __insert_df(self, recordsDF, tableName):
         """Insert zero or more records from pandas df into specified table
 
         Params:
@@ -45,7 +42,7 @@ class FdWrite:
         Notes:
         -If fuplicate PK in db, quietly update
         """
-        conn = sqlite3.connect(dfc.DATABASE_NAME)
+        conn = sqlite3.connect(self.db_address)
         # one of SQLites wierder idiosyncracies, pragmas must be executed
         # for each connection
         conn.execute("PRAGMA foreign_keys = ON;")
@@ -63,8 +60,7 @@ class FdWrite:
         conn.commit()
         conn.close()
 
-    @staticmethod
-    def add_asset_classes(asset_classes):
+    def write_asset_classes(self, asset_classes):
         """Add zero or more records of asset classes to fin database
 
         Params:
@@ -79,11 +75,10 @@ class FdWrite:
         Notes:
         - If given non unique PK, quietly update record
         """
-        FdWrite.__chceck_df_format(asset_classes, ["AssetClassName"])
-        FdWrite.__insert_df(asset_classes, "AssetClass")
+        self.__chceck_df_format(asset_classes, ["AssetClassName"])
+        self.__insert_df(asset_classes, "AssetClass")
 
-    @staticmethod
-    def add_assets(assets):
+    def write_assets(self, assets):
         """Add zero or more records of assets to fin database
 
         Params:
@@ -101,11 +96,10 @@ class FdWrite:
         - If one or more records contain reference to AssetClassName not in
           AssetClass(AssetClassName), raise exception
         """
-        FdWrite.__chceck_df_format(assets, ["Name", "AssetClassName", "AssetTicker"])
-        FdWrite.__insert_df(assets, "Asset")
+        self.__chceck_df_format(assets, ["Name", "AssetClassName", "AssetTicker"])
+        self.__insert_df(assets, "Asset")
 
-    @staticmethod
-    def add_asset_values(values):
+    def write_asset_values(self, values):
         """Add zero or more records of values to fin database
 
         Params:
@@ -123,7 +117,7 @@ class FdWrite:
             Asset(AssetTicker), raise
         """
         # check df in right format
-        FdWrite.__chceck_df_format(
+        self.__chceck_df_format(
             values,
             [
                 "AOpen",
@@ -142,14 +136,14 @@ class FdWrite:
         values["ALow"] = values["ALow"].map(str)
         values.index = values.index.map(lambda x: (str(x[0]), str(x[1])))
 
-        FdWrite.__insert_df(values, "AssetValue")
+        self.__insert_df(values, "AssetValue")
 
 
 """
 Hacky unit tests. If youre reading this please quietly remove them as I've
 moved them to test folder + added automation
 """
-
+"""
 import fd_read as fdr
 
 
@@ -228,3 +222,4 @@ print(
         date(day=1, month=1, year=2050),
     )
 )
+"""
