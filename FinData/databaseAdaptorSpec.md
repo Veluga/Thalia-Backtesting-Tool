@@ -1,6 +1,8 @@
 
 Global databases controller
 ---register and manage databases
+---- mutli index where apropriate
+--- unique contrsaint insertint
 
 Facade class, register connections, make it one object with permissions:
 
@@ -58,6 +60,8 @@ deleteAssetClasses(PDDF)
 
 
 ''Inserts with multiple values''
+
+--- All methods of libraries actions on db are atomic (implemented as sperate connections)
 
 --- inputs are sanitized but types are not checked to keep in line with python
 duck typing
