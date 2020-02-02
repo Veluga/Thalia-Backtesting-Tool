@@ -495,5 +495,76 @@ class TestSortinoRatio(TestCase):
         self.assertAlmostEqual(anda.sortino_ratio(strategy), Decimal(-0.07), delta=0.01)
 
 
+class TestBestWorstYear(TestCase):
+    def create_app(self):
+        app = Flask(__name__)
+        app.config["TESTING"] = True
+        return app
+    
+    def setUp(self):
+        self.starting_balance = Decimal("10000")
+        self.contribution_dates = set()
+        self.contribution_amount = None
+        self.rebalancing_dates = set()
+
+        self.msft_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/MSFT.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.berkshire_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/BRK-A.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.risk_free_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/risk_free_rate.csv",
+            index_col="Date",
+        )
+        self.msft_vals.index = pd.to_datetime(self.msft_vals.index)
+        self.berkshire_vals.index = pd.to_datetime(self.berkshire_vals.index)
+        self.risk_free_vals.index = pd.to_datetime(self.risk_free_vals.index)
+    
+    def test_simple(self):
+        start_date = date(1989, 12, 29)
+        end_date = date(2000, 12, 29)
+        
+        contribution_dates = pd.date_range("19900101", "20000101", freq="Y")
+        contribution_amount = Decimal("0.00")
+
+        self.msft_vals = self.msft_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
+        self.risk_free_vals = (
+            self.risk_free_vals.dropna()["Close"]
+            .reindex(pd.date_range(start_date, end_date))
+            .ffill()
+        )
+
+        assets = [
+            anda.Asset("MSFT", Decimal("1.0"), self.msft_vals),
+        ]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            contribution_dates,
+            contribution_amount,
+            self.rebalancing_dates,
+            self.risk_free_vals,
+        )
+        
+        print(anda.best_year(strategy))
+        print(anda.worst_year(strategy))
+    
+
 if __name__ == "__main__":
     unittest.main()

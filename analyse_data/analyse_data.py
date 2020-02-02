@@ -51,7 +51,6 @@ def _allocate_investments(
 def _measure_weights(asset_vals: [Decimal]) -> [Decimal]:
     # asset_vals is the current amount of money invested in each asset.
     total = sum(asset_vals)
-    # TODO: what if total == 0?
     return [val / total for val in asset_vals]
 
 
@@ -133,17 +132,28 @@ def max_drawdown(strat: Strategy) -> Decimal:
     return (1 - max_diff) * 100
 
 
+def _relative_yearly_diff(returns: pd.Series) -> [Decimal]:
+    all_dates = returns.index
+    year_begins = [d for d in all_dates if d.month == d.day == 1]
+    return [
+        returns.at[next_year] / returns.at[this_year] - Decimal("1.0")
+        for (this_year, next_year) in zip(year_begins, year_begins[1:])
+    ]
+
+# TODO: efficiency.
 def best_year(strat) -> float:
     """
     Returns the increase (hopefully) in value of the strategy over its
-    best calendar year - beginning and ending on Jan. 1.
+    best calendar year - beginning and ending on Jan. 1, as a percentage.
     """
-    pass
+    returns = total_return(strat)
+    return max(_relative_yearly_diff(returns)) * Decimal("100") # Adjust for percentage.
 
 
 def worst_year(strat) -> float:
     # Same convention as best_year
-    pass
+    returns = total_return(strat)
+    return min(_relative_yearly_diff(returns)) * Decimal("100") # Adjust for percentage.
 
 
 # TODO: move tests into the proper testing area.
