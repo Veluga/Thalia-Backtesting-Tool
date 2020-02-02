@@ -6,7 +6,6 @@ Module containing methods for writing to financial database
 
 import sqlite3
 
-
 class FdWrite:
     def __init__(self, db_address):
         self.db_address = db_address

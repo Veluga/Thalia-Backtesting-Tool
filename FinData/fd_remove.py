@@ -83,13 +83,14 @@ class fdremove:
         -- only asset
         will delete associated assets and values
         '''
-        
+
         cur = conn.cursor()
         cur.execute("PRAGMA foreign_keys = ON")
         cur.execute('DELETE FROM AssetClass WHERE AssetClassName =? ', (assetclassname,))
         conn.commit()
 
 
+'''
 fdr = fdremove('finData4.db')
 conn = fdr.create_connection(fdr)
 df0 = fdr.select_all_values(conn)
@@ -101,3 +102,4 @@ fdr.deleteAssetClasses(df2, 'PETROLIUM DERIVATIVE')
 print(df1)
 print(df0)
 print(df2)
+'''

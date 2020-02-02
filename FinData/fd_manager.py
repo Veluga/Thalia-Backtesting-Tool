@@ -10,9 +10,16 @@ import pandas as pd
 
 import fd_read as fdr
 import fd_write as fdw
+import fd_remove as fdr
 
 
-class FdController:
+class FdMultiController:
+    '''Controller object for managing multiple FinData databases
+
+    Note:
+    As of now this it is probably better to not use this feature,
+    use FDController instead
+    '''
     _db_registry_name = "registered"
 
     @staticmethod
@@ -28,7 +35,7 @@ class FdController:
         """Return list of name of databases registered with FinData
         """
         try:
-            fp = FdController._path_generator(FdController._db_registry_name)
+            fp = FdMultiController._path_generator(FdMultiController._db_registry_name)
             with open(fp, "rb") as pfile:
                 names = pickle.load(pfile)
             return list(names)
@@ -39,8 +46,8 @@ class FdController:
     def _add_name(db_name):
         """Add db_name to list of names of db registered with FdController
         """
-        names = FdController._fetch_names() + [db_name]
-        file = open(FdController._path_generator(FdController._db_registry_name), "wb")
+        names = FdMultiController._fetch_names() + [db_name]
+        file = open(FdMultiController._path_generator(FdController._db_registry_name), "wb")
         pickle.dump(names, file)
         file.close()
 
@@ -48,7 +55,7 @@ class FdController:
     def fd_list():
         """list databases created with FinData
         """
-        return list(FdController._fetch_names())
+        return list(FdMultiController._fetch_names())
 
     @staticmethod
     def fd_create(db_name):
@@ -67,10 +74,10 @@ class FdController:
         if db_name in FdController._fetch_names():
             raise Exception("DB already exists")
         # create database and read schema
-        db_address = FdController._path_generator(db_name)
+        db_address = FdMultiController._path_generator(db_name)
         conn = None
         try:
-            with open(FdController._path_generator("dbSchema.sql")[:-3]) as file:
+            with open(FdMultiController._path_generator("dbSchema.sql")[:-3]) as file:
                 conn = sqlite3.connect(db_address)
                 curr = conn.cursor()
                 curr.executescript(file.read())
@@ -80,7 +87,7 @@ class FdController:
             pass
 
     @staticmethod
-    def fd_connect(db_name, permissions_string):
+    def fd_connect(db_name, permissions_string, checks=True):
         """ Return controller for fdb with appropriate permissions
 
         Params:
@@ -98,16 +105,16 @@ class FdController:
             -If no valid SQLite database found at adress, excepts
         """
         # check db
-        if db_name not in FdController._fetch_names():
-            raise Exception("DB name not registered with FinData controller")
-        # check connection
-        db_address = FdController._path_generator(db_name)
+        db_address = FdMultiController._path_generator(db_name)
+        if(checks):
+            if db_name not in FdMultiController._fetch_names():
+                raise Exception("DB name not registered with FinData controller")
         try:
             conn = sqlite3.connect(db_address)
             conn.close()
         except sqlite3.OperationalError:
             raise Exception(
-                "None, Invalid or corrupted datbase found at address" + db_address
+                "Invalid or corrupted datbase found at address" + db_address
             )
 
         class FdConnection:
@@ -123,14 +130,14 @@ class FdController:
             conn.write = fdw.FdWrite(db_address)
         if "d" in permissions_string:
             # TODO: implement
-            pass
+            conn.delete = fdr.FdRemove(db_address)
         return conn
 
 
 """
 Old unit tests, remove if necessary
 """
-
+'''
 df = pd.DataFrame(
     [
         {"AssetClassName": "BEVERAGE"},
@@ -140,13 +147,9 @@ df = pd.DataFrame(
 )
 df = df.set_index("AssetClassName")
 
-FdController.fd_list()
-
-FdController.fd_create("data3")
-FdController.fd_list()
-
 
 fdc = FdController.fd_connect("data3", "rwd")
 
 print(fdc.write.write_asset_classes(df))
 print(fdc.read.read_asset_classes())
+'''
