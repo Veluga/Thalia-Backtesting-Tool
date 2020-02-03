@@ -71,7 +71,7 @@ class FdMultiController:
         -If db already registered, complain
         """
         # check db exists
-        if db_name in FdController._fetch_names():
+        if db_name in FdController._fetch_names() + ["registered"]:
             raise Exception("DB already exists")
         # create database and read schema
         db_address = FdMultiController._path_generator(db_name)
@@ -83,11 +83,12 @@ class FdMultiController:
                 curr.executescript(file.read())
                 conn.close()
                 FdController._add_name(db_name)
+                return True
         except IOError:
-            pass
+            return False
 
     @staticmethod
-    def fd_connect(db_name, permissions_string, checks=True):
+    def fd_connect(db_name, permissions_string):
         """ Return controller for fdb with appropriate permissions
 
         Params:
@@ -106,9 +107,8 @@ class FdMultiController:
         """
         # check db
         db_address = FdMultiController._path_generator(db_name)
-        if(checks):
-            if db_name not in FdMultiController._fetch_names():
-                raise Exception("DB name not registered with FinData controller")
+        if db_name not in FdMultiController._fetch_names():
+            raise Exception("DB name not registered with FinData controller")
         try:
             conn = sqlite3.connect(db_address)
             conn.close()
@@ -130,7 +130,7 @@ class FdMultiController:
             conn.write = fdw.FdWrite(db_address)
         if "d" in permissions_string:
             # TODO: implement
-            conn.delete = fdr.FdRemove(db_address)
+            conn.remove = fdr.FdRemove(db_address)
         return conn
 
 
