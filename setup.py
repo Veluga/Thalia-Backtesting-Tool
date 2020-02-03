@@ -17,13 +17,12 @@ install_requires = [
 
 tests_require = ["pytest", "coverage"]
 
-extras_require = {"dev": ["black", "flake8"], "test": tests_require}
+extras_require = {"dev": ["black", "flake8", "pre-commit"], "test": tests_require}
 
 setup(
     name="Thalia",
     version="0.2.0",
     packages=find_packages(),
     install_requires=install_requires,
-    entry_points={"console_scripts": ["run = wsgi:main"]},
     extras_require=extras_require,
 )
