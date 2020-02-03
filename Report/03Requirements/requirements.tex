@@ -1,0 +1,173 @@
+\documentclass[main.tex]{subfiles}
+\include{preamble.tex}
+
+\begin{document}
+
+\section{Requirements}
+We classify our requirements using the established FURPS+ model [1]. Below you will see our main functional and non-functional requirements. The items outlined below focus on some of the key requirements we have so far identified as features necessary to provide a compelling product for paying customers.
+
+\subsection{Functional Requirements}
+ 
+{
+\setlength{\tabcolsep}{30pt}
+\renewcommand{\arraystretch}{2}
+\centering
+\rowcolors{2}{gray!25}{white}
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+ \textbf{Portfolio Configuration}  &  \\
+ \hline
+ Allocate fixed amount/proportions of the portfolio to given assets & Choose how much each asset contributes to the portfolio's total value using either percentages or raw monetary amounts \\
+\hline
+Find assets quickly by category or name & When adding an asset the user can search a category for assets or search for a specific asset by its name \\
+\hline
+Share portfolio & Portfolios can be shared between people using a URL \\
+\hline
+Edit portfolio & Change asset allocation and their distributions in a portfolio \\
+\hline
+\end{tabularx}
+}
+
+
+{
+\setlength{\tabcolsep}{30pt}
+\renewcommand{\arraystretch}{2}
+\centering
+\rowcolors{2}{gray!25}{white}
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+ \textbf{Portfolio analysis}  &  \\
+ \hline
+ Compare portfolios & Use multiple portfolios in a single analysis to see differences in their performance \\
+\hline
+Use a selection of  lazy portfolios & Select an existing common portfolio to compare against, such as common index funds (e.g. Vanguard 500 Index Investor or SPY) \\
+\hline
+Plot portfolio as a time-series & View portfolio performance as a line graph for a quick overview \\
+\hline
+Specify a time frame for the analysis & Select start and end dates for portfolio analysis \\
+\hline
+Choose rebalancing strategy & Optionally choose a strategy for buying and selling assets to meet your strategy e.g. buying and selling stocks each year to ensure the value of portfolio stays at 60\% stocks and 40\% bonds (i.e. maintain the initial allocation) \\
+\hline
+Change the distribution of assets in a portfolio using a slider & A slider for each asset to quickly increase or decrease its proportion of the total value \\
+\hline
+Edit portfolio analysis & Change parameters for portfolio's analysis after running it (e.g. date range or rebalancing strategy) \\
+\hline
+\end{tabularx}
+}
+
+\vspace{0.5cm}
+
+{
+\setlength{\tabcolsep}{30pt}
+\renewcommand{\arraystretch}{2}
+\centering
+\rowcolors{2}{gray!25}{white}
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+ \textbf{View results}  &  \\
+ \hline
+ See key numerical figures & Show important numerical metrics for a portfolio's performance such as Initial Balance, Standard Deviation, Worst Year, Sharpe Ratio, and Sortino Ratio \\
+\hline
+See both real and nominal values & See portfolio's value as both adjusted and not adjusted for inflation \\
+\hline
+A breakdown of portfolio value at specific points of time & See what the value of the portfolio is at some point in time (e.g. January 3rd 1997) \\
+\hline
+Export result of analysis & Exports results to PDF for sharing and offline reading \\
+\hline
+\end{tabularx}
+}
+
+
+{
+\setlength{\tabcolsep}{30pt}
+\renewcommand{\arraystretch}{2}
+\centering
+\rowcolors{2}{gray!25}{white}
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+ \textbf{User accounts}  &  \\
+ \hline
+ Combine portfolios & Combine two portfolios' assets into one single portfolio \\
+\hline
+Save portfolio analysis for later & Save portfolio analysis parameters to the account so you can rerun it with a single click \\
+\hline
+Delete saved portfolio analysis & Remove a stored portfolio analysis from your account \\
+\hline
+Manage portfolio analyses & Edit saved portfolio analysis with different assets, distributions or other parameters \\
+\hline
+Sign-up, log in and log out & Basic authentication \\
+\hline
+\end{tabularx}
+}
+
+\vspace{0.5cm}
+
+{
+\setlength{\tabcolsep}{30pt}
+\renewcommand{\arraystretch}{2}
+\centering
+\rowcolors{2}{gray!25}{white}
+\begin{tabularx}{\linewidth}{|X|X|}
+\hline
+ \textbf{Assets}  &  \\
+ \hline
+ Choose assets from European market & Data for European assets were found to be lacking in competing products \\
+\hline
+Choose assets from Equities, Fixed Income, Currencies, Commodities, and Cryptocurrencies & Coverage of some of the largest asset classes \\
+\hline
+\end{tabularx}
+}
+
+\subsection{Non-functional Requirements}
+
+\begin{enumerate}
+   \item Usability:
+   \begin{itemize}
+     \item The product must be easily usable for users who already have some financial investment experience.
+     \item The basic backtesting interface needs to look familiar to people already experienced with it.
+     \item The product must have detailed instructions on how to use its advertised functions.
+     \item All major functions must be visible from the initial landing page.
+     \item Must work in both desktop and mobile browsers.
+     \item The results page should scale with mobile.
+   \end{itemize}
+   \item Reliability:
+      \begin{itemize}
+     \item The product must have a greater than 99\% uptime.
+     \item All our assets need to have up to date daily data where the asset is still publicly tradeable.
+     \item All assets supported by the system must provide all publicly available historical data.
+   \end{itemize}
+    \item Performance:
+      \begin{itemize}
+     \item The website should load within 3 seconds on mobile [2].
+     \item Large portfolios must be supported - up to 300 different assets.
+   \end{itemize}
+    \item Implementation:
+      \begin{itemize}
+     \item The system needs to work on a cloud hosting provider.
+   \end{itemize}
+    \item Interfacing:
+      \begin{itemize}
+     \item The Data Gathering Module must never use APIs stated to-be-deprecated within a month.
+     \item The Data Gathering Module must not exceed its contractual usage limits.
+   \end{itemize}
+       \item Operations:
+      \begin{itemize}
+     \item An administrator on-call will be necessary for unexpected issues.
+   \end{itemize}
+          \item Packaging:
+      \begin{itemize}
+     \item The product needs to work inside a Linux container (e.g. Docker).
+     \item All dependencies need to be installable with a single command.
+   \end{itemize}
+             \item Legal:
+      \begin{itemize}
+     \item All user testing must be done with ethical approval from the University.
+     \item UI must display a clear legal disclaimer about the service not providing financial advice.
+     \item All third-party code should allow for commercial use without requiring source disclosure (e.g. no GPL-3).
+     \item User data handling should comply with GDPR.
+   \end{itemize}
+\end{enumerate}
+
+
+
+\end{document}
