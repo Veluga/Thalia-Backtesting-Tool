@@ -21,6 +21,15 @@ CREATE TABLE AssetValue (
     PRIMARY KEY (AssetTicker, ADate)
 );
 
+CREATE TABLE DividendPayout(
+  AssetTicker TEXT,
+  PDate TEXT,
+  Payout TEXT,
+  FOREIGN KEY(AssetTicker) REFERENCES Asset(AssetTicker)
+  PRIMARY KEY (AssetTicker, PDate)
+);
+
+CREATE INDEX UX_DividendPayout_AssetTicker ON DividendPayout(AssetTicker);
 CREATE INDEX IX_Asset_AssetClass ON Asset(AssetClassName);
 CREATE INDEX UX_Values_AssetTicker ON AssetValue(AssetTicker);
 CREATE INDEX UX_Value_Date_AssetTicker ON AssetValue(AssetTicker, ADate);

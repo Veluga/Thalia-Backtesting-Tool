@@ -169,6 +169,26 @@ class FdWrite:
         values = values.set_index(["AssetTicker", "ADate"])
         self.__insert_df(values, "AssetValue")
 
+    def write_dividend_payouts(self, payouts):
+        """Add zero or more records of divident payouts to fin database
+
+        Params:
+        asset_classes: pandas.DataFrame of format:
+        {Columns: [Payout<decima.Decimal>]
+                   Index: [AssetTicker<String>, PDate<datetime.date>]}
+        | pandas dataframe containing records of payouts to be
+          stored in database
+
+        Return:
+        None
+
+        Notes:
+        - If given non unique PK, quietly update record
+        - If one or more records contain reference to AssetTicker not in
+          Asset(AssetTicker), raise exception
+        """
+        self.__chceck_df_format(payouts, ["PDate", "Payout", "AssetTicker"])
+        self.__insert_df(payouts, "DividendPayout")
 
 """
 Hacky unit tests. If youre reading this please quietly remove them as I've

@@ -128,6 +128,48 @@ class FdRead:
         df0.set_index("AssetTicker", inplace=True)
         return df0
 
+    def read_asset_div_payout(self, asset_tickers):
+        """Get record of all divident payouts for specific asset
+
+        Args:
+        asset_tickers: list of strings of asset tickers | asset ticker
+
+        Return:
+        Pandas dataframe of format
+        {Columns: [Payout<decima.Decimal>]
+                   Index: [AssetTicker<String>, PDate<datetime.date>]}
+
+        Notes:
+        - If assetTicker not in database, return empty dataframe in format
+
+        - Will return AssetTicker row in dataframe despite all values being equal
+        (this is so dataframe can be used with fdWrite library methods as-is)
+        """
+        # Optionally move name to seperate config file later
+        conn = sqlite3.connect(self.db_address)
+        generated_params = "(" + ",".join(["?"] * len(asset_tickers)) + ")"
+
+
+        # construct query
+        query = (
+            "SELECT * \
+                 FROM DividendPayout \
+                 WHERE DividendPayout.AssetTicker IN "
+            + generated_params
+            + " "
+        )
+        # read data into df
+        df0 = pd.read_sql(query + ";", conn, params=asset_tickers)
+        conn.close()
+
+        df0["Payout"] = df0["Payout"].map(Decimal)
+        df0["PDate"] = df0["PDate"].map(
+            lambda x: (dt.datetime.strptime(x, "%Y-%m-%d")).date()
+        )
+
+        df0.set_index(["AssetTicker", "PDate"], inplace=True)
+        return df0
+
     def read_asset_classes(self):
         """Get records of all asset classes stored in fin database
 

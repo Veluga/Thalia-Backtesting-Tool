@@ -15,6 +15,16 @@ class FdRemove:
         conn.commit()
         conn.close()
 
+    def delete_div_payouts(self, ticker):
+        """Delete all divident payouts with assetTicker ticker
+        """
+        conn = sqlite3.connect(self.db_address)
+        cur = conn.cursor()
+        cur.execute("PRAGMA foreign_keys = ON")
+        cur.execute("DELETE FROM DividendPayout WHERE AssetTicker =? ", (ticker,))
+        conn.commit()
+        conn.close()
+
     def deleteAssets(self, ticker):
         """
         --Only need asset tickers
