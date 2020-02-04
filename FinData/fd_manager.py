@@ -5,21 +5,21 @@ Module containing controler for the financial data database
 import sqlite3
 import os
 import pickle
-import pandas as pd
 
 
 import fd_read as fdr
 import fd_write as fdw
-import fd_remove as fdr
+import fd_remove as fdd
 
 
 class FdMultiController:
-    '''Controller object for managing multiple FinData databases
+    """Controller object for managing multiple FinData databases
 
     Note:
     As of now this it is probably better to not use this feature,
     use FDController instead
-    '''
+    """
+
     _db_registry_name = "registered"
 
     @staticmethod
@@ -47,7 +47,9 @@ class FdMultiController:
         """Add db_name to list of names of db registered with FdController
         """
         names = FdMultiController._fetch_names() + [db_name]
-        file = open(FdMultiController._path_generator(FdController._db_registry_name), "wb")
+        file = open(
+            FdMultiController._path_generator(FdMultiController._db_registry_name), "wb"
+        )
         pickle.dump(names, file)
         file.close()
 
@@ -71,7 +73,7 @@ class FdMultiController:
         -If db already registered, complain
         """
         # check db exists
-        if db_name in FdController._fetch_names() + ["registered"]:
+        if db_name in FdMultiController._fetch_names() + ["registered"]:
             raise Exception("DB already exists")
         # create database and read schema
         db_address = FdMultiController._path_generator(db_name)
@@ -82,7 +84,7 @@ class FdMultiController:
                 curr = conn.cursor()
                 curr.executescript(file.read())
                 conn.close()
-                FdController._add_name(db_name)
+                FdMultiController._add_name(db_name)
                 return True
         except IOError:
             return False
@@ -130,14 +132,14 @@ class FdMultiController:
             conn.write = fdw.FdWrite(db_address)
         if "d" in permissions_string:
             # TODO: implement
-            conn.remove = fdr.FdRemove(db_address)
+            conn.remove = fdd.FdRemove(db_address)
         return conn
 
 
 """
 Old unit tests, remove if necessary
 """
-'''
+"""
 df = pd.DataFrame(
     [
         {"AssetClassName": "BEVERAGE"},
@@ -152,4 +154,4 @@ fdc = FdController.fd_connect("data3", "rwd")
 
 print(fdc.write.write_asset_classes(df))
 print(fdc.read.read_asset_classes())
-'''
+"""

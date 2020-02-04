@@ -5,6 +5,10 @@ Module containing methods for writing to financial database
 """
 
 import sqlite3
+import pandas as pd
+from fd_read import FdRead
+import datetime
+
 
 class FdWrite:
     def __init__(self, db_address):
@@ -113,8 +117,35 @@ class FdWrite:
         Notes:
         - If given non unique PK, quietly update record
         - If one or more records contain reference to AssetTicker not in
-            Asset(AssetTicker), raise
+            Asset(AssetTicker), raise exception
+        - If data added to database would create holes, raise exception
         """
+        # fix up df
+        df1 = values
+        # check that data in values continuous
+        for ass_df in df1.groupby("AssetTicker"):
+            i_d = [str(a) for a in list(ass_df[1].index.get_level_values("ADate"))]
+            for rdatet in pd.date_range(min(i_d), max(i_d)).tolist():
+                if str(rdatet.date()) not in i_d:
+                    raise Exception("Inserted values must be continuous")
+            # get latest date so far, if emtpy any data will do
+            fdrc = FdRead(self.db_address)
+            df2 = fdrc.read_asset_values([ass_df[0]])
+            df2 = df2.reset_index()
+            db_dates = list(df2["ADate"])
+            # extend range to so consecutive dates on boundary now overlap
+            if not db_dates == []:
+                n_upper = min(db_dates) + datetime.timedelta(-1)
+                n_lower = max(db_dates) + datetime.timedelta(1)
+                db_dates += [n_upper, n_lower]
+                db_dates = [str(a.date()) for a in (db_dates)]
+                if not (
+                    (min(i_d) in db_dates)
+                    or (max(i_d) in db_dates)
+                    or (min(i_d) < min(db_dates) and max(i_d) > max(db_dates))
+                ):
+                    raise Exception("Inserted values not continuous with data in db")
+
         # check df in right format
         self.__chceck_df_format(
             values,
@@ -133,8 +164,9 @@ class FdWrite:
         values["AClose"] = values["AClose"].map(str)
         values["AHigh"] = values["AHigh"].map(str)
         values["ALow"] = values["ALow"].map(str)
-        values.index = values.index.map(lambda x: (str(x[0]), str(x[1])))
-
+        values = values.reset_index()
+        values["ADate"] = values["ADate"].map(str)
+        values = values.set_index(["AssetTicker", "ADate"])
         self.__insert_df(values, "AssetValue")
 
 
@@ -170,6 +202,7 @@ df0 = df0.set_index("AssetTicker")
 
 FdWrite.add_assets(df0)
 
+
 df1 = pd.DataFrame(
     [
         {
@@ -204,9 +237,11 @@ df1 = pd.DataFrame(
 
 df1 = df1.set_index(["AssetTicker", "ADate"])
 
-print(df1)
+import fd_manager as fdm
 
-FdWrite.add_asset_values(df1)
+fdm.fd_create('testDB1')
+conn = fdm.FdMultiController.fd_connect('testDB1', 'rwd')
+conn.write.add_asset_values(df1)
 
 from datetime import date
 

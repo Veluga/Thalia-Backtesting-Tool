@@ -3,7 +3,7 @@ Module containing methods for reading from financial data database
 """
 import pandas as pd
 import sqlite3
-from datetime import date
+import datetime as dt
 from decimal import Decimal
 
 
@@ -30,9 +30,8 @@ class FdRead:
         # Optionally move name to seperate config file later
         conn = sqlite3.connect(self.db_address)
         # generate parameter list for subsitution
-        generated_params = str(
-            tuple(["@p" + str(i) for i in range(len(asset_tickers))])
-        ).replace("'", "")
+        generated_params = "(" + ",".join(["?"] * len(asset_tickers)) + ")"
+
         # construct query
         query = (
             "SELECT * \
@@ -42,10 +41,10 @@ class FdRead:
             + " "
         )
         if startDate is not None:
-            query += "AND (AssetValue.ADate >= @st_date) "
+            query += "AND (AssetValue.ADate >= ?) "
             asset_tickers.append(str(startDate))
         if endDate is not None:
-            query += "AND (AssetValue.ADate <= @end_date) "
+            query += "AND (AssetValue.ADate <= ?) "
             asset_tickers.append(str(endDate))
         # read data into df
         df0 = pd.read_sql(query + ";", conn, params=asset_tickers)
@@ -55,10 +54,11 @@ class FdRead:
         df0["AClose"] = df0["AClose"].map(Decimal)
         df0["AHigh"] = df0["AHigh"].map(Decimal)
         df0["ALow"] = df0["ALow"].map(Decimal)
-        df0["ADate"] = df0["ADate"].map(date)
+        df0["ADate"] = df0["ADate"].map(
+            lambda x: (dt.datetime.strptime(x, "%Y-%m-%d")).date()
+        )
         # adjust index if neccesary
         df0.set_index(["AssetTicker", "ADate"], inplace=True)
-
         return df0
 
     def read_assets(self):
