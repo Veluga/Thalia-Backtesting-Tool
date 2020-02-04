@@ -14,7 +14,7 @@ Asset = namedtuple("Asset", ("ticker", "weight", "values"))
 # values: pd.DataFrame("Open", "Low", "High", "Close") indexed and sorted by date.
 
 APPROX_TDAY_PER_YEAR = 252
-APPROX_DAY_PER_YEAR = 365
+APPROX_DAY_PER_YEAR = 365.25
 
 
 class Strategy:
@@ -95,18 +95,18 @@ def total_return(strat) -> pd.Series:
 
 def _risk_adjusted_returns(strat: Strategy) -> [Decimal]:
     returns = total_return(strat)
-    strat.risk_free_rate = strat.risk_free_rate.map(
+    risk_free_rate_daily = strat.risk_free_rate.map(
         lambda x: Decimal(pow(math.e, math.log(x) / APPROX_DAY_PER_YEAR))
     )
+    # TODO Risk free rate of return is assumed to be 0 for now
     return [
-        (returns[i] / returns[i - 1]) - strat.risk_free_rate[i]
-        for i in range(1, returns.size)
+        (returns[i] / returns[i - 1]) - Decimal(1.000) for i in range(1, returns.size)
     ]
 
 
 def sortino_ratio(strat: Strategy) -> float:
     risk_adjusted_returns = _risk_adjusted_returns(strat)
-    below_target_std = np.std(list(filter(lambda x: x < 0, risk_adjusted_returns)))
+    below_target_std = np.std(list(map(lambda x: min(0, x), risk_adjusted_returns)))
     return (
         np.mean(risk_adjusted_returns)
         / below_target_std
@@ -140,6 +140,7 @@ def _relative_yearly_diff(returns: pd.Series) -> [Decimal]:
         for (this_year, next_year) in zip(year_begins, year_begins[1:])
     ]
 
+
 # TODO: efficiency.
 def best_year(strat) -> float:
     """
@@ -147,13 +148,17 @@ def best_year(strat) -> float:
     best calendar year - beginning and ending on Jan. 1, as a percentage.
     """
     returns = total_return(strat)
-    return max(_relative_yearly_diff(returns)) * Decimal("100") # Adjust for percentage.
+    return max(_relative_yearly_diff(returns)) * Decimal(
+        "100"
+    )  # Adjust for percentage.
 
 
 def worst_year(strat) -> float:
     # Same convention as best_year
     returns = total_return(strat)
-    return min(_relative_yearly_diff(returns)) * Decimal("100") # Adjust for percentage.
+    return min(_relative_yearly_diff(returns)) * Decimal(
+        "100"
+    )  # Adjust for percentage.
 
 
 # TODO: move tests into the proper testing area.
