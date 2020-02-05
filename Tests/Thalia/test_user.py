@@ -39,9 +39,18 @@ def test_new_user(client):
 
 
 def test_duplicate_user(client):
+    new_user = user.User(username="test")
+    new_user.set_password("test")
+    db.session.add(new_user)
     with pytest.raises(sqlalchemy.exc.IntegrityError):
-        new_user = user.User(username="test")
-        new_user.set_password("test")
-        db.session.add(new_user)
         db.session.commit()
         pytest.fail("should not be able to insert same username twice")
+
+
+def test_creation_without_password(client):
+    username = "a"
+    new_user = user.User(username=username)
+    db.session.add(new_user)
+    with pytest.raises(sqlalchemy.exc.IntegrityError):
+        db.session.commit()
+        pytest.fail("exception should be raised when missing password hash")
