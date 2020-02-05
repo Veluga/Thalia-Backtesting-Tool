@@ -20,7 +20,7 @@ The following methods are available through the FdMultiController class:
 | FdMultiController.fd_list() | retrn list of names of databases registered with FinData module |
 | FdMultiController.fd_create(db_name) | create and register a database named by string db_name return False if creation failed, True if sucesfull|
 | FdMultiController.fd_connect(db_name, permissions_string) | Construct and return FdConnection object connected to database db_name. FdConnection will have access to methods based on weather the following characters are in the permissions_string: <br> - r : connection will have access to fd_read methods <br> - w : connection will have access to fd_write methods <br> - d : connection will have acces to df_remove methods <br> If df_name not registered, or connection to the database fails, this method will raise an exception|
-| | |
+|fd_delete(db_name)| delete database named `db_name` and remove it from registry|
 
 ### Example usage
 
