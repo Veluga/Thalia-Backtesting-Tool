@@ -6,8 +6,11 @@ Module containing methods for writing to financial database
 
 import sqlite3
 import pandas as pd
-from fd_read import FdRead
 import datetime
+
+
+from . import fd_read
+
 
 
 class FdWrite:
@@ -129,7 +132,7 @@ class FdWrite:
                 if str(rdatet.date()) not in i_d:
                     raise Exception("Inserted values must be continuous")
             # get latest date so far, if emtpy any data will do
-            fdrc = FdRead(self.db_address)
+            fdrc = fd_read.FdRead(self.db_address)
             df2 = fdrc.read_asset_values([ass_df[0]])
             df2 = df2.reset_index()
             db_dates = list(df2["ADate"])

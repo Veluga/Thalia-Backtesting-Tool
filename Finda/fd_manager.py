@@ -7,9 +7,9 @@ import os
 import pickle
 
 
-import fd_read as fdr
-import fd_write as fdw
-import fd_remove as fdd
+from . import fd_read as fdr
+from . import fd_write as fdw
+from . import fd_remove as fdd
 
 
 class FdMultiController:
