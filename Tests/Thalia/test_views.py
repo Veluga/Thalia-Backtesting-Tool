@@ -22,14 +22,16 @@ def test_register(client):
 
 @pytest.mark.parametrize(
     ("username", "password", "message"),
-    (("a", "test", b"Username not recognised"), ("test", "a", b"Incorrect password")),
+    (("a", None, b"Username not recognised"), (None, "a", b"Incorrect password")),
 )
-def test_login_validate_input(auth, username, password, message):
+def test_login_validate_input(auth, default_user, username, password, message):
+    username = username or default_user['username']
+    password = password or default_user['password']
     response = auth.login(username, password)
     assert message in response.data
 
 
-def test_logout(client, auth):
+def test_logout(client, default_user, auth):
 
     with client:  # context necessary for login
         auth.login()
@@ -38,23 +40,16 @@ def test_logout(client, auth):
         assert "user_id" not in session, "user_id should be forgotten on logout"
 
 
-@pytest.mark.parametrize(
-    ("username", "password", "message"),
-    (
-        # TODO: test missing username or pw
-        ("test", "test", b"already registered"),
-    ),
-)
-def test_register_validate_input(client, username, password, message):
+def test_register_validate_input(client, default_user):
     response = client.post(
         "/register",
-        data={"username": username, "password": password},
+        data={"username": default_user['username'], "password": default_user['password']},
         follow_redirects=True,
     )
-    assert message in response.data
+    assert b"already registered" in response.data
 
 
-def test_login(client, auth):
+def test_login(client, auth, default_user):
     # test that viewing the page renders without template errors
     assert client.get("/login", follow_redirects=True).status_code == 200
 
@@ -63,25 +58,26 @@ def test_login(client, auth):
 
     # this is a poor way to test if redirected to homepage while logged in
     # ideally it would test if path is "/" and or something more
-    assert b"Hi, test" in response.data
+    home_page_message = bytes(f"Hi, {default_user['username']}", 'ascii')
+    assert home_page_message in response.data
 
     # login request set the user_id in the session
     # check that the user is loaded from the session
     with client:
         client.get("/")
         assert session["user_id"] == "1"
-        assert current_user.username == "test"
+        assert current_user.username == default_user['username']
 
     # test redirection of login page to home when already signed in
     response = client.get("/login", follow_redirects=True)
-    assert b"Hi, test" in response.data
+    assert home_page_message in response.data
 
     # test redirection of registration page to home when already signed in
     response = client.get("/register", follow_redirects=True)
-    assert b"Hi, test" in response.data
+    assert home_page_message in response.data
 
 
-def test_dashboard_access(client, auth):
+def test_dashboard_access(client, default_user, auth):
     response = client.get("/dashboard", follow_redirects=True)
 
     assert response.status_code == 200

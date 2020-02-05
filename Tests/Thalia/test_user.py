@@ -38,8 +38,8 @@ def test_new_user(client):
     assert same_user == new_user, "user should be accessible from database"
 
 
-def test_duplicate_user(client):
-    new_user = user.User(username="test")
+def test_duplicate_user(client, default_user):
+    new_user = user.User(username=default_user['username'])
     new_user.set_password("test")
     db.session.add(new_user)
     with pytest.raises(sqlalchemy.exc.IntegrityError):

@@ -7,6 +7,9 @@ from Thalia import create_app
 from Thalia.extensions import db
 from Thalia.models.user import User
 
+NAME = "test_default"
+PW = "test_mypw"
+
 
 @pytest.fixture
 def app():
@@ -28,19 +31,23 @@ def app():
 
     db.create_all()  # I think only inits the ORM stuff
 
-    # TODO: move user creation to own fixture?
-    name = "test"
-    pw = "test"
-    new_user = User(username=name)
-    new_user.set_password(pw)
-    db.session.add(new_user)
-    db.session.commit()
-
     yield app
 
     ctx.pop()
     os.close(db_fd)
     os.unlink(db_path)
+
+
+@pytest.fixture
+def default_user():
+    new_user = User(username=NAME)
+    new_user.set_password(PW)
+    db.session.add(new_user)
+    db.session.commit()
+
+    yield {"username": NAME, "password": PW}
+
+    db.session.delete(new_user)
 
 
 @pytest.fixture
@@ -61,7 +68,7 @@ class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self, username="test", password="test"):
+    def login(self, username=NAME, password=PW):
         return self._client.post(
             "/login",
             follow_redirects=True,
