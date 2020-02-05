@@ -6,6 +6,7 @@ class FdRemove:
         self.db_address = db_address
 
     def deleteValues(self, ticker, date):
+        date = str(date)
         "--Only need ticker + day columns"
         conn = sqlite3.connect(self.db_address)
         cur = conn.cursor()

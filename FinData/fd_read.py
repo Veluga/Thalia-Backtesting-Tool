@@ -128,7 +128,7 @@ class FdRead:
         df0.set_index("AssetTicker", inplace=True)
         return df0
 
-    def read_asset_div_payout(self, asset_tickers):
+    def read_assets_div_payout(self, asset_tickers):
         """Get record of all divident payouts for specific asset
 
         Args:
@@ -148,7 +148,6 @@ class FdRead:
         # Optionally move name to seperate config file later
         conn = sqlite3.connect(self.db_address)
         generated_params = "(" + ",".join(["?"] * len(asset_tickers)) + ")"
-
 
         # construct query
         query = (

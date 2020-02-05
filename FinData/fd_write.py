@@ -190,6 +190,7 @@ class FdWrite:
         self.__chceck_df_format(payouts, ["PDate", "Payout", "AssetTicker"])
         self.__insert_df(payouts, "DividendPayout")
 
+
 """
 Hacky unit tests. If youre reading this please quietly remove them as I've
 moved them to test folder + added automation

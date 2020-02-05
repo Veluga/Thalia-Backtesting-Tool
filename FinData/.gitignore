@@ -1,2 +1,3 @@
 #Database should not be read and written to
 *.db
+test.py

@@ -83,20 +83,14 @@ df2 = pd.DataFrame(
 )
 
 
-df4 = pd.DataFrame([
-    {
-    "AssetTicker":"ASS13",
-    "PDate":"2020-02-05",
-    "Payout":"5.5"
-    },
-    {
-    "AssetTicker":"ASS13",
-    "PDate":"2020-02-03",
-    "Payout":"3.3"
-    }
-])
+df4 = pd.DataFrame(
+    [
+        {"AssetTicker": "ASS13", "PDate": "2020-02-05", "Payout": "5.5"},
+        {"AssetTicker": "ASS13", "PDate": "2020-02-03", "Payout": "3.3"},
+    ]
+)
 
-df4 = df4.set_index(["AssetTicker","PDate"])
+df4 = df4.set_index(["AssetTicker", "PDate"])
 
 print(df4)
 

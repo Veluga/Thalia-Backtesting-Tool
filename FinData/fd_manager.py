@@ -54,6 +54,19 @@ class FdMultiController:
         file.close()
 
     @staticmethod
+    def fd_delete(db_name):
+        """Unregister db and delete it
+        """
+        names = FdMultiController._fetch_names()
+        names.remove(db_name)
+        with open(
+            FdMultiController._path_generator(FdMultiController._db_registry_name),
+            "wb") as file:
+            pickle.dump(names, file)
+        os.remove(FdMultiController._path_generator(db_name))
+
+
+    @staticmethod
     def fd_list():
         """list databases created with FinData
         """
