@@ -1,0 +1,13 @@
+setup.py
+Finda/__init__.py
+Finda/fd_manager.py
+Finda/fd_read.py
+Finda/fd_remove.py
+Finda/fd_remove_test.py
+Finda/fd_write.py
+Finda/test.py
+Thalia.egg-info/PKG-INFO
+Thalia.egg-info/SOURCES.txt
+Thalia.egg-info/dependency_links.txt
+Thalia.egg-info/requires.txt
+Thalia.egg-info/top_level.txt

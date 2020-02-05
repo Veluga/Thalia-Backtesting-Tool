@@ -6,7 +6,6 @@ import sqlite3
 import os
 import pickle
 
-
 from . import fd_read as fdr
 from . import fd_write as fdw
 from . import fd_remove as fdd
@@ -122,8 +121,10 @@ class FdMultiController:
         """
         # check db
         db_address = FdMultiController._path_generator(db_name)
+        '''
         if db_name not in FdMultiController._fetch_names():
             raise Exception("DB name not registered with FinData controller")
+        '''
         try:
             conn = sqlite3.connect(db_address)
             conn.close()

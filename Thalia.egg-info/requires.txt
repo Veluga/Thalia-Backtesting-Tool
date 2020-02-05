@@ -1,0 +1,15 @@
+flask
+flask-login
+flask-migrate
+flask-wtf
+pandas
+dash
+
+[dev]
+black
+flake8
+pre-commit
+
+[test]
+pytest
+coverage

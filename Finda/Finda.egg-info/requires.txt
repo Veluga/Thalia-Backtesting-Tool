@@ -1,0 +1,10 @@
+pandas
+
+[dev]
+black
+flake8
+pre-commit
+
+[test]
+pytest
+coverage
