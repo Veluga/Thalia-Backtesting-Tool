@@ -522,16 +522,17 @@ class TestBestWorstYear(TestCase):
             + "/test_data/risk_free_rate.csv",
             index_col="Date",
         )
-        self.msft_vals.index = pd.to_datetime(self.msft_vals.index)
-        self.berkshire_vals.index = pd.to_datetime(self.berkshire_vals.index)
-        self.risk_free_vals.index = pd.to_datetime(self.risk_free_vals.index)
+        self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
+        self.berkshire_vals.index = pd.to_datetime(
+            self.berkshire_vals.index, format="%d/%m/%Y"
+        )
+        self.risk_free_vals.index = pd.to_datetime(
+            self.risk_free_vals.index, format="%d/%m/%Y"
+        )
 
     def test_simple(self):
-        start_date = date(1989, 12, 29)
-        end_date = date(2000, 12, 29)
-
-        contribution_dates = pd.date_range("19900101", "20000101", freq="Y")
-        contribution_amount = Decimal("0.00")
+        start_date = date(1989, 1, 4)
+        end_date = date(2010, 1, 1)
 
         self.msft_vals = self.msft_vals.reindex(
             pd.date_range(start_date, end_date)
@@ -551,15 +552,19 @@ class TestBestWorstYear(TestCase):
             end_date,
             self.starting_balance,
             assets,
-            contribution_dates,
-            contribution_amount,
+            self.contribution_dates,
+            self.contribution_amount,
             self.rebalancing_dates,
             self.risk_free_vals,
         )
+        
+        b = anda.best_year(strategy)
+        w = anda.worst_year(strategy)
 
-        print(anda.best_year(strategy))
-        print(anda.worst_year(strategy))
+        self.assertAlmostEqual(b, Decimal("120"), delta=2)
+        self.assertAlmostEqual(w, Decimal("-63"), delta=2)
 
+        
 
 if __name__ == "__main__":
     unittest.main()
