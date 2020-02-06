@@ -53,7 +53,7 @@ class FdMultiController:
         file.close()
 
     @staticmethod
-    def fd_delete(db_name):
+    def fd_remove(db_name):
         """Unregister db and delete it
         """
         names = FdMultiController._fetch_names()
@@ -83,10 +83,15 @@ class FdMultiController:
 
         Notes:
         -If db already registered, complain
+        -Will overwrite existing files not registered with Finda
         """
         # check db exists
         if db_name in FdMultiController._fetch_names() + ["registered"]:
             raise Exception("DB already exists")
+        try:
+            os.remove(FdMultiController._path_generator(db_name))
+        except Exception as e:
+            pass
         # create database and read schema
         db_address = FdMultiController._path_generator(db_name)
         conn = None
@@ -98,6 +103,8 @@ class FdMultiController:
                 conn.close()
                 FdMultiController._add_name(db_name)
                 return True
+        except sqlite3.OperationalError:
+            return False
         except IOError:
             return False
 
