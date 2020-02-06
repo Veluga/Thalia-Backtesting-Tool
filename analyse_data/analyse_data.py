@@ -67,8 +67,8 @@ def _calc_balance(invesments: [Decimal], assets: [Asset], day: date) -> Decimal:
 
 
 # INTERNAL
-def _collect_dividend(dividend: Decimal, holdings: Decimal) -> Decimal:
-    return holdings
+def _collect_dividend(dividend: Decimal, holdings: Decimal, price: Decimal) -> Decimal:
+    return holdings + (holdings * dividend) / price
 
 
 # TODO: make numpy and pandas do the work.
@@ -83,8 +83,10 @@ def total_return(strat) -> pd.Series:
     for date in strat.dates:
         for idx, asset in enumerate(strat.assets):
             if date in asset.dividends.index:
-                investment[idx] = _collect_dividend(
-                    Decimal(asset.dividends[date]), investments[idx]
+                investments[idx] = _collect_dividend(
+                    asset.dividends["Dividends"][date],
+                    investments[idx],
+                    asset_values[idx][date],
                 )
         if date == strat.dates[0] or date in strat.rebalancing_dates:
             investments = _allocate_investments(
