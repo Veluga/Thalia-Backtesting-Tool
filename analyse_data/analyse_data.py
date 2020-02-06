@@ -4,14 +4,18 @@ import decimal
 import math
 from decimal import Decimal, InvalidOperation
 from datetime import date, timedelta
-from collections import namedtuple
+from dataclasses import dataclass
 
 PENNY = Decimal("0.01")
 
-Asset = namedtuple("Asset", ("ticker", "weight", "values"))
-# ticker: str
-# weight: Decimal
-# values: pd.DataFrame("Open", "Low", "High", "Close") indexed and sorted by date.
+
+@dataclass
+class Asset:
+    ticker: str
+    weight: Decimal
+    values: pd.DataFrame  # pd.DataFrame("Open", "Low", "High", "Close") indexed and sorted by date.
+    dividends: pd.DataFrame = pd.DataFrame()  # pd.DataFrame("Dividend") indexed by date
+
 
 APPROX_TDAY_PER_YEAR = 252
 APPROX_DAY_PER_YEAR = 365.25
@@ -62,6 +66,11 @@ def _calc_balance(invesments: [Decimal], assets: [Asset], day: date) -> Decimal:
     ).quantize(PENNY)
 
 
+# INTERNAL
+def _collect_dividend(dividend: Decimal, holdings: Decimal, price: Decimal) -> Decimal:
+    return holdings + (holdings * dividend) / price
+
+
 # TODO: make numpy and pandas do the work.
 def total_return(strat) -> pd.Series:
     # Returns the value of the portfolio at each day in the time frame.
@@ -72,6 +81,13 @@ def total_return(strat) -> pd.Series:
     balance = strat.starting_balance
 
     for date in strat.dates:
+        for idx, asset in enumerate(strat.assets):
+            if date in asset.dividends.index:
+                investments[idx] = _collect_dividend(
+                    asset.dividends["Dividends"][date],
+                    investments[idx],
+                    asset_values[idx][date],
+                )
         if date == strat.dates[0] or date in strat.rebalancing_dates:
             investments = _allocate_investments(
                 balance, ideal_weights, [values.at[date] for values in asset_values],

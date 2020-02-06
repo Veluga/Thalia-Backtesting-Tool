@@ -234,9 +234,6 @@ class TestSharpeRatio(TestCase):
         end_date = date(2019, 12, 31)
 
         msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        berkshire_vals = self.berkshire_vals.reindex(
-            pd.date_range(start_date, end_date)
-        ).ffill()
         risk_free_vals = (
             self.risk_free_vals.dropna()["Close"]
             .reindex(pd.date_range(start_date, end_date))
@@ -335,9 +332,6 @@ class TestMaxDrawdown(TestCase):
         end_date = date(2019, 12, 31)
 
         msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        berkshire_vals = self.berkshire_vals.reindex(
-            pd.date_range(start_date, end_date)
-        ).ffill()
         risk_free_vals = (
             self.risk_free_vals.dropna()["Close"]
             .reindex(pd.date_range(start_date, end_date))
@@ -435,9 +429,6 @@ class TestSortinoRatio(TestCase):
         end_date = date(2019, 12, 31)
 
         msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        berkshire_vals = self.berkshire_vals.reindex(
-            pd.date_range(start_date, end_date)
-        ).ffill()
         risk_free_vals = (
             self.risk_free_vals.dropna()["Close"]
             .reindex(pd.date_range(start_date, end_date))
@@ -565,6 +556,103 @@ class TestBestWorstYear(TestCase):
         self.assertAlmostEqual(w, Decimal("-63"), delta=2)
 
         
+
+class TestDividends(TestCase):
+    def create_app(self):
+        app = Flask(__name__)
+        app.config["TESTING"] = True
+        return app
+
+    def setUp(self):
+        self.starting_balance = Decimal("10000")
+        self.contribution_dates = set()
+        self.contribution_amount = None
+        self.rebalancing_dates = set()
+
+        self.msft_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/MSFT.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.msft_dividends = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/MSFT_dividends.csv",
+            index_col="Date",
+            converters={"Dividends": Decimal,},
+        )
+        self.aapl_vals = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/AAPL.csv",
+            index_col="Date",
+            converters={"Close": Decimal,},
+        )
+        self.aapl_dividends = pd.read_csv(
+            "file://"
+            + os.path.dirname(os.path.realpath(__file__))
+            + "/test_data/AAPL_dividends.csv",
+            index_col="Date",
+            converters={"Dividends": Decimal,},
+        )
+
+        self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
+        self.msft_dividends.index = pd.to_datetime(self.msft_dividends.index, format="%Y-%m-%d")
+        self.aapl_vals.index = pd.to_datetime(self.aapl_vals.index, format="%d/%m/%Y")
+        self.aapl_dividends.index = pd.to_datetime(self.aapl_dividends.index, format="%Y-%m-%d")
+
+    def test_dividends_single_asset(self):
+        start_date = date(1986, 12, 31)
+        end_date = date(2019, 12, 31)
+
+        msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
+        msft_dividends = self.msft_dividends.reindex(pd.date_range(start_date, end_date)).dropna()
+
+        assets = [anda.Asset("MSFT", Decimal(1.0), msft_vals, msft_dividends)]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
+            None,
+        )
+        self.assertAlmostEqual(
+            anda.total_return(strategy)[end_date], Decimal(14599199.22), delta=1
+        )
+
+    def test_dividends_multiple_assets(self):
+        start_date = date(1986, 12, 31)
+        end_date = date(2019, 12, 31)
+
+        msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
+        msft_dividends = self.msft_dividends.reindex(pd.date_range(start_date, end_date)).dropna()
+        aapl_vals = self.aapl_vals.reindex(pd.date_range(start_date, end_date)).ffill()
+        aapl_dividends = self.aapl_dividends.reindex(pd.date_range(start_date, end_date)).dropna()
+
+        assets = [
+            anda.Asset("MSFT", Decimal(0.5), msft_vals, msft_dividends), 
+            anda.Asset("AAPL", Decimal(0.5), aapl_vals, aapl_dividends)
+        ]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
+            None,
+        )
+        self.assertAlmostEqual(
+            anda.total_return(strategy)[end_date], Decimal(9856511.60), delta=1
+        )
 
 if __name__ == "__main__":
     unittest.main()
