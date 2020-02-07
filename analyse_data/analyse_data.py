@@ -175,8 +175,3 @@ def worst_year(strat) -> float:
     return min(_relative_yearly_diff(returns)) * Decimal(
         "100"
     )  # Adjust for percentage.
-
-
-# TODO: move tests into the proper testing area.
-if __name__ == "__main__":
-    pass
