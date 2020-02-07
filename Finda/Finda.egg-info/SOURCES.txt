@@ -1,6 +1,0 @@
-setup.py
-Finda.egg-info/PKG-INFO
-Finda.egg-info/SOURCES.txt
-Finda.egg-info/dependency_links.txt
-Finda.egg-info/requires.txt
-Finda.egg-info/top_level.txt
