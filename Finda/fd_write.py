@@ -7,6 +7,7 @@ Module containing methods for writing to financial database
 import sqlite3
 import pandas as pd
 import datetime
+import copy
 
 
 from . import fd_read
@@ -17,7 +18,7 @@ class FdWrite:
     def __init__(self, db_address):
         self.db_address = db_address
 
-    def __chceck_df_format(self, df, names):
+    def __check_df_format(self, df, names):
         """check set of df indecies and column names are euqal to set of names
         except if incorrect
 
@@ -47,11 +48,14 @@ class FdWrite:
 
         Notes:
         -If fuplicate PK in db, quietly update
+        -Will throw exception if given empty dataframe
         """
+        recordsDF = copy.deepcopy(recordsDF)
         conn = sqlite3.connect(self.db_address)
         # one of SQLites wierder idiosyncracies, pragmas must be executed
         # for each connection
         conn.execute("PRAGMA foreign_keys = ON;")
+        old_index = recordsDF.index
         recordsDF.reset_index(inplace=True)
         # construct table fields so order independant
         row_pos = "(" + ",".join(recordsDF.columns) + ")"
@@ -61,10 +65,20 @@ class FdWrite:
         query += (",".join(recordsDF.shape[0] * [row_params])) + ";"
         # create parameters list
         params = [y for x in recordsDF.values.tolist() for y in x]
-
+        recordsDF.set_index(old_index,inplace=True)
         conn.cursor().execute(query, params)
         conn.commit()
         conn.close()
+
+    def t_insert_df(self, recordsDF, tableName):
+        '''Method to aid with unit testing, ignore this
+        '''
+        self.__insert_df(recordsDF, tableName)
+
+    def t_check_df_format(self, df, names):
+        '''Method to aid with unittesting, ignore this
+        '''
+        self.__check_df_format(df, names)
 
     def write_asset_classes(self, asset_classes):
         """Add zero or more records of asset classes to fin database
@@ -80,8 +94,9 @@ class FdWrite:
 
         Notes:
         - If given non unique PK, quietly update record
+        - Will throw exception if given empty dataframe
         """
-        self.__chceck_df_format(asset_classes, ["AssetClassName"])
+        self.__check_df_format(asset_classes, ["AssetClassName"])
         self.__insert_df(asset_classes, "AssetClass")
 
     def write_assets(self, assets):
@@ -102,7 +117,7 @@ class FdWrite:
         - If one or more records contain reference to AssetClassName not in
           AssetClass(AssetClassName), raise exception
         """
-        self.__chceck_df_format(assets, ["Name", "AssetClassName", "AssetTicker"])
+        self.__check_df_format(assets, ["Name", "AssetClassName", "AssetTicker"])
         self.__insert_df(assets, "Asset")
 
     def write_asset_values(self, values):
@@ -122,35 +137,10 @@ class FdWrite:
         - If one or more records contain reference to AssetTicker not in
             Asset(AssetTicker), raise exception
         - If data added to database would create holes, raise exception
+        - Will throw exception if given empty dataframe
         """
-        # fix up df
-        df1 = values
-        # check that data in values continuous
-        for ass_df in df1.groupby("AssetTicker"):
-            i_d = [str(a) for a in list(ass_df[1].index.get_level_values("ADate"))]
-            for rdatet in pd.date_range(min(i_d), max(i_d)).tolist():
-                if str(rdatet.date()) not in i_d:
-                    raise Exception("Inserted values must be continuous")
-            # get latest date so far, if emtpy any data will do
-            fdrc = fd_read.FdRead(self.db_address)
-            df2 = fdrc.read_asset_values([ass_df[0]])
-            df2 = df2.reset_index()
-            db_dates = list(df2["ADate"])
-            # extend range to so consecutive dates on boundary now overlap
-            if not db_dates == []:
-                n_upper = min(db_dates) + datetime.timedelta(-1)
-                n_lower = max(db_dates) + datetime.timedelta(1)
-                db_dates += [n_upper, n_lower]
-                db_dates = [str(a.date()) for a in (db_dates)]
-                if not (
-                    (min(i_d) in db_dates)
-                    or (max(i_d) in db_dates)
-                    or (min(i_d) < min(db_dates) and max(i_d) > max(db_dates))
-                ):
-                    raise Exception("Inserted values not continuous with data in db")
-
         # check df in right format
-        self.__chceck_df_format(
+        self.__check_df_format(
             values,
             [
                 "AOpen",
@@ -160,16 +150,16 @@ class FdWrite:
                 "ADate",
                 "AssetTicker",
                 "IsInterpolated",
-            ],
+            ]
         )
         # fix date and decimal types
         values["AOpen"] = values["AOpen"].map(str)
         values["AClose"] = values["AClose"].map(str)
         values["AHigh"] = values["AHigh"].map(str)
         values["ALow"] = values["ALow"].map(str)
-        values = values.reset_index()
+        values.reset_index(inplace=True)
         values["ADate"] = values["ADate"].map(str)
-        values = values.set_index(["AssetTicker", "ADate"])
+        values.set_index(["AssetTicker", "ADate"], inplace=True)
         self.__insert_df(values, "AssetValue")
 
     def write_dividend_payouts(self, payouts):
@@ -189,95 +179,11 @@ class FdWrite:
         - If given non unique PK, quietly update record
         - If one or more records contain reference to AssetTicker not in
           Asset(AssetTicker), raise exception
+        - Will throw exception if given empty dataframe
         """
-        self.__chceck_df_format(payouts, ["PDate", "Payout", "AssetTicker"])
+        self.__check_df_format(payouts, ["PDate", "Payout", "AssetTicker"])
+        payouts.reset_index(inplace=True)
+        payouts["PDate"] = payouts["PDate"].map(str)
+        payouts["Payout"] = payouts["Payout"].map(str)
+        payouts.set_index(["AssetTicker", "PDate"], inplace=True)
         self.__insert_df(payouts, "DividendPayout")
-
-
-"""
-Hacky unit tests. If youre reading this please quietly remove them as I've
-moved them to test folder + added automation
-"""
-"""
-import fd_read as fdr
-
-
-df = pd.DataFrame(
-    [
-        {"AssetClassName": "BEVERAGE"},
-        {"AssetClassName": "FOOD"},
-        {"AssetClassName": "MEDIA"},
-    ]
-)
-df = df.set_index("AssetClassName")
-
-FdWrite.add_asset_classes(df)
-
-
-df0 = pd.DataFrame(
-    [
-        {"AssetClassName": "FOOD", "AssetTicker": "ASS13", "Name": "AssetOne"},
-        {"AssetClassName": "FOOD", "AssetTicker": "ASS2", "Name": "AssetTwo"},
-        {"AssetClassName": "BEVERAGE", "AssetTicker": "ASS3", "Name": "AssetThree"},
-    ]
-)
-
-df0 = df0.set_index("AssetTicker")
-
-FdWrite.add_assets(df0)
-
-
-df1 = pd.DataFrame(
-    [
-        {
-            "AssetTicker": "ASS13",
-            "ADate": "2020-02-01",
-            "ALow": "1.0",
-            "AHigh": "1",
-            "AOpen": "1",
-            "AClose": "1",
-            "IsInterpolated": 1,
-        },
-        {
-            "AssetTicker": "ASS13",
-            "ADate": "2020-02-02",
-            "ALow": "2.0",
-            "AHigh": "2",
-            "AOpen": "2",
-            "AClose": "2",
-            "IsInterpolated": 1,
-        },
-        {
-            "AssetTicker": "ASS13",
-            "ADate": "2020-02-03",
-            "ALow": "3.0",
-            "AHigh": "3",
-            "AOpen": "3",
-            "AClose": "3",
-            "IsInterpolated": 0,
-        },
-    ]
-)
-
-df1 = df1.set_index(["AssetTicker", "ADate"])
-
-import fd_manager as fdm
-
-fdm.fd_create('testDB1')
-conn = fdm.FdMultiController.fd_connect('testDB1', 'rwd')
-conn.write.add_asset_values(df1)
-
-from datetime import date
-
-print(fdr.FdRead.get_asset_classes())
-print("#" * 100)
-print(fdr.FdRead.get_assets())
-print("#" * 100)
-print(
-    fdr.FdRead.get_asset_values(
-        ["ASS13", "ASS14"],
-        date(day=1, month=1, year=1),
-        date(day=1, month=1, year=2050),
-    )
-)
-"""

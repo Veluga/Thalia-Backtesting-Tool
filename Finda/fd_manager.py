@@ -38,7 +38,7 @@ class FdMultiController:
             with open(fp, "rb") as pfile:
                 names = pickle.load(pfile)
             return list(names)
-        except IOError:
+        except OSError:
             return []
 
     @staticmethod
@@ -87,7 +87,7 @@ class FdMultiController:
         """
         # check db exists
         if db_name in FdMultiController._fetch_names() + ["registered"]:
-            raise Exception("DB already exists")
+            raise Exception("DB " +  db_name + " already exists")
         try:
             os.remove(FdMultiController._path_generator(db_name))
         except Exception as e:
@@ -103,9 +103,8 @@ class FdMultiController:
                 conn.close()
                 FdMultiController._add_name(db_name)
                 return True
-        except sqlite3.OperationalError:
-            return False
-        except IOError:
+        except Exception:
+            #generic class used to account for OS and import exceptions
             return False
 
     @staticmethod
@@ -128,23 +127,18 @@ class FdMultiController:
         """
         # check db
         db_address = FdMultiController._path_generator(db_name)
-        '''
+
         if db_name not in FdMultiController._fetch_names():
             raise Exception("DB name not registered with FinData controller")
-        '''
-        try:
-            conn = sqlite3.connect(db_address)
-            conn.close()
-        except sqlite3.OperationalError:
-            raise Exception(
-                "Invalid or corrupted datbase found at address" + db_address
-            )
+
+        conn = sqlite3.connect(db_address)
+        conn.close()
 
         class FdConnection:
             def __init__(self):
                 self.read = None
                 self.write = None
-                self.delete = None
+                self.remove = None
 
         conn = FdConnection()
         if "r" in permissions_string:
@@ -155,24 +149,3 @@ class FdMultiController:
             # TODO: implement
             conn.remove = fdd.FdRemove(db_address)
         return conn
-
-
-"""
-Old unit tests, remove if necessary
-"""
-"""
-df = pd.DataFrame(
-    [
-        {"AssetClassName": "BEVERAGE"},
-        {"AssetClassName": "FLOOD"},
-        {"AssetClassName": "MEDIA"},
-    ]
-)
-df = df.set_index("AssetClassName")
-
-
-fdc = FdController.fd_connect("data3", "rwd")
-
-print(fdc.write.write_asset_classes(df))
-print(fdc.read.read_asset_classes())
-"""
