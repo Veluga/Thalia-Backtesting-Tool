@@ -91,7 +91,7 @@ class FdRead:
         return df0
 
     def read_assets_in_class(self, asset_class):
-        """Get records of all assets in an asset class
+        """Get r <br> Records are written to the database, checking that foreign key constraint on Asset.AssetTicker is not violatedecords of all assets in an asset class
 
         Args:
         assetClass: string | Name of asset class
@@ -198,18 +198,3 @@ class FdRead:
         return df0
 
 
-# unit testing code, if you're reading this outside of branch db-adaptor
-# quietly remove it, as i've already moved it to tests
-"""
-print(FdRead.get_asset_classes())
-print(FdRead.get_assets())
-print("#" * 100)
-print(FdRead.get_asset_classes())
-print("#" * 100)
-print(FdRead.get_assets_in_class("PETROLIUM DERIVATIVE"))
-print("#" * 100)
-print(FdRead.get_assets_in_class("NOTACLASS"))
-print("#" * 100)
-print(FdRead.get_asset_values(['GLU', 'BRY','RCK' , 'NOTANASSET'] ,
- date(year=2020, month=1, day=1), date(year=2020, month=1, day=3)))
-"""

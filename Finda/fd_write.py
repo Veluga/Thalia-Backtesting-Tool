@@ -5,13 +5,7 @@ Module containing methods for writing to financial database
 """
 
 import sqlite3
-import pandas as pd
-import datetime
 import copy
-
-
-from . import fd_read
-
 
 
 class FdWrite:
@@ -65,19 +59,19 @@ class FdWrite:
         query += (",".join(recordsDF.shape[0] * [row_params])) + ";"
         # create parameters list
         params = [y for x in recordsDF.values.tolist() for y in x]
-        recordsDF.set_index(old_index,inplace=True)
+        recordsDF.set_index(old_index, inplace=True)
         conn.cursor().execute(query, params)
         conn.commit()
         conn.close()
 
     def t_insert_df(self, recordsDF, tableName):
-        '''Method to aid with unit testing, ignore this
-        '''
+        """Method to aid with unit testing, ignore this
+        """
         self.__insert_df(recordsDF, tableName)
 
     def t_check_df_format(self, df, names):
-        '''Method to aid with unittesting, ignore this
-        '''
+        """Method to aid with unittesting, ignore this
+        """
         self.__check_df_format(df, names)
 
     def write_asset_classes(self, asset_classes):
@@ -150,7 +144,7 @@ class FdWrite:
                 "ADate",
                 "AssetTicker",
                 "IsInterpolated",
-            ]
+            ],
         )
         # fix date and decimal types
         values["AOpen"] = values["AOpen"].map(str)

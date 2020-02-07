@@ -59,11 +59,10 @@ class FdMultiController:
         names = FdMultiController._fetch_names()
         names.remove(db_name)
         with open(
-            FdMultiController._path_generator(FdMultiController._db_registry_name),
-            "wb") as file:
+            FdMultiController._path_generator(FdMultiController._db_registry_name), "wb"
+        ) as file:
             pickle.dump(names, file)
         os.remove(FdMultiController._path_generator(db_name))
-
 
     @staticmethod
     def fd_list():
@@ -87,10 +86,10 @@ class FdMultiController:
         """
         # check db exists
         if db_name in FdMultiController._fetch_names() + ["registered"]:
-            raise Exception("DB " +  db_name + " already exists")
+            raise Exception("DB " + db_name + " already exists")
         try:
             os.remove(FdMultiController._path_generator(db_name))
-        except Exception as e:
+        except Exception:
             pass
         # create database and read schema
         db_address = FdMultiController._path_generator(db_name)
@@ -104,7 +103,7 @@ class FdMultiController:
                 FdMultiController._add_name(db_name)
                 return True
         except Exception:
-            #generic class used to account for OS and import exceptions
+            # generic class used to account for OS and import exceptions
             return False
 
     @staticmethod
