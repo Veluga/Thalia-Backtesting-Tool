@@ -9,7 +9,9 @@ import os
 
 
 def test_fd_manager_fd_list(db_controller):
-    assert "__seeded_test_db__" in FdMultiController.fd_list(), "failed to \
+    assert (
+        "__seeded_test_db__" in FdMultiController.fd_list()
+    ), "failed to \
                                                                  register test db"
     # remove file and try to open
     os.remove(FdMultiController._path_generator("registered"))
@@ -36,8 +38,11 @@ def test_fd_manager_fd_create(db_controller):
 def test_fd_manager_fd_remove(db_controller):
     assert "__seeded_test_db__" in FdMultiController.fd_list(), "db not created"
     FdMultiController.fd_remove("__seeded_test_db__")
-    assert FdMultiController.fd_list() == ["__empty_test_db__"], "error checking \
+    assert FdMultiController.fd_list() == [
+        "__empty_test_db__"
+    ], "error checking \
 removed database removed from register"
+
 
 def test_fd_manager_fd_connect(db_controller):
     # standard path; connect to valid database
@@ -47,17 +52,29 @@ def test_fd_manager_fd_connect(db_controller):
     connMulti = FdMultiController.fd_connect("__seeded_test_db__", "zrzdzzw")
 
     # checking permissions
-    assert type(connRead.read) == fd_read.FdRead, "error composing FdRead object \
+    assert (
+        type(connRead.read) == fd_read.FdRead
+    ), "error composing FdRead object \
 to connection"
-    assert type(connWrite.write) == fd_write.FdWrite, "error composing FdWrite \
+    assert (
+        type(connWrite.write) == fd_write.FdWrite
+    ), "error composing FdWrite \
 object to connection"
-    assert type(connDelete.remove) == fd_remove.FdRemove, "error composing \
+    assert (
+        type(connDelete.remove) == fd_remove.FdRemove
+    ), "error composing \
 FdRemove object to connection"
-    assert connRead.write is None and connRead.remove is None, "error while \
+    assert (
+        connRead.write is None and connRead.remove is None
+    ), "error while \
 checking only correct permissions were added"
-    assert connWrite.read is None and connWrite.remove is None, "error while \
+    assert (
+        connWrite.read is None and connWrite.remove is None
+    ), "error while \
 checking only correct permissions were added"
-    assert connDelete.read is None and connDelete.write is None, "error while \
+    assert (
+        connDelete.read is None and connDelete.write is None
+    ), "error while \
 checking only correct permissions were added"
     assert (
         type(connMulti.read) == fd_read.FdRead

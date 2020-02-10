@@ -6,7 +6,7 @@ from Finda import FdMultiController
 import sqlite3
 import helpers
 
-#TODO: Add custom exception classes for testing
+# TODO: Add custom exception classes for testing
 
 SEED = "INSERT INTO Asset VALUES  \
       ('RCK','Rock','CRYPTO'),  \

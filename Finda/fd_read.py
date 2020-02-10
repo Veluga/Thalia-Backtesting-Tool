@@ -91,7 +91,7 @@ class FdRead:
         return df0
 
     def read_assets_in_class(self, asset_class):
-        """Get r <br> Records are written to the database, checking that foreign key constraint on Asset.AssetTicker is not violatedecords of all assets in an asset class
+        """Get records of all assets in an asset class
 
         Args:
         assetClass: string | Name of asset class

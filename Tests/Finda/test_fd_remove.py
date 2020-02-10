@@ -7,7 +7,8 @@ import decimal as dec
 
 con = sqlite3.connect("finData.db")
 cur = con.cursor()
-fdr = fd_remove.FdRemove('finData.db')
+fdr = fd_remove.FdRemove("finData.db")
+
 
 def test_delete_values(db_controller):
 
@@ -30,13 +31,13 @@ def test_delete_values(db_controller):
                 "AOpen": dec.Decimal("5.3"),
                 "AClose": dec.Decimal("5.3"),
                 "IsInterpolated": 0,
-            }
+            },
         ]
     )
     dfT.set_index(["AssetTicker", "ADate"], inplace=True)
 
-    db_controller["seeded"].remove.deleteValues('BRY', '2020-01-02')
-    db_controller["seeded"].remove.deleteValues('RCK', '2020-01-01')
+    db_controller["seeded"].remove.deleteValues("BRY", "2020-01-02")
+    db_controller["seeded"].remove.deleteValues("RCK", "2020-01-01")
     dfR = db_controller["seeded"].read.read_asset_values(
         ["RCK", "GLU", "BRY"],
         dt.date(day=1, month=1, year=2020),
@@ -46,9 +47,9 @@ def test_delete_values(db_controller):
 
 
 def test_delete_assets(db_controller):
-    '''
+    """
     Test if deleteAsset method works
-    '''
+    """
     dfT = pd.DataFrame(
         [
             {"AssetClassName": "CRYPTO", "AssetTicker": "RCK", "Name": "Rock"},
@@ -56,32 +57,29 @@ def test_delete_assets(db_controller):
         ]
     )
     dfT.set_index("AssetTicker", inplace=True)
-    db_controller["seeded"].remove.deleteAssets('GLU')
+    db_controller["seeded"].remove.deleteAssets("GLU")
     dfR = db_controller["seeded"].read.read_assets()
     helpers.compare_df(dfT, dfR)
 
 
 def test_delete_assetclass(db_controller):
-    '''
+    """
     Test if deleteAssetclass method works
-    '''
+    """
     dfT = pd.DataFrame(
-        [
-
-            {"AssetClassName": "PETROLIUM DERIVATIVE"},
-            {"AssetClassName": "EMTPTYCLASS"},
-        ]
+        [{"AssetClassName": "PETROLIUM DERIVATIVE"},
+         {"AssetClassName": "EMTPTYCLASS"}]
     )
     dfT.set_index("AssetClassName", inplace=True)
-    db_controller["seeded"].remove.deleteAssetClasses('CRYPTO')
+    db_controller["seeded"].remove.deleteAssetClasses("CRYPTO")
     dfR = db_controller["seeded"].read.read_asset_classes()
     helpers.compare_df(dfT, dfR)
 
 
 def test_delete_div(db_controller):
-    '''
+    """
     Test if deletediv method works
-    '''
+    """
     dfT = pd.DataFrame(
         [
             {
@@ -102,6 +100,6 @@ def test_delete_div(db_controller):
         ]
     )
     dfT.set_index(["AssetTicker", "PDate"], inplace=True)
-    db_controller["seeded"].remove.delete_div_payouts('GLU')
+    db_controller["seeded"].remove.delete_div_payouts("GLU")
     dfR = db_controller["seeded"].read.read_assets_div_payout(["RCK", "BRY", "GLU"])
     helpers.compare_df(dfT, dfR)

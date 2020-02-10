@@ -57,6 +57,9 @@ class FdMultiController:
         """Unregister db and delete it
         """
         names = FdMultiController._fetch_names()
+        if not db_name in names:
+            #nothing to do
+            return
         names.remove(db_name)
         with open(
             FdMultiController._path_generator(FdMultiController._db_registry_name), "wb"
@@ -72,10 +75,11 @@ class FdMultiController:
 
     @staticmethod
     def fd_create(db_name):
-        """Create fin database at db_address with finData shchema
+        """Create fin database named fd_name with finData shchema, and
+        register it with finda
 
         Params:
-        db_address : address at witch to create database
+        db_name : name of db to register
 
         Return:
         None
