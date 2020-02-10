@@ -71,7 +71,6 @@ class TestTotalReturn(TestCase):
             contribution_dates,
             contribution_amount,
             rebalancing_dates,
-            risk_free_rate,
         )
 
         roi = anda.total_return(strategy)
@@ -97,7 +96,6 @@ class TestTotalReturn(TestCase):
             contribution_dates,
             contribution_amount,
             rebalancing_dates,
-            risk_free_rate,
         )
 
         roi = anda.total_return(strategy)
@@ -127,7 +125,6 @@ class TestTotalReturn(TestCase):
             contribution_dates,
             contribution_amount,
             rebalancing_dates,
-            risk_free_rate,
         )
 
         roi = anda.total_return(strategy)
@@ -153,7 +150,6 @@ class TestTotalReturn(TestCase):
             contribution_dates,
             contribution_amount,
             rebalancing_dates,
-            risk_free_rate,
         )
 
         roi = anda.total_return(strategy)
@@ -180,7 +176,6 @@ class TestTotalReturn(TestCase):
             contribution_dates,
             contribution_amount,
             rebalancing_dates,
-            risk_free_rate,
         )
 
         roi = anda.total_return(strategy)
@@ -250,10 +245,9 @@ class TestSharpeRatio(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            risk_free_vals,
         )
 
-        self.assertAlmostEqual(anda.sharpe_ratio(strategy), Decimal(0.75), delta=0.05)
+        self.assertAlmostEqual(anda.sharpe_ratio(strategy, risk_free_vals), Decimal(0.75), delta=0.05)
 
     def test_sharpe_ratio_multi_asset(self):
         start_date = date(1989, 12, 29)
@@ -282,9 +276,8 @@ class TestSharpeRatio(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            risk_free_vals,
         )
-        self.assertAlmostEqual(anda.sharpe_ratio(strategy), Decimal(0.89), delta=0.2)
+        self.assertAlmostEqual(anda.sharpe_ratio(strategy, risk_free_vals), Decimal(0.89), delta=0.2)
 
 
 class TestMaxDrawdown(TestCase):
@@ -348,7 +341,6 @@ class TestMaxDrawdown(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            risk_free_vals,
         )
         self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal(72.33), delta=2.5)
 
@@ -379,7 +371,6 @@ class TestMaxDrawdown(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            risk_free_vals,
         )
         self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal(59.03), delta=3)
 
@@ -445,9 +436,8 @@ class TestSortinoRatio(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            risk_free_vals,
         )
-        self.assertAlmostEqual(anda.sortino_ratio(strategy), Decimal(1.34), delta=0.1)
+        self.assertAlmostEqual(anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.34), delta=0.1)
 
     def test_sortino_ratio_multi_asset(self):
         start_date = date(1989, 12, 29)
@@ -476,9 +466,8 @@ class TestSortinoRatio(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            risk_free_vals,
         )
-        self.assertAlmostEqual(anda.sortino_ratio(strategy), Decimal(1.56), delta=0.2)
+        self.assertAlmostEqual(anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.56), delta=0.2)
 
 
 class TestBestWorstYear(TestCase):
@@ -546,7 +535,6 @@ class TestBestWorstYear(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            self.risk_free_vals,
         )
         
         b = anda.best_year(strategy)
@@ -620,7 +608,6 @@ class TestDividends(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            None,
         )
         self.assertAlmostEqual(
             anda.total_return(strategy)[end_date], Decimal(14599199.22), delta=1
@@ -648,7 +635,6 @@ class TestDividends(TestCase):
             self.contribution_dates,
             self.contribution_amount,
             self.rebalancing_dates,
-            None,
         )
         self.assertAlmostEqual(
             anda.total_return(strategy)[end_date], Decimal(9856511.60), delta=1

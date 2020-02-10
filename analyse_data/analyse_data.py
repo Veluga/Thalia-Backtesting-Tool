@@ -31,7 +31,6 @@ class Strategy:
         contribution_dates,  # implements __contains__ for date
         contribution_amount: Decimal,
         rebalancing_dates,  # implements __contains__ for date
-        risk_free_rate: pd.Series,
     ):
         self.dates = pd.date_range(start_date, end_date, freq="D")
         self.starting_balance = starting_balance
@@ -39,7 +38,6 @@ class Strategy:
         self.contribution_dates = contribution_dates
         self.contribution_amount = contribution_amount
         self.rebalancing_dates = rebalancing_dates
-        self.risk_free_rate = risk_free_rate
 
 
 # INTERNAL
@@ -109,9 +107,9 @@ def total_return(strat) -> pd.Series:
     return ret
 
 
-def _risk_adjusted_returns(strat: Strategy) -> [Decimal]:
+def _risk_adjusted_returns(strat: Strategy, risk_free_rate: pd.DataFrame) -> [Decimal]:
     returns = total_return(strat)
-    risk_free_rate_daily = strat.risk_free_rate.map(
+    risk_free_rate_daily = risk_free_rate.map(
         lambda x: Decimal(pow(math.e, math.log(x) / APPROX_DAY_PER_YEAR))
     )
     # TODO Risk free rate of return is assumed to be 0 for now
@@ -120,8 +118,8 @@ def _risk_adjusted_returns(strat: Strategy) -> [Decimal]:
     ]
 
 
-def sortino_ratio(strat: Strategy) -> float:
-    risk_adjusted_returns = _risk_adjusted_returns(strat)
+def sortino_ratio(strat: Strategy, risk_free_rate: pd.DataFrame) -> float:
+    risk_adjusted_returns = _risk_adjusted_returns(strat, risk_free_rate)
     below_target_std = np.std(list(map(lambda x: min(0, x), risk_adjusted_returns)))
     return (
         np.mean(risk_adjusted_returns)
@@ -130,8 +128,8 @@ def sortino_ratio(strat: Strategy) -> float:
     )
 
 
-def sharpe_ratio(strat: Strategy) -> float:
-    risk_adjusted_returns = _risk_adjusted_returns(strat)
+def sharpe_ratio(strat: Strategy, risk_free_rate: pd.DataFrame) -> float:
+    risk_adjusted_returns = _risk_adjusted_returns(strat, risk_free_rate)
     return (
         np.mean(risk_adjusted_returns)
         / np.std(risk_adjusted_returns)
