@@ -85,7 +85,7 @@ def total_return(strat) -> pd.Series:
     for day in strat.dates:
         if day == strat.dates[0] or day in strat.rebalancing_dates:
             investments = _allocate_investments(
-                balance, ideal_weights, [values.at[date] for values in asset_values],
+                balance, ideal_weights, [values[day] for values in asset_values],
             )
         for idx, asset in enumerate(strat.assets):
             if date in asset.dividends.index:
