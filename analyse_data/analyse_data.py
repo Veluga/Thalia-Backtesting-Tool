@@ -1,9 +1,8 @@
 import numpy as np
 import pandas as pd
-import decimal
 import math
 from decimal import Decimal, InvalidOperation
-from datetime import date, timedelta
+from datetime import date
 from dataclasses import dataclass
 
 PENNY = Decimal("0.01")
@@ -12,9 +11,14 @@ PENNY = Decimal("0.01")
 @dataclass
 class Asset:
     ticker: str
+
     weight: Decimal
-    values: pd.DataFrame  # pd.DataFrame("Open", "Low", "High", "Close") indexed and sorted by date.
-    dividends: pd.DataFrame = pd.DataFrame()  # pd.DataFrame("Dividend") indexed by date
+
+    # pd.DataFrame("Open", "Low", "High", "Close") indexed and sorted by date.
+    values: pd.DataFrame
+
+    # pd.DataFrame("Dividend") indexed by date
+    dividends: pd.DataFrame = pd.DataFrame()
 
 
 APPROX_TDAY_PER_YEAR = 252
@@ -78,7 +82,11 @@ def total_return(strat) -> pd.Series:
     asset_values = [asset.values["Close"] for asset in strat.assets]
     balance = strat.starting_balance
 
-    for date in strat.dates:
+    for day in strat.dates:
+        if day == strat.dates[0] or day in strat.rebalancing_dates:
+            investments = _allocate_investments(
+                balance, ideal_weights, [values.at[date] for values in asset_values],
+            )
         for idx, asset in enumerate(strat.assets):
             if date in asset.dividends.index:
                 investments[idx] = _collect_dividend(
@@ -86,11 +94,7 @@ def total_return(strat) -> pd.Series:
                     investments[idx],
                     asset_values[idx][date],
                 )
-        if date == strat.dates[0] or date in strat.rebalancing_dates:
-            investments = _allocate_investments(
-                balance, ideal_weights, [values.at[date] for values in asset_values],
-            )
-        if date in strat.contribution_dates:
+        if day in strat.contribution_dates:
             try:
                 current_weights = _measure_weights(
                     [balance * holdings for holdings in investments]
@@ -99,19 +103,21 @@ def total_return(strat) -> pd.Series:
                 current_weights = ideal_weights
             balance += strat.contribution_amount
             investments = _allocate_investments(
-                balance, current_weights, [values[date] for values in asset_values],
+                balance, current_weights, [values[day] for values in asset_values],
             )
         balance = _calc_balance(investments, strat.assets, date)
-        ret.at[date] = balance
+        ret.at[day] = balance
 
     return ret
 
 
 def _risk_adjusted_returns(strat: Strategy, risk_free_rate: pd.DataFrame) -> [Decimal]:
     returns = total_return(strat)
+    """ flake8 doesn't like unused variables
     risk_free_rate_daily = risk_free_rate.map(
         lambda x: Decimal(pow(math.e, math.log(x) / APPROX_DAY_PER_YEAR))
     )
+    """
     # TODO Risk free rate of return is assumed to be 0 for now
     return [
         (returns[i] / returns[i - 1]) - Decimal(1.000) for i in range(1, returns.size)
