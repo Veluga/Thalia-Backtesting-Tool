@@ -1,6 +1,4 @@
-import sqlite3
 import pandas as pd
-from Finda import fd_remove
 import helpers
 import datetime as dt
 import decimal as dec
@@ -63,8 +61,7 @@ def test_delete_assetclass(db_controller):
     Test if deleteAssetclass method works
     """
     dfT = pd.DataFrame(
-        [{"AssetClassName": "PETROLIUM DERIVATIVE"},
-         {"AssetClassName": "EMTPTYCLASS"}]
+        [{"AssetClassName": "PETROLIUM DERIVATIVE"}, {"AssetClassName": "EMTPTYCLASS"}]
     )
     dfT.set_index("AssetClassName", inplace=True)
     db_controller["seeded"].remove.deleteAssetClasses("CRYPTO")
