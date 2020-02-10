@@ -11,8 +11,7 @@ import os
 def test_fd_manager_fd_list(db_controller):
     assert (
         "__seeded_test_db__" in FdMultiController.fd_list()
-    ), "failed to \
-                                                                 register test db"
+    ), "failed to register test db"
     # remove file and try to open
     os.remove(FdMultiController._path_generator("registered"))
     assert FdMultiController.fd_list() == [], "failed to remove db registry"
@@ -40,8 +39,7 @@ def test_fd_manager_fd_remove(db_controller):
     FdMultiController.fd_remove("__seeded_test_db__")
     assert FdMultiController.fd_list() == [
         "__empty_test_db__"
-    ], "error checking \
-removed database removed from register"
+    ], "error checking removed database removed from register"
 
 
 def test_fd_manager_fd_connect(db_controller):
@@ -54,28 +52,22 @@ def test_fd_manager_fd_connect(db_controller):
     # checking permissions
     assert (
         type(connRead.read) == fd_read.FdRead
-    ), "error composing FdRead object \
-to connection"
+    ), "error composing FdRead object to connection"
     assert (
         type(connWrite.write) == fd_write.FdWrite
-    ), "error composing FdWrite \
-object to connection"
+    ), "error composing FdWrite object to connection"
     assert (
         type(connDelete.remove) == fd_remove.FdRemove
-    ), "error composing \
-FdRemove object to connection"
+    ), "error composing FdRemove object to connection"
     assert (
         connRead.write is None and connRead.remove is None
-    ), "error while \
-checking only correct permissions were added"
+    ), "error while checking only correct permissions were added"
     assert (
         connWrite.read is None and connWrite.remove is None
-    ), "error while \
-checking only correct permissions were added"
+    ), "error while checking only correct permissions were added"
     assert (
         connDelete.read is None and connDelete.write is None
-    ), "error while \
-checking only correct permissions were added"
+    ), "error while checking only correct permissions were added"
     assert (
         type(connMulti.read) == fd_read.FdRead
         and type(connMulti.write) == fd_write.FdWrite

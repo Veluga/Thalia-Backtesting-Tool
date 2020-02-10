@@ -10,6 +10,11 @@ from . import fd_read as fdr
 from . import fd_write as fdw
 from . import fd_remove as fdd
 
+class FdConnection:
+    def __init__(self):
+        self.read = None
+        self.write = None
+        self.remove = None
 
 class FdMultiController:
     """Controller object for managing multiple FinData databases
@@ -29,9 +34,10 @@ class FdMultiController:
             os.path.split(os.path.abspath(__file__))[0], f_name + "." + "db"
         )
 
+
     @staticmethod
-    def _fetch_names():
-        """Return list of name of databases registered with FinData
+    def fd_list():
+        """list databases created with FinData
         """
         try:
             fp = FdMultiController._path_generator(FdMultiController._db_registry_name)
@@ -45,7 +51,7 @@ class FdMultiController:
     def _add_name(db_name):
         """Add db_name to list of names of db registered with FdController
         """
-        names = FdMultiController._fetch_names() + [db_name]
+        names = FdMultiController.fd_list() + [db_name]
         file = open(
             FdMultiController._path_generator(FdMultiController._db_registry_name), "wb"
         )
@@ -56,7 +62,7 @@ class FdMultiController:
     def fd_remove(db_name):
         """Unregister db and delete it
         """
-        names = FdMultiController._fetch_names()
+        names = FdMultiController.fd_list()
         if not db_name in names:
             #nothing to do
             return
@@ -67,11 +73,7 @@ class FdMultiController:
             pickle.dump(names, file)
         os.remove(FdMultiController._path_generator(db_name))
 
-    @staticmethod
-    def fd_list():
-        """list databases created with FinData
-        """
-        return list(FdMultiController._fetch_names())
+
 
     @staticmethod
     def fd_create(db_name):
@@ -89,7 +91,7 @@ class FdMultiController:
         -Will overwrite existing files not registered with Finda
         """
         # check db exists
-        if db_name in FdMultiController._fetch_names() + ["registered"]:
+        if db_name in FdMultiController.fd_list() + ["registered"]:
             raise Exception("DB " + db_name + " already exists")
         try:
             os.remove(FdMultiController._path_generator(db_name))
@@ -131,17 +133,13 @@ class FdMultiController:
         # check db
         db_address = FdMultiController._path_generator(db_name)
 
-        if db_name not in FdMultiController._fetch_names():
+        if db_name not in FdMultiController.fd_list():
             raise Exception("DB name not registered with FinData controller")
 
+        assert os.path.exists(db_address), "db registered but no db file found"
         conn = sqlite3.connect(db_address)
         conn.close()
 
-        class FdConnection:
-            def __init__(self):
-                self.read = None
-                self.write = None
-                self.remove = None
 
         conn = FdConnection()
         if "r" in permissions_string:

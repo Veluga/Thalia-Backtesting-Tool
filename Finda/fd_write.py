@@ -44,6 +44,7 @@ class FdWrite:
         -If fuplicate PK in db, quietly update
         -Will throw exception if given empty dataframe
         """
+        # TODO: Potentially remove this; might be expensive
         recordsDF = copy.deepcopy(recordsDF)
         conn = sqlite3.connect(self.db_address)
         # one of SQLites wierder idiosyncracies, pragmas must be executed
