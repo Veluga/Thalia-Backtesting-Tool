@@ -5,11 +5,6 @@ import helpers
 import datetime as dt
 import decimal as dec
 
-con = sqlite3.connect("finData.db")
-cur = con.cursor()
-fdr = fd_remove.FdRemove('finData.db')
-
-
 def test_delete_values(db_controller):
 
     dfT = pd.DataFrame(

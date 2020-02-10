@@ -29,7 +29,6 @@ def test_generic_format_checker(db_controller):
     with pytest.raises(Exception):
         db_controller["empty"].write.t_check_df_format(df0, ["WiErDvAlUe", "testID"])
 
-
 def test_exeption_query_generator(db_controller):
     with pytest.raises(sqlite3.OperationalError):
         db_controller["empty"].write.t_insert_df(pd.DataFrame(), "WiErDtAbLe")

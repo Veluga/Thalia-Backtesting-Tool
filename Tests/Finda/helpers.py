@@ -7,6 +7,12 @@ import pandas as pd
 
 from Finda import FdMultiController
 
+# these are the database names used for testing, and should therefore not
+# be populated
+TESTINGDBS = ['__seeded_test_db__',
+              'testDB1',
+              '__empty_test_db__',
+              'RaNdOmGibBeRiSh']
 
 def compare_df(dfT, dfR):
     """
@@ -18,10 +24,11 @@ def compare_df(dfT, dfR):
     dfR = dfR.sort_index()
     dfT = dfT.sort_index()
     # assert (list(dfT.dtypes) == list(dfR.dtypes))
-    assert pd.DataFrame.equals(dfR.sort_index(), dfT.sort_index())
+    assert pd.DataFrame.equals(dfR.sort_index(),
+                               dfT.sort_index()), "Dataframe missmatch"
 
 
 def clear_DBs():
-    # remove all financial database for testing environment
-    for ndb in FdMultiController.fd_list():
+    # remove all financial database whos names used for testing environment
+    for ndb in TESTINGDBS:
         FdMultiController.fd_remove(ndb)
