@@ -25,7 +25,8 @@ def compare_df(dfT, dfR):
     dfT = dfT.sort_index()
     # assert (list(dfT.dtypes) == list(dfR.dtypes))
     assert pd.DataFrame.equals(dfR.sort_index(),
-                               dfT.sort_index()), "Dataframe missmatch"
+                               dfT.sort_index()), "dataframe mismatch in \
+                                                   calling function"
 
 
 def clear_DBs():

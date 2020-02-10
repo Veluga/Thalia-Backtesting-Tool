@@ -49,10 +49,9 @@ def test_fd_read_read_assets_in_class(db_controller):
     dfT.set_index("AssetTicker", inplace=True)
     dfR = db_controller["seeded"].read.read_assets_in_class("CRYPTO")
     helpers.compare_df(dfT, dfR)
-    # test empty
     empty_df = pd.DataFrame(columns=["AssetClassName", "Name", "AssetTicker"])
     empty_df.set_index(["AssetTicker"], inplace=True)
-    # test wierd
+    # testing reading wierd asset names returns empty df
     helpers.compare_df(
         empty_df, db_controller["seeded"].read.read_assets_in_class("WiErAsSeT")
     )

@@ -28,11 +28,12 @@ def test_generic_format_checker(db_controller):
     db_controller["empty"].write.t_check_df_format(df0, ["testCol", "testID"])
     with pytest.raises(Exception):
         db_controller["empty"].write.t_check_df_format(df0, ["WiErDvAlUe", "testID"])
+        pytest.fail("expected error when inserting df with invalid columns")
 
 def test_exeption_query_generator(db_controller):
     with pytest.raises(sqlite3.OperationalError):
         db_controller["empty"].write.t_insert_df(pd.DataFrame(), "WiErDtAbLe")
-
+        pytest.fail("expected error instering into invalid table")
 
 def test_fd_write_write_asset_classes(db_controller):
     ac = db_controller["seeded"].read.read_asset_classes()
@@ -50,7 +51,9 @@ def test_fd_write_write_assets(db_controller):
     # test foreign key constraint
     with pytest.raises(sqlite3.IntegrityError):
         db_controller["empty"].write.write_assets(od)
+        pytest.fail("expected error inserting non existing asset class")
     db_controller["seeded"].write.write_assets(od)
+
 
 
 def test_fd_write_write_asset_values(db_controller):
@@ -72,6 +75,7 @@ def test_fd_write_write_asset_values(db_controller):
     # test foreign key constraint
     with pytest.raises(sqlite3.IntegrityError):
         db_controller["empty"].write.write_asset_values(od)
+        pytest.fail("expected error inserting non existing asset")
     db_controller["seeded"].write.write_asset_values(od)
 
 
@@ -88,4 +92,5 @@ def test_fd_write_write_dividend_payouts(db_controller):
     od.set_index(["AssetTicker", "PDate"], inplace=True)
     with pytest.raises(sqlite3.IntegrityError):
         db_controller["empty"].write.write_dividend_payouts(od)
+        pytest.fail("expected error inserting non existing asset")
     db_controller["seeded"].write.write_dividend_payouts(od)
