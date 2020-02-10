@@ -3,7 +3,8 @@ import pandas as pd
 import sys
 import os
 from flask import Flask
-from flask_testing import TestCase
+
+from unittest import TestCase
 from datetime import date, timedelta
 from decimal import Decimal
 
@@ -12,11 +13,6 @@ from analyse_data import analyse_data as anda
 
 
 class TestTotalReturn(TestCase):
-    def create_app(self):
-        app = Flask(__name__)
-        app.config["TESTING"] = True
-        return app
-
     def setUp(self):
         self.start = date(2000, 1, 1)
         self.end = date(2000, 1, 20)
@@ -185,11 +181,6 @@ class TestTotalReturn(TestCase):
 
 
 class TestSharpeRatio(TestCase):
-    def create_app(self):
-        app = Flask(__name__)
-        app.config["TESTING"] = True
-        return app
-
     def setUp(self):
         self.starting_balance = Decimal("10000")
         self.contribution_dates = set()
@@ -247,7 +238,9 @@ class TestSharpeRatio(TestCase):
             self.rebalancing_dates,
         )
 
-        self.assertAlmostEqual(anda.sharpe_ratio(strategy, risk_free_vals), Decimal(0.75), delta=0.05)
+        self.assertAlmostEqual(
+            anda.sharpe_ratio(strategy, risk_free_vals), Decimal(0.75), delta=0.05
+        )
 
     def test_sharpe_ratio_multi_asset(self):
         start_date = date(1989, 12, 29)
@@ -277,15 +270,12 @@ class TestSharpeRatio(TestCase):
             self.contribution_amount,
             self.rebalancing_dates,
         )
-        self.assertAlmostEqual(anda.sharpe_ratio(strategy, risk_free_vals), Decimal(0.89), delta=0.2)
+        self.assertAlmostEqual(
+            anda.sharpe_ratio(strategy, risk_free_vals), Decimal(0.89), delta=0.2
+        )
 
 
 class TestMaxDrawdown(TestCase):
-    def create_app(self):
-        app = Flask(__name__)
-        app.config["TESTING"] = True
-        return app
-
     def setUp(self):
         self.starting_balance = Decimal("10000")
         self.contribution_dates = set()
@@ -376,11 +366,6 @@ class TestMaxDrawdown(TestCase):
 
 
 class TestSortinoRatio(TestCase):
-    def create_app(self):
-        app = Flask(__name__)
-        app.config["TESTING"] = True
-        return app
-
     def setUp(self):
         self.starting_balance = Decimal("10000")
         self.contribution_dates = set()
@@ -437,7 +422,9 @@ class TestSortinoRatio(TestCase):
             self.contribution_amount,
             self.rebalancing_dates,
         )
-        self.assertAlmostEqual(anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.34), delta=0.1)
+        self.assertAlmostEqual(
+            anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.34), delta=0.1
+        )
 
     def test_sortino_ratio_multi_asset(self):
         start_date = date(1989, 12, 29)
@@ -467,15 +454,12 @@ class TestSortinoRatio(TestCase):
             self.contribution_amount,
             self.rebalancing_dates,
         )
-        self.assertAlmostEqual(anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.56), delta=0.2)
+        self.assertAlmostEqual(
+            anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.56), delta=0.2
+        )
 
 
 class TestBestWorstYear(TestCase):
-    def create_app(self):
-        app = Flask(__name__)
-        app.config["TESTING"] = True
-        return app
-
     def setUp(self):
         self.starting_balance = Decimal("10000")
         self.contribution_dates = set()
@@ -536,21 +520,15 @@ class TestBestWorstYear(TestCase):
             self.contribution_amount,
             self.rebalancing_dates,
         )
-        
+
         b = anda.best_year(strategy)
         w = anda.worst_year(strategy)
 
         self.assertAlmostEqual(b, Decimal("120"), delta=2)
         self.assertAlmostEqual(w, Decimal("-63"), delta=2)
 
-        
 
 class TestDividends(TestCase):
-    def create_app(self):
-        app = Flask(__name__)
-        app.config["TESTING"] = True
-        return app
-
     def setUp(self):
         self.starting_balance = Decimal("10000")
         self.contribution_dates = set()
@@ -587,16 +565,22 @@ class TestDividends(TestCase):
         )
 
         self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
-        self.msft_dividends.index = pd.to_datetime(self.msft_dividends.index, format="%Y-%m-%d")
+        self.msft_dividends.index = pd.to_datetime(
+            self.msft_dividends.index, format="%Y-%m-%d"
+        )
         self.aapl_vals.index = pd.to_datetime(self.aapl_vals.index, format="%d/%m/%Y")
-        self.aapl_dividends.index = pd.to_datetime(self.aapl_dividends.index, format="%Y-%m-%d")
+        self.aapl_dividends.index = pd.to_datetime(
+            self.aapl_dividends.index, format="%Y-%m-%d"
+        )
 
     def test_dividends_single_asset(self):
         start_date = date(1986, 12, 31)
         end_date = date(2019, 12, 31)
 
         msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        msft_dividends = self.msft_dividends.reindex(pd.date_range(start_date, end_date)).dropna()
+        msft_dividends = self.msft_dividends.reindex(
+            pd.date_range(start_date, end_date)
+        ).dropna()
 
         assets = [anda.Asset("MSFT", Decimal(1.0), msft_vals, msft_dividends)]
 
@@ -618,13 +602,17 @@ class TestDividends(TestCase):
         end_date = date(2019, 12, 31)
 
         msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        msft_dividends = self.msft_dividends.reindex(pd.date_range(start_date, end_date)).dropna()
+        msft_dividends = self.msft_dividends.reindex(
+            pd.date_range(start_date, end_date)
+        ).dropna()
         aapl_vals = self.aapl_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        aapl_dividends = self.aapl_dividends.reindex(pd.date_range(start_date, end_date)).dropna()
+        aapl_dividends = self.aapl_dividends.reindex(
+            pd.date_range(start_date, end_date)
+        ).dropna()
 
         assets = [
-            anda.Asset("MSFT", Decimal(0.5), msft_vals, msft_dividends), 
-            anda.Asset("AAPL", Decimal(0.5), aapl_vals, aapl_dividends)
+            anda.Asset("MSFT", Decimal(0.5), msft_vals, msft_dividends),
+            anda.Asset("AAPL", Decimal(0.5), aapl_vals, aapl_dividends),
         ]
 
         strategy = anda.Strategy(
@@ -639,6 +627,7 @@ class TestDividends(TestCase):
         self.assertAlmostEqual(
             anda.total_return(strategy)[end_date], Decimal(9856511.60), delta=1
         )
+
 
 if __name__ == "__main__":
     unittest.main()
