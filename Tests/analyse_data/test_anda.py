@@ -2,7 +2,6 @@ import unittest
 import pandas as pd
 import sys
 import os
-from flask import Flask
 
 from unittest import TestCase
 from datetime import date, timedelta
@@ -36,7 +35,7 @@ class TestTotalReturn(TestCase):
             for (i, _) in enumerate(self.dates)
         ]
         rock_prices = [
-            [Decimal("1.00"), Decimal("1.00"), Decimal("1.00"), Decimal("1.00"),]
+            [Decimal("1.00"), Decimal("1.00"), Decimal("1.00"), Decimal("1.00")]
             for _ in self.dates
         ]
         self.gold_data = pd.DataFrame(
@@ -56,8 +55,6 @@ class TestTotalReturn(TestCase):
         rebalancing_dates = set()
 
         assets = [anda.Asset("Gold", Decimal("1.0"), self.gold_data)]
-
-        risk_free_rate = None
 
         strategy = anda.Strategy(
             self.start,
@@ -81,8 +78,6 @@ class TestTotalReturn(TestCase):
         rebalancing_dates = set()
 
         assets = [anda.Asset("ST", Decimal("1.00"), self.rock_data)]
-
-        risk_free_rate = None
 
         strategy = anda.Strategy(
             self.start,
@@ -111,8 +106,6 @@ class TestTotalReturn(TestCase):
             anda.Asset("SLV", Decimal("0.5"), self.silver_data),
         ]
 
-        risk_free_rate = None
-
         strategy = anda.Strategy(
             self.start,
             self.end,
@@ -124,7 +117,7 @@ class TestTotalReturn(TestCase):
         )
 
         roi = anda.total_return(strategy)
-        # print(roi)
+        roi  # gotta keep flake8 happy.
 
     def test_no_money(self):
         starting_balance = Decimal("0.00")
@@ -136,8 +129,6 @@ class TestTotalReturn(TestCase):
 
         assets = [anda.Asset("ST", Decimal("1.0"), self.rock_data)]
 
-        risk_free_rate = None
-
         strategy = anda.Strategy(
             self.start,
             self.end,
@@ -149,7 +140,7 @@ class TestTotalReturn(TestCase):
         )
 
         roi = anda.total_return(strategy)
-        # Just the lack of exception *should* be a sign of success.
+        roi  # Just the lack of exception *should* be a sign of success.
 
     def test_mult_assets(self):
         starting_balance = Decimal("100.00")
@@ -161,8 +152,6 @@ class TestTotalReturn(TestCase):
             anda.Asset("GOLD", Decimal("0.4"), self.gold_data),
             anda.Asset("SLV", Decimal("0.6"), self.silver_data),
         ]
-
-        risk_free_rate = None
 
         strategy = anda.Strategy(
             self.start,
@@ -192,14 +181,14 @@ class TestSharpeRatio(TestCase):
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/MSFT.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal},
         )
         self.berkshire_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/BRK-A.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal},
         )
         self.risk_free_vals = pd.read_csv(
             "file://"
@@ -287,14 +276,14 @@ class TestMaxDrawdown(TestCase):
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/MSFT.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal},
         )
         self.berkshire_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/BRK-A.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal},
         )
         self.risk_free_vals = pd.read_csv(
             "file://"
@@ -315,11 +304,6 @@ class TestMaxDrawdown(TestCase):
         end_date = date(2019, 12, 31)
 
         msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        risk_free_vals = (
-            self.risk_free_vals.dropna()["Close"]
-            .reindex(pd.date_range(start_date, end_date))
-            .ffill()
-        )
 
         assets = [anda.Asset("MSFT", Decimal("1.0"), msft_vals)]
 
@@ -342,11 +326,6 @@ class TestMaxDrawdown(TestCase):
         berkshire_vals = self.berkshire_vals.reindex(
             pd.date_range(start_date, end_date)
         ).ffill()
-        risk_free_vals = (
-            self.risk_free_vals.dropna()["Close"]
-            .reindex(pd.date_range(start_date, end_date))
-            .ffill()
-        )
 
         assets = [
             anda.Asset("MSFT", Decimal(0.6), msft_vals),
@@ -377,14 +356,14 @@ class TestSortinoRatio(TestCase):
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/MSFT.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal}
         )
         self.berkshire_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/BRK-A.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal}
         )
         self.risk_free_vals = pd.read_csv(
             "file://"
@@ -471,14 +450,14 @@ class TestBestWorstYear(TestCase):
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/MSFT.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal}
         )
         self.berkshire_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/BRK-A.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal}
         )
         self.risk_free_vals = pd.read_csv(
             "file://"
@@ -540,28 +519,28 @@ class TestDividends(TestCase):
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/MSFT.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal}
         )
         self.msft_dividends = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/MSFT_dividends.csv",
             index_col="Date",
-            converters={"Dividends": Decimal,},
+            converters={"Dividends": Decimal}
         )
         self.aapl_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/AAPL.csv",
             index_col="Date",
-            converters={"Close": Decimal,},
+            converters={"Close": Decimal}
         )
         self.aapl_dividends = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/AAPL_dividends.csv",
             index_col="Date",
-            converters={"Dividends": Decimal,},
+            converters={"Dividends": Decimal}
         )
 
         self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")

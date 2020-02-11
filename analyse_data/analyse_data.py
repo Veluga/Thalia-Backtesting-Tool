@@ -63,8 +63,7 @@ def _measure_weights(asset_vals: [Decimal]) -> [Decimal]:
 # INTERNAL
 def _calc_balance(invesments: [Decimal], asset_vals: [Decimal]) -> Decimal:
     return sum(
-        holdings * value
-        for holdings, value in zip(invesments, asset_vals)
+        holdings * value for holdings, value in zip(invesments, asset_vals)
     ).quantize(PENNY)
 
 
