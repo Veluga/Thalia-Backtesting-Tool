@@ -12,6 +12,7 @@ coverage_html_report
 
 ### VisualStudioCode ###
 .vscode/*
+
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -22,3 +23,4 @@ coverage_html_report
 .history
 
 # End of https://www.gitignore.io/api/visualstudiocode
+Finda/*.db
