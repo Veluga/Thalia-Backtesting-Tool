@@ -61,10 +61,10 @@ def _measure_weights(asset_vals: [Decimal]) -> [Decimal]:
 
 
 # INTERNAL
-def _calc_balance(invesments: [Decimal], assets: [Asset], day: date) -> Decimal:
+def _calc_balance(invesments: [Decimal], asset_vals: [Decimal]) -> Decimal:
     return sum(
-        holdings * asset.values.at[day, "Close"]
-        for holdings, asset in zip(invesments, assets)
+        holdings * value
+        for holdings, value in zip(invesments, asset_vals)
     ).quantize(PENNY)
 
 
@@ -83,9 +83,10 @@ def total_return(strat) -> pd.Series:
     balance = strat.starting_balance
 
     for day in strat.dates:
+        asset_vals_today = [values.at[day] for values in asset_values]
         if day == strat.dates[0] or day in strat.rebalancing_dates:
             investments = _allocate_investments(
-                balance, ideal_weights, [values[day] for values in asset_values],
+                balance, ideal_weights, asset_vals_today
             )
         for idx, asset in enumerate(strat.assets):
             if date in asset.dividends.index:
@@ -103,9 +104,9 @@ def total_return(strat) -> pd.Series:
                 current_weights = ideal_weights
             balance += strat.contribution_amount
             investments = _allocate_investments(
-                balance, current_weights, [values[day] for values in asset_values],
+                balance, current_weights, asset_vals_today,
             )
-        balance = _calc_balance(investments, strat.assets, date)
+        balance = _calc_balance(investments, asset_vals_today)
         ret.at[day] = balance
 
     return ret

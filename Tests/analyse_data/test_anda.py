@@ -80,7 +80,7 @@ class TestTotalReturn(TestCase):
         contribution_amount = Decimal("1.00")
         rebalancing_dates = set()
 
-        assets = [anda.Asset("ST", Decimal(1.0), self.rock_data)]
+        assets = [anda.Asset("ST", Decimal("1.00"), self.rock_data)]
 
         risk_free_rate = None
 
@@ -226,7 +226,7 @@ class TestSharpeRatio(TestCase):
             .ffill()
         )
 
-        assets = [anda.Asset("MSFT", Decimal(1.0), msft_vals)]
+        assets = [anda.Asset("MSFT", Decimal("1.00"), msft_vals)]
 
         strategy = anda.Strategy(
             start_date,
@@ -271,7 +271,7 @@ class TestSharpeRatio(TestCase):
             self.rebalancing_dates,
         )
         self.assertAlmostEqual(
-            anda.sharpe_ratio(strategy, risk_free_vals), Decimal(0.89), delta=0.2
+            anda.sharpe_ratio(strategy, risk_free_vals), Decimal("0.89"), delta=0.2
         )
 
 
@@ -321,7 +321,7 @@ class TestMaxDrawdown(TestCase):
             .ffill()
         )
 
-        assets = [anda.Asset("MSFT", Decimal(1.0), msft_vals)]
+        assets = [anda.Asset("MSFT", Decimal("1.0"), msft_vals)]
 
         strategy = anda.Strategy(
             start_date,
@@ -332,7 +332,7 @@ class TestMaxDrawdown(TestCase):
             self.contribution_amount,
             self.rebalancing_dates,
         )
-        self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal(72.33), delta=2.5)
+        self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal("72.33"), delta=2.5)
 
     def test_max_drawdown_multi_asset(self):
         start_date = date(1989, 12, 29)
@@ -362,7 +362,7 @@ class TestMaxDrawdown(TestCase):
             self.contribution_amount,
             self.rebalancing_dates,
         )
-        self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal(59.03), delta=3)
+        self.assertAlmostEqual(anda.max_drawdown(strategy), Decimal("59.03"), delta=3)
 
 
 class TestSortinoRatio(TestCase):
@@ -423,7 +423,7 @@ class TestSortinoRatio(TestCase):
             self.rebalancing_dates,
         )
         self.assertAlmostEqual(
-            anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.34), delta=0.1
+            anda.sortino_ratio(strategy, risk_free_vals), Decimal("1.34"), delta=0.1
         )
 
     def test_sortino_ratio_multi_asset(self):
@@ -455,7 +455,7 @@ class TestSortinoRatio(TestCase):
             self.rebalancing_dates,
         )
         self.assertAlmostEqual(
-            anda.sortino_ratio(strategy, risk_free_vals), Decimal(1.56), delta=0.2
+            anda.sortino_ratio(strategy, risk_free_vals), Decimal("1.56"), delta=0.2
         )
 
 
@@ -582,7 +582,7 @@ class TestDividends(TestCase):
             pd.date_range(start_date, end_date)
         ).dropna()
 
-        assets = [anda.Asset("MSFT", Decimal(1.0), msft_vals, msft_dividends)]
+        assets = [anda.Asset("MSFT", Decimal("1.0"), msft_vals, msft_dividends)]
 
         strategy = anda.Strategy(
             start_date,
@@ -594,7 +594,7 @@ class TestDividends(TestCase):
             self.rebalancing_dates,
         )
         self.assertAlmostEqual(
-            anda.total_return(strategy)[end_date], Decimal(14599199.22), delta=1
+            anda.total_return(strategy)[end_date], Decimal("14599199.22"), delta=1
         )
 
     def test_dividends_multiple_assets(self):
@@ -611,8 +611,8 @@ class TestDividends(TestCase):
         ).dropna()
 
         assets = [
-            anda.Asset("MSFT", Decimal(0.5), msft_vals, msft_dividends),
-            anda.Asset("AAPL", Decimal(0.5), aapl_vals, aapl_dividends),
+            anda.Asset("MSFT", Decimal("0.5"), msft_vals, msft_dividends),
+            anda.Asset("AAPL", Decimal("0.5"), aapl_vals, aapl_dividends),
         ]
 
         strategy = anda.Strategy(
@@ -625,7 +625,7 @@ class TestDividends(TestCase):
             self.rebalancing_dates,
         )
         self.assertAlmostEqual(
-            anda.total_return(strategy)[end_date], Decimal(9856511.60), delta=1
+            anda.total_return(strategy)[end_date], Decimal("9856511.60"), delta=1
         )
 
 
