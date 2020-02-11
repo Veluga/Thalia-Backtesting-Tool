@@ -10,11 +10,13 @@ from . import fd_read as fdr
 from . import fd_write as fdw
 from . import fd_remove as fdd
 
+
 class FdConnection:
     def __init__(self):
         self.read = None
         self.write = None
         self.remove = None
+
 
 class FdMultiController:
     """Controller object for managing multiple FinData databases
@@ -33,7 +35,6 @@ class FdMultiController:
         return os.path.join(
             os.path.split(os.path.abspath(__file__))[0], f_name + "." + "db"
         )
-
 
     @staticmethod
     def fd_list():
@@ -63,8 +64,8 @@ class FdMultiController:
         """Unregister db and delete it
         """
         names = FdMultiController.fd_list()
-        if not db_name in names:
-            #nothing to do
+        if db_name not in names:
+            # nothing to do
             return
         names.remove(db_name)
         with open(
@@ -72,8 +73,6 @@ class FdMultiController:
         ) as file:
             pickle.dump(names, file)
         os.remove(FdMultiController._path_generator(db_name))
-
-
 
     @staticmethod
     def fd_create(db_name):
@@ -139,7 +138,6 @@ class FdMultiController:
         assert os.path.exists(db_address), "db registered but no db file found"
         conn = sqlite3.connect(db_address)
         conn.close()
-
 
         conn = FdConnection()
         if "r" in permissions_string:

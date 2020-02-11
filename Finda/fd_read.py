@@ -196,5 +196,3 @@ class FdRead:
         # adjust index if neccesary
         df0.set_index("AssetClassName", inplace=True)
         return df0
-
-
