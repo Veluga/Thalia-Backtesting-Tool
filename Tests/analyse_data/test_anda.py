@@ -11,6 +11,18 @@ sys.path.insert(0, ".")
 from analyse_data import analyse_data as anda
 
 
+def read_asset(path):
+    asset_vals = pd.read_csv(
+        "file://"
+        + os.path.dirname(os.path.realpath(__file__))
+        + path,
+        index_col="Date",
+        converters={"Close": Decimal},
+    )
+    asset_vals.index = pd.to_datetime(asset_vals.index, format="%d/%m/%Y")
+    return asset_vals
+
+
 class TestTotalReturn(TestCase):
     def setUp(self):
         self.start = date(2000, 1, 1)
@@ -176,29 +188,13 @@ class TestSharpeRatio(TestCase):
         self.contribution_amount = None
         self.rebalancing_dates = set()
 
-        self.msft_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/MSFT.csv",
-            index_col="Date",
-            converters={"Close": Decimal},
-        )
-        self.berkshire_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/BRK-A.csv",
-            index_col="Date",
-            converters={"Close": Decimal},
-        )
+        self.msft_vals = read_asset("/test_data/MSFT.csv")
+        self.berkshire_vals = read_asset("/test_data/BRK-A.csv")
         self.risk_free_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/risk_free_rate.csv",
             index_col="Date",
-        )
-        self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
-        self.berkshire_vals.index = pd.to_datetime(
-            self.berkshire_vals.index, format="%d/%m/%Y"
         )
         self.risk_free_vals.index = pd.to_datetime(
             self.risk_free_vals.index, format="%d/%m/%Y"
@@ -271,29 +267,13 @@ class TestMaxDrawdown(TestCase):
         self.contribution_amount = None
         self.rebalancing_dates = set()
 
-        self.msft_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/MSFT.csv",
-            index_col="Date",
-            converters={"Close": Decimal},
-        )
-        self.berkshire_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/BRK-A.csv",
-            index_col="Date",
-            converters={"Close": Decimal},
-        )
+        self.msft_vals = read_asset("/test_data/MSFT.csv")
+        self.berkshire_vals = read_asset("/test_data/BRK-A.csv")
         self.risk_free_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/risk_free_rate.csv",
             index_col="Date",
-        )
-        self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
-        self.berkshire_vals.index = pd.to_datetime(
-            self.berkshire_vals.index, format="%d/%m/%Y"
         )
         self.risk_free_vals.index = pd.to_datetime(
             self.risk_free_vals.index, format="%d/%m/%Y"
@@ -351,29 +331,13 @@ class TestSortinoRatio(TestCase):
         self.contribution_amount = None
         self.rebalancing_dates = set()
 
-        self.msft_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/MSFT.csv",
-            index_col="Date",
-            converters={"Close": Decimal}
-        )
-        self.berkshire_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/BRK-A.csv",
-            index_col="Date",
-            converters={"Close": Decimal}
-        )
+        self.msft_vals = read_asset("/test_data/MSFT.csv")
+        self.berkshire_vals = read_asset("/test_data/BRK-A.csv")
         self.risk_free_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/risk_free_rate.csv",
             index_col="Date",
-        )
-        self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
-        self.berkshire_vals.index = pd.to_datetime(
-            self.berkshire_vals.index, format="%d/%m/%Y"
         )
         self.risk_free_vals.index = pd.to_datetime(
             self.risk_free_vals.index, format="%d/%m/%Y"
@@ -445,29 +409,13 @@ class TestBestWorstYear(TestCase):
         self.contribution_amount = None
         self.rebalancing_dates = set()
 
-        self.msft_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/MSFT.csv",
-            index_col="Date",
-            converters={"Close": Decimal}
-        )
-        self.berkshire_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/BRK-A.csv",
-            index_col="Date",
-            converters={"Close": Decimal}
-        )
+        self.msft_vals = read_asset("/test_data/MSFT.csv")
+        self.berkshire_vals = read_asset("/test_data/BRK-A.csv")
         self.risk_free_vals = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
             + "/test_data/risk_free_rate.csv",
             index_col="Date",
-        )
-        self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
-        self.berkshire_vals.index = pd.to_datetime(
-            self.berkshire_vals.index, format="%d/%m/%Y"
         )
         self.risk_free_vals.index = pd.to_datetime(
             self.risk_free_vals.index, format="%d/%m/%Y"
@@ -514,13 +462,7 @@ class TestDividends(TestCase):
         self.contribution_amount = None
         self.rebalancing_dates = set()
 
-        self.msft_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/MSFT.csv",
-            index_col="Date",
-            converters={"Close": Decimal}
-        )
+        self.msft_vals = read_asset("/test_data/MSFT.csv")
         self.msft_dividends = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
@@ -528,13 +470,7 @@ class TestDividends(TestCase):
             index_col="Date",
             converters={"Dividends": Decimal}
         )
-        self.aapl_vals = pd.read_csv(
-            "file://"
-            + os.path.dirname(os.path.realpath(__file__))
-            + "/test_data/AAPL.csv",
-            index_col="Date",
-            converters={"Close": Decimal}
-        )
+        self.aapl_vals = read_asset("/test_data/AAPL.csv")
         self.aapl_dividends = pd.read_csv(
             "file://"
             + os.path.dirname(os.path.realpath(__file__))
@@ -543,11 +479,9 @@ class TestDividends(TestCase):
             converters={"Dividends": Decimal}
         )
 
-        self.msft_vals.index = pd.to_datetime(self.msft_vals.index, format="%d/%m/%Y")
         self.msft_dividends.index = pd.to_datetime(
             self.msft_dividends.index, format="%Y-%m-%d"
         )
-        self.aapl_vals.index = pd.to_datetime(self.aapl_vals.index, format="%d/%m/%Y")
         self.aapl_dividends.index = pd.to_datetime(
             self.aapl_dividends.index, format="%Y-%m-%d"
         )
