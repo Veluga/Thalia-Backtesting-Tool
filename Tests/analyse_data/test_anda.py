@@ -34,9 +34,7 @@ def read_risk_free():
 
 def read_dividends(path):
     dividends = pd.read_csv(
-        "file://"
-        + os.path.dirname(os.path.realpath(__file__))
-        + path,
+        "file://" + os.path.dirname(os.path.realpath(__file__)) + path,
         index_col="Date",
         converters={"Dividends": Decimal},
     )
