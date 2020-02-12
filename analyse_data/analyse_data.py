@@ -89,10 +89,12 @@ def total_return(strat) -> pd.Series:
             )
         for idx, asset in enumerate(strat.assets):
             if date in asset.dividends.index:
+                # Why isn't this code running?
+                assert False
                 investments[idx] = _collect_dividend(
                     asset.dividends["Dividends"][date],
                     investments[idx],
-                    asset_values[idx][date],
+                    asset_vals_today[idx],
                 )
         if day in strat.contribution_dates:
             try:
