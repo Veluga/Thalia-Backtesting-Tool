@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "darhv/bin/python",
+    "python.envFile": "darhv",
+    "python.jediEnabled": true
+}

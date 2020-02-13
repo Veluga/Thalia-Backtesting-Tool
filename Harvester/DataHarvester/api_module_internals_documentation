@@ -24,5 +24,9 @@ For the moment I have tested quandl and yfinance. They seem to have more than en
 The data updating logic needs to have a model of what data is available from what Apis and when to update that data. It requires a connection to the database comunication module so that it can read/update the data. However since the data updating logic is the one asking for the data it might be able to construct a model of the available data.
 A example of how this would work would be: DUL creates a list of data that has to be pulled trough a API, the data is assigned to a api and that api has a cooldown time(even if not required if you have too many calls in a short time, you get blocked) and key if required.
 
+
+####Data Integrity
+The apis used at the moment noomics and yfinance are doing data integrity checks.Because of this at this current moment the Harvester does not check for data integrity.
+
 ####Obersvations
 The modules have different ways of calling for data. 
