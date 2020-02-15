@@ -82,4 +82,4 @@ def save_user(username, password):
 
 
 def existing_username(username):
-    return User.query.filter_by(username=username).first()
+    return bool(User.query.filter_by(username=username).first())
