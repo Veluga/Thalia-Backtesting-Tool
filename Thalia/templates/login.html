@@ -3,20 +3,22 @@
 {% block content %}
 <h1>Sign In</h1>
 <form action="" method="post" novalidate>
-  {{ form.hidden_tag() }} {# renders all hidden input fields including CSRF token field #}
+  {{ form.hidden_tag() }}
+  {# renders all hidden input fields including CSRF token field #}
   <p>
-    {{ form.username.label }}<br>
-    {{ form.username(size=32) }}<br>
+    {{ form.username.label }}<br />
+    {{ form.username(size=32) }}<br />
   </p>
   <p>
-    {{ form.password.label }}<br>
-    {{ form.password(size=32) }}<br>
+    {{ form.password.label }}<br />
+    {{ form.password(size=32) }}<br />
   </p>
   <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
   <p>{{ form.submit() }}</p>
   {% if error %}
   <p class="error"><strong>Error:</strong> {{ error }}
-    {% endif %}
+  {% endif %}</p>
 </form>
-<p> New User? <a href="{{ url_for('main.register') }}">Click to Register!</a></p>
+
+<p>New User? <a href="{{ url_for('main.register') }}">Click to Register!</a></p>
 {% endblock %}
