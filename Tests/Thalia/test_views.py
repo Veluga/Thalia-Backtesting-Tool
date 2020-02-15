@@ -4,10 +4,13 @@ from flask_login import current_user
 
 from Thalia.models.user import User
 
+# Status codes
+OK = 200
+
 
 def test_register(client):
     # test that viewing the page renders without template errors
-    assert client.get("/register", follow_redirects=True).status_code == 200
+    assert client.get("/register", follow_redirects=True).status_code == OK
 
     # test that successful registration redirects to the login page
     response = client.post(
@@ -25,8 +28,8 @@ def test_register(client):
     (("a", None, b"Username not recognised"), (None, "a", b"Incorrect password")),
 )
 def test_login_validate_input(auth, default_user, username, password, message):
-    username = username or default_user['username']
-    password = password or default_user['password']
+    username = username or default_user["username"]
+    password = password or default_user["password"]
     response = auth.login(username, password)
     assert message in response.data
 
@@ -43,7 +46,10 @@ def test_logout(client, default_user, auth):
 def test_register_validate_input(client, default_user):
     response = client.post(
         "/register",
-        data={"username": default_user['username'], "password": default_user['password']},
+        data={
+            "username": default_user["username"],
+            "password": default_user["password"],
+        },
         follow_redirects=True,
     )
     assert b"already registered" in response.data
@@ -51,14 +57,14 @@ def test_register_validate_input(client, default_user):
 
 def test_login(client, auth, default_user):
     # test that viewing the page renders without template errors
-    assert client.get("/login", follow_redirects=True).status_code == 200
+    assert client.get("/login", follow_redirects=True).status_code == OK
 
     # test that successful login redirects to the index page
     response = auth.login()
 
     # this is a poor way to test if redirected to homepage while logged in
     # ideally it would test if path is "/" and or something more
-    home_page_message = bytes(f"Hi, {default_user['username']}", 'ascii')
+    home_page_message = bytes(f"Hi, {default_user['username']}", "ascii")
     assert home_page_message in response.data
 
     # login request set the user_id in the session
@@ -66,7 +72,7 @@ def test_login(client, auth, default_user):
     with client:
         client.get("/")
         assert session["user_id"] == "1"
-        assert current_user.username == default_user['username']
+        assert current_user.username == default_user["username"]
 
     # test redirection of login page to home when already signed in
     response = client.get("/login", follow_redirects=True)
@@ -80,7 +86,7 @@ def test_login(client, auth, default_user):
 def test_dashboard_access(client, default_user, auth):
     response = client.get("/dashboard", follow_redirects=True)
 
-    assert response.status_code == 200
+    assert response.status_code == OK
 
     assert (
         b"Sign In" in response.data
@@ -90,7 +96,7 @@ def test_dashboard_access(client, default_user, auth):
 
     response = client.get("/dashboard", follow_redirects=True)
 
-    assert response.status_code == 200
+    assert response.status_code == OK
     # TODO: find a better way of testing what page is loaded
     assert (
         b"Backtest dashboard" in response.data
