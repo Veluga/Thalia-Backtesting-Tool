@@ -24,3 +24,5 @@ coverage_html_report
 
 # End of https://www.gitignore.io/api/visualstudiocode
 Finda/*.db
+htmlcov
+pip-wheel-metadata
