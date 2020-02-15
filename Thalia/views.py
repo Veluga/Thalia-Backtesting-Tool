@@ -34,8 +34,18 @@ def login():
 
 
 def find_next(backup):
+    """
+    find and validate the next argument when flask-login redirects
+    from a protected page. Usually redirects back to the unathorized page.
+    Use backup if next doesn't exist or fails to validate.
+
+    e.g. try to access dashboard -> redirect to login -> redirected back to dashboard
+
+    current validation only makes sure that next page is a relative path
+    and doesn't have it's own netloc (netloc = www.example.com)
+    """
     next_page = request.args.get("next")
-    if not next_page or url_parse(next_page).netloc != "":
+    if not next_page or not url_parse(next_page).netloc != "":
         next_page = url_for(backup)
     return next_page
 
