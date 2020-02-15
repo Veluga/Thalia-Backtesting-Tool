@@ -5,12 +5,11 @@ from flask.helpers import get_root_path
 from flask_login import login_required
 
 
-def create_app(test_config=None):
+def create_app(test_config={}):
     server = Flask(__name__)
     server.config.from_object(Config)
-    if test_config is not None:
-        # load the test config if passed in
-        server.config.update(test_config)
+    # load the test config if passed in otherwise nothing happens
+    server.config.update(test_config)
 
     register_dashapps(server)
     register_extensions(server)
