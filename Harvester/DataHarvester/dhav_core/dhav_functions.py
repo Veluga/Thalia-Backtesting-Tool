@@ -247,8 +247,7 @@ class DataHarvester:
         # go trough APIs
 
         for api in self.api_list:
-            print(api.api_calls_day)
-            for x in range(api.api_calls_day):
+            for x in range(api.api_calls_per_run):
                 answer = self.update_on_index(api)
 
                 if answer == 0:
