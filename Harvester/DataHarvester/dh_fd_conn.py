@@ -46,5 +46,7 @@ asset_classes_list = return_asset_classes()
 
 for entry in asset_classes_list:
     print(entry)
-    data_frame_asset_classes = pd.DataFrame( columns = [], index= ["index_funds"] )
-    conn.write_asset_classes(data_frame_asset_classes)
+    
+data_frame_asset_classes = pd.DataFrame({'Columns': [], 'Index': 'index_funds'})
+    
+conn.write.write_asset_classes(data_frame_asset_classes)

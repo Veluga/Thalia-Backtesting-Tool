@@ -11,5 +11,6 @@ if __name__ == "__main__":
     api2 = apic("nomics",["crypto","currency"],100,True)
 
     dh = dhav([api1,api2])
+    
     dh.start_updating()
     
