@@ -38,9 +38,9 @@ def test_logout(client, default_user, auth):
 
     with client:  # context necessary for login
         auth.login()
-        assert "user_id" in session, "login needs to work"
+        assert "_user_id" in session, "login needs to work"
         auth.logout()
-        assert "user_id" not in session, "user_id should be forgotten on logout"
+        assert "_user_id" not in session, "_user_id should be forgotten on logout"
 
 
 def test_register_validate_input(client, default_user):
@@ -67,11 +67,11 @@ def test_login(client, auth, default_user):
     home_page_message = bytes(f"Hi, {default_user['username']}", "ascii")
     assert home_page_message in response.data
 
-    # login request set the user_id in the session
+    # login request set the _user_id in the session
     # check that the user is loaded from the session
     with client:
         client.get("/")
-        assert session["user_id"] == "1"
+        assert session["_user_id"] == "1"
         assert current_user.username == default_user["username"]
 
     # test redirection of login page to home when already signed in
