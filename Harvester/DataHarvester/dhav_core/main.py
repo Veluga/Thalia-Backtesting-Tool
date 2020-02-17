@@ -7,10 +7,10 @@ from initialization import Initializer as int_constructor
 
 if __name__ == "__main__":
     path = "../apis_access/"
-    api1 = apic("yfinance",["bonds","comodities_future","index_funds"],0)
-    api2 = apic("nomics",["crypto","currency"],100,path,True)
+    api1 = apic("yfinance", ["bonds", "comodities_future", "index_funds"], 0)
+    api2 = apic("nomics", ["crypto", "currency"], 100, path, True)
 
-    dh = dhav([api1,api2])
-    
+    dh = dhav([api1, api2])
+
     dh.start_updating()
-    
+

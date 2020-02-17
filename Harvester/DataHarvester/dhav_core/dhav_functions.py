@@ -208,17 +208,17 @@ class DataHarvester:
             retreived for the cases where the ticker is newer 
             than 1970 this is only for yfinance
         """
-        if(type(data_set_retrieved) is not int and api.name=="yfinance"):
+        if type(data_set_retrieved) is not int and api.name == "yfinance":
             start_date = data_set_retrieved.first_valid_index()
             start_date = start_date.date()
 
-        #nomics has stable tickers do not check if data_set_retrieved exists
-        elif(api.name == "nomics" and not data_set_retrieved.empty):
-            #remove the things that are not required
-            start_date = data_set_retrieved[0].values[0]['timestamp'].split('T')[0]
+        # nomics has stable tickers do not check if data_set_retrieved exists
+        elif api.name == "nomics" and not data_set_retrieved.empty:
+            # remove the things that are not required
+            start_date = data_set_retrieved[0].values[0]["timestamp"].split("T")[0]
             print(start_date)
 
-        if(type(data_set_retrieved) is not int and not data_set_retrieved.empty ):
+        if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
             self.write_to_up_list(api, start_date, end_date)
             self.mock_write_to_db(data_set_retrieved)
 
