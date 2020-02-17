@@ -27,7 +27,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -e ".[dev,test]"
+            pip install -U ".[dev,test]"
 
       - save_cache:
           paths:
@@ -46,7 +46,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            pytest
+            python -m pytest
       - store_artifacts:
           path: test-reports
           destination: test-reports
