@@ -17,7 +17,15 @@ class DataHarvester:
         self.api_list = api_list
         pass
 
-    # display all tickers in human readable
+    """
+        It is important to verify that the tickers are 
+        printed in the correct format. In order to inspect
+        what data will be put in the database.
+
+        One of the initial ideas was to have the harvester in a
+        comand line format.
+    """
+
     def show_all_tickers_hr(self):
 
         pd.set_option("display.max_rows", None)
@@ -45,6 +53,14 @@ class DataHarvester:
         all_comodities = pd.read_csv("../tickers/comodities_future_tickers.csv")
         print(all_comodities)
         print("https://www.purefinancialacademy.com/futures-markets")
+
+    """
+        Inspect specific asset class. Also shows the data source.
+        Not so usefull now but it was helped with starting off the project.
+        Will be replaced with a tickers class instead of whatever is here now.
+        Not important for the time beeing.
+        It also need manual adding of tickers wich is quite bad.
+    """
 
     def show_tickers_for(self, asset_class):
         pd.set_option("display.max_rows", None)
@@ -78,7 +94,11 @@ class DataHarvester:
         else:
             print("asset_class_not_available")
 
-    # get tickers for all asset classes
+    """
+        Returns the tickers for a asset class.
+        Again this can be usefull if you are doing operations on tickers and stuff.
+    """
+
     def get_tickers(self, asset_class):
         if asset_class == "bonds":
             return pd.read_csv("../tickers/bonds_tickers.csv")
@@ -93,7 +113,16 @@ class DataHarvester:
         else:
             print("asset_class_unavailable")
 
-    # adaptor that choses the API to be used based on the asset class
+    '''
+        Makes the api call based on the asset_class and ticker given.
+        Also need a start and end date.
+
+        date format: "YYYY-MM-DD"
+
+        If the start date is older than the oldest available date
+        then the oldest available date is returned. 
+    '''
+
     def get_data(self, asset_class, ticker, start_date, end_date):
         if (
             asset_class == "index_funds"
@@ -104,7 +133,15 @@ class DataHarvester:
         elif asset_class == "crypto" or asset_class == "currency":
             return self.nomics_get(asset_class, ticker, start_date, end_date)
 
-    # yahoo can only return index funds and bonds at this time
+    '''
+        Wrapper for the yfinance/yahoo api 
+        Checks if the ticker is in the tickers in the tickers folder.
+        Not usefull in the curent form but a good check to do.
+
+        Returns the dataframe that has been received.
+        returns 1 if api call failed. and has a error message
+    '''
+
     def yahoo_get(self, asset_class, ticker, start_date, end_date):
 
         # check if ticker exists in dataframe
@@ -113,16 +150,28 @@ class DataHarvester:
         try:
             dataframe_retrieved = pdread.DataReader(
                 ticker, start=start_date, end=end_date, data_source="yahoo"
-            )["Adj Close"]
+            )
         except pdread._utils.RemoteDataError as err:
-            print("APi call did not work", err)
+            print("API call did not work", err)
             return 1  # return 1 if fail to get dataframe
         return dataframe_retrieved
+
+    '''
+        The harvester has a list of apis. 
+        This function returns the ApiCaller object from the DataHarvester
+        api list based on name.
+    '''
 
     def get_api_from_list(self, api_name):
         for api in self.api_list:
             if api.name == api_name:
                 return api
+
+    '''
+        Wrapper for nomics api.
+        nomics fails in a different way compared to yfinance call through pandas
+        Because of this if a call fails is dealt with in a different manner
+    '''
 
     def nomics_get(self, asset_class, ticker, start_date, end_date):
 
@@ -145,9 +194,19 @@ class DataHarvester:
 
         return currency_pd
 
+    '''
+        Returns the current index of a api from the persitant data.
+        The ticker under the index has not been updated yet.
+    '''
+
     def current_index(self, api):
         position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
         return position_frame["Position Universal"][0]
+
+    '''
+        Moves the update index by 1
+        If it reaches the end of the list starts again from the first position
+    '''
 
     def next_index(self, api):
         position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
@@ -165,12 +224,10 @@ class DataHarvester:
         )
         return 0
 
-    """
-        For now the updating procedure goes through the API lists
-        then goes to the assets that it supported assets
-        some running to API updaters at the same time might be good 
-    """
-
+    '''
+        Updates the ticker under the index.
+        Ignores API calls that do not work because the ticker does not exist.
+    '''
     def update_on_index(self, api):
         up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
         index = self.current_index(api)
@@ -203,16 +260,15 @@ class DataHarvester:
             end_date,
         )
 
-        """
-            Start date has to be replaced with the start_date
-            retreived for the cases where the ticker is newer 
-            than 1970 this is only for yfinance
-        """
+        '''
+            The code below updates the oldest record based on the data 
+            received from the api.
+        '''
         if type(data_set_retrieved) is not int and api.name == "yfinance":
             start_date = data_set_retrieved.first_valid_index()
             start_date = start_date.date()
 
-        # nomics has stable tickers do not check if data_set_retrieved exists
+        
         elif api.name == "nomics" and not data_set_retrieved.empty:
             # remove the things that are not required
             start_date = data_set_retrieved[0].values[0]["timestamp"].split("T")[0]
@@ -234,6 +290,13 @@ class DataHarvester:
 
         return 0
 
+    '''
+        Writes back in the persitant data update list.
+        This is done after updating a ticker.
+        At this moment the data in update list should corespond with the
+        data in the database.
+    '''
+
     def write_to_up_list(self, api, start_date, end_date):
         up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
         index = self.current_index(api)
@@ -243,6 +306,12 @@ class DataHarvester:
             "../persistant_data/update_list_" + api.name + ".csv", index=False
         )
 
+
+    '''
+        Start the updating process.
+        Each API does as many calls as there are in the calls_per_run
+        variable in the api wrapper.
+    '''
     def start_updating(self):
         # go trough APIs
 
@@ -256,7 +325,7 @@ class DataHarvester:
                     break
 
     """
-    
+        write to db it requires a connection to finda
     """
 
     def mock_write_to_db(self, dataset_to_sql):

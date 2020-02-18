@@ -1,3 +1,7 @@
+'''
+    Script for reseting the persitant_data 
+'''
+
 from initialization import Initializer as int_constructor
 from api_class import ApiCaller as apic
 
