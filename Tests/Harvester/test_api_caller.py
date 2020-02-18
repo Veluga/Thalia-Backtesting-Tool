@@ -11,7 +11,6 @@ from Harvester.DataHarvester.dhav_core.initialization import Initializer as preu
 from Harvester.DataHarvester.dhav_core.api_class import ApiCaller as dhorda_api_warper
 
 
-
 '''
     Test the creation of a api.
     This includes creating a file that simulates a key in order
@@ -45,7 +44,7 @@ def test_api_wraper_creation():
     path_apis_acces = os.path.dirname(path_apis_acces)
 
     path_apis_acces = os.path.join(path_apis_acces,'Harvester/DataHarvester/apis_access/')
-    print(path_apis_acces)
+    
 
     create_fictional_key(name, key_to_write,path_apis_acces)
     api_caller = dhorda_api_warper(name, supported_assets, api_calls_round, path_apis_acces,has_key)
