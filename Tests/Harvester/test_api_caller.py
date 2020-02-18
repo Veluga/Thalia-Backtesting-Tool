@@ -37,13 +37,22 @@ def test_api_wraper_creation():
     api_calls_round = 90
     has_key = True
     key_to_write = "123khljlkjlkj"
-    path = "../../Harvester/DataHarvester/apis_access/"
-    create_fictional_key(name, key_to_write,path)
-    api_caller = dhorda_api_warper(name, supported_assets, api_calls_round, path,has_key)
+    
+    path_apis_acces =  os.path.abspath(__file__)
+    
+    path_apis_acces = os.path.dirname(path_apis_acces)
+    path_apis_acces = os.path.dirname(path_apis_acces)
+    path_apis_acces = os.path.dirname(path_apis_acces)
+
+    path_apis_acces = os.path.join(path_apis_acces,'Harvester/DataHarvester/apis_access/')
+    print(path_apis_acces)
+
+    create_fictional_key(name, key_to_write,path_apis_acces)
+    api_caller = dhorda_api_warper(name, supported_assets, api_calls_round, path_apis_acces,has_key)
 
     assert api_caller.name == name
     assert api_caller.supported_assets == supported_assets
     assert api_caller.api_calls_per_run == api_calls_round
     assert api_caller.has_key == has_key
     assert api_caller.key == key_to_write
-    remove_fictional_key(path,name)
+    remove_fictional_key(path_apis_acces,name)
