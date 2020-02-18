@@ -33,10 +33,9 @@ def asset_classes_list():
 """
     The Intern creates the database and then he connects to it.
 """
-
-# ask if db exists first
-# FdMultiController.fd_create('first_db')
-
+'''
+    register.db is missing what do I do now ?
+'''
 conn = FdMultiController.fd_connect("asset", "rw")
 
 """

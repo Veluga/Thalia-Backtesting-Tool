@@ -25,7 +25,7 @@ pytz==2019.3
 retrying==1.3.3
 six==1.14.0
 pandas_datareader==0.8.1
-./Harvester/nomics_python-2.0.0-py3-none-any.whl
+nomics-python==2.0.0
 SQLAlchemy==1.3.13
 Thalia==0.2.0
 Werkzeug==1.0.0
