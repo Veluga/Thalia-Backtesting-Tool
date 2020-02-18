@@ -28,7 +28,8 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
+            pip install -U ".[dev,test]"
+
       - save_cache:
           paths:
             - ./venv
@@ -46,7 +47,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            pytest
+            python -m pytest
       - store_artifacts:
           path: test-reports
           destination: test-reports
