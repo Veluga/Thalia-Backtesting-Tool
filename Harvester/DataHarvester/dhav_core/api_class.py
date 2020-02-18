@@ -6,7 +6,7 @@
 """
 
 
-class ApiCaller:
+class ApiObject:
     def __init__(
         self, name, supported_assets, api_calls_per_run, path="", has_key=False
     ):

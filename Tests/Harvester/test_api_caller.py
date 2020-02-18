@@ -6,9 +6,9 @@ import sys
 '''
 sys.path.append('../..')
 
-from Harvester.DataHarvester.dhav_core.dhav_functions import DataHarvester as dhorda
+from Harvester.DataHarvester.dhav_core.data_harvester import DataHarvester as dhorda
 from Harvester.DataHarvester.dhav_core.initialization import Initializer as preulde_dhorda
-from Harvester.DataHarvester.dhav_core.api_class import ApiCaller as dhorda_api_warper
+from Harvester.DataHarvester.dhav_core.api_class import ApiObject as dhorda_api_warper
 
 
 '''
