@@ -90,7 +90,8 @@ class FdMultiController:
         -Will overwrite existing files not registered with Finda
         """
         # check db exists
-        if db_name in FdMultiController.fd_list() + [self._db_registry_name]:
+        if db_name in (FdMultiController.fd_list()
+                       + [FdMultiController._db_registry_name]):
             raise Exception("DB " + db_name + " already exists")
         try:
             os.remove(FdMultiController._path_generator(db_name))
