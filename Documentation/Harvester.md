@@ -78,7 +78,7 @@ Those functions have not been used in the updating or the database connecting pr
 
 
 
-###How does the update work
+### How does the update work
 
 |Step No.|Class|Method called| Parent Method |Current Method| Details|
 |-----------|-------|-----------------|--------------------|---------------------|----------|
@@ -94,9 +94,9 @@ Those functions have not been used in the updating or the database connecting pr
 |6|DataHarvester|next_index()|None|start_updating()|If the update succeeded or failed go to the next ticker. And keep updating this api until the list is finished or the number of api_calls_per_run is reached. Then go to the next api.|
 
 
-####Helper Scripts
-#####reseter.py
+#### Helper Scripts
+##### reseter.py
 It resets the persistent data used when updating. Using it allows you to run the harvester multiple times in the same day.
-#####run_updates.py
+##### run_updates.py
 Starts running the updates. Creates the yfinance api and nomics api. Run the reseter first to create the persistent files. If the directory does not exist make it first. 
 
