@@ -9,6 +9,7 @@ import pandas as pd
 
 # find a better way to reach Finda
 sys.path.append("../../../")
+
 from Finda import FdMultiController
 
 
@@ -35,6 +36,7 @@ def asset_classes_list():
 
 # ask if db exists first
 # FdMultiController.fd_create('first_db')
+
 conn = FdMultiController.fd_connect("asset", "rw")
 
 """
