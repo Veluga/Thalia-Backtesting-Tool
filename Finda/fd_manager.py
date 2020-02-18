@@ -26,7 +26,7 @@ class FdMultiController:
     use FDController instead
     """
 
-    _db_registry_name = "registered"
+    _db_registry_name = "registered_pickle"
 
     @staticmethod
     def _path_generator(f_name):
