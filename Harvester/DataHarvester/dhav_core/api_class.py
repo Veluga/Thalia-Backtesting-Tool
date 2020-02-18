@@ -1,4 +1,11 @@
-# API properties
+"""
+    Simple wrapper that holds informations about the API
+    In order to see how the api call is performed,
+    go to dhav_function and,in DataHarvester check <name>_get
+    functions 
+"""
+
+
 class ApiCaller:
     def __init__(
         self, name, supported_assets, api_calls_per_run, path="", has_key=False
