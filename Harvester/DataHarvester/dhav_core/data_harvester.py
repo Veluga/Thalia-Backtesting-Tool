@@ -17,112 +17,6 @@ class DataHarvester:
         self.api_list = api_list
         pass
 
-    """
-        It is important to verify that the tickers are 
-        printed in the correct format. In order to inspect
-        what data will be put in the database.
-
-        One of the initial ideas was to have the harvester in a
-        comand line format.
-    """
-
-    def show_all_tickers_hr(self):
-
-        pd.set_option("display.max_rows", None)
-
-        all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
-        print(all_bonds)
-        print("Data for bonds tickers: https://etfdb.com/etfs/bond/treasuries/")
-
-        all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
-        print(all_index_funds)
-        print(
-            "Data for index funds tickers: https://www.marketwatch.com/tools/mutual-fund/top25largest"
-        )
-
-        all_currency = pd.read_csv("../tickers/currency_tickers.csv")
-        print(all_currency)
-        print(
-            "https://gist.github.com/Chintan7027/fc4708d8b5c8d1639a7c#file-currency-symbols-csv"
-        )
-
-        all_crypto = pd.read_csv("../tickers/crypto_tickers.csv")
-        print(all_crypto)
-        print("Those are the big ones at the time of making this: 31.1.2020")
-
-        all_comodities = pd.read_csv("../tickers/comodities_future_tickers.csv")
-        print(all_comodities)
-        print("https://www.purefinancialacademy.com/futures-markets")
-
-    """
-        Inspect specific asset class. Also shows the data source.
-        Not so usefull now but it was helped with starting off the project.
-        Will be replaced with a tickers class instead of whatever is here now.
-        Not important for the time beeing.
-        It also need manual adding of tickers wich is quite bad.
-    """
-
-    def show_tickers_for(self, asset_class):
-        pd.set_option("display.max_rows", None)
-        if asset_class == "index_fund":
-            all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
-            print(all_index_funds)
-            print(
-                "Data for index funds tickers: https://www.marketwatch.com/tools/mutual-fund/top25largest"
-            )
-        elif asset_class == "bonds":
-            all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
-            print(all_bonds)
-            print("Data for bonds tickers: https://etfdb.com/etfs/bond/treasuries/")
-
-        elif asset_class == "currency":
-            all_currency = pd.read_csv("../tickers/currency_tickers.csv")
-            print(all_currency)
-            print(
-                "https://gist.github.com/Chintan7027/fc4708d8b5c8d1639a7c#file-currency-symbols-csv"
-            )
-
-        elif asset_class == "crypto":
-            all_crypto = pd.read_csv("../tickers/crypto_tickers.csv")
-            print(all_crypto)
-            print("Those are the big ones at the time of making this: 31.1.2020")
-
-        elif asset_class == "comodities_future":
-            all_comodities = pd.read_csv("../tickers/comodities_future_tickers.csv")
-            print(all_comodities)
-            print("https://www.purefinancialacademy.com/futures-markets")
-        else:
-            print("asset_class_not_available")
-
-    """
-        Returns the tickers for a asset class.
-        Again this can be usefull if you are doing operations on tickers and stuff.
-    """
-
-    def get_tickers(self, asset_class):
-        if asset_class == "bonds":
-            return pd.read_csv("../tickers/bonds_tickers.csv")
-        elif asset_class == "index_funds":
-            return pd.read_csv("../tickers/index_funds_tickers.csv")
-        elif asset_class == "currency":
-            return pd.read_csv("../tickers/currency_tickers.csv")
-        elif asset_class == "crypto":
-            return pd.read_csv("../tickers/crypto_tickers.csv")
-        elif asset_class == "comodities_future":
-            return pd.read_csv("../tickers/comodities_future_tickers.csv")
-        else:
-            print("asset_class_unavailable")
-
-    '''
-        Makes the api call based on the asset_class and ticker given.
-        Also need a start and end date.
-
-        date format: "YYYY-MM-DD"
-
-        If the start date is older than the oldest available date
-        then the oldest available date is returned. 
-    '''
-
     def get_data(self, asset_class, ticker, start_date, end_date):
         if (
             asset_class == "index_funds"
@@ -228,6 +122,7 @@ class DataHarvester:
         Updates the ticker under the index.
         Ignores API calls that do not work because the ticker does not exist.
     '''
+
     def update_on_index(self, api):
         up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
         index = self.current_index(api)
@@ -272,12 +167,13 @@ class DataHarvester:
         elif api.name == "nomics" and not data_set_retrieved.empty:
             # remove the things that are not required
             start_date = data_set_retrieved[0].values[0]["timestamp"].split("T")[0]
-            print(start_date)
+            
 
         if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
             self.write_to_up_list(api, start_date, end_date)
             self.mock_write_to_db(data_set_retrieved)
-
+        else:
+            return 1
         #
         #   Insert behaviour for when blocked by the API
         #   Never been blocked by the API what is the behaviour
@@ -330,3 +226,112 @@ class DataHarvester:
 
     def mock_write_to_db(self, dataset_to_sql):
         pass
+
+
+
+
+    """
+        It is important to verify that the tickers are 
+        printed in the correct format. In order to inspect
+        what data will be put in the database.
+
+        One of the initial ideas was to have the harvester in a
+        comand line format.
+    """
+
+    def show_all_tickers_hr(self):
+
+        pd.set_option("display.max_rows", None)
+
+        all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
+        print(all_bonds)
+        print("Data for bonds tickers: https://etfdb.com/etfs/bond/treasuries/")
+
+        all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
+        print(all_index_funds)
+        print(
+            "Data for index funds tickers: https://www.marketwatch.com/tools/mutual-fund/top25largest"
+        )
+
+        all_currency = pd.read_csv("../tickers/currency_tickers.csv")
+        print(all_currency)
+        print(
+            "https://gist.github.com/Chintan7027/fc4708d8b5c8d1639a7c#file-currency-symbols-csv"
+        )
+
+        all_crypto = pd.read_csv("../tickers/crypto_tickers.csv")
+        print(all_crypto)
+        print("Those are the big ones at the time of making this: 31.1.2020")
+
+        all_comodities = pd.read_csv("../tickers/comodities_future_tickers.csv")
+        print(all_comodities)
+        print("https://www.purefinancialacademy.com/futures-markets")
+
+    """
+        Inspect specific asset class. Also shows the data source.
+        Not so usefull now but it was helped with starting off the project.
+        Will be replaced with a tickers class instead of whatever is here now.
+        Not important for the time beeing.
+        It also need manual adding of tickers wich is quite bad.
+    """
+
+    def show_tickers_for(self, asset_class):
+        pd.set_option("display.max_rows", None)
+        if asset_class == "index_fund":
+            all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
+            print(all_index_funds)
+            print(
+                "Data for index funds tickers: https://www.marketwatch.com/tools/mutual-fund/top25largest"
+            )
+        elif asset_class == "bonds":
+            all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
+            print(all_bonds)
+            print("Data for bonds tickers: https://etfdb.com/etfs/bond/treasuries/")
+
+        elif asset_class == "currency":
+            all_currency = pd.read_csv("../tickers/currency_tickers.csv")
+            print(all_currency)
+            print(
+                "https://gist.github.com/Chintan7027/fc4708d8b5c8d1639a7c#file-currency-symbols-csv"
+            )
+
+        elif asset_class == "crypto":
+            all_crypto = pd.read_csv("../tickers/crypto_tickers.csv")
+            print(all_crypto)
+            print("Those are the big ones at the time of making this: 31.1.2020")
+
+        elif asset_class == "comodities_future":
+            all_comodities = pd.read_csv("../tickers/comodities_future_tickers.csv")
+            print(all_comodities)
+            print("https://www.purefinancialacademy.com/futures-markets")
+        else:
+            print("asset_class_not_available")
+
+    """
+        Returns the tickers for a asset class.
+        Again this can be usefull if you are doing operations on tickers and stuff.
+    """
+
+    def get_tickers(self, asset_class):
+        if asset_class == "bonds":
+            return pd.read_csv("../tickers/bonds_tickers.csv")
+        elif asset_class == "index_funds":
+            return pd.read_csv("../tickers/index_funds_tickers.csv")
+        elif asset_class == "currency":
+            return pd.read_csv("../tickers/currency_tickers.csv")
+        elif asset_class == "crypto":
+            return pd.read_csv("../tickers/crypto_tickers.csv")
+        elif asset_class == "comodities_future":
+            return pd.read_csv("../tickers/comodities_future_tickers.csv")
+        else:
+            print("asset_class_unavailable")
+
+    '''
+        Makes the api call based on the asset_class and ticker given.
+        Also need a start and end date.
+
+        date format: "YYYY-MM-DD"
+
+        If the start date is older than the oldest available date
+        then the oldest available date is returned. 
+    '''
