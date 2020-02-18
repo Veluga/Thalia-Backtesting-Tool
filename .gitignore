@@ -2,6 +2,27 @@
 .DS_STORE
 *.pyc
 venv/*
+__pycache__.eggs
+*.egg*
+.coverage
+coverage_html_report
+
+# Created by https://www.gitignore.io/api/visualstudiocode
+# Edit at https://www.gitignore.io/?templates=visualstudiocode
+
+### VisualStudioCode ###
 .vscode/*
-*.egg-info
+
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+
+# End of https://www.gitignore.io/api/visualstudiocode
 Finda/*.db
+htmlcov
+pip-wheel-metadata
