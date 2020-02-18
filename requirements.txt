@@ -34,3 +34,4 @@ Werkzeug==0.16.1
 zipp==2.1.0
 pre-commit==2.0.1
 pandas_datareader==0.8.1
+./Harvester/nomics_python-2.0.0-py3-none-any.whl
