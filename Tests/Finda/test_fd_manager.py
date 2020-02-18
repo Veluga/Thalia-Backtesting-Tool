@@ -13,7 +13,7 @@ def test_fd_manager_fd_list(db_controller):
         "__seeded_test_db__" in FdMultiController.fd_list()
     ), "failed to register test db"
     # remove file and try to open
-    os.remove(FdMultiController._path_generator("registered"))
+    os.remove(FdMultiController._path_generator("registered_pickle"))
     assert FdMultiController.fd_list() == [], "failed to remove db registry"
 
 

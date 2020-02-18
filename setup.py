@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 
 install_requires = [
     "flask",
-    "flask-login",
+    "flask-login >= 0.5",
     "flask-migrate",
     "flask-wtf",
     "pandas",
