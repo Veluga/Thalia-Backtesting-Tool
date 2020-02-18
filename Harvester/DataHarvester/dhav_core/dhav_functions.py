@@ -325,7 +325,7 @@ class DataHarvester:
                     break
 
     """
-        write to db it requires a connection to finda
+        Write to db. 
     """
 
     def mock_write_to_db(self, dataset_to_sql):
