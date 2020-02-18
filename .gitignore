@@ -3,6 +3,7 @@
 *.pyc
 venv/*
 Harvester/DataHarvester/darhv/*
+Harvester/DataHarvester/persistant_data
 .vscode/*
 *.egg-info
 Finda/*.db
