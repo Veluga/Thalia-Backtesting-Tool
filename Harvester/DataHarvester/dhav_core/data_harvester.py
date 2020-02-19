@@ -16,6 +16,15 @@ class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
         pass
+    '''
+        Makes the api call based on the asset_class and ticker given.
+        Also need a start and end date.
+
+        date format: "YYYY-MM-DD"
+
+        If the start date is older than the oldest available date
+        then the oldest available date is returned. 
+    '''
 
     def get_data(self, asset_class, ticker, start_date, end_date):
         if (
@@ -214,7 +223,6 @@ class DataHarvester:
         for api in self.api_list:
             for x in range(api.api_calls_per_run):
                 answer = self.update_on_index(api)
-
                 if answer == 0:
                     self.next_index(api)
                 elif answer == "full_circle":
@@ -326,12 +334,4 @@ class DataHarvester:
         else:
             print("asset_class_unavailable")
 
-    '''
-        Makes the api call based on the asset_class and ticker given.
-        Also need a start and end date.
-
-        date format: "YYYY-MM-DD"
-
-        If the start date is older than the oldest available date
-        then the oldest available date is returned. 
-    '''
+    
