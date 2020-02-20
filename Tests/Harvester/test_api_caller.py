@@ -2,7 +2,8 @@ import pytest
 import os
 import sys
 '''
-    テスト中
+    This test has been made in order to verify that the integration with 
+    CircleCI is done.
 '''
 sys.path.append('../..')
 

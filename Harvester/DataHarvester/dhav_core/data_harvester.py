@@ -225,6 +225,8 @@ class DataHarvester:
                 answer = self.update_on_index(api)
                 if answer == 0:
                     self.next_index(api)
+                elif answer == 1:
+                    self.next_index(api)
                 elif answer == "full_circle":
                     break
 

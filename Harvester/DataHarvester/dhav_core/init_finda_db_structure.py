@@ -82,15 +82,26 @@ class DataBaseConstructor:
         path_tickers = os.path.join(path_tickers,'tickers')
         
         ticr_list = []
-        
-
+        # check if complete dataframe exists
+        all_df_frames = []
         for ast_cls in asset_class_list:
             
             completion = ast_cls+"_tickers.csv"
             path_tickers = os.path.join(path_tickers,completion)
-            data_frame_from_tickers = pd.read_csv(path_tickers)
+            
+            if df_exists == False:
+                
+                complete_data_frame = pd.read_csv(path_tickers)
+                print(complete_data_frame)
+                df_exists = True
+            else:
+                partial_data_frame = pd.read_csv(path_tickers)
+                
+                complete_data_frame.append(partial_data_frame,ignore_index=True)
+            #print(complete_data_frame)
             path_tickers = os.path.dirname(path_tickers)
 
+        #print(complete_data_frame)
 
 
         df_asset = pd.DataFrame({'AssetTicker':['SPY'],'Name':["S&P 500"],'AssetClassName':['index_funds']})
