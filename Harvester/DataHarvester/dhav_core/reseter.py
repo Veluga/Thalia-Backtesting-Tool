@@ -3,7 +3,7 @@
 '''
 
 from initialization import Initializer as int_constructor
-from api_class import ApiCaller as apic
+from api_class import ApiObject as apic
 
 if __name__ == "__main__":
     api1 = apic("yfinance", ["bonds", "comodities_future", "index_funds"], 10)
