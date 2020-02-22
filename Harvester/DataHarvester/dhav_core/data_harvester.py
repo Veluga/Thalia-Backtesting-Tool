@@ -261,6 +261,9 @@ class DataHarvester:
 
     def add_interpolation_to_df(self, df):
 
+        df["Interpolated"] = 0
+        interpolated_df = pd.DataFrame(columns=["Date","High","Low","Open","Close","Volume","Adj Close","Interpolated"])
+        interpolated_df.reset_index()
         for index_rows in range(df.shape[0] - 1):
             today = df["Date"][index_rows]
 
@@ -269,37 +272,29 @@ class DataHarvester:
             delta = tomorrow - today
 
             rows_interpolated = []
-
-            df_w_interpolation = df
-            df_w_interpolation["Interpolated"] = 0
+            
+            df_today = df.iloc[index_rows]
+            df_today_app  = df_today.to_frame().transpose()
+            
+            interpolated_df = interpolated_df.append(df_today_app,ignore_index=True)
+            
             if delta.days > 1:
-                print("today : " + str(today))
-                print("tomorrow :" + str(tomorrow))
-                print("Differnece between today and tomorrow: " + str(delta.days))
-                df_today = df_w_interpolation.iloc[index_rows]
-
+               
+                
                 for index_days in range(delta.days - 1):
                     interpolated_row = df_today
-                    d = interpolated_row["Date"]
-                    d += timedelta(days=1)
 
-                    interpolated_row["Date"] = d
+                    interpolated_row["Date"] = today + timedelta(days=index_days+1)
                     interpolated_row["Interpolated"] = 1
                     interpolated_row = interpolated_row.to_frame().transpose()
 
                     rows_interpolated.append(interpolated_row)
 
                 df_rows = pd.concat(rows_interpolated, ignore_index=True)
+                interpolated_df =  interpolated_df.append(df_rows,ignore_index=True)
+
                 
-                df_w_interpolation = pd.concat(
-                    [
-                        df_w_interpolation[: index_rows - 1],
-                        df_rows,
-                        df_w_interpolation[index_rows:],
-                    ],
-                    ignore_index=True,
-                )
-                return df_w_interpolation
+        return interpolated_df
 
     """
         {Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>, 
@@ -309,8 +304,8 @@ class DataHarvester:
 
     def write_to_db(self, dataset_to_sql):
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
-        # df_to_send = df_to_send.set_index("Date")
-        df_to_send.to_csv("inspect_interpolation.csv")
+        #df_to_send = df_to_send.set_index("Date")
+        #df_to_send.to_csv("inspect_interpolation.csv")
 
         # print(df_to_send)
 
