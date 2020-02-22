@@ -16,11 +16,13 @@ import sys
 sys.path.append("../../../")
 from Finda import FdMultiController
 
+
 class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
         self.conn = FdMultiController.fd_connect("asset", "rw")
-    '''
+
+    """
         Makes the api call based on the asset_class and ticker given.
         Also need a start and end date.
 
@@ -28,7 +30,7 @@ class DataHarvester:
 
         If the start date is older than the oldest available date
         then the oldest available date is returned. 
-    '''
+    """
 
     def get_data(self, asset_class, ticker, start_date, end_date):
         if (
@@ -40,14 +42,14 @@ class DataHarvester:
         elif asset_class == "crypto" or asset_class == "currency":
             return self.nomics_get(asset_class, ticker, start_date, end_date)
 
-    '''
+    """
         Wrapper for the yfinance/yahoo api 
         Checks if the ticker is in the tickers in the tickers folder.
         Not usefull in the curent form but a good check to do.
 
         Returns the dataframe that has been received.
         returns 1 if api call failed. and has a error message
-    '''
+    """
 
     def yahoo_get(self, asset_class, ticker, start_date, end_date):
 
@@ -59,37 +61,37 @@ class DataHarvester:
                 ticker, start=start_date, end=end_date, data_source="yahoo"
             )
             dataframe_retrieved.reset_index(level=0, inplace=True)
-            dataframe_retrieved["Date"] = pd.to_datetime(dataframe_retrieved['Date']).apply(lambda x: x.date())
+            dataframe_retrieved["Date"] = pd.to_datetime(
+                dataframe_retrieved["Date"]
+            ).apply(lambda x: x.date())
             print(dataframe_retrieved["Date"][0])
         except pdread._utils.RemoteDataError as err:
             print("API call did not work", err)
             return 1  # return 1 if fail to get dataframe
-        
+
         #   When standard dataframe format has been defined
         #       start moving api code from DH to APIObject
         #   This should happen after a implementation that works with finda,
         #   anda and Thalia Web has been done
-        
-        
 
         return dataframe_retrieved
 
-    '''
+    """
         The harvester has a list of apis. 
         This function returns the ApiCaller object from the DataHarvester
         api list based on name.
-    '''
+    """
 
     def get_api_from_list(self, api_name):
         for api in self.api_list:
             if api.name == api_name:
                 return api
 
-    '''
+    """
         Wrapper for nomics api.
         nomics fails in a different way compared to yfinance call through pandas
         Because of this if a call fails is dealt with in a different manner
-    '''
+    """
 
     def nomics_get(self, asset_class, ticker, start_date, end_date):
 
@@ -101,38 +103,39 @@ class DataHarvester:
             print("only currency and crypto can be retreived with yahoo finance.")
             exit()
 
-       
         currency = nomics_api.ExchangeRates.get_history(
             currency=ticker,
             start=start_date + "T00:00:00Z",
             end=end_date + "T00:00:00Z",
         )
 
-        #implement standard API wrapper and data format across data harvester
+        # implement standard API wrapper and data format across data harvester
 
         currency_pd = pd.DataFrame.from_dict(currency)
-        currency_pd  = currency_pd.rename(columns={"timestamp":"Date", "rate":"AClose"})
-       
-        currency_pd["Date"] = [datetime.strptime(
-                                word.split("T")[0],"%Y-%m-%d").date() 
-                                for word in currency_pd["Date"]]
-        
-        currency_pd =  currency_pd.set_index("Date")
+        currency_pd = currency_pd.rename(
+            columns={"timestamp": "Date", "rate": "AClose"}
+        )
+
+        currency_pd["Date"] = [
+            datetime.strptime(word.split("T")[0], "%Y-%m-%d").date()
+            for word in currency_pd["Date"]
+        ]
+
         return currency_pd
 
-    '''
+    """
         Returns the current index of a api from the persitant data.
         The ticker under the index has not been updated yet.
-    '''
+    """
 
     def current_index(self, api):
         position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
         return position_frame["Position Universal"][0]
 
-    '''
+    """
         Moves the update index by 1
         If it reaches the end of the list starts again from the first position
-    '''
+    """
 
     def next_index(self, api):
         position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
@@ -150,10 +153,10 @@ class DataHarvester:
         )
         return 0
 
-    '''
+    """
         Updates the ticker under the index.
         Ignores API calls that do not work because the ticker does not exist.
-    '''
+    """
 
     def update_on_index(self, api):
         up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
@@ -187,21 +190,18 @@ class DataHarvester:
             end_date,
         )
 
-        '''
+        """
             Change this after data format accross apis has been standardized.
-        '''
+        """
 
         if type(data_set_retrieved) is not int and api.name == "yfinance":
             start_date = data_set_retrieved.index.values[0]
             start_date = str(start_date)
             start_date = start_date.split("T")[0]
-            
-
 
         elif api.name == "nomics" and not data_set_retrieved.empty:
             # remove the things that are not required
             start_date = data_set_retrieved.index.values[0]
-            
 
         if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
             self.write_to_up_list(api, start_date, end_date)
@@ -220,12 +220,12 @@ class DataHarvester:
 
         return 0
 
-    '''
+    """
         Writes back in the persitant data update list.
         This is done after updating a ticker.
         At this moment the data in update list should corespond with the
         data in the database.
-    '''
+    """
 
     def write_to_up_list(self, api, start_date, end_date):
         up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
@@ -235,13 +235,13 @@ class DataHarvester:
         up_list.to_csv(
             "../persistant_data/update_list_" + api.name + ".csv", index=False
         )
-    
 
-    '''
+    """
         Start the updating process.
         Each API does as many calls as there are in the calls_per_run
         variable in the api wrapper.
-    '''
+    """
+
     def start_updating(self):
         # go trough APIs
 
@@ -255,34 +255,50 @@ class DataHarvester:
                 elif answer == "full_circle":
                     break
 
-    
-    '''
+    """
+        Interpolation 
+    """
 
-    '''
-    def add_interpolation_to_df(self,df):
+    def add_interpolation_to_df(self, df):
+
+        for i in range(df.shape[0] - 1):
+            today = df["Date"][i]
+
+            tomorrow = df["Date"][i + 1]
+            delta = tomorrow - today
+
+            rows_interpolated = []
+            df_w_interpolation = df
+            df_w_interpolation["Interpolated"] = 0
+            if delta.days > 1:
+                print("today : " + str(today))
+                print("tomorrow :" + str(tomorrow))
+                print("Differnece between today and tomorrow: " + str(delta.days))
+                df_today = df_w_interpolation.loc[[i]]
+               
+                
+                for i in range(delta.days - 1):
+                    interpolated_row = df_today
+                    print("I is: "+ str(i))
+                    d = interpolated_row["Date"].iloc[0]
+                    d = d + timedelta(days=i+1)
+                    
+                    interpolated_row["Date"].iat[0]  = d
+                    print("New date: "+ str(interpolated_row["Date"].iloc[0]) )
+                    interpolated_row["Interpolated"].iat[0] = 1
+                    rows_interpolated.append(interpolated_row)
+            
+                print(rows_interpolated)
         
-        # if today+1 != tomorow then it means there is 
-        # a gapp/weekend in that case interpolate with the last
-        # available value
-
-        
-
-        '''
-        for i in range(df.shape[0]-1):
-            today = datetime.strptime(df["Date"])
-            df[""]
-        '''
-    '''
+    """
         {Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>, 
-                AHigh<Decimal.decimal>, ALow<Decimal.decimal>] 
-                Index: [AssetTicker<String>, ADate <datetime.date>]}
-    '''
+            AHigh<Decimal.decimal>, ALow<Decimal.decimal>, IsInterpolated<Integer>] 
+            Index: [AssetTicker<String>, ADate <datetime.date>]}
+    """
 
     def write_to_db(self, dataset_to_sql):
-        #df_to_send = self.add_interpolation_to_df(dataset_to_sql)
+        df_to_send = self.add_interpolation_to_df(dataset_to_sql)
         pass
-
-
 
     """
         It is important to verify that the tickers are 
@@ -294,8 +310,6 @@ class DataHarvester:
     """
 
     def show_all_tickers_hr(self):
-
-       
 
         all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
         print(all_bonds)
@@ -330,7 +344,7 @@ class DataHarvester:
     """
 
     def show_tickers_for(self, asset_class):
-        
+
         if asset_class == "index_fund":
             all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
             print(all_index_funds)
@@ -380,4 +394,3 @@ class DataHarvester:
         else:
             print("asset_class_unavailable")
 
-    
