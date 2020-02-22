@@ -18,7 +18,8 @@ from Finda import FdMultiController
 class DataBaseConstructor:
 
     def __init__(self):
-        self.conn = ''
+        #can put some for the fd_connect
+        self.conn = FdMultiController.fd_connect("asset", "rw")
 
     def asset_classes_list(self):
         basepath = "../tickers/"

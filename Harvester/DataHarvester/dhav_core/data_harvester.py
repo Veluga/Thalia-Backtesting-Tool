@@ -10,12 +10,16 @@ import pandas_datareader as pdread
 import pandas as pd
 import nomics
 from datetime import datetime, timedelta
+import sys
 
+# find a better way to reach Finda
+sys.path.append("../../../")
+from Finda import FdMultiController
 
 class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
-        pass
+        self.conn = FdMultiController.fd_connect("asset", "rw")
     '''
         Makes the api call based on the asset_class and ticker given.
         Also need a start and end date.
@@ -54,9 +58,20 @@ class DataHarvester:
             dataframe_retrieved = pdread.DataReader(
                 ticker, start=start_date, end=end_date, data_source="yahoo"
             )
+            dataframe_retrieved.reset_index(level=0, inplace=True)
+            dataframe_retrieved["Date"] = pd.to_datetime(dataframe_retrieved['Date']).apply(lambda x: x.date())
+            print(dataframe_retrieved["Date"][0])
         except pdread._utils.RemoteDataError as err:
             print("API call did not work", err)
             return 1  # return 1 if fail to get dataframe
+        
+        #   When standard dataframe format has been defined
+        #       start moving api code from DH to APIObject
+        #   This should happen after a implementation that works with finda,
+        #   anda and Thalia Web has been done
+        
+        
+
         return dataframe_retrieved
 
     '''
@@ -86,15 +101,23 @@ class DataHarvester:
             print("only currency and crypto can be retreived with yahoo finance.")
             exit()
 
-        # currency can be fiat or crypto
-
+       
         currency = nomics_api.ExchangeRates.get_history(
             currency=ticker,
             start=start_date + "T00:00:00Z",
             end=end_date + "T00:00:00Z",
         )
-        currency_pd = pd.DataFrame([currency])
 
+        #implement standard API wrapper and data format across data harvester
+
+        currency_pd = pd.DataFrame.from_dict(currency)
+        currency_pd  = currency_pd.rename(columns={"timestamp":"Date", "rate":"AClose"})
+       
+        currency_pd["Date"] = [datetime.strptime(
+                                word.split("T")[0],"%Y-%m-%d").date() 
+                                for word in currency_pd["Date"]]
+        
+        currency_pd =  currency_pd.set_index("Date")
         return currency_pd
 
     '''
@@ -165,22 +188,24 @@ class DataHarvester:
         )
 
         '''
-            The code below updates the oldest record based on the data 
-            received from the api.
+            Change this after data format accross apis has been standardized.
         '''
-        if type(data_set_retrieved) is not int and api.name == "yfinance":
-            start_date = data_set_retrieved.first_valid_index()
-            start_date = start_date.date()
 
-        
+        if type(data_set_retrieved) is not int and api.name == "yfinance":
+            start_date = data_set_retrieved.index.values[0]
+            start_date = str(start_date)
+            start_date = start_date.split("T")[0]
+            
+
+
         elif api.name == "nomics" and not data_set_retrieved.empty:
             # remove the things that are not required
-            start_date = data_set_retrieved[0].values[0]["timestamp"].split("T")[0]
+            start_date = data_set_retrieved.index.values[0]
             
 
         if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
             self.write_to_up_list(api, start_date, end_date)
-            self.mock_write_to_db(data_set_retrieved)
+            self.write_to_db(data_set_retrieved)
         else:
             return 1
         #
@@ -210,7 +235,7 @@ class DataHarvester:
         up_list.to_csv(
             "../persistant_data/update_list_" + api.name + ".csv", index=False
         )
-
+    
 
     '''
         Start the updating process.
@@ -230,13 +255,32 @@ class DataHarvester:
                 elif answer == "full_circle":
                     break
 
-    """
-        Write to db. 
-    """
+    
+    '''
 
-    def mock_write_to_db(self, dataset_to_sql):
+    '''
+    def add_interpolation_to_df(self,df):
+        
+        # if today+1 != tomorow then it means there is 
+        # a gapp/weekend in that case interpolate with the last
+        # available value
+
+        
+
+        '''
+        for i in range(df.shape[0]-1):
+            today = datetime.strptime(df["Date"])
+            df[""]
+        '''
+    '''
+        {Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>, 
+                AHigh<Decimal.decimal>, ALow<Decimal.decimal>] 
+                Index: [AssetTicker<String>, ADate <datetime.date>]}
+    '''
+
+    def write_to_db(self, dataset_to_sql):
+        #df_to_send = self.add_interpolation_to_df(dataset_to_sql)
         pass
-
 
 
 
@@ -251,7 +295,7 @@ class DataHarvester:
 
     def show_all_tickers_hr(self):
 
-        pd.set_option("display.max_rows", None)
+       
 
         all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
         print(all_bonds)
@@ -286,7 +330,7 @@ class DataHarvester:
     """
 
     def show_tickers_for(self, asset_class):
-        pd.set_option("display.max_rows", None)
+        
         if asset_class == "index_fund":
             all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
             print(all_index_funds)
