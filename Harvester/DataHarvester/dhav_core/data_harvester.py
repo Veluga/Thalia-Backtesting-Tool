@@ -261,34 +261,37 @@ class DataHarvester:
 
     def add_interpolation_to_df(self, df):
 
-        for i in range(df.shape[0] - 1):
-            today = df["Date"][i]
+        for index_rows in range(df.shape[0] - 1):
+            today = df["Date"][index_rows]
 
-            tomorrow = df["Date"][i + 1]
+            tomorrow = df["Date"][index_rows + 1]
+            
             delta = tomorrow - today
 
             rows_interpolated = []
+
             df_w_interpolation = df
             df_w_interpolation["Interpolated"] = 0
             if delta.days > 1:
                 print("today : " + str(today))
                 print("tomorrow :" + str(tomorrow))
                 print("Differnece between today and tomorrow: " + str(delta.days))
-                df_today = df_w_interpolation.loc[[i]]
-               
+                df_today = df_w_interpolation.iloc[index_rows]
+
                 
-                for i in range(delta.days - 1):
+                for index_days in range(delta.days - 1):
                     interpolated_row = df_today
-                    print("I is: "+ str(i))
-                    d = interpolated_row["Date"].iloc[0]
-                    d = d + timedelta(days=i+1)
+                    d = interpolated_row["Date"]
+                    d += timedelta(days=1)
                     
-                    interpolated_row["Date"].iat[0]  = d
-                    print("New date: "+ str(interpolated_row["Date"].iloc[0]) )
-                    interpolated_row["Interpolated"].iat[0] = 1
+                    interpolated_row["Date"] = d 
+                    interpolated_row["Interpolated"] = 1
+                    interpolated_row = interpolated_row.to_frame()
                     rows_interpolated.append(interpolated_row)
-            
+                
                 print(rows_interpolated)
+                
+
         
     """
         {Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>, 
