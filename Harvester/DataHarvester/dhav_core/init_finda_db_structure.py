@@ -3,6 +3,9 @@
     This could be a single module used by both.
 '''
 
+# I need a way to check if the result of what I did is what I expect it to be
+
+
 import sys
 import os
 import pandas as pd
@@ -27,20 +30,10 @@ class DataBaseConstructor:
     
         return array_list
 
-   
-        
-            
-    '''
-        Make db
-    '''
 
     def create_db_connection(self):
         self.conn = FdMultiController.fd_connect("asset", "rw")
 
-    """
-        Look into the tickers folder and based on the tickers there
-        create the list of asset classes
-    """
 
     def dh_pass_asset_classes_fd(self):
         asset_list = []
@@ -83,28 +76,27 @@ class DataBaseConstructor:
         
         ticr_list = []
         # check if complete dataframe exists
-        all_df_frames = []
+        all_frames = []
         for ast_cls in asset_class_list:
             
             completion = ast_cls+"_tickers.csv"
             path_tickers = os.path.join(path_tickers,completion)
+            data_frame = pd.read_csv(path_tickers)
+            all_frames.append(data_frame)
+            # add the asset class to the data frame
+            data_frame["AssetClassName"] = ast_cls
             
-            if df_exists == False:
-                
-                complete_data_frame = pd.read_csv(path_tickers)
-                print(complete_data_frame)
-                df_exists = True
-            else:
-                partial_data_frame = pd.read_csv(path_tickers)
-                
-                complete_data_frame.append(partial_data_frame,ignore_index=True)
-            #print(complete_data_frame)
+            # Find the extend names of the tickers
+            # repeat ticker names for the moment
+            
+            data_frame['Name'] = data_frame['Ticker']
             path_tickers = os.path.dirname(path_tickers)
+            
+    
+        frames = pd.concat(all_frames, ignore_index=True)
+        pd.set_option('display.max_columns', None)
 
-        #print(complete_data_frame)
-
-
-        df_asset = pd.DataFrame({'AssetTicker':['SPY'],'Name':["S&P 500"],'AssetClassName':['index_funds']})
+        df_asset = pd.DataFrame({'AssetTicker':frames['Ticker'],'Name':frames['Name'],'AssetClassName':frames['AssetClassName']})
         df_asset = df_asset.set_index('AssetTicker')
 
 
@@ -115,3 +107,4 @@ if __name__ == "__main__":
     dbc.create_db_connection()
     dbc.dh_pass_asset_classes_fd()
     dbc.dh_pass_tickers_fd()
+    
