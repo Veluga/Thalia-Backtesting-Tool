@@ -265,7 +265,7 @@ class DataHarvester:
             today = df["Date"][index_rows]
 
             tomorrow = df["Date"][index_rows + 1]
-            
+
             delta = tomorrow - today
 
             rows_interpolated = []
@@ -278,21 +278,29 @@ class DataHarvester:
                 print("Differnece between today and tomorrow: " + str(delta.days))
                 df_today = df_w_interpolation.iloc[index_rows]
 
-                
                 for index_days in range(delta.days - 1):
                     interpolated_row = df_today
                     d = interpolated_row["Date"]
                     d += timedelta(days=1)
-                    
-                    interpolated_row["Date"] = d 
-                    interpolated_row["Interpolated"] = 1
-                    interpolated_row = interpolated_row.to_frame()
-                    rows_interpolated.append(interpolated_row)
-                
-                print(rows_interpolated)
-                
 
-        
+                    interpolated_row["Date"] = d
+                    interpolated_row["Interpolated"] = 1
+                    interpolated_row = interpolated_row.to_frame().transpose()
+
+                    rows_interpolated.append(interpolated_row)
+
+                df_rows = pd.concat(rows_interpolated, ignore_index=True)
+                
+                df_w_interpolation = pd.concat(
+                    [
+                        df_w_interpolation[: index_rows - 1],
+                        df_rows,
+                        df_w_interpolation[index_rows:],
+                    ],
+                    ignore_index=True,
+                )
+                return df_w_interpolation
+
     """
         {Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>, 
             AHigh<Decimal.decimal>, ALow<Decimal.decimal>, IsInterpolated<Integer>] 
@@ -301,7 +309,10 @@ class DataHarvester:
 
     def write_to_db(self, dataset_to_sql):
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
-        pass
+        # df_to_send = df_to_send.set_index("Date")
+        df_to_send.to_csv("inspect_interpolation.csv")
+
+        # print(df_to_send)
 
     """
         It is important to verify that the tickers are 
