@@ -1,7 +1,51 @@
 import pandas as pd
+from . import layout
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+
+
+def menu_callbacks(dashapp):
+    dashapp.callback(
+        Output('memory-output', 'data'),
+        [Input('memory_ticker', 'value')])(filter_tickers)
+
+
+def filter_tickers(tickers_selected):
+    if not tickers_selected:
+        # Return all the rows on initial load/no ticker selected.
+        return layout.df.to_dict(orient='records')
+    filtered = layout.df.query('AssetTicker in @tickers_selected')
+
+    return filtered.to_dict(orient='records')
+
+
+def table_callback(dashapp):
+    dashapp.callback(Output('memory-table', 'data'),
+              [Input('memory-output', 'data')])(on_data_set_table)
+
+
+def on_data_set_table(data):
+    if data is None:
+        raise PreventUpdate
+
+    return data
+
+
+def dropdown_callback_table(dashapp):
+    dashapp.callback(Output("memory_ticker", "value"), [Input("memory-table", "value")])
+    (update_dropdown_if_delete)
+
+
+def update_dropdown_if_delete(data):
+    if data is None:
+        raise PreventUpdate
+
+    return data
+
+# TODO: make input and output dynamic, currently only supports 3
+# see this discussion for more info: https://community.plot.ly/t/dynamic-controls-and-dynamic-output-components/5519
+# GOAL is to have the UI support selection and distribution of arbitary numbers of assets
 
 
 def register_callbacks(dashapp):
@@ -13,37 +57,25 @@ def register_callbacks(dashapp):
     """
     dashapp.callback(
         [Output("graph", "figure"), Output("table", "data")],
-        [Input("submit-btn", "n_clicks")],
-        [
-            State("ticker1", "value"),
-            State("ticker2", "value"),
-            State("ticker3", "value"),
-            State("ticker1-proportion", "value"),
-            State("ticker2-proportion", "value"),
-            State("ticker3-proportion", "value"),
-        ],
+        [Input("submit-btn", "n_clicks"), Input("memory-table", "data"),
+        Input("memory-table", "columns")]
+
     )(update_dashboard)
 
 
-# TODO: make input and output dynamic, currently only supports 3
-# see this discussion for more info: https://community.plot.ly/t/dynamic-controls-and-dynamic-output-components/5519
-# GOAL is to have the UI support selection and distribution of arbitary numbers of assets
-def update_dashboard(
-    n_clicks, ticker1, ticker2, ticker3, ticker1_prop, ticker2_prop, ticker3_prop
-):
+def update_dashboard(n_clicks, tickers_selected, proportions_selected):
     """
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
-
     TODO: make proportion selection matter
     """
     if n_clicks is None:
         raise PreventUpdate
 
     # TODO: add error handling (UI facing message) for erronous input
-    all_tickers = (ticker1, ticker2, ticker3)
-    all_proportions = (ticker1_prop, ticker2_prop, ticker3_prop)
-
+    all_tickers = tickers_selected
+    all_proportions = proportions_selected
+    print(all_tickers, all_proportions)
     tickers, proportions = filter_dropdowns(all_tickers, all_proportions)
     return update_backtest_results(tickers, proportions)
 
@@ -51,7 +83,6 @@ def update_dashboard(
 def filter_dropdowns(tickers, proportions):
     """
     remove any ticker, proportion combos without a ticker selected
-
     TODO: maybe return a strategy object instead?
           currently does maybe a bit too much zipping and unzipping
     """
@@ -77,7 +108,6 @@ def update_backtest_results(tickers, proportion):
 def get_table_data():
     """
     return a list of key metrics and their values
-
     TODO: add anda support here
     """
     return [
@@ -104,7 +134,6 @@ def get_trace(x, y):
 def get_data(ticker):
     """
     retrive ticker data from database
-
     TODO: add Finda support
     """
     import numpy as np
@@ -113,3 +142,4 @@ def get_data(ticker):
     df = pd.DataFrame(date_rng, columns=["date"])
     df["data"] = np.random.randint(0, 100, size=(len(date_rng)))
     return df
+    print(filter_tickers('RCK'))

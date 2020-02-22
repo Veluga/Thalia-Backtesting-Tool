@@ -21,6 +21,9 @@ def create_app(test_config={}):
 def register_dashapps(app):
     from .dashboard.layout import layout
     from .dashboard.callbacks import register_callbacks
+    from .dashboard.callbacks import menu_callbacks
+    from .dashboard.callbacks import table_callback
+    from .dashboard.callbacks import dropdown_callback_table
 
     # Meta tags for viewport responsiveness
     meta_viewport = {
@@ -42,6 +45,9 @@ def register_dashapps(app):
         dashapp.title = "Backtest dashboard"
         dashapp.layout = layout
         register_callbacks(dashapp)
+        menu_callbacks(dashapp)
+        table_callback(dashapp)
+        dropdown_callback_table(dashapp)
 
     _protect_dashviews(dashapp)
 
