@@ -106,8 +106,6 @@ def get_table_data(strat, risk_free_rate=None):
         {"metric": "Best Year", "value": anda.best_year(strat)},
         {"metric": "Worst Year", "value": anda.worst_year(strat)},
         {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
-        # {"metric": "Sortino Ratio", "value": 176.158},
-        # {"metric": "Sharpe Ratio", "value": 0.0057},
     ]
     if risk_free_rate is not None:
         try:
