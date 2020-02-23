@@ -20,16 +20,16 @@ class Initializer:
         each ticker will have Last Record,Earliest Record,
         and a Asset class.
 
-        The circular list is stored in persistant_data folder
+        The update list is stored in persistant_data folder
         it is of the form: update_list_<api_name>.csv 
     '''
 
-    def construct_circular_list(self):
+    def construct_update_list(self):
         pd.set_option("display.max_rows", None)
         ticker_files = [
             f for f in listdir("../tickers") if isfile(join("../tickers", f))
         ]
-        # concatenate all tickers to construct the circular update list
+        # concatenate all tickers to construct the  update list
         frames = []
 
         for api in self.api_list:

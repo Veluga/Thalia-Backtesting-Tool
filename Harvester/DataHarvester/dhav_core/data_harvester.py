@@ -1,10 +1,3 @@
-"""
-    
-        Made by Intern George
-            TeEsts included
-
-
-"""
 
 import pandas_datareader as pdread
 import pandas as pd
