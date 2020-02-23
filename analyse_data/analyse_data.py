@@ -127,9 +127,10 @@ def _risk_adjusted_returns(strat: Strategy, risk_free_rate: pd.DataFrame) -> [De
 def sortino_ratio(strat: Strategy, risk_free_rate: pd.DataFrame) -> float:
     risk_adjusted_returns = _risk_adjusted_returns(strat, risk_free_rate)
     below_target_std = np.std(list(map(lambda x: min(0, x), risk_adjusted_returns)))
+
     return (
         np.mean(risk_adjusted_returns)
-        / below_target_std
+        / Decimal(below_target_std)
         * Decimal(math.sqrt(APPROX_DAY_PER_YEAR))
     )
 

@@ -75,35 +75,58 @@ def update_backtest_results(tickers, proportions):
     weights = [Decimal(p) for p in proportions]
     normalise(weights)
 
-    assets_data = get_assets(tickers, weights)
+    start_date = date(2000, 1, 1)
+    end_date = date(2010, 12, 31)
+
+    assets_data = get_assets(tickers, weights, start_date, end_date)
+    risk_free_rate = mock_risk_free(start_date, end_date)
+
     strategy = anda.Strategy(
-        date(2000, 1, 1),
-        date(2010, 12, 31),
+        start_date,
+        end_date,
         Decimal("10000.00"),
         assets_data,
         set(),
         Decimal("0.00"),
         set(),
     )
-    table_data = get_table_data(strategy)
+    table_data = get_table_data(strategy, risk_free_rate)
     returns = anda.total_return(strategy)
     return get_figure(returns), table_data
 
 
-def get_table_data(strat):
+def get_table_data(strat, risk_free_rate=None):
     """
     return a list of key metrics and their values
     """
     returns = anda.total_return(strat)
-    return [
+    table = [
         {"metric": "Initial Balance", "value": returns[strat.dates[0]]},
         {"metric": "End Balance", "value": returns[strat.dates[-1]]},
         {"metric": "Best Year", "value": anda.best_year(strat)},
         {"metric": "Worst Year", "value": anda.worst_year(strat)},
-        {"metric": "Sortino Ratio", "value": 176.158},
-        {"metric": "Sharpe Ratio", "value": 0.0057},
         {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
+        # {"metric": "Sortino Ratio", "value": 176.158},
+        # {"metric": "Sharpe Ratio", "value": 0.0057},
     ]
+    if risk_free_rate is not None:
+        try:
+            # We can't use append here because we want the table
+            # unaltered if anything goes wrong.
+            table = table + [
+                {
+                    "metric": "Sortino Ratio",
+                    "value": anda.sortino_ratio(strat, risk_free_rate),
+                },
+                {
+                    "metric": "Sharpe Ratio",
+                    "value": anda.sharpe_ratio(strat, risk_free_rate),
+                },
+            ]
+        except Exception:
+            print("Could not calculate Sharpe/Sortino ratios")
+
+    return table
 
 
 def get_figure(total_returns):
@@ -116,26 +139,35 @@ def get_trace(x, y):
     return go.Scatter(x=x, y=y, mode="lines+markers",)
 
 
-def get_assets(tickers, proportions):
+def normalise(arr):
+    """
+    Changes arr in place, keeping the relative weights the same,
+    but scaling it such that it totals to 1.
+    """
+    total = sum(arr)
+    for i in range(len(arr)):  # We're mutating so we have to index horribly.
+        arr[i] /= total
+
+
+def get_assets(tickers, proportions, start_date, end_date):
     """
     Gets data for each ticker and puts it in an anda.Asset.
     Returns a list of all assets.
     """
     assert len(tickers) == len(proportions)
     return [
-        anda.Asset(tick, prop, mock_prices(tick))
+        anda.Asset(tick, prop, mock_prices(tick, start_date, end_date))
         for tick, prop in zip(tickers, proportions)
     ]
-    
 
 
-def mock_prices(ticker):
+def mock_prices(ticker, start_date, end_date):
     """
     Makes up data and shoves it in a dataframe.
     """
     import numpy as np
 
-    date_rng = pd.date_range(start="1/1/2000", end="31/12/2010", freq="D")
+    date_rng = pd.date_range(start=start_date, end=end_date, freq="D")
     columns = ["Open", "Low", "High", "Close"]
 
     n_rows = len(date_rng)
@@ -146,11 +178,5 @@ def mock_prices(ticker):
     return df
 
 
-def normalise(arr):
-    """
-    Changes arr in place, keeping the relative weights the same,
-    but scaling it such that it totals to 1.
-    """
-    total = sum(arr)
-    for i in range(len(arr)):  # We're mutating so we have to index horribly.
-        arr[i] /= total
+def mock_risk_free(start_date, end_date):
+    return mock_prices("TODO: actual US Bonds name", start_date, end_date)
