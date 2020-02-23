@@ -2,6 +2,10 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from datetime import date
+from decimal import Decimal
+
+from analyse_data import analyse_data as anda
 
 
 def register_callbacks(dashapp):
@@ -63,37 +67,48 @@ def filter_dropdowns(tickers, proportions):
     return tickers, proportions
 
 
-def update_backtest_results(tickers, proportion):
+def update_backtest_results(tickers, proportions):
     """
     get timeseries and key metrics data for portfolio
     """
     # TODO: add error handling for ticker not found
-    assets_data = get_data(tickers)
-    # TODO: do anda stuff here
-    table_data = get_table_data()
-    return get_figure(assets_data), table_data
+    weights = [Decimal(p) for p in proportions]
+    normalise(weights)
+
+    assets_data = get_assets(tickers, weights)
+    strategy = anda.Strategy(
+        date(2000, 1, 1),
+        date(2010, 12, 31),
+        Decimal("10000.00"),
+        assets_data,
+        set(),
+        Decimal("0.00"),
+        set(),
+    )
+    table_data = get_table_data(strategy)
+    returns = anda.total_return(strategy)
+    return get_figure(returns), table_data
 
 
-def get_table_data():
+def get_table_data(strat):
     """
     return a list of key metrics and their values
-
-    TODO: add anda support here
     """
+    returns = anda.total_return(strat)
     return [
-        {"metric": "Initial Balance", "value": 100},
-        {"metric": "End Balance", "value": 120},
-        {"metric": "Best Year", "value": 0.141},
-        {"metric": "Worst Year", "value": 0.141},
+        {"metric": "Initial Balance", "value": returns[strat.dates[0]]},
+        {"metric": "End Balance", "value": returns[strat.dates[-1]]},
+        {"metric": "Best Year", "value": anda.best_year(strat)},
+        {"metric": "Worst Year", "value": anda.worst_year(strat)},
         {"metric": "Sortino Ratio", "value": 176.158},
         {"metric": "Sharpe Ratio", "value": 0.0057},
-        {"metric": "Max Drawdown", "value": 24.944},
+        {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
     ]
 
 
-def get_figure(df):
+def get_figure(total_returns):
     fig = go.Figure()
-    fig.add_trace(get_trace(df.index, df.data))
+    fig.add_trace(get_trace(total_returns.index, total_returns.tolist()))
     return fig
 
 
@@ -101,15 +116,42 @@ def get_trace(x, y):
     return go.Scatter(x=x, y=y, mode="lines+markers",)
 
 
-def get_data(ticker):
+def get_assets(tickers, proportions):
     """
-    retrive ticker data from database
+    Gets data for each ticker and puts it in an anda.Asset.
+    Returns a list of all assets.
+    """
+    assert len(tickers) == len(proportions)
+    ret = [
+        anda.Asset(tick, prop, mock_prices(tick))
+        for tick, prop in zip(tickers, proportions)
+    ]
+    print(f"PRICE DATA HAS TYPE {type(ret[0].values['Close'][0])}")
+    return ret
 
-    TODO: add Finda support
+
+def mock_prices(ticker):
+    """
+    Makes up data and shoves it in a dataframe.
     """
     import numpy as np
 
-    date_rng = pd.date_range(start="1/1/2010", end="1/08/2010", freq="H")
-    df = pd.DataFrame(date_rng, columns=["date"])
-    df["data"] = np.random.randint(0, 100, size=(len(date_rng)))
+    date_rng = pd.date_range(start="1/1/2000", end="31/12/2010", freq="D")
+    columns = ["Open", "Low", "High", "Close"]
+
+    n_rows = len(date_rng)
+    n_cols = len(columns)
+    prices = [[Decimal("5.00") for _ in range(n_cols)] for _ in range(n_rows)]
+
+    df = pd.DataFrame(prices, index=date_rng, columns=columns)
     return df
+
+
+def normalise(arr):
+    """
+    Changes arr in place, keeping the relative weights the same,
+    but scaling it such that it totals to 1.
+    """
+    total = sum(arr)
+    for i in range(len(arr)):  # We're mutating so we have to index horribly.
+        arr[i] /= total
