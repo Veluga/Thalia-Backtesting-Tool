@@ -122,12 +122,11 @@ def get_assets(tickers, proportions):
     Returns a list of all assets.
     """
     assert len(tickers) == len(proportions)
-    ret = [
+    return [
         anda.Asset(tick, prop, mock_prices(tick))
         for tick, prop in zip(tickers, proportions)
     ]
-    print(f"PRICE DATA HAS TYPE {type(ret[0].values['Close'][0])}")
-    return ret
+    
 
 
 def mock_prices(ticker):
