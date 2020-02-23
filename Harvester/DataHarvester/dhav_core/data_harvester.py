@@ -60,11 +60,12 @@ class DataHarvester:
             dataframe_retrieved = pdread.DataReader(
                 ticker, start=start_date, end=end_date, data_source="yahoo"
             )
+
             dataframe_retrieved.reset_index(level=0, inplace=True)
             dataframe_retrieved["Date"] = pd.to_datetime(
                 dataframe_retrieved["Date"]
             ).apply(lambda x: x.date())
-            print(dataframe_retrieved["Date"][0])
+
         except pdread._utils.RemoteDataError as err:
             print("API call did not work", err)
             return 1  # return 1 if fail to get dataframe
@@ -113,7 +114,10 @@ class DataHarvester:
 
         currency_pd = pd.DataFrame.from_dict(currency)
         currency_pd = currency_pd.rename(
-            columns={"timestamp": "Date", "rate": "AClose"}
+            columns={
+                "timestamp": "Date",
+                "rate": "Adj Close",
+            }  # this is close in fact but crypto is wierd
         )
 
         currency_pd["Date"] = [
@@ -163,6 +167,9 @@ class DataHarvester:
         index = self.current_index(api)
 
         ticker_under_index = up_list.iloc[index]
+        ticker_name = up_list.iloc[index]["Ticker"]
+        print(ticker_name)
+
         start_date = ""
         # set end_date to yesterday
         end_date = datetime.date(datetime.now()) + timedelta(days=-1)
@@ -181,7 +188,7 @@ class DataHarvester:
 
         # if data retrieval fails just go to the next ticker
 
-        print("Ticker: " + ticker_under_index["Ticker"] + " " + api.name)
+        print("Ticker: " + ticker_name + " " + api.name)
 
         data_set_retrieved = self.get_data(
             ticker_under_index["Asset_Class"],
@@ -205,7 +212,7 @@ class DataHarvester:
 
         if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
             self.write_to_up_list(api, start_date, end_date)
-            self.write_to_db(data_set_retrieved)
+            self.write_to_db(data_set_retrieved, ticker_name)
         else:
             return 1
         #
@@ -262,7 +269,18 @@ class DataHarvester:
     def add_interpolation_to_df(self, df):
 
         df["Interpolated"] = 0
-        interpolated_df = pd.DataFrame(columns=["Date","High","Low","Open","Close","Volume","Adj Close","Interpolated"])
+        interpolated_df = pd.DataFrame(
+            columns=[
+                "Date",
+                "High",
+                "Low",
+                "Open",
+                "Close",
+                "Volume",
+                "Adj Close",
+                "Interpolated",
+            ]
+        )
         interpolated_df.reset_index()
         for index_rows in range(df.shape[0] - 1):
             today = df["Date"][index_rows]
@@ -272,28 +290,26 @@ class DataHarvester:
             delta = tomorrow - today
 
             rows_interpolated = []
-            
+
             df_today = df.iloc[index_rows]
-            df_today_app  = df_today.to_frame().transpose()
-            
-            interpolated_df = interpolated_df.append(df_today_app,ignore_index=True)
-            
+            df_today_app = df_today.to_frame().transpose()
+
+            interpolated_df = interpolated_df.append(df_today_app, ignore_index=True)
+
             if delta.days > 1:
-               
-                
+
                 for index_days in range(delta.days - 1):
                     interpolated_row = df_today
 
-                    interpolated_row["Date"] = today + timedelta(days=index_days+1)
+                    interpolated_row["Date"] = today + timedelta(days=index_days + 1)
                     interpolated_row["Interpolated"] = 1
                     interpolated_row = interpolated_row.to_frame().transpose()
 
                     rows_interpolated.append(interpolated_row)
 
-                df_rows = pd.concat(rows_interpolated, ignore_index=True)
-                interpolated_df =  interpolated_df.append(df_rows,ignore_index=True)
+                df_rows = pd.concat(rows_interpolated, ignore_index=True, sort=True)
+                interpolated_df = interpolated_df.append(df_rows, ignore_index=True)
 
-                
         return interpolated_df
 
     """
@@ -302,12 +318,33 @@ class DataHarvester:
             Index: [AssetTicker<String>, ADate <datetime.date>]}
     """
 
-    def write_to_db(self, dataset_to_sql):
+    def write_to_db(self, dataset_to_sql, ticker_name):
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
-        #df_to_send = df_to_send.set_index("Date")
-        #df_to_send.to_csv("inspect_interpolation.csv")
+        # df_to_send = df_to_send.set_index("Date")
+        # df_to_send.to_csv("inspect_interpolation.csv")
+        df_to_send["AssetTicker"] = ticker_name
 
-        # print(df_to_send)
+        """
+        last changes in order to conform with the finda documentation
+        can be moved upper in the code but at this time getting things to work
+        is higher priority
+        """
+        # and this is where the reality colides with our ideal model
+        # in the naming scheme and the meanings
+
+        final_df = pd.DataFrame(
+            {
+                "AOpen": df_to_send["Open"],
+                "AClose": df_to_send["Adj Close"],
+                "AHigh": df_to_send["High"],
+                "ALow": df_to_send["Low"],
+                "IsInterpolated": df_to_send["Interpolated"],
+                "AssetTicker": df_to_send["AssetTicker"],
+                "ADate": df_to_send["Date"],
+            }
+        )
+        final_df = final_df.set_index(["AssetTicker", "ADate"])
+        self.conn.write.write_asset_values(final_df)
 
     """
         It is important to verify that the tickers are 
