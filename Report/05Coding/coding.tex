@@ -168,6 +168,7 @@ One of the first decisions we had to make, is to decide on a standards coding st
 Another tool used for enforcing uniform style was the black auto-formatter for Python \cite{black}, which formatted the code for us upon every save if enabled, and also when commiting code. This has been achieved by the use of githooks \cite{githooks}, which are programs that are triggered upon certain git actions. For this we needed the pre-commit package for setting up these actions and writing the configuration file. This ensured that both flake8 and black have been run before publishing changes.
 
 \subsubsection{Continuous Integration}
+\label{Continuous Integration}
 
 Many studies have investigated the positive effects of developing in a continuous integration (CI) environment \cite{CI_1}, \cite{CI_2}. Regardless of the exact implementation, its obvious benefit is that it provides security and uniformity for projects. We already made some steps to achieve a uniform style, but had no means to know whether the code published has been also passed its tests. Note in this section we will only discuss testing as a part of CI and not the testing strategy, for that see the section \ref{Testing}.
 
@@ -197,8 +198,29 @@ The outcome of these steps is visible on CircleCI, but more importantly also on 
 
 With the help of these steps and CircleCI we managed to ensure that the code written is uniform and of good quality. It significantly reduced the time needed for integrating and code reviewing. The last step was now to deploy the system. 
 
-\subsection{Deployment}
+\subsection{Hosting and Deployment}
 \label{Continuous Deployment}
 
+An overview over the literature covering reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
+
+\begin{itemize}
+	\item Price - since we have severe budget constraints, we were looking for a cheap hosting solution
+	\item CircleCI support - The target host should be supported by CircleCI natively to ease development of a continuous deployment (CD) pipeline
+\end{itemize}
+
+The upfront cost of buying physical servers ruled it out as an option for us. Thus, we turned our attention to using a solution that involved deployment to a virtual machine in the Cloud. Many providers for such a service exist, including Amazon Web Services \cite{AWS} and Microsoft Azure \cite{Azure}. While these would provide us with extensive control over the hosting process, their use involves a lot of complexity that seemed unnecessary for the intial rollout of a simple application such as Thalia.
+
+Due to native CircleCI support and a free tier service, we ended up choosing Heroku \cite{Heroku} as our initial hosting provider. This enables us to host our application for free in the initial stages of development while providing ample opportunity for horizontal and vertical scaling later on, if it is required.
+
+The benefits of using continuous deployment have been well established for multiple years and involve "the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity" \cite{CDBenefits}. Using Heroku in combination with CircleCI, our CD pipeline involves the following simple steps:
+
+\begin{enumerate}
+	\item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
+	\item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
+	\item If this step is successful, the master branch is pushed to a remote repository recognized by Heroku via git.
+	\item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
+\end{enumerate}
+
+Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state.
 
 \end{document}
