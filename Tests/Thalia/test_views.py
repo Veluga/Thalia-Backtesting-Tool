@@ -45,7 +45,7 @@ def test_logout(client, default_user, auth):
         assert "_user_id" not in session, "_user_id should be forgotten on logout"
 
 
-def test_register_validate_input(client, default_user):
+def test_register_prevent_duplicates(client, default_user):
     response = client.post(
         "/register",
         data={
@@ -56,6 +56,19 @@ def test_register_validate_input(client, default_user):
         follow_redirects=True,
     )
     assert b"already registered" in response.data
+
+
+def test_register_validate_input(client):
+    response = client.post(
+        "/register",
+        data={
+            "username": "foo",
+            "password": "bar",
+            "confirm_password": "baz2312313"
+        },
+        follow_redirects=True,
+    )
+    assert b"passwords do not match" in response.data
 
 
 def test_login(client, auth, default_user):
