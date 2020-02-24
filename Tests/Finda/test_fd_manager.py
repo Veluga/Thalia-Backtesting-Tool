@@ -6,6 +6,8 @@ import pytest
 from Finda import FdMultiController, fd_read, fd_write, fd_remove
 from unittest import mock
 import os
+import sqlite3
+
 
 
 def test_fd_manager_fd_list(db_controller):
@@ -40,6 +42,20 @@ def test_fd_manager_fd_remove(db_controller):
     assert FdMultiController.fd_list() == [
         "__empty_test_db__"
     ], "error checking removed database removed from register"
+
+def test_fd_manager_fd_register(db_controller):
+    #test faliure, file not there
+    with pytest.raises(Exception) as e:
+        FdMultiController.fd_register("RaNdOmGibBeRiSh")
+    expWarn = 'No file found at: /home/chrome/work/Thalia/Finda/RaNdOmGibBeRiSh.db'
+    assert expWarn in str(e.value)
+    # test sucess
+    # Warning: If schema checks implemented as per TODO, rewrite this
+    conn = sqlite3.connect(FdMultiController._path_generator('RaNdOmGibBeRiSh'))
+    FdMultiController.fd_register('RaNdOmGibBeRiSh')
+    assert 'RaNdOmGibBeRiSh' in FdMultiController.fd_list()
+    FdMultiController.fd_remove('RaNdOmGibBeRiSh')
+    assert 'RaNdOmGibBeRiSh' not in FdMultiController.fd_list()
 
 
 def test_fd_manager_fd_connect(db_controller):
