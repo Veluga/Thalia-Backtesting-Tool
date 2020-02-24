@@ -16,20 +16,18 @@
           <a href="{{ url_for('main.index') }}" class="navbar-item">
             Home
           </a>
-
           <a href="{{ url_for('main.about') }}" class="navbar-item">
             About
           </a>
-
+        {% if not current_user.is_anonymous %}
           <a href="/dashboard" class="navbar-item">
             Dashboard
           </a>
-
+        {% endif %}
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link is-inspire">
               More
             </a>
-
             <div class="navbar-dropdown">
               <a class="navbar-item">
                 Contact
