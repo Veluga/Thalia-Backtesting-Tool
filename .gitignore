@@ -3,6 +3,7 @@
 *.pyc
 venv/*
 Harvester/DataHarvester/darhv/*
+Harvester/DataHarvester/persistant_data/
 Harvester/DataHarvester/persistant_data/*
 __pycache__.eggs
 *.egg*

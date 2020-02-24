@@ -194,18 +194,20 @@ class DataHarvester:
             Change this after data format accross apis has been standardized.
         """
 
+        
         if type(data_set_retrieved) is not int and api.name == "yfinance":
-            start_date = data_set_retrieved.index.values[0]
-            start_date = str(start_date)
-            start_date = start_date.split("T")[0]
-
+            start_date = data_set_retrieved["Date"][0]
+            print("yfinance: "+str(start_date) ) 
+        
         elif api.name == "nomics" and not data_set_retrieved.empty:
             # remove the things that are not required
-            start_date = data_set_retrieved.index.values[0]
-
+            
+            start_date = data_set_retrieved["Date"][0]
+            print("nomics: "+str(start_date) )
         if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
+            
             self.write_to_up_list(api, start_date, end_date)
-            self.write_to_db(data_set_retrieved, ticker_name)
+            #self.write_to_db(data_set_retrieved, ticker_name)
         else:
             return 1
         #
