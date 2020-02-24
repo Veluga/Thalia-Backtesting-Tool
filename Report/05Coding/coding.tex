@@ -120,10 +120,32 @@ https://coderseye.com/django-vs-flask
 \fi
 
 \subsubsection{GUI}
+\label{GUI}
 \subsubsection{Business Logic}
 \label{BL}
+
+The business logic module sits at the very core of our application. We require it for producing a time series of a portfolio's performance as well as selected key risk metrics of a given asset allocation. This output is consumed by our web application and presented in plots and tables as described in \ref{GUI}. 
+
+Research into developing this module was initiated by listing our requirements for its desired behaviour. We identified that it should support:
+
+\begin{itemize}
+	\item Specification of a portfolio as a set of pandas dataframes, the common data exchange format in our application
+	\item Calculation of a portfolio's return over time
+	\item Regular contributions to mimick saving
+	\item Rebalancing strategies to reestablish the desired weighting of a portfolio
+	\item Calculation of key metrics, including the Sharpe and Sortino Ratio, Max Drawdown, Best and Worst Year
+	\item Collecting and reinvesting dividends for equities
+\end{itemize}
+
+Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aformentioned tasks.
+
+The result of this effort is "Anda" (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into indivual functions.
+This approach has allowed us to tailor the entire business logic module exactly to our needs without having to produce complicated wrapper code for existing backtesting libraries.
+
 \subsubsection{Database \& Finda}
+\label{Finda}
 \subsubsection{Harvester}
+\label{Harvester}
 
 \subsection{Integration}
 \label{Coding Standards}
