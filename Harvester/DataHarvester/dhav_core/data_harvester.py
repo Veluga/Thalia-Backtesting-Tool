@@ -197,13 +197,13 @@ class DataHarvester:
         
         if type(data_set_retrieved) is not int and api.name == "yfinance":
             start_date = data_set_retrieved["Date"][0]
-            print("yfinance: "+str(start_date) ) 
+            
         
         elif api.name == "nomics" and not data_set_retrieved.empty:
             # remove the things that are not required
             
             start_date = data_set_retrieved["Date"][0]
-            print("nomics: "+str(start_date) )
+            
         if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
             
             self.write_to_up_list(api, start_date, end_date)
@@ -289,7 +289,7 @@ class DataHarvester:
             df_today = df.iloc[index_rows]
             df_today_app = df_today.to_frame().transpose()
 
-            interpolated_df = interpolated_df.append(df_today_app, ignore_index=True)
+            interpolated_df = interpolated_df.append(df_today_app, ignore_index=True,sort=False)
 
             if delta.days > 1:
                 
@@ -303,8 +303,9 @@ class DataHarvester:
 
                     rows_interpolated.append(interpolated_row)
 
-                df_rows = pd.concat(rows_interpolated, ignore_index=True, sort=True)
-                interpolated_df = interpolated_df.append(df_rows, ignore_index=True)
+                df_rows = pd.concat(rows_interpolated,ignore_index=True,sort=True)
+                
+                interpolated_df = interpolated_df.append(df_rows, ignore_index=True,sort=False)
 
         return interpolated_df
 
@@ -316,6 +317,7 @@ class DataHarvester:
 
     def write_to_db(self, dataset_to_sql, ticker_name):
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
+        print(df_to_send[:10])
         # df_to_send = df_to_send.set_index("Date")
         # df_to_send.to_csv("inspect_interpolation.csv")
         df_to_send["AssetTicker"] = ticker_name
