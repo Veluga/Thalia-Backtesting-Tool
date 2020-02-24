@@ -85,4 +85,4 @@ def register_db(server, db_name="asset"):
     except Exception as e:
         print("Fatal: Unable to connect to database " + db_name)
         print(e)
-        exit
+        exit()
