@@ -1,9 +1,146 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if current_user.is_anonymous %}
-  <h1>Hello, stranger!</h1>
-{% else %}
-  <h1>Hi, {{ current_user.username }}!</h1>
-{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="static/scripts/scroll-down.js"></script>
+
+<!-- Hero -->
+<section class="hero has-background-main is-fullheight-with-navbar">
+  <!-- Text -->
+  <header class="hero-body">
+    <div class="columns is-full">
+      <div class="column is-half">
+      </div>
+        <div class="column has-text-left single-spaced" style="top: 400px;">
+          <h2 class="title is-1 has-text-white">
+            So what is Thalia?
+          </h2>
+          <h1 class="subtitle is-4 has-text-weight-light has-text-white has-text-justified">
+            Thalia is a financial backtester that tells you what stonks you should buy to get rich fast.
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- /Text -->
+  <!-- Arrow -->
+  <main class="hero-foot center">
+      <p class="level-item has-text-centered">
+        <a class="ct-btn-scroll ct-js-btn-scroll btn-lg" href="#section2">
+          <img alt="Arrow Down Icon" src="static/images/index/arrow.png">
+        </a>
+      </p>
+  </main>
+</section>
+<!-- /Arrow -->
+<!-- /Hero -->
+
+<!-- Section2 -->
+<div class="card is-light-bold">
+  <section id="section2">
+    <div class="card-content">
+      <p class="title">
+        <h2 class="title is-3">What is Backtesting anyway?</h2>
+      </p>
+      <p class="subtitle">
+        <h1 class="subtitle is-4 has-text-weight-light has-text-justified">
+          Backtesting allows a trader to simulate a trading strategy using <strong> historic data </strong> to generate results and analyze risk and profitability before risking any actual capital.
+          If backtesting works, traders and analysts may have the confidence to employ it going forward.
+        </h1>
+      </p>
+    </div>
+    <footer class="card-footer">
+      <p class="card-footer-item">
+        <a class="tag" href="{{ url_for('main.about') }}" class="card-footer-item">Learn more</a>
+      </p>
+    </footer>
+  </section>
+</div>
+<!-- /Section2 -->
+
+<!-- Divider hero -->
+<div class="hero is-medium has-background-stonks">
+  <section id="divider">
+    <div class="hero-body">
+      <div class="container">
+        &emsp;
+      </div>
+    </div>
+  </section>
+</div>
+<!-- /Divider hero -->
+
+<!-- Section3 -->
+<div class="card">
+  <section id="section3">
+    <div class="card-content">
+      <div class="columns is-vcentered">
+        <div class="column is-half ">
+          <p class="title">
+            <h2 class="title is-3">Still with us?</h2>
+          </p>
+          <h1 class="subtitle is-4 has-text-weight-light has-text-black has-text-justified">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto quod sint adipisci dolorem fugiat tenetur, voluptatem labore. Consequuntur atque ducimus excepturi, ad nam nisi tempora similique beatae ipsa ratione obcaecati?
+          </h1>
+        </div>
+        <!-- Register -->
+        <div class="column">
+          <section id="contact" class="section section-light-grey is-medium">
+            <div class="container">
+                <div class="title-wrapper has-text-centered">
+                    <h2 class="title is-2 is-spaced">Register</h2>
+                    <div class="divider is-centered"></div>
+                </div>
+        
+                <div class="content-wrapper">
+                    <div class="columns">
+                        <div class="column">
+
+                            <form role="form" method="post" action="">
+
+                                {{ form.hidden_tag() }}
+
+                                <div class="columns is-multiline">
+                                    <div class="column is-12">
+                                        {{ form.username(placeholder="Username", class="input is-medium", size=32) }}
+                                    </div>
+
+                                    <div class="column is-12">
+                                        {{ form.password(placeholder="Password",class="input is-medium", type="password", size=32) }}
+                                    </div>
+
+                                    <div class="column is-12">
+                                      {{ form.confirm_password(placeholder="Confirm Password",class="input is-medium", type="password", size=32) }}
+                                    </div>
+                                    
+                                    <div class="column is-7" style="text-align:left;">
+                                      <div class="form-footer has-text-left mt-10">
+                                          <button type="submit" class="button is-primary has-background-inspire4 raised is-clear" >Register</button>
+                                      </div>
+                                    </div>
+
+                                    <div class="column">
+                                      <div class="form-footer has-text-right mt-10">
+                                        <p> Already have an account? </p> <a class="tag" href="{{ url_for('main.login') }}">Login</a>
+                                      </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+        <!-- /Register -->
+      </div>
+    </div>
+    <footer class="card-footer">
+      <!-- Put social media tags here -->
+    </footer>
+  </section>
+</div>
+<!-- /Section3 -->
 {% endblock %}

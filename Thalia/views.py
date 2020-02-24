@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
 from .extensions import db
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, FeedbackForm
 from .models.user import User
 
 server_bp = Blueprint("main", __name__)
@@ -11,7 +11,19 @@ server_bp = Blueprint("main", __name__)
 
 @server_bp.route("/")
 def index():
-    return render_template("index.html", title="Home Page")
+    form = RegistrationForm()
+    return render_template("index.html", title="Home Page", form=form)
+
+
+@server_bp.route("/about/")
+def about():
+    return render_template("about.html", title="About Page")
+
+
+@server_bp.route("/issues/")
+def issues():
+    form = FeedbackForm()
+    return render_template("issues.html", title="Report Issues", form=form)
 
 
 @server_bp.route("/login/", methods=["GET", "POST"])
