@@ -47,7 +47,7 @@ def test_fd_manager_fd_register(db_controller):
     #test faliure, file not there
     with pytest.raises(Exception) as e:
         FdMultiController.fd_register("RaNdOmGibBeRiSh")
-    expWarn = 'No file found at: /home/chrome/work/Thalia/Finda/RaNdOmGibBeRiSh.db'
+    expWarn = 'No file found at: '
     assert expWarn in str(e.value)
     # test sucess
     # Warning: If schema checks implemented as per TODO, rewrite this
