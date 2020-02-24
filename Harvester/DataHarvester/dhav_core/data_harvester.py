@@ -25,113 +25,12 @@ class DataHarvester:
         then the oldest available date is returned. 
     """
 
+
     def get_data(self, asset_class, ticker, start_date, end_date):
         for api in self.api_list:
             if asset_class in api.supported_assets:
-                #replace this once wrapper for the api wrappers has been made
-                if(api.name == "yfinance"):
-                    return self.yahoo_get(asset_class, ticker, start_date, end_date)
-                elif(api.name == "nomics"):
-                    return self.nomics_get(asset_class, ticker, start_date, end_date)
+               return api.call_api( asset_class, ticker, start_date, end_date)
     
-    def old_get_data(self, asset_class, ticker, start_date, end_date):
-        if (
-            asset_class == "index_funds"
-            or asset_class == "bonds"
-            or asset_class == "comodities_future"
-        ):
-            return self.yahoo_get(asset_class, ticker, start_date, end_date)
-        elif asset_class == "crypto" or asset_class == "currency":
-            return self.nomics_get(asset_class, ticker, start_date, end_date)
-
-    
-    """
-        Wrapper for the yfinance/yahoo api 
-        Checks if the ticker is in the tickers in the tickers folder.
-        Not usefull in the curent form but a good check to do.
-
-        Returns the dataframe that has been received.
-        returns 1 if api call failed. and has a error message
-    """
-
-    def yahoo_get(self, asset_class, ticker, start_date, end_date):
-
-        # check if ticker exists in dataframe
-        if ticker in pd.read_csv("../tickers/" + asset_class + "_tickers.csv"):
-            print("Ticker is not in available tickers for selected asset_class")
-        try:
-            dataframe_retrieved = pdread.DataReader(
-                ticker, start=start_date, end=end_date, data_source="yahoo"
-            )
-
-            dataframe_retrieved.reset_index(level=0, inplace=True)
-            dataframe_retrieved["Date"] = pd.to_datetime(
-                dataframe_retrieved["Date"]
-            ).apply(lambda x: x.date())
-
-        except pdread._utils.RemoteDataError as err:
-            print("API call did not work", err)
-            return 1  # return 1 if fail to get dataframe
-
-        #   When standard dataframe format has been defined
-        #       start moving api code from DH to APIObject
-        #   This should happen after a implementation that works with finda,
-        #   anda and Thalia Web has been done
-
-        return dataframe_retrieved
-
-    """
-        The harvester has a list of apis. 
-        This function returns the ApiCaller object from the DataHarvester
-        api list based on name.
-    """
-
-    def get_api_from_list(self, api_name):
-        for api in self.api_list:
-            if api.name == api_name:
-                return api
-
-    """
-        Wrapper for nomics api.
-        nomics fails in a different way compared to yfinance call through pandas
-        Because of this if a call fails is dealt with in a different manner
-    """
-
-    def nomics_get(self, asset_class, ticker, start_date, end_date):
-
-        api_from_dh_list = self.get_api_from_list("nomics")
-
-        nomics_api = nomics.Nomics(api_from_dh_list.key)
-
-        if asset_class != "currency" and asset_class != "crypto":
-            print("only currency and crypto can be retreived with yahoo finance.")
-            exit()
-
-        currency = nomics_api.ExchangeRates.get_history(
-            currency=ticker,
-            start=start_date + "T00:00:00Z",
-            end=end_date + "T00:00:00Z",
-        )
-        
-        # implement standard API wrapper and data format across data harvester
-
-        currency_pd = pd.DataFrame.from_dict(currency)
-        currency_pd = currency_pd.rename(
-            columns={
-                "timestamp": "Date",
-                "rate": "Adj Close",
-            }  # this is close in fact but crypto is wierd
-        )
-        
-        if(currency_pd.empty):
-            return 1
-        
-        currency_pd["Date"] = [
-            datetime.strptime(word.split("T")[0], "%Y-%m-%d").date()
-            for word in currency_pd["Date"]
-        ]
-        
-        return currency_pd
 
     """
         Returns the current index of a api from the persitant data.
@@ -139,6 +38,7 @@ class DataHarvester:
     """
 
     def current_index(self, api):
+       
         position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
         return position_frame["Position Universal"][0]
 
@@ -193,8 +93,6 @@ class DataHarvester:
             start_date = ticker_under_index["Last_Update"]
 
         # if data retrieval fails just go to the next ticker
-
-       
 
         data_set_retrieved = self.get_data(
             ticker_under_index["Asset_Class"],
