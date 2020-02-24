@@ -207,7 +207,7 @@ class DataHarvester:
         if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
             
             self.write_to_up_list(api, start_date, end_date)
-            #self.write_to_db(data_set_retrieved, ticker_name)
+            self.write_to_db(data_set_retrieved, ticker_name)
         else:
             return 1
         #
@@ -292,11 +292,12 @@ class DataHarvester:
             interpolated_df = interpolated_df.append(df_today_app, ignore_index=True)
 
             if delta.days > 1:
-
+                
                 for index_days in range(delta.days - 1):
-                    interpolated_row = df_today
-
+                    interpolated_row = df_today.copy()
+                    
                     interpolated_row["Date"] = today + timedelta(days=index_days + 1)
+                    
                     interpolated_row["Interpolated"] = 1
                     interpolated_row = interpolated_row.to_frame().transpose()
 
