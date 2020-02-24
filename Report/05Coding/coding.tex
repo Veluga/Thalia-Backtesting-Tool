@@ -28,19 +28,19 @@ Another major technology decision was the choice of appropriate database managem
 \item LICENSE AND PRICING: The DBMS should be free to use and have a non-restrictive license.
 PERFORMANCE: The DBMS should be able to handle a high volume of concurrent reads to fulfil user requests. The data will be updated daily, meaning efficient write operations are a lower priority.
 \item USABILITY: As our team lacks experience in this field, a suitable DBMS should be relatively simple to learn. Ideally team members should be able to learn the basics in a single weekly sprint.
-\item SECURITY: The DBMS should have a mature code base and be relatively secure, as access to financial data is a key component of our business model. Later it will likely also store data that is not available through public APIs, meaning potential data breaches could expose us to legal liability. \ref{dataprotectionGov}
+\item SECURITY: The DBMS should have a mature code base and be relatively secure, as access to financial data is a key component of our business model. Later it will likely also store data that is not available through public APIs, meaning potential data breaches could expose us to legal liability. \cite{dataprotectionGov}
 \item TYPE: Since the project constraints specify we use SQL queries, only relational DBMS supporting a version of SQL are appropriate.
 
 \end{itemize}
 
-MySQL, PostgreSQL, SQLite and MariaDB were subject to in depth comparison based on fulfilment of the above requirements and industry adoption \ref{dbPerfComparison} \ref{dbmsMarketShare}. Our final decision was to use SQLite for the following reasons:
+MySQL, PostgreSQL, SQLite and MariaDB were subject to in depth comparison based on fulfilment of the above requirements and industry adoption \cite{dbPerfComparison} \cite{dbmsMarketShare}. Our final decision was to use SQLite for the following reasons:
 
 It is user-friendly and easy to deploy, allowing us to start continuous deployment faster.
-It has a small footprint and offers good performance. \ref{dbPerfComparison}
+It has a small footprint and offers good performance. \cite{dbPerfComparison}
 Portable serverless design aids with development and testing.
 All team members have experience working with SQLite from previous term. This helps to reduce overhead of knowledge transfer.
 
-The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \ref{frameworkDataMigration} \ref{understandingDataMigration}. To preempt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
+The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \cite{frameworkDataMigration} \cite{understandingDataMigration}. To preempt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
 
 
 \iffalse
