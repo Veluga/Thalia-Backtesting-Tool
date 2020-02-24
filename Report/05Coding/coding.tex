@@ -11,7 +11,8 @@ After a brief overview of the project and the project plan, this section will fo
 
 One of the first decision we have made this term was to completely recreate our prototype of Thalia. Firstly, this radical move was the consequence of a new implementation decision (for more detail see \ref{Web Framework}). Secondly, as prototypes are meant to be disposable and are designed only to answer key questions about the system \cite{pragmaticprog}, the proof of concept served its purpose, giving us a chance to refine the structure and the quality of the code.
 
-Despite of the risks posed by using an Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR_SVC}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
+Despite the risks posed by using an Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR_SVC}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
+
 
 TODO talk about API keys and security measures
 
@@ -120,10 +121,33 @@ https://coderseye.com/django-vs-flask
 \fi
 
 \subsubsection{GUI}
+
+\label{GUI}
 \subsubsection{Business Logic}
 \label{BL}
+
+The business logic module sits at the very core of our application. We require it for producing a time series of a portfolio's performance as well as selected key risk metrics of a given asset allocation. This output is consumed by our web application and presented in plots and tables as described in \ref{GUI}. 
+
+Research into developing this module was initiated by listing our requirements for its desired behaviour. We identified that it should support:
+
+\begin{itemize}
+	\item Specification of a portfolio as a set of pandas dataframes, the common data exchange format in our application
+	\item Calculation of a portfolio's return over time
+	\item Regular contributions to mimick saving
+	\item Rebalancing strategies to reestablish the desired weighting of a portfolio
+	\item Calculation of key metrics, including the Sharpe and Sortino Ratio, Max Drawdown, Best and Worst Year
+	\item Collecting and reinvesting dividends for equities
+\end{itemize}
+
+Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aformentioned tasks.
+
+The result of this effort is "Anda" (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into indivual functions.
+This approach has allowed us to tailor the entire business logic module exactly to our needs without having to produce complicated wrapper code for existing backtesting libraries.
+
 \subsubsection{Database \& Finda}
+\label{Finda}
 \subsubsection{Harvester}
+\label{Harvester}
 
 \subsection{Integration}
 \label{Coding Standards}
@@ -168,6 +192,7 @@ One of the first decisions we had to make, is to decide on a standards coding st
 Another tool used for enforcing uniform style was the black auto-formatter for Python \cite{black}, which formatted the code for us upon every save if enabled, and also when commiting code. This has been achieved by the use of githooks \cite{githooks}, which are programs that are triggered upon certain git actions. For this we needed the pre-commit package for setting up these actions and writing the configuration file. This ensured that both flake8 and black have been run before publishing changes.
 
 \subsubsection{Continuous Integration}
+\label{Continuous Integration}
 
 Many studies have investigated the positive effects of developing in a continuous integration (CI) environment \cite{CI_1}, \cite{CI_2}. Regardless of the exact implementation, its obvious benefit is that it provides security and uniformity for projects. We already made some steps to achieve a uniform style, but had no means to know whether the code published has been also passed its tests. Note in this section we will only discuss testing as a part of CI and not the testing strategy, for that see the section \ref{Testing}.
 
@@ -197,8 +222,30 @@ The outcome of these steps is visible on CircleCI, but more importantly also on 
 
 With the help of these steps and CircleCI we managed to ensure that the code written is uniform and of good quality. It significantly reduced the time needed for integrating and code reviewing. The last step was now to deploy the system. 
 
-\subsection{Deployment}
+\subsection{Hosting and Deployment}
 \label{Continuous Deployment}
 
+An overview over the literature covering reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
+
+\begin{itemize}
+	\item Price - since we have severe budget constraints, we were looking for a cheap hosting solution
+	\item CircleCI support - The target host should be supported by CircleCI natively to ease development of a continuous deployment (CD) pipeline
+\end{itemize}
+
+The upfront cost of buying physical servers ruled it out as an option for us. Thus, we turned our attention to using a solution that involved deployment to a virtual machine in the Cloud. Many providers for such a service exist, including Amazon Web Services \cite{AWS} and Microsoft Azure \cite{Azure}. While these would provide us with extensive control over the hosting process, their use involves a lot of complexity that seemed unnecessary for the intial rollout of a simple application such as Thalia.
+
+Due to native CircleCI support and a free tier service, we ended up choosing Heroku \cite{Heroku} as our initial hosting provider. This enables us to host our application for free in the initial stages of development while providing ample opportunity for horizontal and vertical scaling later on, if it is required.
+
+The benefits of using continuous deployment have been well established for multiple years and involve "the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity" \cite{CDBenefits}. Using Heroku in combination with CircleCI, our CD pipeline involves the following simple steps:
+
+\begin{enumerate}
+	\item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
+	\item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
+	\item If this step is successful, the master branch is pushed to a remote repository recognized by Heroku via git.
+	\item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
+\end{enumerate}
+
+Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state.
 
 \end{document}
+
