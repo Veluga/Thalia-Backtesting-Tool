@@ -17,7 +17,7 @@ def test_register(client):
         "/register", data={"username": "a", "password": "a"}, follow_redirects=True
     )
     # TODO: more long term test for checking page
-    assert b"Sign In" in response.data
+    assert b"Log In" in response.data
 
     # test that the user was inserted into the database
     assert User.query.filter_by(username="a").first() is not None
@@ -89,7 +89,7 @@ def test_dashboard_access(client, default_user, auth):
     assert response.status_code == OK
 
     assert (
-        b"Sign In" in response.data
+        b"Log In" in response.data
     ), "non-loggedin users should be redirected to login page"
 
     auth.login()
