@@ -20,3 +20,13 @@ class ApiObject:
             self.key = False
 
         self.api_calls_per_run = api_calls_per_run
+
+    def yahoo_finance(self, asset_class, ticker, start_date, end_date):
+        
+
+
+    def call_api(self,asset_class, ticker, start_date, end_date):
+        if(self.name == "yfinance"):
+            return self.yahoo_finance(asset_class, ticker, start_date, end_date)
+        else(self.name == "nomics"):
+            return self.nomics(asset_class, ticker, start_date, end_date)

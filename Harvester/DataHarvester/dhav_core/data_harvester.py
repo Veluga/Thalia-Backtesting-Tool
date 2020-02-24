@@ -26,6 +26,15 @@ class DataHarvester:
     """
 
     def get_data(self, asset_class, ticker, start_date, end_date):
+        for api in self.api_list:
+            if asset_class in api.supported_assets:
+                #replace this once wrapper for the api wrappers has been made
+                if(api.name == "yfinance"):
+                    return self.yahoo_get(asset_class, ticker, start_date, end_date)
+                elif(api.name == "nomics"):
+                    return self.nomics_get(asset_class, ticker, start_date, end_date)
+    
+    def old_get_data(self, asset_class, ticker, start_date, end_date):
         if (
             asset_class == "index_funds"
             or asset_class == "bonds"
@@ -35,6 +44,7 @@ class DataHarvester:
         elif asset_class == "crypto" or asset_class == "currency":
             return self.nomics_get(asset_class, ticker, start_date, end_date)
 
+    
     """
         Wrapper for the yfinance/yahoo api 
         Checks if the ticker is in the tickers in the tickers folder.
@@ -102,7 +112,7 @@ class DataHarvester:
             start=start_date + "T00:00:00Z",
             end=end_date + "T00:00:00Z",
         )
-
+        
         # implement standard API wrapper and data format across data harvester
 
         currency_pd = pd.DataFrame.from_dict(currency)
@@ -112,12 +122,15 @@ class DataHarvester:
                 "rate": "Adj Close",
             }  # this is close in fact but crypto is wierd
         )
-
+        
+        if(currency_pd.empty):
+            return 1
+        
         currency_pd["Date"] = [
             datetime.strptime(word.split("T")[0], "%Y-%m-%d").date()
             for word in currency_pd["Date"]
         ]
-
+        
         return currency_pd
 
     """
@@ -161,7 +174,7 @@ class DataHarvester:
 
         ticker_under_index = up_list.iloc[index]
         ticker_name = up_list.iloc[index]["Ticker"]
-        print(ticker_name)
+        
 
         start_date = ""
         # set end_date to yesterday
@@ -181,7 +194,7 @@ class DataHarvester:
 
         # if data retrieval fails just go to the next ticker
 
-        print("Ticker: " + ticker_name + " " + api.name)
+       
 
         data_set_retrieved = self.get_data(
             ticker_under_index["Asset_Class"],
@@ -193,35 +206,15 @@ class DataHarvester:
         """
             Change this after data format accross apis has been standardized.
         """
-
         
-        if type(data_set_retrieved) is not int and api.name == "yfinance":
+        if type(data_set_retrieved) != int:
             start_date = data_set_retrieved["Date"][0]
-            
         
-        elif api.name == "nomics" and not data_set_retrieved.empty:
-            # remove the things that are not required
-            
-            start_date = data_set_retrieved["Date"][0]
-            
-        if type(data_set_retrieved) is not int and not data_set_retrieved.empty:
-            
             self.write_to_up_list(api, start_date, end_date)
             self.write_to_db(data_set_retrieved, ticker_name)
+            return 0
         else:
             return 1
-        #
-        #   Insert behaviour for when blocked by the API
-        #   Never been blocked by the API what is the behaviour
-        #   just try except
-
-        #
-        #   Deal with the erros caused by api not working later
-        #   Never had any erros could not find error for except
-        #
-
-        return 0
-
     """
         Writes back in the persitant data update list.
         This is done after updating a ticker.
@@ -317,9 +310,6 @@ class DataHarvester:
 
     def write_to_db(self, dataset_to_sql, ticker_name):
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
-        print(df_to_send[:10])
-        # df_to_send = df_to_send.set_index("Date")
-        # df_to_send.to_csv("inspect_interpolation.csv")
         df_to_send["AssetTicker"] = ticker_name
 
         """
@@ -342,7 +332,8 @@ class DataHarvester:
             }
         )
         final_df = final_df.set_index(["AssetTicker", "ADate"])
-        self.conn.write.write_asset_values(final_df)
+        print(final_df[:5])
+        #self.conn.write.write_asset_values(final_df)
 
     """
         It is important to verify that the tickers are 
