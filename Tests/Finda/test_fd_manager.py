@@ -45,13 +45,14 @@ def test_fd_manager_fd_remove(db_controller):
 
 def test_fd_manager_fd_register(db_controller):
     #test faliure, file not there
+    path = FdMultiController._path_generator('RaNdOmGibBeRiSh')
     with pytest.raises(Exception) as e:
-        FdMultiController.fd_register("RaNdOmGibBeRiSh")
-    expWarn = 'No file found at: '
+        FdMultiController.fd_register('RaNdOmGibBeRiSh')
+    expWarn = 'No file found at: ' + path
     assert expWarn in str(e.value)
     # test sucess
     # Warning: If schema checks implemented as per TODO, rewrite this
-    conn = sqlite3.connect(FdMultiController._path_generator('RaNdOmGibBeRiSh'))
+    conn = sqlite3.connect(path)
     FdMultiController.fd_register('RaNdOmGibBeRiSh')
     assert 'RaNdOmGibBeRiSh' in FdMultiController.fd_list()
     FdMultiController.fd_remove('RaNdOmGibBeRiSh')
