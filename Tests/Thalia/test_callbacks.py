@@ -16,4 +16,7 @@ def test_update_dashboard():
     fig, table_data = callbacks.update_dashboard(1, *tickers, *proportions)
     assert isinstance(fig, go.Figure), "update dashboard should return a plotly figure"
     # FIXME: below test is probably too tied to implementation
-    assert all(row.get("metric") and row.get("value") for row in table_data)
+    assert all(
+        row.get("metric") is not None and row.get("value") is not None
+        for row in table_data
+    )
