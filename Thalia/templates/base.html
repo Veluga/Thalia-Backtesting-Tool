@@ -4,37 +4,44 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Thalia</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
 
     <style>
       .has-background-inspire1 {
-        background-color: #01191C !important;
+        background-color: #01191c !important;
       }
       .has-background-inspire2 {
-        background-color: #01434A !important;
+        background-color: #01434a !important;
       }
       .has-background-inspire3 {
-        background-color: #F26A4B !important;
+        background-color: #f26a4b !important;
       }
       .has-background-inspire4 {
-        background-color: #F23D3D !important;
+        background-color: #f23d3d !important;
       }
       .has-background-inspire5 {
-        background-color: #FEEDD0 !important;
+        background-color: #feedd0 !important;
       }
       .tag {
-        color: #F26A4B !important;
+        color: #f26a4b !important;
         background-color: white !important;
       }
       .is-inspire:after {
-        border-color: #F26A4B !important;
+        border-color: #f26a4b !important;
       }
       ul > li {
         margin-left: 25px;
       }
       .has-background-main {
-        background: url(static/images/index/thalia_background.jpg) center / cover;
+        background: url(static/images/index/thalia_background.jpg) center /
+          cover;
       }
       .has-background-stonks {
         background: url(static/images/index/stonks.jpg) center / cover;
@@ -44,70 +51,13 @@
         width: 100%;
       }
       .has-color-inspire {
-        color: #F26A4B !important;
+        color: #f26a4b !important;
       }
     </style>
   </head>
   <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation" onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="{{ url_for('main.index') }}">
-          <img src="/static/images/Logos/large_logo.png" width="128" height="64">
-        </a>
-    
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-    
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a href="{{ url_for('main.index') }}" class="navbar-item">
-            Home
-          </a>
-    
-          <a href="{{ url_for('main.about') }}" class="navbar-item">
-            About
-          </a>
-    
-          <a href="/dashboard" class="navbar-item">
-            Dashboard
-          </a>
-    
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-inspire">
-              More
-            </a>
-    
-            <div class="navbar-dropdown">
-              <a class="navbar-item">
-                Contact
-              </a>
-              <hr class="navbar-divider">
-              <a href="{{ url_for('main.issues') }}" class="navbar-item">
-                Report an issue
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a href="{{ url_for('main.register') }}" class="button is-primary has-background-inspire4 ">
-                <strong>Sign up</strong>
-              </a>
-              <a href="{{ url_for('main.login') }}" class="button is-light">
-                Log in
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  {% block content %}
-  {% endblock %}
+    {% include 'navbar.html' %}
+    {% block content %}
+    {% endblock %}
   </body>
 </html>

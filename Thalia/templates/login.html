@@ -2,68 +2,35 @@
 
 {% block content %}
 <style>
-    .has-background-main {
-        background: url(../static/images/index/thalia_background.jpg) center / cover;
-      }
-      .tag {
-        color: #F26A4B !important;
-        background-color: transparent !important;
-      }
+  .has-background-main {
+    background: url(../static/images/index/thalia_background.jpg) center / cover;
+  }
+  .tag {
+    color: #f26a4b !important;
+    background-color: transparent !important;
+  }
 </style>
-
 
 <!-- Login -->
 <div class="hero is-medium has-background-main">
   <section id="contact" class="section section-light-grey is-large">
     <div class="container">
-
-        <div class="content-wrapper">
-            <div class="columns">
-                <div class="column is-half">
-
-                </div>
-                <div class="column">
-                    <div class="title-wrapper has-text-centered">
-                        <h2 class="title is-2 is-spaced has-text-light">Log in</h2>
-                        <div class="divider is-centered"></div>
-                    </div>
-
-                    <form role="form" method="post" novalidate>
-
-                        {{ form.hidden_tag() }}
-
-                        <div class="columns is-multiline">
-                            <div class="column is-12">
-                                {{ form.username(placeholder="Username", class="input is-medium", size=32) }}
-                            </div>
-
-                            <div class="column is-12">
-                                {{ form.password(placeholder="Password",class="input is-medium", type="password", size=32) }}
-                            </div>
-
-                            <div class="column is-12">
-                                <p class="has-text-light"> {{ form.remember_me() }} {{ form.remember_me.label }} </p>
-                          </div>
-                            
-                            <div class="column is-7" style="text-align:left;">
-                              <div class="form-footer has-text-left mt-10">
-                                  <button type="submit" class="button is-primary has-background-inspire4 raised is-clear" >Sign in</button>
-                              </div>
-                            </div>
-
-                            <div class="column">
-                              <div class="form-footer has-text-right mt-10">
-                                <p class="has-text-light"> New user? </p> <a class="tag" href="{{ url_for('main.register') }}">Sign up</a>
-                              </div>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
+      <div class="content-wrapper">
+        <div class="columns">
+          <div class="column is-half"></div>
+          <div class="column">
+            <div class="title-wrapper has-text-centered">
+              <h2 class="title is-2 is-spaced has-text-light">Log in</h2>
+              <div class="divider is-centered"></div>
             </div>
+            {% include 'error.html' %}
+
+            {% include 'login_form.html' %}
+          </div>
         </div>
+      </div>
     </div>
-</section>
+  </section>
 </div>
 <!-- /Login -->
 {% endblock %}

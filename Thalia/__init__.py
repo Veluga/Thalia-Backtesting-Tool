@@ -29,13 +29,17 @@ def register_dashapps(app):
         "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
     }
 
+    external_stylesheets = [
+        'https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css'
+]
+
     dashapp = dash.Dash(
         __name__,
         server=app,
         url_base_pathname="/dashboard/",
-        assets_folder=get_root_path(__name__) + "/static/",
         meta_tags=[meta_viewport],
         suppress_callback_exceptions=True,
+        external_stylesheets=external_stylesheets
     )
 
     with app.app_context():

@@ -89,6 +89,9 @@ def register():
         if existing_username(form.username.data):
             error = "already registered"
             return render_template("register.html", form=form, error=error)
+        elif form.password.data != form.confirm_password.data:
+            error = "passwords do not match"
+            return render_template("register.html", form=form, error=error)
         else:
             save_user(form.username.data, form.password.data)
             return redirect(url_for("main.login"))
