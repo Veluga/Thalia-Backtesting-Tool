@@ -163,7 +163,7 @@ MySQL, PostgreSQL, SQLite and MariaDB were subject to in depth comparison based 
 \begin{itemize}
 \item It is user-friendly and easy to deploy, allowing us to start continuous deployment faster.
 \item It has a small footprint and offers good performance \cite{dbPerfComparison}.
-Portable serverless design aids with development and testing.
+\item Portable serverless design aids with development and testing.
 All team members have experience working with SQLite from previous term. This helps to reduce overhead of knowledge transfer.
 
 The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \cite{frameworkDataMigration} \cite{understandingDataMigration}. To preempt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
