@@ -4,6 +4,7 @@ import pandas as pd
 import nomics
 from datetime import datetime, timedelta
 import sys
+from logger import Logger
 
 # find a better way to reach Finda
 sys.path.append("../../../")
@@ -14,7 +15,7 @@ class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
         self.conn = FdMultiController.fd_connect("asset", "rw")
-
+        self.log = Logger()
     """
         Makes the api call based on the asset_class and ticker given.
         Also need a start and end date.
@@ -27,9 +28,14 @@ class DataHarvester:
 
 
     def get_data(self, asset_class, ticker, start_date, end_date):
+    
         for api in self.api_list:
             if asset_class in api.supported_assets:
-               return api.call_api( asset_class, ticker, start_date, end_date)
+               
+               self.log.log_api_call(api.name,asset_class, ticker, start_date, end_date)
+               df = api.call_api( asset_class, ticker, start_date, end_date)
+               self.log.log_simple("api returned " + str(type(df)))
+               return df
     
 
     """

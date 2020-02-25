@@ -1,0 +1,39 @@
+INFO:root:call yfinance where: 
+ asset_class: comodities_futureticker: QMstart_date : 1970-1-1end_date: 2020-02-24
+INFO:root:call yfinance where: 
+ asset_class: comodities_futureticker: NGstart_date : 1970-1-1end_date: 2020-02-24
+INFO:root:call nomics where: 
+ asset_class: currencyticker: BAMstart_date : 1970-1-1end_date: 2020-02-24
+INFO:root:call nomics where: 
+ asset_class: currencyticker: BWPstart_date : 1970-1-1end_date: 2020-02-24
+INFO:root:call yfinance where: 
+ asset_class: comodities_future ticker: YG start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:call yfinance where: 
+ asset_class: comodities_future ticker: SI start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:call yfinance where: 
+ asset_class: comodities_future ticker: SI start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:call nomics where: 
+ asset_class: currency ticker: BGN start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:call nomics where: 
+ asset_class: currency ticker: BRL start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:call nomics where: 
+ asset_class: currency ticker: BND start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:call yfinance where: 
+ asset_class: index_funds ticker: VFIAX start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:call yfinance where: 
+ asset_class: index_funds ticker: VFIAX start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:call yfinance where: 
+ asset_class: index_funds ticker: VFIAX start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:call yfinance where: 
+ asset_class: index_funds ticker: SPY start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:call nomics where: 
+ asset_class: currency ticker: ALL start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:call nomics where: 
+ asset_class: currency ticker: AFN start_date : 1970-1-1 end_date: 2020-02-24
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>

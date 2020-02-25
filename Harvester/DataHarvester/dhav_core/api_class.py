@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime
 import nomics
 class ApiObject:
+    
     def __init__(
         self, name, supported_assets, api_calls_per_run, path="", has_key=False
     ):
@@ -22,11 +23,6 @@ class ApiObject:
     def df_format_standardizer(self):
         pass
 
-    """
-        Wrapper for the yfinance/yahoo api 
-        Returns the dataframe that has been received.
-        returns 1 if api call failed. and has a error message
-    """
 
     def yahoo_finance(self, asset_class, ticker, start_date, end_date):
         try:
@@ -76,7 +72,6 @@ class ApiObject:
             datetime.strptime(word.split("T")[0], "%Y-%m-%d").date()
             for word in currency_pd["Date"]
         ]
-        
         return currency_pd
 
     def call_api(self,asset_class, ticker, start_date, end_date):
