@@ -15,7 +15,7 @@
 \contentsline {subsection}{\numberline {3.4}Feasibility Analysis}{11}% 
 \contentsline {section}{\numberline {4}Design}{12}% 
 \contentsline {subsection}{\numberline {4.1}Data Segregation}{12}% 
-\contentsline {subsection}{\numberline {4.2}The Finda Module}{12}% 
+\contentsline {subsection}{\numberline {4.2}The Data Layer Module (Finda)}{12}% 
 \contentsline {section}{\numberline {5}Coding and Integration}{13}% 
 \contentsline {subsection}{\numberline {5.1}Overview}{13}% 
 \contentsline {subsection}{\numberline {5.2}Planning}{13}% 

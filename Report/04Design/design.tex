@@ -12,22 +12,22 @@ The decision was made early on to horizontally partition the data store by Thali
 \begin{itemize}
 
 \item One alternative revenue stream we identified early on was the sale of our financial data as a separate product. This process would be trivially easy if it was stored in a separate database. 
-\item Although the security of both types of data is important to our business model, protecting user’s private information is the highest priority. The financial data is accessed by the data harvester, a separate program gathering data from many sources on the web and introducing additional security risks. Data segregation helps limit the scope of a potential data breach.
+\item Although the security of both types of data is important to our business model, protecting user’s private information is the highest priority. The financial data is accessed by the data harvester, a separate program gathering data from many sources on the web and introducing additional security risks. Data segregation is helps limit the scope of a potential data breach. \cite{ciscoSeg}
 \item The two types of data serve two separate purposes. The modules responsible for managing each are also decoupled. Thus, separation helps to enforce the principle of least concern.
 \item A large corpus of guides and examples on how to manage user accounts is available online. Extending any of these to include financial data might be difficult, and risks leading to bad design.
 
 \end{itemize}
 
-The separation of dissimilar collections of data is a practice widely adopted in industry. Criteria for assessing when this approach is appropriate have also been documented \cite{dataSegImp}. Based on the decision to use SQLite as our Database management system (DBMS) and to maximize the portability and security of the financial data, we decided to implement this decision by using two seperate databases.
+The separation of dissimilar collections of data is a practice widely adopted in industry. Criteria for assessing when this approach is appropriate have also been documented. \cite{dataSegImp} Based on the decision to use SQLite as our DBMS and to maximize the portability and security of the financial data, we decided to implement this decision by using two seperate databases.
 
-\subsection{The Finda Module}
+\subsection{The Data Layer Module (Finda)}
 
 The Finda module was designed to implement the data layer, acting as an intermediary between the data harvester/business logic and the financial data. It allows users to manage a number of databases implementing a common schema and give them access to a suite of tools for reading, writing, and removing the data stored in each. In addition to this the Finda module implements the following features:
-\begin{itemize}
-\item A system for managing user permissions to help reinforce separation of responsibilities among Thalia's other modules. 
-\item Integrity checks to ensure the integrity of the data provided to the end user. 
-\item A suite of administrative features to aid with managing the application back end
-\end{itemize}
+
+A system for managing user permissions to help reinforce separation of responsibilities among Thalia's other modules. 
+Integrity checks to ensure the integrity of the data provided to the end user. 
+A suite of administrative features to aid with managing the application back end
+
 Finda's design was modeled after object relational mappers (ORMs), libraries offered by most popular web frameworks the use of which was prohibited by the project constraints. Although the implementation of what is essentially our own ORM proved to be costly in terms of developer time, it allowed us to create a more focused module tailored to our requirements. This helped to streamline the development of other modules.
 
 
