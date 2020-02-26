@@ -238,7 +238,7 @@ class DataHarvester:
             }
         )
         final_df = final_df.set_index(["AssetTicker", "ADate"])
-        print(final_df[:5])
+        
         
         #self.conn.write.write_asset_values(final_df)
 
