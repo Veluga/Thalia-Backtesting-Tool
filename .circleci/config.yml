@@ -9,7 +9,6 @@ jobs:
 
     steps:
       - checkout
-      - run: mkdir test-reports
 
       # Download and cache dependencies
       - restore_cache:
@@ -44,10 +43,10 @@ jobs:
             . venv/bin/activate
             python -m pytest
       - store_artifacts:
-          path: test-reports/
-          destination: tr1
+          path: test
+          destination: test-results
       - store_test_results:
-          path: test-reports/
+          path: test
     deploy:
       docker:
         - image: circleci/python:3.6.2-stretch-browsers
