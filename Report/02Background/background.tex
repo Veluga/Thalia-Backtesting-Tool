@@ -4,7 +4,7 @@
 \begin{document}
 
 \section{Background and Competitors}
-As a result of our initial competitor analysis, we may group the competing software into two categories. For a comprehensive list of available backtesters please see \cite{listofbacktesters}. The first consists of various third-party trading software, such as Fidelity, MetaTrader and NinjaTrader that offer backtesting features as well. Although it may be beneficial to consider some trading features provided by the members of this group, these would only be part of a future development process, and not in the scope of this course.
+As a result of our initial competitor analysis, we may group the competing software into two categories. For a comprehensive list of available backtesters please see \cite{listofbacktesters}. The first consists of various third-party trading software, such as Fidelity, MetaTrader and NinjaTrader that offer backtesting features as well. Services in this category include features such as buying and selling of financial assets, prediction of future prices and storing and managing of users' money. Although it may be beneficial to consider some trading features provided by the members of this group, these would only be part of a future development process, and not in the scope of this course.
 
 The second category consists of pieces of software that do not offer trading as a service, and solely focus on backtesting. Thus, for now, we shall only consider the feature set provided by the second category. In the following paragraphs we will consider some of the design decisions made by competing software, together with the brief analysis and conclusion on each feature.
 
@@ -38,9 +38,9 @@ At first it may seem as if Portfolio Visualizer meets all the requirements neede
 
 The UI design is simplistic and has a non-commercial, bare-bones look, and although this was appreciated while testing the system, it certainly does not improve the user experience. The input, mostly using dropdown menus is straightforward to use, except for the selection of Assets, which we will discuss briefly at the end of this section.
 
-Moreover, users will want to fine-tune their investment strategies, by changing their allocations frequently. The only means to do this using Portfolio Visualizer is to scroll to the top, change the input and send it again. Our goal is to design a more responsive and dynamic system, to ease this procedure. 
+Moreover, users will want to fine-tune their investment strategies, by changing their allocations frequently. The only means to do this using Portfolio Visualizer is to scroll to the top, change the input and rerun the entire simulation. Our goal is to design a more responsive and dynamic system, to ease this procedure. 
 
-The website also has user accounts, these accounts however offer little to no extra features, which further decreases the overall user experience. Finally, as a last remark, which holds for most of the backtesting tools we have tried, the website is heavily US biased, and so the selection of asset classes is limited. Furthermore, we have no means of changing the currency, which would also be an important feature.
+The website also has user accounts, however little to no data is associated with a users profile, which further decreases the overall user experience. Finally, as a last remark, which holds for most of the backtesting tools we have tried, the website is heavily US biased, and so the selection of asset classes is limited. Furthermore, we have no means of changing the currency, which would also be an important feature for a product accessible through the web, and therefore available to users from all over the globe.
 
 \subsection{Other Competing Software}
 
@@ -48,7 +48,7 @@ The rest of the alternatives are of a significantly lower quality. In the remain
 
 \subsubsection*{Tree-like Asset Selection}
 
-One of the tricky design decision in building the system, is the following: 
+One challenging aspect of designing such a system, is the following: 
 
 \begin{quote}
     What is the most intuitive way for selecting a portfolio item? 
@@ -64,15 +64,15 @@ One of the better option is what ETFReplay \cite{etfreplay} has implemented, whi
    \caption{ETFReplay - Tree-like Structure}
 \end{figure}
 
-We feel this was the most intuitive to use, and will thus pursue a similar approach. Our only criticism was that it opens in a new window, which we would like to avoid. 
+We feel this was the most intuitive to use, and will thus pursue a similar approach. The only potential issue identified with this approach was that it opens in a new window, which we would prefer to avoid. 
 
-\subsubsection*{Tiles}
+\subsu1bsection*{Tiles}
 
 It may be worth briefly discussing an example of a backtester with a good layout design. We found the simplistic and tiled design of Backtest Curvo \cite{backtestcurvo} a good choice as it gives the website an overall modern and fresh look, whereas most backtesters looked old and out of date. Our goal is to achieve a layout similar to this. For a further analysis on design decisions, please see section 4 of this report.
 
 \subsubsection*{Simple Logic}
 
-In our whitepaper, we briefly discussed implementing a simple scripting language allowing users to simulate dynamic trading strategies. As mentioned, this would not be in the scope of the course, but for inspiration we can have a look at the approach of Stockbacktest \cite{stockbacktest}. 
+In our whitepaper, we briefly discussed implementing a simple scripting language allowing users to simulate dynamic trading strategies \citep{WP_LTF}. As mentioned, this would not be in the scope of the course, but for inspiration we can have a look at the approach of Stockbacktest \cite{stockbacktest}. 
 
 \begin{figure}[H]
    \centering
@@ -87,11 +87,11 @@ Although not intuitive at all, given its presentation, it shows this feature is 
 As we initially tested the competing software during the inception phase of development, we were left with three key observations. These were the following:
 
 \begin{itemize}
-    \item Transparency: Many of the testers we have found did not look transparent or trustworthy, which is something we should avoid.
+    \item Transparency: Many of the testers' design did not give the impression of being operated by a reputable businesses. In the worst cases they looked transparent or trustworthy (misspelt words, advertisements with questionable subject matter), which is something we should avoid.
     \item Learning Curve: After getting to know our target audience we concluded that most seem willing to learn how to use a complex system if it is worth it.
     \item Design of the UI: It was easy to tell which backtesters are still getting updated, by looking at their design. We should aim at looking fresh. In addition, some backtesters offered so many features that every corner of their UI was packed with information, this is something we should also avoid doing. 
 \end{itemize}
 
-Having analysed the competing software, we are now better suited to determine the requirements of our system. 
+The analysis was conducted informally with the help of colleagues studying or involved in finance. This allowed us to develop a more neutral and accurate impression, despite the subjective nature of the observations. Having analysed the competing software, we are now better suited to determine the requirements of our system. 
 
 \end{document}

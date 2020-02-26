@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.2.22)  25 FEB 2020 14:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.2.22)  25 FEB 2020 18:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -405,10 +405,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./Pictures/small_logo.png>
-] [1] (./main.toc
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 3.
-)
+] [1] (./main.toc)
 \tf@toc=\write3
 \openout3 = `main.toc'.
 
@@ -417,6 +414,9 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 No file preamble.tex.tex.
+
+LaTeX Warning: Citation `WP_IBC' on page 3 undefined on input line 11.
+
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1
 7.
 (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
@@ -426,24 +426,38 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 17.
 
 
+LaTeX Warning: Citation `TR_REQS' on page 3 undefined on input line 26.
+
+
+LaTeX Warning: Citation `TR_OPTIONAL_FEATURES' on page 3 undefined on input lin
+e 26.
+
+
+LaTeX Warning: Citation `TR_TO' on page 3 undefined on input line 28.
+
+
 LaTeX Warning: Citation `TR_story' on page 3 undefined on input line 30.
 
-) (./02Background/background.tex [3
+
+LaTeX Warning: Citation `DeveloperSalary' on page 3 undefined on input line 36.
 
 
-]
+[3
+
+
+]) (./02Background/background.tex [4]
 \openout2 = `preamble.tex.aux'.
 
 
 No file preamble.tex.tex.
 
-LaTeX Warning: Citation `listofbacktesters' on page 4 undefined on input line 7
+LaTeX Warning: Citation `listofbacktesters' on page 5 undefined on input line 7
 .
 
 
-LaTeX Warning: Citation `portfoliovis' on page 4 undefined on input line 12.
+LaTeX Warning: Citation `portfoliovis' on page 5 undefined on input line 12.
 
-<02Background/02Pictures/portfolio_visualizer_input_1.png, id=24, 402.75468pt x
+<02Background/02Pictures/portfolio_visualizer_input_1.png, id=29, 402.75468pt x
  220.57407pt>
 File: 02Background/02Pictures/portfolio_visualizer_input_1.png Graphic file (ty
 pe png)
@@ -451,40 +465,40 @@ pe png)
 Package pdftex.def Info: 02Background/02Pictures/portfolio_visualizer_input_1.p
 ng  used on input line 18.
 (pdftex.def)             Requested size: 322.20418pt x 176.45947pt.
-[4
+[5
 
 
  <./02Background/02Pictures/portfolio_visualizer_input_1.png>]
 
-LaTeX Warning: Citation `etfreplay' on page 5 undefined on input line 59.
+LaTeX Warning: Citation `etfreplay' on page 6 undefined on input line 59.
 
-<02Background/02Pictures/etfreplay.png, id=28, 319.1925pt x 355.3275pt>
+<02Background/02Pictures/etfreplay.png, id=33, 319.1925pt x 355.3275pt>
 File: 02Background/02Pictures/etfreplay.png Graphic file (type png)
 <use 02Background/02Pictures/etfreplay.png>
 Package pdftex.def Info: 02Background/02Pictures/etfreplay.png  used on input l
 ine 63.
 (pdftex.def)             Requested size: 223.43321pt x 248.72754pt.
-[5]
+[6]
 
-LaTeX Warning: Citation `backtestcurvo' on page 6 undefined on input line 71.
+LaTeX Warning: Citation `backtestcurvo' on page 7 undefined on input line 71.
 
 
-LaTeX Warning: Citation `stockbacktest' on page 6 undefined on input line 75.
+LaTeX Warning: Citation `stockbacktest' on page 7 undefined on input line 75.
 
-<02Background/02Pictures/stockbacktest.png, id=32, 585.68813pt x 100.12407pt>
+<02Background/02Pictures/stockbacktest.png, id=38, 585.68813pt x 100.12407pt>
 File: 02Background/02Pictures/stockbacktest.png Graphic file (type png)
 <use 02Background/02Pictures/stockbacktest.png>
 Package pdftex.def Info: 02Background/02Pictures/stockbacktest.png  used on inp
 ut line 79.
 (pdftex.def)             Requested size: 409.97888pt x 70.08635pt.
-[6 <./02Background/02Pictures/etfreplay.png> <./02Background/02Pictures/stockba
-cktest.png>]) (./03Requirements/requirements.tex [7]
+[7 <./02Background/02Pictures/etfreplay.png> <./02Background/02Pictures/stockba
+cktest.png>]) (./03Requirements/requirements.tex [8]
 \openout2 = `preamble.tex.aux'.
 
 
 No file preamble.tex.tex.
 
-LaTeX Warning: Citation `FURPS' on page 8 undefined on input line 7.
+LaTeX Warning: Citation `FURPS' on page 9 undefined on input line 7.
 
 
 Underfull \hbox (badness 1014) in paragraph at lines 29--29
@@ -501,7 +515,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 56--58
 
  []
 
-[8
+[9
 
 
 ]
@@ -514,7 +528,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 101--103
 
  []
 
-[9]
+[10]
 Underfull \hbox (badness 1082) in paragraph at lines 119--119
 \OT1/cmr/m/n/10 come, Cur-ren-cies, Com-modi-ties, and
  []
@@ -524,20 +538,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 119--121
 
  []
 
-[10]
+[11]
 
-LaTeX Warning: Citation `FURPS_drawbacks' on page 11 undefined on input line 17
+LaTeX Warning: Citation `FURPS_drawbacks' on page 12 undefined on input line 17
 2.
 
-) (./04Design/design.tex [11]
+) (./04Design/design.tex [12]
 \openout2 = `preamble.tex.aux'.
 
 
 No file preamble.tex.tex.
-
-LaTeX Warning: Citation `dataSegImp' on page 12 undefined on input line 21.
-
-) (./05Coding/coding.tex [12
+) (./05Coding/coding.tex [13
 
 
 ]
@@ -546,33 +557,33 @@ LaTeX Warning: Citation `dataSegImp' on page 12 undefined on input line 21.
 
 No file preamble.tex.tex.
 
-LaTeX Warning: Citation `pragmaticprog' on page 13 undefined on input line 12.
+LaTeX Warning: Citation `pragmaticprog' on page 14 undefined on input line 12.
 
 
-LaTeX Warning: Citation `TR_SVC' on page 13 undefined on input line 14.
+LaTeX Warning: Citation `TR_SVC' on page 14 undefined on input line 14.
 
 
-LaTeX Warning: Citation `languagescomparison' on page 13 undefined on input lin
+LaTeX Warning: Citation `languagescomparison' on page 14 undefined on input lin
 e 26.
 
 
-LaTeX Warning: Citation `statusdifference' on page 13 undefined on input line 3
+LaTeX Warning: Citation `statusdifference' on page 14 undefined on input line 3
 3.
 
 
-LaTeX Warning: Citation `howtoreview' on page 13 undefined on input line 33.
+LaTeX Warning: Citation `howtoreview' on page 14 undefined on input line 33.
 
-<05Coding/05Pictures/ticket.png, id=56, 508.90125pt x 358.33875pt>
+<05Coding/05Pictures/ticket.png, id=61, 508.90125pt x 358.33875pt>
 File: 05Coding/05Pictures/ticket.png Graphic file (type png)
 <use 05Coding/05Pictures/ticket.png>
 Package pdftex.def Info: 05Coding/05Pictures/ticket.png  used on input line 41.
 
 (pdftex.def)             Requested size: 356.22844pt x 250.83542pt.
-[13
+[14
 
 
 ]
-<05Coding/05Pictures/contributions.png, id=60, 566.86781pt x 160.34906pt>
+<05Coding/05Pictures/contributions.png, id=65, 566.86781pt x 160.34906pt>
 File: 05Coding/05Pictures/contributions.png Graphic file (type png)
 <use 05Coding/05Pictures/contributions.png>
 Package pdftex.def Info: 05Coding/05Pictures/contributions.png  used on input l
@@ -580,123 +591,97 @@ ine 52.
 (pdftex.def)             Requested size: 453.49486pt x 128.27942pt.
 
 
-LaTeX Warning: Citation `pairprogramming' on page 14 undefined on input line 59
+LaTeX Warning: Citation `pairprogramming' on page 15 undefined on input line 59
 .
 
 
-LaTeX Warning: Citation `physicalscrum' on page 14 undefined on input line 66.
+LaTeX Warning: Citation `physicalscrum' on page 15 undefined on input line 65.
 
-[14 <./05Coding/05Pictures/ticket.png> <./05Coding/05Pictures/contributions.png
+[15 <./05Coding/05Pictures/ticket.png> <./05Coding/05Pictures/contributions.png
 >]
-<05Coding/05Pictures/scrumboard.png, id=64, 833.36343pt x 504.38437pt>
+<05Coding/05Pictures/scrumboard.png, id=69, 833.36343pt x 504.38437pt>
 File: 05Coding/05Pictures/scrumboard.png Graphic file (type png)
 <use 05Coding/05Pictures/scrumboard.png>
 Package pdftex.def Info: 05Coding/05Pictures/scrumboard.png  used on input line
- 70.
+ 69.
 (pdftex.def)             Requested size: 458.3513pt x 277.41226pt.
-<05Coding/05Pictures/initial_roadmap.png, id=65, 835.62187pt x 216.81pt>
+<05Coding/05Pictures/initial_roadmap.png, id=70, 835.62187pt x 216.81pt>
 File: 05Coding/05Pictures/initial_roadmap.png Graphic file (type png)
 <use 05Coding/05Pictures/initial_roadmap.png>
 Package pdftex.def Info: 05Coding/05Pictures/initial_roadmap.png  used on input
- line 84.
+ line 83.
 (pdftex.def)             Requested size: 459.59344pt x 119.24586pt.
- [15 <./05Coding/05Pictures/scrumboard.png>] [16 <./05Coding/05Pictures/initial
+ [16 <./05Coding/05Pictures/scrumboard.png>] [17 <./05Coding/05Pictures/initial
 _roadmap.png>]
 
-LaTeX Warning: Citation `PyAlgoTrade' on page 17 undefined on input line 141.
+LaTeX Warning: Citation `PyAlgoTrade' on page 18 undefined on input line 140.
 
 
-LaTeX Warning: Citation `bt' on page 17 undefined on input line 141.
+LaTeX Warning: Citation `bt' on page 18 undefined on input line 140.
 
 
-LaTeX Warning: Citation `dataprotectionGov' on page 17 undefined on input line 
-157.
-
-
-LaTeX Warning: Citation `dbPerfComparison' on page 17 undefined on input line 1
-62.
-
-
-LaTeX Warning: Citation `dbmsMarketShare' on page 17 undefined on input line 16
-2.
-
-
-LaTeX Warning: Citation `dbPerfComparison' on page 17 undefined on input line 1
-65.
-
-
-LaTeX Warning: Citation `frameworkDataMigration' on page 17 undefined on input 
-line 169.
-
-
-LaTeX Warning: Citation `understandingDataMigration' on page 17 undefined on in
-put line 169.
-
-[17]
-
-LaTeX Warning: Citation `DevOps' on page 18 undefined on input line 179.
+LaTeX Warning: Citation `DevOps' on page 18 undefined on input line 153.
 
 (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2019/09/10 1.8c listings language file
-)
+) [18]
 
-LaTeX Warning: Citation `flake8' on page 18 undefined on input line 214.
-
-
-LaTeX Warning: Citation `black' on page 18 undefined on input line 216.
+LaTeX Warning: Citation `flake8' on page 19 undefined on input line 188.
 
 
-LaTeX Warning: Citation `githooks' on page 18 undefined on input line 216.
+LaTeX Warning: Citation `black' on page 19 undefined on input line 190.
 
 
-LaTeX Warning: Citation `CI_1' on page 18 undefined on input line 221.
+LaTeX Warning: Citation `githooks' on page 19 undefined on input line 190.
 
 
-LaTeX Warning: Citation `CI_2' on page 18 undefined on input line 221.
-
-[18]
-
-LaTeX Warning: Citation `Docker' on page 19 undefined on input line 223.
+LaTeX Warning: Citation `CI_1' on page 19 undefined on input line 195.
 
 
-LaTeX Warning: Citation `Docker Images' on page 19 undefined on input line 223.
+LaTeX Warning: Citation `CI_2' on page 19 undefined on input line 195.
+
+
+LaTeX Warning: Citation `Docker' on page 19 undefined on input line 197.
+
+
+LaTeX Warning: Citation `Docker Images' on page 19 undefined on input line 197.
 
 
 
-LaTeX Warning: Citation `CircleCI' on page 19 undefined on input line 225.
+LaTeX Warning: Citation `CircleCI' on page 19 undefined on input line 199.
 
-<05Coding/05Pictures/circleCI.png, id=83, 555.57562pt x 426.84468pt>
+<05Coding/05Pictures/circleCI.png, id=85, 555.57562pt x 426.84468pt>
 File: 05Coding/05Pictures/circleCI.png Graphic file (type png)
 <use 05Coding/05Pictures/circleCI.png>
 Package pdftex.def Info: 05Coding/05Pictures/circleCI.png  used on input line 2
-42.
+16.
 (pdftex.def)             Requested size: 333.34793pt x 256.10878pt.
-[19 <./05Coding/05Pictures/circleCI.png>]
+[19]
 
 LaTeX Warning: Citation `ConnollyFundamentals' on page 20 undefined on input li
-ne 252.
+ne 226.
 
 
-LaTeX Warning: Citation `AWS' on page 20 undefined on input line 259.
+LaTeX Warning: Citation `AWS' on page 20 undefined on input line 233.
 
 
-LaTeX Warning: Citation `Azure' on page 20 undefined on input line 259.
+LaTeX Warning: Citation `Azure' on page 20 undefined on input line 233.
 
 
-LaTeX Warning: Citation `Heroku' on page 20 undefined on input line 261.
+LaTeX Warning: Citation `Heroku' on page 20 undefined on input line 235.
 
 
-LaTeX Warning: Citation `CDBenefits' on page 20 undefined on input line 263.
+LaTeX Warning: Citation `CDBenefits' on page 20 undefined on input line 237.
 
 
-LaTeX Warning: Citation `Gunicorn' on page 20 undefined on input line 269.
+LaTeX Warning: Citation `Gunicorn' on page 20 undefined on input line 243.
 
-) (./06Testing/testing.tex [20]
+[20 <./05Coding/05Pictures/circleCI.png>]) (./06Testing/testing.tex [21]
 \openout2 = `preamble.tex.aux'.
 
 
 No file preamble.tex.tex.
-) (./07Conclusions/conclusion.tex [21
+) (./07Conclusions/conclusion.tex [22
 
 
 ]
@@ -704,7 +689,7 @@ No file preamble.tex.tex.
 
 
 No file preamble.tex.tex.
-) (./08Appendices/appendices.tex [22
+) (./08Appendices/appendices.tex [23
 
 
 ]
@@ -712,7 +697,7 @@ No file preamble.tex.tex.
 
 
 No file preamble.tex.tex.
-) [23
+) [24
 
 
 ]
@@ -725,11 +710,11 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 6709 strings out of 492167
- 91790 string characters out of 6131558
- 441851 words of memory out of 5000000
- 10869 multiletter control sequences out of 15000+600000
- 7620 words of font info for 28 fonts, out of 8000000 for 9000
+ 6713 strings out of 492167
+ 91831 string characters out of 6131558
+ 442675 words of memory out of 5000000
+ 10871 multiletter control sequences out of 15000+600000
+ 8261 words of font info for 30 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  47i,9n,84p,1028b,1438s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
@@ -739,11 +724,12 @@ ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public
 r17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/sh
 are/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmtt8.pfb>
-Output written on main.pdf (24 pages, 353562 bytes).
+lic/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmtt8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmu10.pfb>
+Output written on main.pdf (25 pages, 366475 bytes).
 PDF statistics:
- 129 PDF objects out of 1000 (max. 8388607)
- 82 compressed objects within 1 object stream
+ 141 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
