@@ -1,5 +1,7 @@
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_dangerously_set_inner_html as inner_html
+import os
 import dash_table
 
 
@@ -77,22 +79,62 @@ def options():
                 [ticker_selector(f"ticker{i}") for i in range(1, 4)],
                 className="container",
             ),
-            html.Button("Submit", "submit-btn", className="button is-large is-primary"),
+            html.Br(),
+            html.Div(
+                html.Button(
+                    "Submit",
+                    "submit-btn",
+                    className="button is-medium is-primary",
+                    style={"background-color": "#f26a4b"},
+                ),
+                className="container has-text-centered",
+            ),
         ],
         className="container",
     )
 
 
-layout = html.Div(
-    # essentially the applications main HTML layout
-    html.Div(
-        [
-            html.H1("Stock Tickers", className="title"),
-            options(),
-            dcc.Loading(
-                [graph({}, id="graph"), table([], "table")], className="container"
-            ),
-        ],
-        className="section",
+def read_nav_html():
+    base_html_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "./templates/dash_navbar.html",
     )
+
+    with open(base_html_path, "r") as fin:
+        base_html = fin.read()
+
+    return base_html
+
+
+layout = html.Div(
+    [
+        html.Div(
+            [
+                inner_html.DangerouslySetInnerHTML(read_nav_html()),
+                html.Hr(style={"margin-top": 0}),
+            ]
+        ),
+        html.Main(
+            [
+                html.Div(
+                    [
+                        html.Div(
+                            [
+                                html.Div(
+                                    html.H1("Dashboard", className="title"),
+                                    className="container",
+                                ),
+                            ],
+                            className="column is-12",
+                        ),
+                        html.Div(options(), className="column is-12"),
+                        dcc.Loading(graph({}, id="graph"), className="column is-9"),
+                        dcc.Loading(table([], "table"), className="column"),
+                    ],
+                    className="columns is-multiline is-vcentered",
+                ),
+            ],
+            className="column",
+        ),
+    ]
 )
