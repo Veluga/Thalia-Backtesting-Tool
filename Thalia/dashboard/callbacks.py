@@ -1,51 +1,37 @@
 import pandas as pd
+import sys
 from . import layout
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
 
-def menu_callbacks(dashapp):
-    dashapp.callback(
-        Output('memory-output', 'data'),
-        [Input('memory_ticker', 'value')])(filter_tickers)
-
-
-def filter_tickers(tickers_selected):
-    if not tickers_selected:
-        # Return all the rows on initial load/no ticker selected.
-        return layout.df.to_dict(orient='records')
-    filtered = layout.df.query('AssetTicker in @tickers_selected')
-
-    return filtered.to_dict(orient='records')
-
-
-def table_callback(dashapp):
-    dashapp.callback(Output('memory-table', 'data'),
-              [Input('memory-output', 'data')])(on_data_set_table)
-
-
-def on_data_set_table(data):
-    if data is None:
+def filter_tickers(tickers_selected, param_state):
+    """
+    Filters the selected tickers from the dropdown menu
+    """
+    if tickers_selected is None:
         raise PreventUpdate
+    if param_state is None:
+        param_state = []
+    filtered = layout.df.query("AssetTicker in @tickers_selected")
+    dict_ver = filtered.to_dict(orient="records")
+    new_store = param_state + (dict_ver)
 
-    return data
+    return new_store
 
 
-def dropdown_callback_table(dashapp):
-    dashapp.callback(Output("memory_ticker", "value"), [Input("memory-table", "value")])
-    (update_dropdown_if_delete)
+def print_output(start_date, end_date):
+    dates = pd.date_range(start_date, end_date, freq="D")
+    return dates
 
 
-def update_dropdown_if_delete(data):
-    if data is None:
-        raise PreventUpdate
+def print_initial_amount_money(money):
+    return "You inputed " + str(money) + "$"
 
-    return data
 
-# TODO: make input and output dynamic, currently only supports 3
-# see this discussion for more info: https://community.plot.ly/t/dynamic-controls-and-dynamic-output-components/5519
-# GOAL is to have the UI support selection and distribution of arbitary numbers of assets
+def print_contribution_amount(money):
+    return "You inputed " + str(money) + "$"
 
 
 def register_callbacks(dashapp):
@@ -57,10 +43,28 @@ def register_callbacks(dashapp):
     """
     dashapp.callback(
         [Output("graph", "figure"), Output("table", "data")],
-        [Input("submit-btn", "n_clicks"), Input("memory-table", "data"),
-        Input("memory-table", "columns")]
-
+        [Input("submit-btn", "n_clicks")],
+        [State("memory-table", "data"), State("memory-table", "columns")],
     )(update_dashboard)
+    # callback for updating the ticker table
+    dashapp.callback(
+        Output("memory-table", "data"),
+        [Input("memory_ticker", "value")],
+        [State("memory-table", "data")],
+    )(filter_tickers)
+    dashapp.callback(
+        Output("date-picker-range-container", "children"),
+        [
+            Input("my-date-picker-range", "start_date"),
+            Input("my-date-picker-range", "end_date"),
+        ],
+    )(print_output)
+    dashapp.callback(
+        Output("output_money", "children"), [Input("input_money", "value")]
+    )(print_initial_amount_money)
+    dashapp.callback(
+        Output("output_contribution", "children"), [Input("input_contribution", "value")]
+    )(print_contribution_amount)
 
 
 def update_dashboard(n_clicks, tickers_selected, proportions_selected):
@@ -69,14 +73,10 @@ def update_dashboard(n_clicks, tickers_selected, proportions_selected):
     and a table of key metrics
     TODO: make proportion selection matter
     """
+
     if n_clicks is None:
         raise PreventUpdate
-
-    # TODO: add error handling (UI facing message) for erronous input
-    all_tickers = tickers_selected
-    all_proportions = proportions_selected
-    print(all_tickers, all_proportions)
-    tickers, proportions = filter_dropdowns(all_tickers, all_proportions)
+    tickers, proportions = filter_dropdowns(tickers_selected, proportions_selected)
     return update_backtest_results(tickers, proportions)
 
 
@@ -142,4 +142,5 @@ def get_data(ticker):
     df = pd.DataFrame(date_rng, columns=["date"])
     df["data"] = np.random.randint(0, 100, size=(len(date_rng)))
     return df
-    print(filter_tickers('RCK'))
+    print(filter_tickers("RCK"))
+
