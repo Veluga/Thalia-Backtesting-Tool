@@ -1,4 +1,3 @@
-
 import pandas_datareader as pdread
 import pandas as pd
 import nomics
@@ -17,6 +16,7 @@ class DataHarvester:
         self.api_list = api_list
         self.conn = FdMultiController.fd_connect("asset", "rw")
         self.log = Logger()
+
     """
         Makes the api call based on the asset_class and ticker given.
         Also need a start and end date.
@@ -27,17 +27,15 @@ class DataHarvester:
         then the oldest available date is returned. 
     """
 
-
     def get_data(self, asset_class, ticker, start_date, end_date):
-    
+
         for api in self.api_list:
             if asset_class in api.supported_assets:
-               
-               self.log.log_api_call(api.name,asset_class, ticker, start_date, end_date)
-               df = api.call_api( asset_class, ticker, start_date, end_date)
-               self.log.log_simple("api returned " + str(type(df)))
-               return df
-    
+
+                self.log.log_api_call(asset_class, ticker, start_date, end_date)
+                df = api.call_api(asset_class, ticker, start_date, end_date)
+                self.log.log_simple("api returned " + str(type(df)))
+                return df
 
     """
         Returns the current index of a api from the persitant data.
@@ -45,7 +43,7 @@ class DataHarvester:
     """
 
     def current_index(self, api):
-       
+
         position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
         return position_frame["Position Universal"][0]
 
@@ -81,7 +79,6 @@ class DataHarvester:
 
         ticker_under_index = up_list.iloc[index]
         ticker_name = up_list.iloc[index]["Ticker"]
-        
 
         start_date = ""
         # set end_date to yesterday
@@ -92,6 +89,7 @@ class DataHarvester:
         # if end_date and Last Update are the same day it means that
         # a full circle has been done and updating can stop for this api
         if end_date == ticker_under_index["Last_Update"]:
+            self.log.log_simple("Updated all tickers for today for with current API")
             return "full_circle"
 
         if pd.isna(ticker_under_index["Last_Update"]):
@@ -111,9 +109,11 @@ class DataHarvester:
         """
             Change this after data format accross apis has been standardized.
         """
-        
+
         if type(data_set_retrieved) != int:
-            self.log.log_simple("Call for: "+ticker_name +"worked.\n Writing to update_list and db")
+            self.log.log_simple(
+                "Call for: " + ticker_name + "worked.\n Writing to update_list and db"
+            )
             start_date = data_set_retrieved["Date"][0]
 
             self.write_to_up_list(api, start_date, end_date)
@@ -121,6 +121,7 @@ class DataHarvester:
             return 0
         else:
             return 1
+
     """
         Writes back in the persitant data update list.
         This is done after updating a ticker.
@@ -133,7 +134,7 @@ class DataHarvester:
         index = self.current_index(api)
         up_list.loc[index, "Last_Update"] = end_date
         up_list.loc[index, "Earliest_Record"] = start_date
-        
+
         up_list.to_csv(
             "../persistant_data/update_list_" + api.name + ".csv", index=False
         )
@@ -148,9 +149,18 @@ class DataHarvester:
         # go trough APIs
 
         for api in self.api_list:
+            self.log.log_simple(
+                "Updating for "
+                + api.name
+                + " doing "
+                + str(api.api_calls_per_run)
+                + " calls"
+            )
+
             for x in range(api.api_calls_per_run):
                 answer = self.update_on_index(api)
                 if answer == 0:
+                    
                     self.next_index(api)
                 elif answer == 1:
                     self.next_index(api)
@@ -162,6 +172,9 @@ class DataHarvester:
     """
 
     def add_interpolation_to_df(self, df):
+        self.log.log_simple("Start interpolation" +
+                    "dataframe shape: " + str(df.shape)
+        )
 
         df["Interpolated"] = 0
         interpolated_df = pd.DataFrame(
@@ -176,6 +189,7 @@ class DataHarvester:
                 "Interpolated",
             ]
         )
+
         interpolated_df.reset_index()
         for index_rows in range(df.shape[0] - 1):
             today = df["Date"][index_rows]
@@ -189,23 +203,30 @@ class DataHarvester:
             df_today = df.iloc[index_rows]
             df_today_app = df_today.to_frame().transpose()
 
-            interpolated_df = interpolated_df.append(df_today_app, ignore_index=True,sort=False)
+            interpolated_df = interpolated_df.append(
+                df_today_app, ignore_index=True, sort=False
+            )
 
             if delta.days > 1:
-                
+
                 for index_days in range(delta.days - 1):
                     interpolated_row = df_today.copy()
-                    
+
                     interpolated_row["Date"] = today + timedelta(days=index_days + 1)
-                    
+
                     interpolated_row["Interpolated"] = 1
                     interpolated_row = interpolated_row.to_frame().transpose()
 
                     rows_interpolated.append(interpolated_row)
 
-                df_rows = pd.concat(rows_interpolated,ignore_index=True,sort=True)
-                
-                interpolated_df = interpolated_df.append(df_rows, ignore_index=True,sort=False)
+                df_rows = pd.concat(rows_interpolated, ignore_index=True, sort=True)
+
+                interpolated_df = interpolated_df.append(
+                    df_rows, ignore_index=True, sort=False
+                )
+        self.log.log_simple("Start interpolation" +
+                    "dataframe shape: " + str(df.shape)
+        )
 
         return interpolated_df
 
@@ -218,6 +239,7 @@ class DataHarvester:
     def write_to_db(self, dataset_to_sql, ticker_name):
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
         df_to_send["AssetTicker"] = ticker_name
+
 
         """
         last changes in order to conform with the finda documentation
@@ -238,9 +260,12 @@ class DataHarvester:
                 "ADate": df_to_send["Date"],
             }
         )
+
         final_df = final_df.set_index(["AssetTicker", "ADate"])
         print(final_df[:5])
-        #self.conn.write.write_asset_values(final_df)
+        
+        self.log.log_simple("Writing interpolted dataframe to DB")
+        # self.conn.write.write_asset_values(final_df)
 
     """
         It is important to verify that the tickers are 
