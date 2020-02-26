@@ -121,6 +121,7 @@ def contribution_amount():
                 type="number",
                 
             ),
+             html.Label("Contribution frequency", className="label"),
             html.Div(id="output_contribution"),
             dcc.Dropdown(
                 id="Contribution_dropdown",
