@@ -39,7 +39,7 @@ def test_new_user(client):
 
 
 def test_duplicate_user(client, default_user):
-    new_user = user.User(username=default_user['username'])
+    new_user = user.User(username=default_user["username"])
     new_user.set_password("test")
     db.session.add(new_user)
     with pytest.raises(sqlalchemy.exc.IntegrityError):
