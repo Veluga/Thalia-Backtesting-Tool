@@ -113,7 +113,7 @@ class DataHarvester:
         """
         
         if type(data_set_retrieved) != int:
-            log.log_simple("Call for: "+ticker_name +"worked.\n Writing to update_list and db")
+            self.log.log_simple("Call for: "+ticker_name +"worked.\n Writing to update_list and db")
             start_date = data_set_retrieved["Date"][0]
 
             self.write_to_up_list(api, start_date, end_date)
@@ -146,7 +146,6 @@ class DataHarvester:
 
     def start_updating(self):
         # go trough APIs
-
         for api in self.api_list:
             for x in range(api.api_calls_per_run):
                 answer = self.update_on_index(api)
@@ -240,6 +239,7 @@ class DataHarvester:
         )
         final_df = final_df.set_index(["AssetTicker", "ADate"])
         print(final_df[:5])
+        
         #self.conn.write.write_asset_values(final_df)
 
     """
