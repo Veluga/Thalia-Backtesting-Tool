@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import sys
 from logger import Logger
 
+
 # find a better way to reach Finda
 sys.path.append("../../../")
 from Finda import FdMultiController
@@ -112,8 +113,9 @@ class DataHarvester:
         """
         
         if type(data_set_retrieved) != int:
+            log.log_simple("Call for: "+ticker_name +"worked.\n Writing to update_list and db")
             start_date = data_set_retrieved["Date"][0]
-        
+
             self.write_to_up_list(api, start_date, end_date)
             self.write_to_db(data_set_retrieved, ticker_name)
             return 0
@@ -131,6 +133,7 @@ class DataHarvester:
         index = self.current_index(api)
         up_list.loc[index, "Last_Update"] = end_date
         up_list.loc[index, "Earliest_Record"] = start_date
+        
         up_list.to_csv(
             "../persistant_data/update_list_" + api.name + ".csv", index=False
         )
