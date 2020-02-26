@@ -41,12 +41,13 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            python -m pytest
-      - store_artifacts:
-          path: test
-          destination: test-results
+            mkdir test-results
+            python -m pytest --junitxml=test-results/junit.xml
       - store_test_results:
-          path: test
+          path: test-results
+
+      - store_artifacts:
+          path: test-results  
     deploy:
       docker:
         - image: circleci/python:3.6.2-stretch-browsers
