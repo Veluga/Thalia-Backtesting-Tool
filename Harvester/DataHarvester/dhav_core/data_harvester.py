@@ -113,7 +113,7 @@ class DataHarvester:
         """
         
         if type(data_set_retrieved) != int:
-            log.log_simple("Call for: "+ticker_name +"worked.\n Writing to update_list and db")
+            self.log.log_simple("Call for: "+ticker_name +"worked.\n Writing to update_list and db")
             start_date = data_set_retrieved["Date"][0]
 
             self.write_to_up_list(api, start_date, end_date)
