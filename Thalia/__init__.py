@@ -42,6 +42,7 @@ def register_dashapps(app):
         dashapp.title = "Backtest dashboard"
         dashapp.layout = layout
         register_callbacks(dashapp)
+
     _protect_dashviews(dashapp)
 
 
