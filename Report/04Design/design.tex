@@ -60,7 +60,7 @@ As alluded to earlier, functions within the library depend on a Strategy object 
 
 \begin{lstlisting}[language=Python, caption=setup.py - Development environment, label=lst:Development_env]
 def total_return(strat) -> pd.Series:
-\begin{lstlisting}
+\end{lstlisting}
 will calculate a series of total return values ordered by date within the date range specified in the passed Strategy instance.
 
 Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it "provides support for fast correctly-rounded decimal floating point arithmetic" \cite{PyDecimal}. As rounding errors and imprecision are unaccaptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
