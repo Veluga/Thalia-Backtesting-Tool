@@ -224,8 +224,8 @@ class DataHarvester:
                 interpolated_df = interpolated_df.append(
                     df_rows, ignore_index=True, sort=False
                 )
-        self.log.log_simple("Start interpolation" +
-                    "dataframe shape: " + str(df.shape)
+        self.log.log_simple("Data Frame Interpolated" +
+                    "dataframe shape: " + str(interpolated_df.shape)
         )
 
         return interpolated_df

@@ -2,9 +2,13 @@
 .DS_STORE
 *.pyc
 venv/*
+# Harvester stuff
 Harvester/DataHarvester/darhv/*
 Harvester/DataHarvester/persistant_data/
 Harvester/DataHarvester/persistant_data/*
+Harvester/DataHarvester/dhav_core/dh.log
+
+
 __pycache__.eggs
 *.egg*
 .coverage
