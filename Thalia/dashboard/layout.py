@@ -175,7 +175,7 @@ layout = html.Div(
             [
                 inner_html.DangerouslySetInnerHTML(read_nav_html("dash_navbar.html")),
                 html.Hr(style={"margin-top": 0}),
-            ]
+            ],
         ),
         html.Div(
             html.Main(
@@ -191,6 +191,7 @@ layout = html.Div(
                             html.Div(
                                 html.H1("Ticker Selection", className="title"),
                                 className="column is-12",
+                                id="tickers",
                             ),
                             html.Div(
                                 [
@@ -209,6 +210,7 @@ layout = html.Div(
                                             className="level-item",
                                         ),
                                         className="level-left",
+                                        id="dashboard",
                                     ),
                                     html.Div(
                                         html.Div(

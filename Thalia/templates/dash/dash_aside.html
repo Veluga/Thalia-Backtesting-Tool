@@ -1,11 +1,18 @@
+<style>
+    .is-fixed {
+        position: fixed;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="../../static/scripts/scroll-down.js"></script>
 
-<nav class="menu">
+<nav class="menu is-fixed">
     <p class="menu-label">
     Main
     </p>
     <ul class="menu-list">  
-    <li><a class="is-active">Ticker Selection</a></li>
-    <li><a>Dashboard</a></li>
+    <li><a href="#tickers" class="is-active">Ticker Selection</a></li>
+    <li><a href="#dashboard">Dashboard</a></li>
     </ul>
     <p class="menu-label">
     Metrics
