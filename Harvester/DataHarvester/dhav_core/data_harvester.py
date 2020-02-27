@@ -1,9 +1,10 @@
+from logger import Logger as lger
 import pandas_datareader as pdread
 import pandas as pd
 import nomics
 from datetime import datetime, timedelta
 import sys
-from logger import Logger as Logger
+
 
 
 # find a better way to reach Finda
@@ -15,7 +16,7 @@ class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
         self.conn = FdMultiController.fd_connect("asset", "rw")
-        self.log = Logger()
+        self.log = lger()
 
     """
         Makes the api call based on the asset_class and ticker given.
@@ -119,7 +120,7 @@ class DataHarvester:
                 + "\n Writing to the database."
             )
 
-            start_date = data_set_retrieved["Date"][0]
+            start_date = data_set_retrieved["ADate"][0]
 
             self.write_to_up_list(api, start_date, end_date)
             self.write_to_db(data_set_retrieved, ticker_name)
@@ -189,25 +190,13 @@ class DataHarvester:
     def add_interpolation_to_df(self, df):
         self.log.log_simple("Start interpolation" + "dataframe shape: " + str(df.shape))
 
-        df["Interpolated"] = 0
-        interpolated_df = pd.DataFrame(
-            columns=[
-                "Date",
-                "High",
-                "Low",
-                "Open",
-                "Close",
-                "Volume",
-                "Adj Close",
-                "Interpolated",
-            ]
-        )
+        interpolated_df = df.copy()
 
         interpolated_df.reset_index()
         for index_rows in range(df.shape[0] - 1):
-            today = df["Date"][index_rows]
+            today = df["ADate"][index_rows]
 
-            tomorrow = df["Date"][index_rows + 1]
+            tomorrow = df["ADate"][index_rows + 1]
 
             delta = tomorrow - today
 
@@ -225,9 +214,9 @@ class DataHarvester:
                 for index_days in range(delta.days - 1):
                     interpolated_row = df_today.copy()
 
-                    interpolated_row["Date"] = today + timedelta(days=index_days + 1)
+                    interpolated_row["ADate"] = today + timedelta(days=index_days + 1)
 
-                    interpolated_row["Interpolated"] = 1
+                    interpolated_row["IsInterpolated"] = 1
                     interpolated_row = interpolated_row.to_frame().transpose()
 
                     rows_interpolated.append(interpolated_row)
@@ -250,126 +239,21 @@ class DataHarvester:
     """
 
     def write_to_db(self, dataset_to_sql, ticker_name):
+        
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
-        df_to_send["AssetTicker"] = ticker_name
-
+        
         """
         last changes in order to conform with the finda documentation
         can be moved upper in the code but at this time getting things to work
         is higher priority
         """
-        # and this is where the reality colides with our ideal model
+        # and this is where reality colides with our ideal model
         # in the naming scheme and the meanings
-
-        final_df = pd.DataFrame(
-            {
-                "AOpen": df_to_send["Open"],
-                "AClose": df_to_send["Adj Close"],
-                "AHigh": df_to_send["High"],
-                "ALow": df_to_send["Low"],
-                "IsInterpolated": df_to_send["Interpolated"],
-                "AssetTicker": df_to_send["AssetTicker"],
-                "ADate": df_to_send["Date"],
-            }
-        )
-
-        final_df = final_df.set_index(["AssetTicker", "ADate"])
-        print(final_df[:5])
-
+        
+        
+        df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
+        print(df_to_send[:20])
         self.log.log_simple("Writing interpolted dataframe to DB")
-        # self.conn.write.write_asset_values(final_df)
+        self.conn.write.write_asset_values(df_to_send)
 
-    """
-        It is important to verify that the tickers are 
-        printed in the correct format. In order to inspect
-        what data will be put in the database.
-
-        One of the initial ideas was to have the harvester in a
-        comand line format.
-    """
-
-    def show_all_tickers_hr(self):
-
-        all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
-        print(all_bonds)
-        print("Data for bonds tickers: https://etfdb.com/etfs/bond/treasuries/")
-
-        all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
-        print(all_index_funds)
-        print(
-            "Data for index funds tickers: https://www.marketwatch.com/tools/mutual-fund/top25largest"
-        )
-
-        all_currency = pd.read_csv("../tickers/currency_tickers.csv")
-        print(all_currency)
-        print(
-            "https://gist.github.com/Chintan7027/fc4708d8b5c8d1639a7c#file-currency-symbols-csv"
-        )
-
-        all_crypto = pd.read_csv("../tickers/crypto_tickers.csv")
-        print(all_crypto)
-        print("Those are the big ones at the time of making this: 31.1.2020")
-
-        all_comodities = pd.read_csv("../tickers/comodities_future_tickers.csv")
-        print(all_comodities)
-        print("https://www.purefinancialacademy.com/futures-markets")
-
-    """
-        Inspect specific asset class. Also shows the data source.
-        Not so usefull now but it was helped with starting off the project.
-        Will be replaced with a tickers class instead of whatever is here now.
-        Not important for the time beeing.
-        It also need manual adding of tickers wich is quite bad.
-    """
-
-    def show_tickers_for(self, asset_class):
-
-        if asset_class == "index_fund":
-            all_index_funds = pd.read_csv("../tickers/index_funds_tickers.csv")
-            print(all_index_funds)
-            print(
-                "Data for index funds tickers: https://www.marketwatch.com/tools/mutual-fund/top25largest"
-            )
-        elif asset_class == "bonds":
-            all_bonds = pd.read_csv("../tickers/bonds_tickers.csv")
-            print(all_bonds)
-            print("Data for bonds tickers: https://etfdb.com/etfs/bond/treasuries/")
-
-        elif asset_class == "currency":
-            all_currency = pd.read_csv("../tickers/currency_tickers.csv")
-            print(all_currency)
-            print(
-                "https://gist.github.com/Chintan7027/fc4708d8b5c8d1639a7c#file-currency-symbols-csv"
-            )
-
-        elif asset_class == "crypto":
-            all_crypto = pd.read_csv("../tickers/crypto_tickers.csv")
-            print(all_crypto)
-            print("Those are the big ones at the time of making this: 31.1.2020")
-
-        elif asset_class == "comodities_future":
-            all_comodities = pd.read_csv("../tickers/comodities_future_tickers.csv")
-            print(all_comodities)
-            print("https://www.purefinancialacademy.com/futures-markets")
-        else:
-            print("asset_class_not_available")
-
-    """
-        Returns the tickers for a asset class.
-        Again this can be usefull if you are doing operations on tickers and stuff.
-    """
-
-    def get_tickers(self, asset_class):
-        if asset_class == "bonds":
-            return pd.read_csv("../tickers/bonds_tickers.csv")
-        elif asset_class == "index_funds":
-            return pd.read_csv("../tickers/index_funds_tickers.csv")
-        elif asset_class == "currency":
-            return pd.read_csv("../tickers/currency_tickers.csv")
-        elif asset_class == "crypto":
-            return pd.read_csv("../tickers/crypto_tickers.csv")
-        elif asset_class == "comodities_future":
-            return pd.read_csv("../tickers/comodities_future_tickers.csv")
-        else:
-            print("asset_class_unavailable")
-
+    
