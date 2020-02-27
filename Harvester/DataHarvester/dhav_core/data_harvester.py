@@ -152,13 +152,14 @@ class DataHarvester:
 
     def start_updating(self):
         # go trough APIs
-        self.log.log_simple("Started update at: " + str(datetime.now()))
+        self.log.log_simple("\n\nStarted update at: " + str(datetime.now()))
 
         for api in self.api_list:
             
             self.log.log_simple(
-                "\n\nStarted updating " + api.name + " at " + str(datetime.now())
+                "Started updating " + api.name + " at " + str(datetime.now())
             )
+            
             self.log.log_simple(
                 "Updating for "
                 + api.name
