@@ -112,8 +112,13 @@ class DataHarvester:
 
         if type(data_set_retrieved) != int:
             self.log.log_simple(
-                "Call for: " + ticker_name + "worked.\n Writing to update_list and db"
+                "Received data frame with data between "
+                + str(start_date)
+                + " - "
+                + str(end_date)
+                +"\n Writing to the database."
             )
+           
             start_date = data_set_retrieved["Date"][0]
 
             self.write_to_up_list(api, start_date, end_date)
@@ -147,8 +152,13 @@ class DataHarvester:
 
     def start_updating(self):
         # go trough APIs
+        self.log.log_simple("Started update at: " + str(datetime.now()))
 
         for api in self.api_list:
+            
+            self.log.log_simple(
+                "\n\nStarted updating " + api.name + " at " + str(datetime.now())
+            )
             self.log.log_simple(
                 "Updating for "
                 + api.name
@@ -160,21 +170,23 @@ class DataHarvester:
             for x in range(api.api_calls_per_run):
                 answer = self.update_on_index(api)
                 if answer == 0:
-                    
+
                     self.next_index(api)
                 elif answer == 1:
                     self.next_index(api)
                 elif answer == "full_circle":
                     break
+            self.log.log_simple(
+                "Finished updating " + api.name + " at " + str(datetime.now())
+            )
+        self.log.log_simple("Finished all  updates at: " + str(datetime.now()))
 
     """
         Interpolation 
     """
 
     def add_interpolation_to_df(self, df):
-        self.log.log_simple("Start interpolation" +
-                    "dataframe shape: " + str(df.shape)
-        )
+        self.log.log_simple("Start interpolation" + "dataframe shape: " + str(df.shape))
 
         df["Interpolated"] = 0
         interpolated_df = pd.DataFrame(
@@ -224,8 +236,8 @@ class DataHarvester:
                 interpolated_df = interpolated_df.append(
                     df_rows, ignore_index=True, sort=False
                 )
-        self.log.log_simple("Data Frame Interpolated" +
-                    "dataframe shape: " + str(interpolated_df.shape)
+        self.log.log_simple(
+            "Data Frame Interpolated" + "dataframe shape: " + str(interpolated_df.shape)
         )
 
         return interpolated_df
@@ -239,7 +251,6 @@ class DataHarvester:
     def write_to_db(self, dataset_to_sql, ticker_name):
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
         df_to_send["AssetTicker"] = ticker_name
-
 
         """
         last changes in order to conform with the finda documentation
@@ -263,7 +274,7 @@ class DataHarvester:
 
         final_df = final_df.set_index(["AssetTicker", "ADate"])
         print(final_df[:5])
-        
+
         self.log.log_simple("Writing interpolted dataframe to DB")
         # self.conn.write.write_asset_values(final_df)
 

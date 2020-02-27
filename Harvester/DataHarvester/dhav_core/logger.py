@@ -21,8 +21,3 @@ class Logger:
                              + " start_date : "+start_date 
                              + " end_date: " + end_date)
 
-    def extended_log(self,message,df):
-        '''
-            Will implement this after merging.
-        '''
-        pass
