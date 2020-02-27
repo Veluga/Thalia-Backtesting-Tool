@@ -25,14 +25,18 @@ class ApiObject:
         pass
 
     def yahoo_df_format(self,df,ticker ):
-        df = df.rename({"Date"})
-        
-        
-        df["ADate"] = pd.to_datetime(
-                df["ADate"]
+        df.reset_index(level=0, inplace=True)
+        df["Date"] = pd.to_datetime(
+                df["Date"]
             ).apply(lambda x: x.date())
 
+        df = df.rename(columns={"Date":"ADate","Adj Close":"AClose","Low":"ALow","High":"AHigh","Open":"AOpen"})
+        df["AssetTicker"] = ticker
+        df["IsInterpolated"] = 0
 
+        df = df.drop(columns=["Volume","Close"])
+        print(df[:5])
+        return df
 
     def yahoo_finance(self, asset_class, ticker, start_date, end_date):
         try:
@@ -40,7 +44,6 @@ class ApiObject:
                 ticker, start=start_date, end=end_date, data_source="yahoo"
             )
 
-          
         except pdread._utils.RemoteDataError as err:
             print("API call did not work", err)
             return 1  # return 1 if fail to get dataframe
