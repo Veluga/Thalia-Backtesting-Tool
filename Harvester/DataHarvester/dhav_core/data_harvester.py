@@ -3,7 +3,7 @@ import pandas as pd
 import nomics
 from datetime import datetime, timedelta
 import sys
-from logger import Logger
+from logger import Logger as Logger
 
 
 # find a better way to reach Finda
