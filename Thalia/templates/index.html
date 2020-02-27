@@ -77,13 +77,58 @@
 <div class="card">
   <section id="section3">
 
-      {% if current_user.is_anonymous %}
+      <div class="card-content">
+        <div class="columns is-vcentered">
+          <div class="column is-half ">
+            {% if current_user.is_anonymous %}
+              <p class="title">
+                <h2 class="title is-3">Still with us?</h2>
+              </p>
+              <h1 class="subtitle is-4 has-text-weight-light has-text-black has-text-justified">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto quod sint adipisci dolorem fugiat tenetur, voluptatem labore. Consequuntur atque ducimus excepturi, ad nam nisi tempora similique beatae ipsa ratione obcaecati?
+              </h1>
+            {% else %}
+              <p class="title">
+                <h2 class="title is-3 has-text-centered">Already signed in?</h2>
+              </p>
+              <h1 class="subtitle is-4 has-text-weight-light has-text-black has-text-centered">
+                Why not jump right in and create your dream portfolio?
+              </h1>
+            {% endif %}
+          </div>
+          <!-- Register -->
+          <div class="column">
+            <section id="contact" class="section section-light-grey is-medium">
+              <div class="container">
+                {% if current_user.is_anonymous %}
+                  <div class="title-wrapper has-text-centered">
+                      <h2 class="title is-2 is-spaced">Register</h2>
+                      <div class="divider is-centered"></div>
+                  </div>
+          
+                  <div class="content-wrapper">
+                      <div class="columns">
+                          <div class="column">
 
-      {% include 'error.html' %}
-      {% include 'register_form.html' %}
-
-      {% endif %}
-
+                              {% include 'error.html' %}
+                              {% include 'register_form.html' %}
+                            </div>
+                          </div>
+                        </div>
+                {% else %}
+                  <div class="content-wrapper has-text-centered">
+                    <a href="/dashboard">
+                        <img src="/static/images/Logos/small_logo.png" alt="">
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+          </section>
+          </div>
+          <!-- /Register -->
+        </div>
+      </div>
+        
     <footer class="card-footer">
       <!-- Put social media tags here -->
     </footer>

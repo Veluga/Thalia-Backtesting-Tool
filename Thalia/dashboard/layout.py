@@ -5,15 +5,6 @@ import os
 import dash_table
 
 
-def graph(figure, id):
-    """
-    exists purely to be called from callbacks
-
-    TODO: evaluate if antipattern? wrong type of abstraction?
-    """
-    return dcc.Graph(figure=figure, id=id)
-
-
 def table(data, id):
     """
     exists purely to be called from callbacks
@@ -94,10 +85,82 @@ def options():
     )
 
 
-def read_nav_html():
+def graph_box(graph_name, figure, id):
+    return html.Div(
+        html.Div(
+            [
+                html.P(graph_name, className="panel-heading"),
+                html.Div(dcc.Graph(figure=figure, id=id), className="panel-block"),
+            ],
+            className="panel",
+        ),
+        className="column is-6",
+    )
+
+
+def box(values_dict):
+    return html.Div(
+        [
+            html.Div(
+                [
+                    html.Div(list(values_dict.keys())[0], className="heading"),
+                    html.Div(str(list(values_dict.values())[0]), className="title"),
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.Div(
+                                        list(values_dict.keys())[1], className="heading"
+                                    ),
+                                    html.Div(
+                                        str(list(values_dict.values())[1]),
+                                        className="title is-5",
+                                    ),
+                                ],
+                                className="level-item",
+                            ),
+                            html.Div(
+                                [
+                                    html.Div(
+                                        list(values_dict.keys())[2], className="heading"
+                                    ),
+                                    html.Div(
+                                        str(list(values_dict.values())[2]),
+                                        className="title is-5",
+                                    ),
+                                ],
+                                className="level-item",
+                            ),
+                            html.Div(
+                                [
+                                    html.Div(
+                                        list(values_dict.keys())[3], className="heading"
+                                    ),
+                                    html.Div(
+                                        str(list(values_dict.values())[3]),
+                                        className="title is-5",
+                                    ),
+                                ],
+                                className="level-item",
+                            ),
+                        ],
+                        className="level",
+                    ),
+                ],
+                className="box",
+            )
+        ],
+        className="column is-4",
+    )
+
+
+def read_nav_html(html_file):
     base_html_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        "./templates/dash_navbar.html",
+        os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "./templates/dash",
+        ),
+        html_file,
     )
 
     with open(base_html_path, "r") as fin:
@@ -110,31 +173,98 @@ layout = html.Div(
     [
         html.Div(
             [
-                inner_html.DangerouslySetInnerHTML(read_nav_html()),
+                inner_html.DangerouslySetInnerHTML(read_nav_html("dash_navbar.html")),
                 html.Hr(style={"margin-top": 0}),
             ]
         ),
-        html.Main(
-            [
-                html.Div(
-                    [
-                        html.Div(
-                            [
-                                html.Div(
-                                    html.H1("Dashboard", className="title"),
-                                    className="container",
-                                ),
-                            ],
-                            className="column is-12",
+        html.Div(
+            html.Main(
+                [
+                    html.Aside(
+                        inner_html.DangerouslySetInnerHTML(
+                            read_nav_html("dash_aside.html")
                         ),
-                        html.Div(options(), className="column is-12"),
-                        dcc.Loading(graph({}, id="graph"), className="column is-9"),
-                        dcc.Loading(table([], "table"), className="column"),
-                    ],
-                    className="columns is-multiline is-vcentered",
-                ),
-            ],
-            className="column",
+                        className="column is-2",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                html.H1("Ticker Selection", className="title"),
+                                className="column is-12",
+                            ),
+                            html.Div(
+                                [
+                                    html.Div(
+                                        html.Div(options(), className="box"),
+                                        className="column is-12",
+                                    ),
+                                ],
+                                className="columns is-multiline is-vcentered",
+                            ),
+                            html.Div(
+                                [
+                                    html.Div(
+                                        html.Div(
+                                            html.Div("Dashboard", className="title"),
+                                            className="level-item",
+                                        ),
+                                        className="level-left",
+                                    ),
+                                    html.Div(
+                                        html.Div(
+                                            html.Div(
+                                                "March 8, 2017 - April 6, 2017",
+                                                className="subtitle",
+                                            ),
+                                            className="level-item",
+                                        ),
+                                        className="level-right",
+                                    ),
+                                ],
+                                className="level",
+                            ),
+                            html.Div(
+                                [
+                                    box(
+                                        {
+                                            "Top Seller Total": 56950,
+                                            "Sales": 250000,
+                                            "Overall": 750000,
+                                            "Sales %": 25,
+                                        }
+                                    ),
+                                    box(
+                                        {
+                                            "Top Seller Total": 56950,
+                                            "Sales": 250000,
+                                            "Overall": 750000,
+                                            "Sales %": 25,
+                                        }
+                                    ),
+                                    box(
+                                        {
+                                            "Top Seller Total": 56950,
+                                            "Sales": 250000,
+                                            "Overall": 750000,
+                                            "Sales %": 25,
+                                        }
+                                    ),
+                                    graph_box("Overall Graph", figure={}, id="graph"),
+                                    graph_box("Another Graph", figure={}, id="graph2"),
+                                    graph_box("More Graphs", figure={}, id="graph3"),
+                                    graph_box(
+                                        "Graphs Graphs Graphs", figure={}, id="graph4"
+                                    ),
+                                ],
+                                className="columns is-multiline",
+                            ),
+                        ],
+                        className="column is-10",
+                    ),
+                ],
+                className="columns",
+            ),
+            className="section",
         ),
     ]
 )

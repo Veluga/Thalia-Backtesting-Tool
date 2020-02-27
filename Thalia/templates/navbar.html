@@ -51,7 +51,7 @@
             Log in
           </a>
           {% else %}
-          <button class="button is-white" disabled>{{ current_user.username }}</button>
+          <button class="button is-white" disabled> Hi {{ current_user.username }}!</button>
           <a href="{{ url_for('main.logout') }}" class="button is-white">
             Log out
           </a>
