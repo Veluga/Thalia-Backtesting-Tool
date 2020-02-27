@@ -190,7 +190,8 @@ class DataHarvester:
     def add_interpolation_to_df(self, df):
         self.log.log_simple("Start interpolation" + "dataframe shape: " + str(df.shape))
 
-        interpolated_df = df.copy()
+        interpolated_df = pd.DataFrame(columns=df.columns)
+
 
         interpolated_df.reset_index()
         for index_rows in range(df.shape[0] - 1):
@@ -252,8 +253,6 @@ class DataHarvester:
         
         
         df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
-        print(df_to_send[:20])
+        
         self.log.log_simple("Writing interpolted dataframe to DB")
         self.conn.write.write_asset_values(df_to_send)
-
-    

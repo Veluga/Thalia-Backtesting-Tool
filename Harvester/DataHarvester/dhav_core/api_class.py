@@ -35,7 +35,7 @@ class ApiObject:
         df["IsInterpolated"] = 0
 
         df = df.drop(columns=["Volume","Close"])
-        print(df[:5])
+       
         return df
 
     def yahoo_finance(self, asset_class, ticker, start_date, end_date):
@@ -49,6 +49,27 @@ class ApiObject:
             return 1  # return 1 if fail to get dataframe
 
         return self.yahoo_df_format(dataframe_retrieved,ticker)
+
+    def nomics_format(self,df,ticker):
+        df = pd.DataFrame.from_dict(df)
+        df = df.rename(
+            columns={
+                "timestamp": "ADate",
+                "rate": "AClose",
+            }  # this is close in fact but crypto is wierd
+        )
+
+        df["ADate"] = [
+            datetime.strptime(word.split("T")[0], "%Y-%m-%d").date()
+            for word in df["ADate"]
+        ]
+        df["AHigh"] = np.nan
+        df["ALow"] = np.nan
+        df["AOpen"] = np.nan
+        df["AssetTicker"] = ticker
+        df["IsInterpolated"] = 0
+
+        return df
 
     def nomics(self, asset_class, ticker, start_date, end_date):
 
@@ -65,23 +86,10 @@ class ApiObject:
         )
 
         # implement standard API wrapper and data format across data harvester
-
-        currency_pd = pd.DataFrame.from_dict(currency)
-        currency_pd = currency_pd.rename(
-            columns={
-                "timestamp": "Date",
-                "rate": "Adj Close",
-            }  # this is close in fact but crypto is wierd
-        )
-
-        if currency_pd.empty:
+        if(len(currency) == 0):
             return 1
 
-        currency_pd["Date"] = [
-            datetime.strptime(word.split("T")[0], "%Y-%m-%d").date()
-            for word in currency_pd["Date"]
-        ]
-        return currency_pd
+        return self.nomics_format(currency,ticker)
 
     def call_api(self, asset_class, ticker, start_date, end_date):
         if self.name == "yfinance":
