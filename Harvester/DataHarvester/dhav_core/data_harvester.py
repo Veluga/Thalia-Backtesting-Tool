@@ -3,7 +3,7 @@ import pandas as pd
 import nomics
 from datetime import datetime, timedelta
 import sys
-from logger import Logger as lger
+from own_logger import Logger as lger
 
 
 
