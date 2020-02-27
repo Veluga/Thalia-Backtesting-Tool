@@ -116,9 +116,9 @@ class DataHarvester:
                 + str(start_date)
                 + " - "
                 + str(end_date)
-                +"\n Writing to the database."
+                + "\n Writing to the database."
             )
-           
+
             start_date = data_set_retrieved["Date"][0]
 
             self.write_to_up_list(api, start_date, end_date)
@@ -155,11 +155,11 @@ class DataHarvester:
         self.log.log_simple("\n\nStarted update at: " + str(datetime.now()))
 
         for api in self.api_list:
-            
+
             self.log.log_simple(
                 "Started updating " + api.name + " at " + str(datetime.now())
             )
-            
+
             self.log.log_simple(
                 "Updating for "
                 + api.name

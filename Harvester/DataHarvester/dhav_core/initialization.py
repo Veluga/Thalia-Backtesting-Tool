@@ -13,8 +13,7 @@ class Initializer:
     def __init__(self, api_list):
         self.api_list = api_list
 
-
-    '''
+    """
         Based on the tickers available in the tickers folder
         this creates a update_list for each api
         each ticker will have Last Record,Earliest Record,
@@ -22,7 +21,7 @@ class Initializer:
 
         The update list is stored in persistant_data folder
         it is of the form: update_list_<api_name>.csv 
-    '''
+    """
 
     def construct_update_list(self):
         pd.set_option("display.max_rows", None)
@@ -49,13 +48,13 @@ class Initializer:
 
         return 0
 
-    '''
+    """
         The update position of each API is stored in a file
         called <api_name>_position.csv in the persistant_data
         folder.
         With each api call that gets data up until the current day
         the position is incremented by 1 by the DataHarvester
-    '''
+    """
 
     def construct_position(self):
         names_dict = {}

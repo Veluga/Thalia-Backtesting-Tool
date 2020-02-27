@@ -31,7 +31,6 @@ class DataBaseConstructor:
 
         return array_list
 
- 
     def create_db_connection(self):
         self.conn = FdMultiController.fd_connect("asset", "rw")
 
@@ -109,9 +108,9 @@ class DataBaseConstructor:
 
 if __name__ == "__main__":
 
-    #FdMultiController.fd_create("asset") 
+    # FdMultiController.fd_create("asset")
     dbc = DataBaseConstructor()
-   
+
     dbc.create_db_connection()
     dbc.dh_pass_asset_classes_fd()
     dbc.dh_pass_tickers_fd()
