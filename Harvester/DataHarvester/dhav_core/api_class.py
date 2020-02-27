@@ -2,7 +2,7 @@ import pandas_datareader as pdread
 import pandas as pd
 from datetime import datetime
 import nomics
-
+import numpy as np
 
 class ApiObject:
     def __init__(
@@ -24,22 +24,28 @@ class ApiObject:
     def df_format_standardizer(self):
         pass
 
+    def yahoo_df_format(self,df,ticker ):
+        df = df.rename({"Date"})
+        
+        
+        df["ADate"] = pd.to_datetime(
+                df["ADate"]
+            ).apply(lambda x: x.date())
+
+
+
     def yahoo_finance(self, asset_class, ticker, start_date, end_date):
         try:
             dataframe_retrieved = pdread.DataReader(
                 ticker, start=start_date, end=end_date, data_source="yahoo"
             )
 
-            dataframe_retrieved.reset_index(level=0, inplace=True)
-            dataframe_retrieved["Date"] = pd.to_datetime(
-                dataframe_retrieved["Date"]
-            ).apply(lambda x: x.date())
-
+          
         except pdread._utils.RemoteDataError as err:
             print("API call did not work", err)
             return 1  # return 1 if fail to get dataframe
 
-        return dataframe_retrieved
+        return self.yahoo_df_format(dataframe_retrieved,ticker)
 
     def nomics(self, asset_class, ticker, start_date, end_date):
 
