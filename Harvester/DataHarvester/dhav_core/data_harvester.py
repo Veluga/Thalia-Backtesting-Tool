@@ -96,6 +96,11 @@ class DataHarvester:
             start_date = "1970-1-1"
         else:
             start_date = ticker_under_index["Last_Update"]
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            start_date = start_date + timedelta(days=1)
+            start_date = str(start_date)
+            
+
 
         # if data retrieval fails just go to the next ticker
 
@@ -105,7 +110,7 @@ class DataHarvester:
             start_date,
             end_date,
         )
-        print(data_set_retrieved)
+        
         """
             Change this after data format accross apis has been standardized.
         """
@@ -138,7 +143,7 @@ class DataHarvester:
         up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
         index = self.current_index(api)
         up_list.loc[index, "Last_Update"] = end_date
-        if(pd.isna(up_list.loc[index,"Earliset_Record"])):
+        if(pd.isna(up_list.loc[index,"Earliest_Record"])):
             up_list.loc[index, "Earliest_Record"] = start_date
 
         up_list.to_csv(
@@ -194,10 +199,11 @@ class DataHarvester:
 
 
         interpolated_df.reset_index()
-        for index_rows in range(df.shape[0] - 1):
+       
+        for index_rows in range(df.shape[0]):
             today = df["ADate"][index_rows]
 
-            tomorrow = df["ADate"][index_rows + 1]
+            tomorrow = df["ADate"][index_rows ]
 
             delta = tomorrow - today
 
@@ -255,4 +261,5 @@ class DataHarvester:
         df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
         
         self.log.log_simple("Writing interpolted dataframe to DB")
+        
         self.conn.write.write_asset_values(df_to_send)

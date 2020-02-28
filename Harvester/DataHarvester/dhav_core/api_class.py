@@ -100,14 +100,6 @@ class ApiObject:
     def check_df_format(self,df):
         if(not isinstance(df,int)):
 
-            print(str(type(df["ADate"][0])))
-            print(str(type(df["AHigh"][0])))
-            print(str(type(df["ALow"][0])))
-            print(str(type(df["AOpen"][0])))
-            print(str(type(df["AClose"][0])))
-            print(str(type(df["AssetTicker"][0])))
-            print(str(type(df["IsInterpolated"][0])))
-
             if(set(df.columns.values) != set(['ADate', 'AHigh', 'ALow', 'AOpen', 'AClose', 'AssetTicker',
         'IsInterpolated']) ):
                 return False
