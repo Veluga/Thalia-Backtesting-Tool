@@ -1,11 +1,43 @@
 import pandas as pd
+import sys
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from datetime import date
 from decimal import Decimal
+from . import layout
+from datetime import datetime
 
 from analyse_data import analyse_data as anda
+
+
+def print_output(start_date, end_date):
+    # dates = pd.date_range(start_date, end_date, freq="D")
+    display_date = ("start date: ", start_date, " end date :", end_date)
+    return display_date
+
+
+def print_initial_amount_money(money):
+    return "You inputed " + str(money) + "$"
+
+
+def print_contribution_amount(money):
+    return "You inputed " + str(money) + "$"
+
+
+def filter_tickers(tickers_selected, param_state):
+    """
+    Filters the selected tickers from the dropdown menu
+    """
+    if tickers_selected is None:
+        raise PreventUpdate
+    if param_state is None:
+        param_state = []
+    filtered = layout.df.query("AssetTicker in @tickers_selected")
+    dict_ver = filtered.to_dict(orient="records")
+    new_store = param_state + (dict_ver)
+
+    return new_store
 
 
 def register_callbacks(dashapp):
@@ -15,68 +47,86 @@ def register_callbacks(dashapp):
     function is called with Input and States as values and func
     returns values are sent to Output components
     """
+    # gets ticker data, pass tickers and proportions, runs backetesting, passes result to figures graphs, tables
     dashapp.callback(
         [Output("graph", "figure"), Output("table", "data")],
         [Input("submit-btn", "n_clicks")],
         [
-            State("ticker1", "value"),
-            State("ticker2", "value"),
-            State("ticker3", "value"),
-            State("ticker1-proportion", "value"),
-            State("ticker2-proportion", "value"),
-            State("ticker3-proportion", "value"),
+            State("memory-table", "data"),
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+            State("input_money", "value"),
+            State("input_contribution", "value"),
         ],
     )(update_dashboard)
+    # callback for updating the ticker table
+    dashapp.callback(
+        Output("memory-table", "data"),
+        [Input("memory_ticker", "value")],
+        [State("memory-table", "data")],
+    )(filter_tickers)
+    # pass input dates
+    # dashapp.callback(
+    #     Output("output_dates", "children"),
+    #     [
+    #         Input("my-date-picker-range", "start_date"),
+    #         Input("my-date-picker-range", "end_date"),
+    #     ],
+    # )(print_output)
+    dashapp.callback(
+        Output("output_money", "children"), [Input("input_money", "value")]
+    )(print_initial_amount_money)
+    dashapp.callback(
+        Output("output_contribution", "children"),
+        [Input("input_contribution", "value")],
+    )(print_contribution_amount)
 
 
 # TODO: make input and output dynamic, currently only supports 3
 # see this discussion for more info: https://community.plot.ly/t/dynamic-controls-and-dynamic-output-components/5519
 # GOAL is to have the UI support selection and distribution of arbitary numbers of assets
 def update_dashboard(
-    n_clicks, ticker1, ticker2, ticker3, ticker1_prop, ticker2_prop, ticker3_prop
+    n_clicks, tickers_selected, start_date, end_date, input_money, input_contribution
 ):
     """
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
-
     TODO: make proportion selection matter
     """
+    # proportions_selected = (proportions_selected["Allocation"])
+    # proportions_selected
+
     if n_clicks is None:
         raise PreventUpdate
 
-    # TODO: add error handling (UI facing message) for erronous input
-    all_tickers = (ticker1, ticker2, ticker3)
-    all_proportions = (ticker1_prop, ticker2_prop, ticker3_prop)
-
-    tickers, proportions = filter_dropdowns(all_tickers, all_proportions)
-    return update_backtest_results(tickers, proportions)
-
-
-def filter_dropdowns(tickers, proportions):
-    """
-    remove any ticker, proportion combos without a ticker selected
-
-    TODO: maybe return a strategy object instead?
-          currently does maybe a bit too much zipping and unzipping
-    """
-    tickers_with_prop = zip(tickers, proportions)
-    tickers_with_prop = [
-        dropdown for dropdown in tickers_with_prop if dropdown[0]
-    ]  # remove empty dropdowns without a ticker
-    tickers, proportions = zip(*tickers_with_prop)  # seperate tickers and props again
-    return tickers, proportions
+    values = (tickers_selected, start_date, end_date, input_money, input_contribution)
+    if any(param is None for param in values):
+        raise PreventUpdate
+    format_string = "%Y-%m-%d"
+    start_date = datetime.strptime(start_date, format_string)
+    end_date = datetime.strptime(end_date, format_string)
+    tickers, proportions = zip(
+        *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in tickers_selected)
+    )
+    print(start_date, file=sys.stdout)
+    return update_backtest_results(
+        tickers, proportions, start_date, end_date, input_money, input_contribution
+    )
 
 
-def update_backtest_results(tickers, proportions):
+def update_backtest_results(
+    tickers, proportions, start_date, end_date, input_money, input_contribution
+):
     """
     get timeseries and key metrics data for portfolio
     """
     # TODO: add error handling for ticker not found
-    weights = [Decimal(p) for p in proportions]
+    print(proportions, file=sys.stdout)
+    weights = [p for p in proportions if p is not None]
     normalise(weights)
 
-    start_date = date(2000, 1, 1)
-    end_date = date(2010, 12, 31)
+    # start_date = date(start_date)
+    # end_date = date(end_date)
 
     assets_data = get_assets(tickers, weights, start_date, end_date)
     risk_free_rate = mock_risk_free(start_date, end_date)
@@ -84,10 +134,10 @@ def update_backtest_results(tickers, proportions):
     strategy = anda.Strategy(
         start_date,
         end_date,
-        Decimal("10000.00"),
+        input_money,
         assets_data,
         set(),
-        Decimal("0.00"),
+        input_contribution,
         set(),
     )
     table_data = get_table_data(strategy, risk_free_rate)

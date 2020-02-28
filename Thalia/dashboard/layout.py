@@ -2,7 +2,19 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_dangerously_set_inner_html as inner_html
 import os
+
 import dash_table
+from datetime import datetime as dt
+import pandas as pd
+
+
+df = pd.DataFrame(
+    [
+        {"AssetTicker": "RCK", "Name": "Rock", "Allocation": "0"},
+        {"AssetTicker": "BRY", "Name": "Berry", "Allocation": "0"},
+    ]
+)
+AssetTicker = set(df.get("AssetTicker"))
 
 
 def table(data, id):
@@ -18,12 +30,8 @@ def table(data, id):
     return dash_table.DataTable(id=id, columns=columns, data=data)
 
 
-def ticker_selector(id):
-    tickers = [
-        {"label": "Coke", "value": "COKE"},
-        {"label": "Tesla", "value": "TSLA"},
-        {"label": "Apple", "value": "AAPL"},
-    ]
+def ticker_selector():
+
     return html.Div(
         [
             html.Div(
@@ -31,7 +39,16 @@ def ticker_selector(id):
                     [
                         html.Label("Ticker: ", className="label"),
                         html.Div(
-                            dcc.Dropdown(id=id, options=tickers, className=""),
+                            [
+                                dcc.Dropdown(
+                                    id="memory_ticker",
+                                    options=[
+                                        {"value": x, "label": x} for x in AssetTicker
+                                    ],
+                                    multi=False,
+                                    className="",
+                                ),
+                            ],
                             className="control",
                         ),
                     ],
@@ -42,24 +59,86 @@ def ticker_selector(id):
             html.Div(
                 html.Div(
                     [
-                        html.Label("Allocation: ", className="label"),
-                        html.Div(
-                            dcc.Input(
-                                id=f"{id}-proportion",
-                                type="number",
-                                min=0,
-                                max=100,
-                                className="input",
-                            ),
-                            className="control",
-                        ),
+                        dash_table.DataTable(
+                            id="memory-table",
+                            columns=[
+                                {
+                                    "name": "AssetTicker",
+                                    "id": "AssetTicker",
+                                    "type": "text",
+                                },
+                                {"name": "Name", "id": "Name", "type": "text"},
+                                {
+                                    "name": "Allocation",
+                                    "id": "Allocation",
+                                    "type": "numeric",
+                                    "editable": True,
+                                },
+                            ],
+                            row_deletable=True,
+                        )
                     ],
-                    className="field",
-                ),
-                className="column",
+                    className="section",
+                )
             ),
         ],
         className="columns is-marginless ",
+    )
+
+
+def select_dates():
+    # TODO: end date should be today!
+    return html.Div(
+        [
+            dcc.DatePickerRange(
+                id="my-date-picker-range",
+                max_date_allowed=dt.now(),
+                # initial_visible_month=dt(2017, 8, 5),
+                # end_date=dt(2017, 8, 25)
+            ),
+            html.Div(id="date-picker-range-container"),
+        ]
+    )
+
+
+def initial_amount_of_money():
+    return html.Div(
+        [
+            html.I("Initial Amount"),
+            html.Br(),
+            dcc.Input(
+                id="input_money",
+                placeholder="Insert Initial amount of $",
+                type="number",
+                className="input",
+            ),
+            html.Div(id="output_money"),
+        ]
+    )
+
+
+def contribution_amount():
+    return html.Div(
+        [
+            html.I("Contribution Amount"),
+            html.Br(),
+            dcc.Input(
+                id="input_contribution",
+                placeholder="Insert contribution amount of $",
+                type="number",
+                className="input",
+            ),
+            html.Label("Contribution frequency", className="label"),
+            html.Div(id="output_contribution"),
+            dcc.Dropdown(
+                id="Contribution_dropdown",
+                options=[
+                    {"label": "Monthly", "value": "month"},
+                    {"label": "Quarterly", "value": "quarter"},
+                    {"label": "Annualy", "value": "year"},
+                ],
+            ),
+        ]
     )
 
 
@@ -67,8 +146,12 @@ def options():
     return html.Div(
         [
             html.Div(
-                [ticker_selector(f"ticker{i}") for i in range(1, 4)],
-                className="container",
+                [
+                    html.Div([select_dates()], className="container",),
+                    html.Div([initial_amount_of_money()], className="container",),
+                    html.Div([contribution_amount()], className="container",),
+                    html.Div([ticker_selector()], className="container",),
+                ]
             ),
             html.Br(),
             html.Div(
@@ -213,8 +296,7 @@ layout = html.Div(
                                     html.Div(
                                         html.Div(
                                             html.Div(
-                                                "March 8, 2017 - April 6, 2017",
-                                                className="subtitle",
+                                                id="output_dates", className="subtitle",
                                             ),
                                             className="level-item",
                                         ),
@@ -255,6 +337,7 @@ layout = html.Div(
                                     graph_box(
                                         "Graphs Graphs Graphs", figure={}, id="graph4"
                                     ),
+                                    table([], "table"),
                                 ],
                                 className="columns is-multiline",
                             ),
