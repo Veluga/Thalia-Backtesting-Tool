@@ -10,6 +10,7 @@ import pandas as pd
 
 
 class Logger:
+    
     def __init__(self):
         logging.basicConfig(filename="dh.log", level=logging.INFO)
 

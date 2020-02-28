@@ -3,8 +3,7 @@ import pandas as pd
 import nomics
 from datetime import datetime, timedelta
 import sys
-from logger import Logger as lger
-
+from logger_class import Logger
 
 
 # find a better way to reach Finda
@@ -16,7 +15,7 @@ class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
         self.conn = FdMultiController.fd_connect("asset", "rw")
-        self.log = lger()
+        self.log = Logger()
 
     """
         Makes the api call based on the asset_class and ticker given.
@@ -189,7 +188,7 @@ class DataHarvester:
 
     def add_interpolation_to_df(self, df):
         self.log.log_simple("Start interpolation" + "dataframe shape: " + str(df.shape))
-
+        
         interpolated_df = pd.DataFrame(columns=df.columns)
 
 
@@ -230,7 +229,7 @@ class DataHarvester:
         self.log.log_simple(
             "Data Frame Interpolated" + "dataframe shape: " + str(interpolated_df.shape)
         )
-
+        
         return interpolated_df
 
     """
