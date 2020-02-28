@@ -105,7 +105,7 @@ class DataHarvester:
             start_date,
             end_date,
         )
-
+        print(data_set_retrieved)
         """
             Change this after data format accross apis has been standardized.
         """
@@ -138,7 +138,8 @@ class DataHarvester:
         up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
         index = self.current_index(api)
         up_list.loc[index, "Last_Update"] = end_date
-        up_list.loc[index, "Earliest_Record"] = start_date
+        if(pd.isna(up_list.loc[index,"Earliset_Record"])):
+            up_list.loc[index, "Earliest_Record"] = start_date
 
         up_list.to_csv(
             "../persistant_data/update_list_" + api.name + ".csv", index=False
