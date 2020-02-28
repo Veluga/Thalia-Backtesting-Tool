@@ -1,6 +1,6 @@
 import logging
 import pandas as pd
-
+from datetime import datetime
 """
     Made in a separate class because
     I was thinking on having 2 types of logging.
@@ -28,4 +28,14 @@ class Logger:
             + " end_date: "
             + end_date
         )
+    def crit(self,asset_class, ticker, start_date, end_date):
+        logging.critical("WRONG DATAFRAME FORMAT FROM API CALL at "+ str(datetime.now()))
+        logging.critical( "calling for:\nasset_class: "
+            + asset_class
+            + " ticker: "
+            + ticker
+            + " start_date : "
+            + start_date
+            + " end_date: "
+            + end_date)
 
