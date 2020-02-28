@@ -18,10 +18,13 @@ The purpose of the Harvester is to update the database. By updating the database
 
 
 #### Initialization
+Make folder persistant_data in DataHarvester folder if it does not exit.
+Enter dhav_core folder.
+python3 init_update_list.py
+python3 init_finda_db_structure.py
+python3 run_updates.py
 
-Make the objects that hold data about the APIs. 
-Run the initializer.
-* A path to apis_access folder has to be given to API objects that require a key.
+
 
 #### ApiObject
 
