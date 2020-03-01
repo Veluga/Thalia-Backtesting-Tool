@@ -106,6 +106,7 @@ def initial_amount_of_money():
             html.Br(),
             dcc.Input(
                 id="input_money",
+                min=1,
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
