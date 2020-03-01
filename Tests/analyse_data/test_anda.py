@@ -406,20 +406,14 @@ class TestBestWorstYear(TestCase):
 
         self.msft_vals = read_asset("/test_data/MSFT.csv")
         self.berkshire_vals = read_asset("/test_data/BRK-A.csv")
-        self.risk_free_vals = read_risk_free()
 
     def test_simple(self):
         start_date = date(1989, 1, 4)
         end_date = date(2010, 1, 1)
-
+        
         self.msft_vals = self.msft_vals.reindex(
             pd.date_range(start_date, end_date)
         ).ffill()
-        self.risk_free_vals = (
-            self.risk_free_vals.dropna()["Close"]
-            .reindex(pd.date_range(start_date, end_date))
-            .ffill()
-        )
 
         assets = [
             anda.Asset("MSFT", Decimal("1.0"), self.msft_vals),
@@ -440,7 +434,31 @@ class TestBestWorstYear(TestCase):
 
         self.assertAlmostEqual(b, Decimal("120"), delta=2)
         self.assertAlmostEqual(w, Decimal("-63"), delta=2)
+    
+    def test_short_time(self):
+        start_date = date(1989, 1, 4)
+        end_date = date(1989, 12, 31)
+        
+        self.msft_vals = self.msft_vals.reindex(
+            pd.date_range(start_date, end_date)
+        ).ffill()
 
+        assets = [
+            anda.Asset("MSFT", Decimal("1.0"), self.msft_vals),
+        ]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
+        )
+        
+        self.assertRaises(anda.InsufficientTimeframe, lambda: anda.best_year(strategy))
+        self.assertRaises(anda.InsufficientTimeframe, lambda: anda.worst_year(strategy))
 
 class TestDividends(TestCase):
     def setUp(self):

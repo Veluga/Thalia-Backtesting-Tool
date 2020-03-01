@@ -25,6 +25,10 @@ APPROX_TDAY_PER_YEAR = 252
 APPROX_DAY_PER_YEAR = 365.25
 
 
+class InsufficientTimeframe(Exception):
+    pass
+    
+
 class Strategy:
     def __init__(
         self,
@@ -163,20 +167,28 @@ def _relative_yearly_diff(returns: pd.Series) -> [Decimal]:
 
 
 # TODO: efficiency.
-def best_year(strat) -> float:
+def best_year(strat) -> Decimal:
     """
     Returns the increase (hopefully) in value of the strategy over its
     best calendar year - beginning and ending on Jan. 1, as a percentage.
     """
     returns = total_return(strat)
-    return max(_relative_yearly_diff(returns)) * Decimal(
-        "100"
-    )  # Adjust for percentage.
+    rel_diff = _relative_yearly_diff(returns)
+    if rel_diff:
+        return max(rel_diff) * Decimal(
+            "100"
+        )  # Adjust for percentage.
+    else:
+        raise InsufficientTimeframe
 
 
-def worst_year(strat) -> float:
+def worst_year(strat) -> Decimal:
     # Same convention as best_year
     returns = total_return(strat)
-    return min(_relative_yearly_diff(returns)) * Decimal(
-        "100"
-    )  # Adjust for percentage.
+    rel_diff = _relative_yearly_diff(returns)
+    if rel_diff:
+        return min(rel_diff) * Decimal(
+            "100"
+        )  # Adjust for percentage.
+    else:
+        raise InsufficientTimeframe
