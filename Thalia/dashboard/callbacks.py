@@ -88,9 +88,6 @@ def register_callbacks(dashapp):
     )(print_inputs)
 
 
-# TODO: make input and output dynamic, currently only supports 3
-# see this discussion for more info: https://community.plot.ly/t/dynamic-controls-and-dynamic-output-components/5519
-# GOAL is to have the UI support selection and distribution of arbitary numbers of assets
 def update_dashboard(
     n_clicks,
     tickers_selected,
