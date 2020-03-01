@@ -12,7 +12,6 @@ from analyse_data import analyse_data as anda
 
 
 def print_output(start_date, end_date):
-    # dates = pd.date_range(start_date, end_date, freq="D")
     display_date = ("start date: ", start_date, " end date :", end_date)
     return display_date
 
