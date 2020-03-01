@@ -17,12 +17,8 @@ def print_output(start_date, end_date):
     return display_date
 
 
-def print_initial_amount_money(money):
-    return "You inputed " + str(money) + "$"
-
-
-def print_contribution_amount(money):
-    return "You inputed " + str(money) + "$"
+def print_inputs(value):
+    return 'You have selected "{}"'.format(value)
 
 
 def filter_tickers(tickers_selected, param_state):
@@ -57,8 +53,11 @@ def register_callbacks(dashapp):
             State("my-date-picker-range", "end_date"),
             State("input_money", "value"),
             State("input_contribution", "value"),
+            State("contribution_dropdown", "value"),
+            State("rebalancing_dropdown", "value"),
         ],
     )(update_dashboard)
+
     # callback for updating the ticker table
     dashapp.callback(
         Output("memory-table", "data"),
@@ -66,27 +65,42 @@ def register_callbacks(dashapp):
         [State("memory-table", "data")],
     )(filter_tickers)
     # pass input dates
-    # dashapp.callback(
-    #     Output("output_dates", "children"),
-    #     [
-    #         Input("my-date-picker-range", "start_date"),
-    #         Input("my-date-picker-range", "end_date"),
-    #     ],
-    # )(print_output)
+    dashapp.callback(
+        Output("output_dates", "children"),
+        [
+            Input("my-date-picker-range", "start_date"),
+            Input("my-date-picker-range", "end_date"),
+        ],
+    )(print_output)
+    dashapp.callback(
+        Output("output_contribution_dpp", "children"),
+        [Input("contribution_dropdown", "value")],
+    )(print_inputs)
     dashapp.callback(
         Output("output_money", "children"), [Input("input_money", "value")]
-    )(print_initial_amount_money)
+    )(print_inputs)
     dashapp.callback(
         Output("output_contribution", "children"),
         [Input("input_contribution", "value")],
-    )(print_contribution_amount)
+    )(print_inputs)
+    dashapp.callback(
+        Output("output_rebalancing", "children"),
+        [Input("rebalancing_dropdown", "value")],
+    )(print_inputs)
 
 
 # TODO: make input and output dynamic, currently only supports 3
 # see this discussion for more info: https://community.plot.ly/t/dynamic-controls-and-dynamic-output-components/5519
 # GOAL is to have the UI support selection and distribution of arbitary numbers of assets
 def update_dashboard(
-    n_clicks, tickers_selected, start_date, end_date, input_money, input_contribution
+    n_clicks,
+    tickers_selected,
+    start_date,
+    end_date,
+    input_money,
+    input_contribution,
+    contribution_dropdown,
+    rebalancing_dropdown,
 ):
     """
     based on selected tickers and assets generate a graph of portfolios value over time
@@ -99,23 +113,62 @@ def update_dashboard(
     if n_clicks is None:
         raise PreventUpdate
 
-    values = (tickers_selected, start_date, end_date, input_money, input_contribution)
+    values = (
+        tickers_selected,
+        start_date,
+        end_date,
+        input_money,
+        input_contribution,
+        contribution_dropdown,
+        rebalancing_dropdown,
+    )
     if any(param is None for param in values):
         raise PreventUpdate
+    if contribution_dropdown == "month":
+        contribution_dropdown = pd.date_range(start_date, end_date, freq="M")
+    elif contribution_dropdown == "quarter":
+        contribution_dropdown = pd.date_range(start_date, end_date, freq="3M")
+    elif contribution_dropdown == "year":
+        contribution_dropdown = pd.date_range(start_date, end_date, freq="12M")
+    elif contribution_dropdown == "midyear":
+        contribution_dropdown = pd.date_range(start_date, end_date, freq="6M")
+
+    if rebalancing_dropdown == "month":
+        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="M")
+    elif rebalancing_dropdown == "quarter":
+        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="3M")
+    elif rebalancing_dropdown == "year":
+        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="12M")
+    elif rebalancing_dropdown == "midyear":
+        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="6M")
     format_string = "%Y-%m-%d"
     start_date = datetime.strptime(start_date, format_string)
     end_date = datetime.strptime(end_date, format_string)
     tickers, proportions = zip(
         *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in tickers_selected)
     )
-    print(start_date, file=sys.stdout)
+
     return update_backtest_results(
-        tickers, proportions, start_date, end_date, input_money, input_contribution
+        tickers,
+        proportions,
+        start_date,
+        end_date,
+        input_money,
+        input_contribution,
+        contribution_dropdown,
+        rebalancing_dropdown,
     )
 
 
 def update_backtest_results(
-    tickers, proportions, start_date, end_date, input_money, input_contribution
+    tickers,
+    proportions,
+    start_date,
+    end_date,
+    input_money,
+    input_contribution,
+    contribution_dropdown,
+    rebalancing_dropdown,
 ):
     """
     get timeseries and key metrics data for portfolio
@@ -136,9 +189,9 @@ def update_backtest_results(
         end_date,
         input_money,
         assets_data,
-        set(),
+        contribution_dropdown,
         input_contribution,
-        set(),
+        rebalancing_dropdown,
     )
     table_data = get_table_data(strategy, risk_free_rate)
     returns = anda.total_return(strategy)

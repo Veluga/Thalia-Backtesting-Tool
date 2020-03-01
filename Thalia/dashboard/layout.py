@@ -128,16 +128,47 @@ def contribution_amount():
                 type="number",
                 className="input",
             ),
-            html.Label("Contribution frequency", className="label"),
             html.Div(id="output_contribution"),
+        ]
+    )
+
+
+def contribution_dates():
+    return html.Div(
+        [
+            html.I("Contribution frequency"),
+            html.Br(),
             dcc.Dropdown(
-                id="Contribution_dropdown",
+                id="contribution_dropdown",
                 options=[
                     {"label": "Monthly", "value": "month"},
                     {"label": "Quarterly", "value": "quarter"},
                     {"label": "Annualy", "value": "year"},
+                    {"label": "Semi-Annualy", "value": "midyear"},
                 ],
+                value="month",
             ),
+            html.Div(id="output_contribution_dpp"),
+        ]
+    )
+
+
+def rebalancing_dates():
+    return html.Div(
+        [
+            html.I("Rebalancing frequency"),
+            html.Br(),
+            dcc.Dropdown(
+                id="rebalancing_dropdown",
+                options=[
+                    {"label": "Monthly", "value": "month"},
+                    {"label": "Quarterly", "value": "quarter"},
+                    {"label": "Annualy", "value": "year"},
+                    {"label": "Semi-Annualy", "value": "midyear"},
+                ],
+                value="month",
+            ),
+            html.Div(id="output_rebalancing"),
         ]
     )
 
@@ -150,6 +181,8 @@ def options():
                     html.Div([select_dates()], className="container",),
                     html.Div([initial_amount_of_money()], className="container",),
                     html.Div([contribution_amount()], className="container",),
+                    html.Div([contribution_dates()], className="container",),
+                    html.Div([rebalancing_dates()], className="container",),
                     html.Div([ticker_selector()], className="container",),
                 ]
             ),
