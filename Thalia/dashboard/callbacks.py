@@ -170,7 +170,7 @@ def update_backtest_results(
     get timeseries and key metrics data for portfolio
     """
     # TODO: add error handling for ticker not found
-    print(proportions, file=sys.stdout)
+    print(proportions, file=sys.stdout)  # without explicit stdout printing did not work on windows
     weights = [p for p in proportions if p is not None]
     normalise(weights)
 
