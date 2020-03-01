@@ -177,8 +177,6 @@ def update_backtest_results(
     weights = [p for p in proportions if p is not None]
     normalise(weights)
 
-    # start_date = date(start_date)
-    # end_date = date(end_date)
 
     assets_data = get_assets(tickers, weights, start_date, end_date)
     risk_free_rate = mock_risk_free(start_date, end_date)
