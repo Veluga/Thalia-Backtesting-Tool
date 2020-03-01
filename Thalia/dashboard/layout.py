@@ -93,8 +93,6 @@ def select_dates():
             dcc.DatePickerRange(
                 id="my-date-picker-range",
                 max_date_allowed=dt.now(),
-                # initial_visible_month=dt(2017, 8, 5),
-                # end_date=dt(2017, 8, 25)
             ),
             html.Div(id="date-picker-range-container"),
         ]
