@@ -175,7 +175,7 @@ def best_year(strat) -> Decimal:
     returns = total_return(strat)
     rel_diff = _relative_yearly_diff(returns)
     if rel_diff:
-        return max(_relative_yearly_diff(returns)) * Decimal(
+        return max(rel_diff) * Decimal(
             "100"
         )  # Adjust for percentage.
     else:
@@ -187,7 +187,7 @@ def worst_year(strat) -> Decimal:
     returns = total_return(strat)
     rel_diff = _relative_yearly_diff(returns)
     if rel_diff:
-        return min(_relative_yearly_diff(returns)) * Decimal(
+        return min(rel_diff) * Decimal(
             "100"
         )  # Adjust for percentage.
     else:
