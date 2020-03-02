@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 import nomics
 import numpy as np
-from logger_class import Logger
+from .logger_class import Logger
 
 class ApiObject:
     def __init__(

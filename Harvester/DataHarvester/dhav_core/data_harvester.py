@@ -3,7 +3,7 @@ import pandas as pd
 import nomics
 from datetime import datetime, timedelta
 import sys
-from logger_class import Logger
+from .logger_class import Logger
 
 
 # find a better way to reach Finda
@@ -14,7 +14,9 @@ from Finda import FdMultiController
 class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
+        FdMultiController.fd_register("asset")
         self.conn = FdMultiController.fd_connect("asset", "rw")
+
         self.log = Logger()
 
     """
