@@ -25,8 +25,8 @@ def test_update_dashboard():
     end_date = "2020-02-19"
     input_money = 50
     input_contribution = 50
-    contribution_dropdown = "month"
-    rebalancing_dropdown = "month"
+    contribution_dropdown = "BM"
+    rebalancing_dropdown = "BM"
     fig, table_data = callbacks.update_dashboard(
         1,
         tickers,
