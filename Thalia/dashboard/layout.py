@@ -90,10 +90,7 @@ def select_dates():
     # TODO: end date should be today!
     return html.Div(
         [
-            dcc.DatePickerRange(
-                id="my-date-picker-range",
-                max_date_allowed=dt.now(),
-            ),
+            dcc.DatePickerRange(id="my-date-picker-range", max_date_allowed=dt.now(),),
             html.Div(id="date-picker-range-container"),
         ]
     )
@@ -139,13 +136,13 @@ def contribution_dates():
             html.Br(),
             dcc.Dropdown(
                 id="contribution_dropdown",
-                options=[
-                    {"label": "Monthly", "value": "month"},
-                    {"label": "Quarterly", "value": "quarter"},
-                    {"label": "Annualy", "value": "year"},
-                    {"label": "Semi-Annualy", "value": "midyear"},
+                options=[  # Business month END
+                    {"label": "None", "value": None},
+                    {"label": "Monthly", "value": "BM"},
+                    {"label": "Quarterly", "value": "BQ"},
+                    {"label": "Annualy", "value": "BA"},
+                    {"label": "Semi-Annualy", "value": "6BM"},
                 ],
-                value="month",
             ),
             html.Div(id="output_contribution_dpp"),
         ]
@@ -159,13 +156,13 @@ def rebalancing_dates():
             html.Br(),
             dcc.Dropdown(
                 id="rebalancing_dropdown",
-                options=[
-                    {"label": "Monthly", "value": "month"},
-                    {"label": "Quarterly", "value": "quarter"},
-                    {"label": "Annualy", "value": "year"},
-                    {"label": "Semi-Annualy", "value": "midyear"},
+                options=[   # Business month END
+                    {"label": "None", "value": None},
+                    {"label": "Monthly", "value": "BM"},
+                    {"label": "Quarterly", "value": "BQ"},
+                    {"label": "Annualy", "value": "BA"},
+                    {"label": "Semi-Annualy", "value": "6BM"},
                 ],
-                value="month",
             ),
             html.Div(id="output_rebalancing"),
         ]

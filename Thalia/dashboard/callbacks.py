@@ -1,9 +1,7 @@
 import pandas as pd
-import sys
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-from datetime import date
 from decimal import Decimal
 from . import layout
 from datetime import datetime
@@ -16,10 +14,6 @@ def print_output(start_date, end_date):
     return display_date
 
 
-def print_inputs(value):
-    return 'You have selected "{}"'.format(value)
-
-
 def filter_tickers(tickers_selected, param_state):
     """
     Filters the selected tickers from the dropdown menu
@@ -28,6 +22,7 @@ def filter_tickers(tickers_selected, param_state):
         raise PreventUpdate
     if param_state is None:
         param_state = []
+    #  prefix variable name with @ to perform query
     filtered = layout.df.query("AssetTicker in @tickers_selected")
     dict_ver = filtered.to_dict(orient="records")
     new_store = param_state + (dict_ver)
@@ -71,21 +66,6 @@ def register_callbacks(dashapp):
             Input("my-date-picker-range", "end_date"),
         ],
     )(print_output)
-    dashapp.callback(
-        Output("output_contribution_dpp", "children"),
-        [Input("contribution_dropdown", "value")],
-    )(print_inputs)
-    dashapp.callback(
-        Output("output_money", "children"), [Input("input_money", "value")]
-    )(print_inputs)
-    dashapp.callback(
-        Output("output_contribution", "children"),
-        [Input("input_contribution", "value")],
-    )(print_inputs)
-    dashapp.callback(
-        Output("output_rebalancing", "children"),
-        [Input("rebalancing_dropdown", "value")],
-    )(print_inputs)
 
 
 def update_dashboard(
@@ -101,10 +81,7 @@ def update_dashboard(
     """
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
-    TODO: make proportion selection matter
     """
-    # proportions_selected = (proportions_selected["Allocation"])
-    # proportions_selected
 
     if n_clicks is None:
         raise PreventUpdate
@@ -114,29 +91,24 @@ def update_dashboard(
         start_date,
         end_date,
         input_money,
-        input_contribution,
-        contribution_dropdown,
-        rebalancing_dropdown,
     )
     if any(param is None for param in values):
         raise PreventUpdate
-    if contribution_dropdown == "month":
-        contribution_dropdown = pd.date_range(start_date, end_date, freq="M")
-    elif contribution_dropdown == "quarter":
-        contribution_dropdown = pd.date_range(start_date, end_date, freq="3M")
-    elif contribution_dropdown == "year":
-        contribution_dropdown = pd.date_range(start_date, end_date, freq="12M")
-    elif contribution_dropdown == "midyear":
-        contribution_dropdown = pd.date_range(start_date, end_date, freq="6M")
+    if contribution_dropdown is not None:
+        contribution_dates = pd.date_range(
+            start_date, end_date, freq=contribution_dropdown
+        )
+    else:
+        contribution_dates = set()
+    if rebalancing_dropdown is not None:
+        rebalancing_dates = pd.date_range(
+            start_date, end_date, freq=rebalancing_dropdown
+        )
+    else:
+        rebalancing_dates = set()
+    if input_contribution is None:
+        input_contribution = 0
 
-    if rebalancing_dropdown == "month":
-        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="M")
-    elif rebalancing_dropdown == "quarter":
-        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="3M")
-    elif rebalancing_dropdown == "year":
-        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="12M")
-    elif rebalancing_dropdown == "midyear":
-        rebalancing_dropdown = pd.date_range(start_date, end_date, freq="6M")
     format_string = "%Y-%m-%d"
     start_date = datetime.strptime(start_date, format_string)
     end_date = datetime.strptime(end_date, format_string)
@@ -151,8 +123,8 @@ def update_dashboard(
         end_date,
         input_money,
         input_contribution,
-        contribution_dropdown,
-        rebalancing_dropdown,
+        contribution_dates,
+        rebalancing_dates,
     )
 
 
@@ -163,17 +135,15 @@ def update_backtest_results(
     end_date,
     input_money,
     input_contribution,
-    contribution_dropdown,
-    rebalancing_dropdown,
+    contribution_dates,
+    rebalancing_dates,
 ):
     """
     get timeseries and key metrics data for portfolio
     """
     # TODO: add error handling for ticker not found
-    print(proportions, file=sys.stdout)  # without explicit stdout printing did not work on windows
     weights = [p for p in proportions if p is not None]
     normalise(weights)
-
 
     assets_data = get_assets(tickers, weights, start_date, end_date)
     risk_free_rate = mock_risk_free(start_date, end_date)
@@ -183,9 +153,9 @@ def update_backtest_results(
         end_date,
         input_money,
         assets_data,
-        contribution_dropdown,
+        contribution_dates,
         input_contribution,
-        rebalancing_dropdown,
+        rebalancing_dates,
     )
     table_data = get_table_data(strategy, risk_free_rate)
     returns = anda.total_return(strategy)
