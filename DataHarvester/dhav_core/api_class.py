@@ -2,8 +2,10 @@ import pandas_datareader as pdread
 import pandas as pd
 from datetime import datetime
 import nomics
+import os
 import numpy as np
 from .logger_class import Logger
+
 
 class ApiObject:
     def __init__(
@@ -13,17 +15,14 @@ class ApiObject:
         self.has_key = has_key
         self.supported_assets = supported_assets
         if self.has_key == True:
-            f = open(path + name, "r")
+            path = os.path.join(path, name)
+            f = open(path, "r")
             self.key = f.read().rstrip()
         else:
             self.key = False
 
         self.api_calls_per_run = api_calls_per_run
-        self.log = Logger()
-    # once the data format is decided upon pass all df trough here
-    # and remove the adjuster code from dh
-    def df_format_standardizer(self):
-        pass
+        self.log = Logger() 
 
     def yahoo_df_format(self,df,ticker ):
         df.reset_index(level=0, inplace=True)
@@ -46,7 +45,7 @@ class ApiObject:
             )
 
         except pdread._utils.RemoteDataError as err:
-            print("API call did not work", err)
+            self.log.error_log(err)
             return 1  # return 1 if fail to get dataframe
 
         return self.yahoo_df_format(dataframe_retrieved,ticker)

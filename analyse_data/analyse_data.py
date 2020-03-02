@@ -5,6 +5,7 @@ from decimal import Decimal, InvalidOperation
 from datetime import date
 from dataclasses import dataclass
 
+
 PENNY = Decimal("0.01")
 
 

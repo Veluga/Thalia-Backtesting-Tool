@@ -39,3 +39,5 @@ class Logger:
             + " end_date: "
             + end_date)
 
+    def error_log(self,message):
+        logging.error(message)
