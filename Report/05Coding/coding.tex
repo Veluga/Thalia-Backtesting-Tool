@@ -39,7 +39,7 @@ A typical ticket in our project was an encapsulation of a user story, as it cons
 \begin{figure}[H]
    \centering
    \includegraphics[scale=0.7]{05Coding/05Pictures/ticket.png}
-   \caption{Ticket Example}
+   \caption{Ticket Example (source: https://github.com/)}
    \label{Ticket}
 \end{figure}
 
@@ -50,7 +50,7 @@ Throughout the whole project we had a total of 110 tickets, and 71 pull requests
 \begin{figure}[H]
    \centering
    \includegraphics[scale=0.8]{05Coding/05Pictures/contributions.png}
-   \caption{Contributions to the Master branch}
+   \caption{Contributions to the Master branch (source: https://github.com/)}
 \end{figure}
 
 Nevertheless, this was not always achievable especially in the beginning of the development when more crucial components of the systems were developed. In these cases, we assigned the ticket to a pair, or group of people. This approach achieved the following:
@@ -61,6 +61,7 @@ Nevertheless, this was not always achievable especially in the beginning of the 
     \item Distributed the knowledge of large system components amongst a few people instead of one.
     \item Eased introducing the new team member to the project.
 \end{itemize}
+
 
 In addition, we also had a scrum board as an overview for the ongoing tickets. Although in the Scrum community there are ongoing discussions about the benefits of a physical scrum board over an online one \cite{physicalscrum}, given no actual workplace this was not possible to achieve. This allowed us to see which tickets needed to be reviewed and which were ready to be merged. The tickets/cards were distributed into columns, such as To do, In progress, Review in progress, Review complete and Finished. A truncated picture of this scrum board can be seen on figure \figurename{\ref{Scrum}}.
 
@@ -144,6 +145,31 @@ This approach has allowed us to tailor the entire business logic module exactly 
 
 \subsubsection{Database \& Finda}
 \label{Finda}
+
+Another major technology decision was the choice of appropriate database management system (DBMS) for storing historical price data collected by the data harvester. Before committing to a specific technology we identified the following requirements a suitable DBMS should fulfil:
+
+\begin {itemize}
+\item \textbf{Schema:} The structure of our data is relatively simple, consequently Thalia does not require support for sophisticated features and data types. A suitable DBMS should be able to accommodate the database schema designed last term, with the addition of simple integrity constraints and cascade operations.
+\item \textbf{Support:} Ideally the DBMS should be cross platform, as this would allow us to defer commitment to a specific deployment platform until we are ready to start the CD process. 
+\item \textbf{License and pricing:} The DBMS should be free to use and have a non-restrictive license.
+PERFORMANCE: The DBMS should be able to handle a high volume of concurrent reads to fulfil user requests. The data will be updated daily, meaning efficient write operations are a lower priority.
+\item \textbf{Usability:} As our team lacks experience in this field, a suitable DBMS should be relatively simple to learn. Ideally team members should be able to learn the basics in a single weekly sprint.
+\item \textbf{Security:} The DBMS should have a mature code base and be relatively secure, as access to financial data is a key component of our business model. Later it will likely also store data that is not available through public APIs, meaning potential data breaches could expose us to legal liability. \cite{dataprotectionGov}
+\item \textbf{Type:} Since the project constraints specify we use SQL queries, only relational DBMS supporting a version of SQL are appropriate.
+
+\end{itemize}
+
+MySQL, PostgreSQL, SQLite and MariaDB were subject to in depth comparison based on fulfilment of the above requirements and industry adoption \cite{dbPerfComparison} \cite{dbmsMarketShare}. Our final decision was to use SQLite for the following reasons:
+
+It is user-friendly and easy to deploy, allowing us to start continuous deployment faster.
+It has a small footprint and offers good performance. \cite{dbPerfComparison}
+Portable serverless design aids with development and testing.
+All team members have experience working with SQLite from previous term. This helps to reduce overhead of knowledge transfer.
+
+The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \cite{frameworkDataMigration} \cite{understandingDataMigration}. To preempt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
+
+
+
 \subsubsection{Harvester}
 \label{Harvester}
 
@@ -214,7 +240,7 @@ The outcome of these steps is visible on CircleCI, but more importantly also on 
  \begin{figure}[H]
    \centering
    \includegraphics[scale=0.6]{05Coding/05Pictures/circleCI.png}
-   \caption{CircleCI on GitHub}
+   \caption{CircleCI on GitHub (source: https://github.com/)}
    \label{CircleCI}
 \end{figure}
 
