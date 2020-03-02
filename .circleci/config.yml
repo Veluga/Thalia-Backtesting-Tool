@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.8.1-browsers
-      - image: circleci/postgres:9.6.5-alpine-ram
 
     working_directory: ~/repo
 
