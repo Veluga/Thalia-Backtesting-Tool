@@ -4,6 +4,7 @@ import math
 from decimal import Decimal, InvalidOperation
 from datetime import date
 from dataclasses import dataclass
+from typing import List
 
 PENNY = Decimal("0.01")
 
@@ -27,7 +28,7 @@ APPROX_DAY_PER_YEAR = 365.25
 
 class InsufficientTimeframe(Exception):
     pass
-    
+
 
 class Strategy:
     def __init__(
@@ -35,7 +36,7 @@ class Strategy:
         start_date: date,
         end_date: date,
         starting_balance: Decimal,
-        assets: [Asset],
+        assets: List[Asset],
         contribution_dates,  # implements __contains__ for date
         contribution_amount: Decimal,
         rebalancing_dates,  # implements __contains__ for date
@@ -50,24 +51,24 @@ class Strategy:
 
 # INTERNAL
 def _allocate_investments(
-    balance: Decimal, asset_weights: [Decimal], asset_vals: [Decimal]
-) -> [Decimal]:
+    balance: Decimal, asset_weights: List[Decimal], asset_vals: List[Decimal]
+) -> List[Decimal]:
     return [
         balance * weight / price for (weight, price) in zip(asset_weights, asset_vals)
     ]
 
 
 # INTERNAL
-def _measure_weights(asset_vals: [Decimal]) -> [Decimal]:
+def _measure_weights(asset_vals: List[Decimal]) -> List[Decimal]:
     # asset_vals is the current amount of money invested in each asset.
     total = sum(asset_vals)
     return [val / total for val in asset_vals]
 
 
 # INTERNAL
-def _calc_balance(invesments: [Decimal], asset_vals: [Decimal]) -> Decimal:
-    return sum(
-        holdings * value for holdings, value in zip(invesments, asset_vals)
+def _calc_balance(invesments: List[Decimal], asset_vals: List[Decimal]) -> Decimal:
+    return Decimal(
+        sum(holdings * value for holdings, value in zip(invesments, asset_vals))
     ).quantize(PENNY)
 
 
@@ -115,7 +116,9 @@ def total_return(strat) -> pd.Series:
     return ret
 
 
-def _risk_adjusted_returns(strat: Strategy, risk_free_rate: pd.DataFrame) -> [Decimal]:
+def _risk_adjusted_returns(
+    strat: Strategy, risk_free_rate: pd.DataFrame
+) -> List[Decimal]:
     returns = total_return(strat)
     """ flake8 doesn't like unused variables
     risk_free_rate_daily = risk_free_rate.map(
@@ -150,14 +153,14 @@ def sharpe_ratio(strat: Strategy, risk_free_rate: pd.DataFrame) -> float:
 
 def max_drawdown(strat: Strategy) -> Decimal:
     returns = total_return(strat)
-    max_seen, max_diff = 0, 1
+    max_seen, max_diff = 0.0, 1.0
     for i in range(returns.size):
         max_seen = max(max_seen, returns[i])
         max_diff = min(max_diff, returns[i] / max_seen)
-    return (1 - max_diff) * 100
+    return Decimal((1 - max_diff) * 100.0)
 
 
-def _relative_yearly_diff(returns: pd.Series) -> [Decimal]:
+def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
     all_dates = returns.index
     year_begins = [d for d in all_dates if d.month == d.day == 1]
     return [
@@ -175,9 +178,7 @@ def best_year(strat) -> Decimal:
     returns = total_return(strat)
     rel_diff = _relative_yearly_diff(returns)
     if rel_diff:
-        return max(rel_diff) * Decimal(
-            "100"
-        )  # Adjust for percentage.
+        return max(rel_diff) * Decimal("100")  # Adjust for percentage.
     else:
         raise InsufficientTimeframe
 
@@ -187,8 +188,6 @@ def worst_year(strat) -> Decimal:
     returns = total_return(strat)
     rel_diff = _relative_yearly_diff(returns)
     if rel_diff:
-        return min(rel_diff) * Decimal(
-            "100"
-        )  # Adjust for percentage.
+        return min(rel_diff) * Decimal("100")  # Adjust for percentage.
     else:
         raise InsufficientTimeframe
