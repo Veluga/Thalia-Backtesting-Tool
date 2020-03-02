@@ -6,15 +6,16 @@
 \section{Design}
 
 \subsection{General Design Decisions}
-We have chosen pandas dataframes \cite{pandas} as the common data format for both data exchange and any calculations. Pandas provides us with data structures that "that cohere with the rest of the scientific Python stack" \cite{mckinney2011pandas}, such as NumPy, which we are using to calculate historical returns and risk metrics (\ref{BL Structure}). Additionally, it is supported natively by many third party APIs and can even be used to read data from SQL databases.
+We have chosen pandas dataframes \cite{pandas} as the common data format for both data exchange and any calculations. Pandas provides us with data structures ``that cohere with the rest of the scientific Python stack`` \cite{mckinney2011pandas}, such as NumPy, which we are using to calculate historical returns and risk metrics (\ref{BL Structure}). Additionally, it is supported natively by many third party APIs and can even be used to read data from SQL databases. For additional information, please consult the official pandas documentation \cite{pandas}.
 
 \subsection{Overview of System Architecture}
 
 Before discussing any specific component and architectural layer in depth, it is worth revisiting our original architecture \cite{TR}.
 \begin{figure}[h]
-	\includegraphics[architecture\_layer\_diagram.png]
+    \caption{Original Thalia System Architecture \cite{TR}}
+	\includegraphics{./Pictures/architecture_layer_diagram}
 \end{figure}
-The above schematic illustrates how we modified a typical Three Layer architecture [citation needed] to include a Data Collection Layer. Subsequent discussion will refer to this layer as the 'Data Harvester'. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. For justifications of  why this component of our system warrants its own layer in the architecture, please refer to the Thalia Technical Report \cite{TR}.
+The above schematic illustrates how we modified a typical Three Layer architecture [citation needed] to include a Data Collection Layer. Subsequent discussion will refer to this layer as the `Data Harvester`. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. The decision to isolate this system component has been made in order to increase security by limiting the acess of the Thalia web service to the financial data database to read-only and to allow for independent scaling of the Data Harvester and our web service \cite{TR}.
 
 While the architecture of our system has stayed the same, there have been some modifications to individual components. Most notable are the changes to the Database Structure examined in \ref{DB Structure}. The following sections will provide for a discussion of design decisions made on a layer-by-layer basis.
 
@@ -54,7 +55,7 @@ class Strategy:
         self.rebalancing_dates = rebalancing_dates
 \end{lstlisting}
 
-Here, Asset is a simple dataclass consisting of a ticker string (e.g. "MSFT" for Microsoft), a weight as a share of the portfolio overall (e.g. 0.25), a pandas dataframe holding historical price data ordered by date, and a pandas dataframe for dividends data (if any).
+Here, Asset is a simple dataclass consisting of a ticker string (e.g. `MSFT` for Microsoft), a weight as a share of the portfolio overall (e.g. 0.25), a pandas dataframe holding historical price data ordered by date, and a pandas dataframe for dividends data (if any).
 
 As alluded to earlier, functions within the library depend on a Strategy object for their calculations. For example:
 
@@ -63,7 +64,7 @@ def total_return(strat) -> pd.Series:
 \end{lstlisting}
 will calculate a series of total return values ordered by date within the date range specified in the passed Strategy instance.
 
-Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it "provides support for fast correctly-rounded decimal floating point arithmetic" \cite{PyDecimal}. As rounding errors and imprecision are unaccaptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
+Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it ``provides support for fast correctly-rounded decimal floating point arithmetic`` \cite{PyDecimal}. As rounding errors and imprecision are unaccaptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
 
 Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
 
