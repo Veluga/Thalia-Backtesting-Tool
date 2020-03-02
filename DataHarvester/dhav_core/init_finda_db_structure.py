@@ -106,11 +106,14 @@ class DataBaseConstructor:
         self.conn.write.write_assets(df_asset)
 
 
-if __name__ == "__main__":
+def init_db_finda():
 
     FdMultiController.fd_create("asset")
     dbc = DataBaseConstructor()
     dbc.create_db_connection()
     dbc.dh_pass_asset_classes_fd()
     dbc.dh_pass_tickers_fd()
+
+if __name__ == "__main__":
+    init_db_finda()
 

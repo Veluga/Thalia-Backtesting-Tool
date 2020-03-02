@@ -19,7 +19,7 @@ def run_me():
     api2 = apic("nomics", ["crypto", "currency"], api_calls_api2, path, True)
 
     dh = dhav([api1, api2])
-
+    
     dh.start_updating()
 
 

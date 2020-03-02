@@ -1,6 +1,7 @@
 import pandas_datareader as pdread
 import pandas as pd
 import nomics
+import os
 from datetime import datetime, timedelta
 import sys
 from .logger_class import Logger
@@ -45,8 +46,10 @@ class DataHarvester:
     """
 
     def current_index(self, api):
-
-        position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
+        path = os.path.dirname(__file__)
+        path = os.path.dirname(path)
+        path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
+        position_frame = pd.read_csv(path)
         return position_frame["Position Universal"][0]
 
     """
@@ -55,8 +58,16 @@ class DataHarvester:
     """
 
     def next_index(self, api):
-        position_frame = pd.read_csv("../persistant_data/" + api.name + "_position.csv")
-        update_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
+        path = os.path.dirname(__file__)
+        path = os.path.dirname(path)
+        path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
+        position_frame = pd.read_csv(path)
+
+        path = os.path.dirname(path)
+        path = os.path.join(path, "update_list_" + api.name + ".csv")
+
+        update_list = pd.read_csv(path)
+
         number_rows = update_list.shape[0]
         index_position = position_frame["Position Universal"][0]
         index_position += 1
@@ -65,9 +76,12 @@ class DataHarvester:
             index_position = 0
 
         position_frame["Position Universal"][0] = index_position
-        position_frame.to_csv(
-            "../persistant_data/" + api.name + "_position.csv", index=False
-        )
+
+        path = os.path.dirname(__file__)
+        path = os.path.dirname(path)
+        path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
+        
+        position_frame.to_csv(path, index=False)
         return 0
 
     """
@@ -76,7 +90,10 @@ class DataHarvester:
     """
 
     def update_on_index(self, api):
-        up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
+        path = os.path.dirname(__file__)
+        path = os.path.dirname(path)
+        path = os.path.join(path, "persistant_data/update_list_" + api.name + ".csv")
+        up_list = pd.read_csv(path)
         index = self.current_index(api)
 
         ticker_under_index = up_list.iloc[index]
@@ -101,8 +118,6 @@ class DataHarvester:
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
             start_date = start_date + timedelta(days=1)
             start_date = str(start_date)
-            
-
 
         # if data retrieval fails just go to the next ticker
 
@@ -112,7 +127,7 @@ class DataHarvester:
             start_date,
             end_date,
         )
-        
+
         """
             Change this after data format accross apis has been standardized.
         """
@@ -142,15 +157,18 @@ class DataHarvester:
     """
 
     def write_to_up_list(self, api, start_date, end_date):
-        up_list = pd.read_csv("../persistant_data/update_list_" + api.name + ".csv")
+        path = os.path.dirname(__file__)
+        path = os.path.dirname(path)
+
+        path = os.path.join(path, "persistant_data/update_list_" + api.name + ".csv")
+
+        up_list = pd.read_csv(path)
         index = self.current_index(api)
         up_list.loc[index, "Last_Update"] = end_date
-        if(pd.isna(up_list.loc[index,"Earliest_Record"])):
+        if pd.isna(up_list.loc[index, "Earliest_Record"]):
             up_list.loc[index, "Earliest_Record"] = start_date
 
-        up_list.to_csv(
-            "../persistant_data/update_list_" + api.name + ".csv", index=False
-        )
+        up_list.to_csv(path, index=False)
 
     """
         Start the updating process.
@@ -196,16 +214,15 @@ class DataHarvester:
 
     def add_interpolation_to_df(self, df):
         self.log.log_simple("Start interpolation" + "dataframe shape: " + str(df.shape))
-        
+
         interpolated_df = pd.DataFrame(columns=df.columns)
 
-
         interpolated_df.reset_index()
-       
+
         for index_rows in range(df.shape[0]):
             today = df["ADate"][index_rows]
 
-            tomorrow = df["ADate"][index_rows ]
+            tomorrow = df["ADate"][index_rows]
 
             delta = tomorrow - today
 
@@ -235,10 +252,11 @@ class DataHarvester:
                 interpolated_df = interpolated_df.append(
                     df_rows, ignore_index=True, sort=False
                 )
+
         self.log.log_simple(
             "Data Frame Interpolated" + "dataframe shape: " + str(interpolated_df.shape)
         )
-        
+
         return interpolated_df
 
     """
@@ -248,20 +266,11 @@ class DataHarvester:
     """
 
     def write_to_db(self, dataset_to_sql, ticker_name):
-        
+
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
-        
-        """
-        last changes in order to conform with the finda documentation
-        can be moved upper in the code but at this time getting things to work
-        is higher priority
-        """
-        # and this is where reality colides with our ideal model
-        # in the naming scheme and the meanings
-        
-        
+
         df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
-        
+
         self.log.log_simple("Writing interpolted dataframe to DB")
-        
+
         self.conn.write.write_asset_values(df_to_send)

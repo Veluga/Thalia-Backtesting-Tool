@@ -1,14 +1,14 @@
 Unnamed: 0,Ticker,Last_Update,Earliest_Record,Asset_Class
-0,VFIAX,2020-02-27,2000-11-13,index_funds
-1,SPY,2020-02-27,1993-01-29,index_funds
-2,VTSAX,2020-02-27,2000-11-13,index_funds
-3,FXAIX,2020-02-27,2011-05-04,index_funds
-4,IVV,2020-02-27,2000-05-19,index_funds
-5,VSMPX,2020-02-27,2015-04-28,index_funds
-6,VGTSX,2020-02-27,1996-04-29,index_funds
-7,VITSX,2020-02-27,1997-07-07,index_funds
-8,VTSMX,2020-02-27,1992-04-27,index_funds
-9,VIIIX,2020-02-27,1997-07-07,index_funds
+0,VFIAX,2020-03-01,2000-11-13,index_funds
+1,SPY,2020-03-01,1993-01-29,index_funds
+2,VTSAX,2020-03-01,2000-11-13,index_funds
+3,FXAIX,2020-03-01,2011-05-04,index_funds
+4,IVV,2020-03-01,2000-05-19,index_funds
+5,VSMPX,2020-03-01,2015-04-28,index_funds
+6,VGTSX,2020-03-01,1996-04-29,index_funds
+7,VITSX,2020-03-01,1997-07-07,index_funds
+8,VTSMX,2020-03-01,1992-04-27,index_funds
+9,VIIIX,2020-03-01,1997-07-07,index_funds
 10,VTPSX,,,index_funds
 11,VINIX,,,index_funds
 12,VTBIX,,,index_funds

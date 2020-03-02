@@ -12,7 +12,7 @@ from datetime import datetime
 class Logger:
     
     def __init__(self):
-        logging.basicConfig(filename="dh.log", level=logging.INFO)
+        logging.basicConfig(filename="dh_2.log", level=logging.INFO)
 
     def log_simple(self, message):
         logging.info(message)
