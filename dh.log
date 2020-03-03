@@ -254,3 +254,87 @@ INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
 INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
  Writing to the database.
 INFO:root:Start interpolationdataframe shape: (4852, 7)
+INFO:root:
+
+Started update at: 2020-03-03 12:52:36.193116
+INFO:root:Started updating yfinance at 2020-03-03 12:52:36.193366
+INFO:root:Updating for yfinance doing 2 calls
+INFO:root:calling for:
+asset_class: index_funds ticker: VFIAX start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (4853, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (7049, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:calling for:
+asset_class: index_funds ticker: SPY start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (6821, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (9894, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:Finished updating yfinance at 2020-03-03 12:53:19.797424
+INFO:root:Started updating nomics at 2020-03-03 12:53:19.797531
+INFO:root:Updating for nomics doing 2 calls
+INFO:root:calling for:
+asset_class: currency ticker: ALL start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (642, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (641, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:calling for:
+asset_class: currency ticker: AFN start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (642, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (641, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:Finished updating nomics at 2020-03-03 12:53:23.642422
+INFO:root:Finished all  updates at: 2020-03-03 12:53:23.642535
+INFO:root:
+
+Started update at: 2020-03-03 12:55:53.813800
+INFO:root:Started updating yfinance at 2020-03-03 12:55:53.813927
+INFO:root:Updating for yfinance doing 2 calls
+INFO:root:calling for:
+asset_class: index_funds ticker: VFIAX start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (4853, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (7049, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:calling for:
+asset_class: index_funds ticker: SPY start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (6821, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (9894, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:Finished updating yfinance at 2020-03-03 12:56:33.626009
+INFO:root:Started updating nomics at 2020-03-03 12:56:33.626121
+INFO:root:Updating for nomics doing 2 calls
+INFO:root:calling for:
+asset_class: currency ticker: ALL start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (642, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (641, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:calling for:
+asset_class: currency ticker: AFN start_date : 1970-1-1 end_date: 2020-03-02
+INFO:root:api returned <class 'pandas.core.frame.DataFrame'>
+INFO:root:Received data frame with data between 1970-1-1 - 2020-03-02
+ Writing to the database.
+INFO:root:Start interpolationdataframe shape: (642, 7)
+INFO:root:Data Frame Interpolateddataframe shape: (641, 7)
+INFO:root:Writing interpolted dataframe to DB
+INFO:root:Finished updating nomics at 2020-03-03 12:56:37.356041
+INFO:root:Finished all  updates at: 2020-03-03 12:56:37.356162

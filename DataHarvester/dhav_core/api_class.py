@@ -17,10 +17,11 @@ class ApiObject:
         self.supported_assets = supported_assets
         if self.has_key == True:
             path = os.path.join(path, name)
-            f = open(path, "r")
-            self.key = f.read().rstrip()
+            with open(path,"r") as f:
+                self.key = f.read().rstrip()
         else:
             self.key = False
+        
 
         self.api_calls_per_run = api_calls_per_run
         self.log = Logger() 
@@ -75,10 +76,6 @@ class ApiObject:
     def nomics(self, asset_class, ticker, start_date, end_date):
 
         nomics_api = nomics.Nomics(self.key)
-
-        if asset_class != "currency" and asset_class != "crypto":
-            print("only currency and crypto can be retreived with yahoo finance.")
-            exit()
 
         currency = nomics_api.ExchangeRates.get_history(
             currency=ticker,
