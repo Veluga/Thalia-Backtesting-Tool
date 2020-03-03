@@ -14,7 +14,7 @@ def create_app(test_config={}):
     register_dashapps(server)
     register_extensions(server)
     register_blueprints(server)
-    register_db(server)
+    register_asset_db(server)
 
     return server
 
@@ -75,7 +75,7 @@ def register_blueprints(server):
     server.register_blueprint(server_bp)
 
 
-def register_db(server, db_name="asset"):
+def register_asset_db(server, db_name="asset"):
     from Finda import fd_manager
 
     try:
