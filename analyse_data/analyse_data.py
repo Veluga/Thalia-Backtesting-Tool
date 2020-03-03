@@ -48,6 +48,9 @@ class Strategy:
         self.contribution_amount = contribution_amount
         self.rebalancing_dates = rebalancing_dates
 
+        self.returns = None
+        self.returns = total_return(self)
+
 
 # INTERNAL
 def _allocate_investments(
@@ -79,6 +82,8 @@ def _collect_dividend(dividend: Decimal, holdings: Decimal, price: Decimal) -> D
 
 # TODO: make numpy and pandas do the work.
 def total_return(strat) -> pd.Series:
+    if strat.returns is not None:
+        return strat.returns
     # Returns the value of the portfolio at each day in the time frame.
 
     ret = pd.Series(Decimal("0"), index=strat.dates)
