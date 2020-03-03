@@ -7,9 +7,9 @@ import sys
 '''
 sys.path.append('../..')
 
-from Harvester.DataHarvester.dhav_core.data_harvester import DataHarvester as dhorda
-from Harvester.DataHarvester.dhav_core.initialization import Initializer as preulde_dhorda
-from Harvester.DataHarvester.dhav_core.api_class import ApiObject as dhorda_api_warper
+from DataHarvester.dhav_core.data_harvester import DataHarvester as dhorda
+from DataHarvester.dhav_core.initialization import Initializer as preulde_dhorda
+from DataHarvester.dhav_core.api_class import ApiObject as dhorda_api_warper
 
 
 '''
@@ -44,7 +44,7 @@ def test_api_wraper_creation():
     path_apis_acces = os.path.dirname(path_apis_acces)
     path_apis_acces = os.path.dirname(path_apis_acces)
 
-    path_apis_acces = os.path.join(path_apis_acces,'Harvester/DataHarvester/apis_access/')
+    path_apis_acces = os.path.join(path_apis_acces,'DataHarvester/apis_access/')
     
 
     create_fictional_key(name, key_to_write,path_apis_acces)

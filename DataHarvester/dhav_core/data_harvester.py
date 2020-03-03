@@ -213,51 +213,58 @@ class DataHarvester:
     """
 
     def add_interpolation_to_df(self, df):
-        self.log.log_simple("Start interpolation" + "dataframe shape: " + str(df.shape))
-
+        pd.set_option('precision', 6)
         interpolated_df = pd.DataFrame(columns=df.columns)
+        interpolated_df = pd.DataFrame({i[0]: pd.Series(dtype=i[1])
+                    for i in df.dtypes.iteritems()},
+                    columns=df.dtypes.index)
 
         interpolated_df.reset_index()
-
-        for index_rows in range(df.shape[0]):
-            today = df["ADate"][index_rows]
-
-            tomorrow = df["ADate"][index_rows]
-
-            delta = tomorrow - today
-
-            rows_interpolated = []
-
-            df_today = df.iloc[index_rows]
-            df_today_app = df_today.to_frame().transpose()
-
-            interpolated_df = interpolated_df.append(
-                df_today_app, ignore_index=True, sort=False
-            )
-
-            if delta.days > 1:
-
-                for index_days in range(delta.days - 1):
-                    interpolated_row = df_today.copy()
-
-                    interpolated_row["ADate"] = today + timedelta(days=index_days + 1)
-
-                    interpolated_row["IsInterpolated"] = 1
-                    interpolated_row = interpolated_row.to_frame().transpose()
-
-                    rows_interpolated.append(interpolated_row)
-
-                df_rows = pd.concat(rows_interpolated, ignore_index=True, sort=True)
+        if(df.shape[0] == 1):
+            return df
+        else:
+            for index_rows in range(df.shape[0]-1):
+                
+                today = df["ADate"][index_rows]
+                
+                
+                tomorrow = df["ADate"][index_rows+1]
+                
+                delta = tomorrow - today
+                print(df.head(1))
+                rows_interpolated = []
+                #why is it losing precision out of nowhere
+                df_today = df.loc[index_rows]
+                print(df_today)
+                df_today_app = df_today.to_frame().transpose()
 
                 interpolated_df = interpolated_df.append(
-                    df_rows, ignore_index=True, sort=False
+                    df_today_app, ignore_index=True, sort=False
                 )
 
-        self.log.log_simple(
-            "Data Frame Interpolated" + "dataframe shape: " + str(interpolated_df.shape)
-        )
+                
+                if delta.days > 1:
 
-        return interpolated_df
+                    for index_days in range(delta.days - 1):
+                        
+                        interpolated_row = df_today.copy()
+
+                        interpolated_row["ADate"] = today + timedelta(days=index_days + 1)
+
+                        interpolated_row["IsInterpolated"] = 1
+                        
+                        interpolated_row = interpolated_row.to_frame().transpose()
+
+                        rows_interpolated.append(interpolated_row)
+
+                    df_rows = pd.concat(rows_interpolated, ignore_index=True, sort=True)
+                    
+                    interpolated_df = interpolated_df.append(
+                        df_rows, ignore_index=True, sort=False
+                    )
+
+            
+            return interpolated_df
 
     """
         {Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>, 
@@ -266,9 +273,13 @@ class DataHarvester:
     """
 
     def write_to_db(self, dataset_to_sql, ticker_name):
+        self.log.log_simple("Start interpolation" + "dataframe shape: " + str(dataset_to_sql.shape))
 
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
 
+        self.log.log_simple(
+            "Data Frame Interpolated" + "dataframe shape: " + str(df_to_send.shape)
+        )
         df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
 
         self.log.log_simple("Writing interpolted dataframe to DB")
