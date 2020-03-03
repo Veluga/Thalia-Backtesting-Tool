@@ -153,11 +153,11 @@ def sharpe_ratio(strat: Strategy, risk_free_rate: pd.DataFrame) -> float:
 
 def max_drawdown(strat: Strategy) -> Decimal:
     returns = total_return(strat)
-    max_seen, max_diff = 0.0, 1.0
+    max_seen, max_diff = Decimal(0.0), Decimal(1.0)
     for i in range(returns.size):
         max_seen = max(max_seen, returns[i])
         max_diff = min(max_diff, returns[i] / max_seen)
-    return Decimal((1 - max_diff) * 100.0)
+    return (Decimal(1.0) - max_diff) * Decimal(100.0)
 
 
 def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
