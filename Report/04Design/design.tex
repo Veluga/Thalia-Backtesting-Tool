@@ -30,6 +30,7 @@ The responsibility of our business logic can be summarised as follows: Given an 
 
 To achieve this, we have developed a library (Anda) that performs the necessary calculations. Anda is decoupled from both the presentation and database layer by relying on external providers for any price data and the specification of a strategy.
 This decision has been made to allow for alternative sources of price data in the future. One of our optional features for future development is allowing users to input their own price data for assets not supported by Thalia. This data could be uploaded, for example, as a CSV file or JSON. Without our current design, i.e. by coupling calculation of performance and metrics to database access, we would have to modify the business logic to support multiple data sources. Given our current implementation, however, we can simply parse the user data into a pandas dataframe in a wrapper around Anda and then call functions within the library as require.
+Currently supported metrics include Total Return, Max Drawdown, Best / Worst Year, and the Sharpe and Sortino Ratios. However, the library is open for extension, hence additional metrics may be added at any point.
 
 For a closer look at how an investment strategy is specified, consider the following class that serves as input to Anda library functionality (e.g. for calculating the Sharpe Ratio [citation needed]):
 
