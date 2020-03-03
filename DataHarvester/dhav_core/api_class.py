@@ -1,7 +1,7 @@
 import pandas_datareader as pdread
 import pandas as pd
 from datetime import datetime
-import nomics
+import nomics as nc
 import os
 import numpy as np
 from .logger_class import Logger
@@ -73,9 +73,9 @@ class ApiObject:
         df["AClose"] = pd.to_numeric(df["AClose"])
         return df
 
-    def nomics(self, asset_class, ticker, start_date, end_date):
+    def nomics_call(self, asset_class, ticker, start_date, end_date):
 
-        nomics_api = nomics.Nomics(self.key)
+        nomics_api = nc.Nomics(self.key)
 
         currency = nomics_api.ExchangeRates.get_history(
             currency=ticker,
@@ -138,7 +138,7 @@ class ApiObject:
             return df
 
         elif self.name == "nomics":
-            df = self.nomics(asset_class, ticker, start_date, end_date)
+            df = self.nomics_call(asset_class, ticker, start_date, end_date)
             formated =  self.check_df_format(df)
             if formated == False:
                 self.log.crit(asset_class,ticker,start_date,end_date)

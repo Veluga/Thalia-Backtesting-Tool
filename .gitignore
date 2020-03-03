@@ -7,7 +7,7 @@ DataHarvester/darhv/*
 DataHarvester/persistant_data/
 DataHarvester/persistant_data/*
 DataHarvester/dhav_core/dh.log
-
+dh.log
 
 __pycache__.eggs
 *.egg*
