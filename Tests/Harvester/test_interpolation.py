@@ -17,8 +17,8 @@ def test_interpolation():
 
     df_to_test['ADate'] = df_to_test['ADate'].astype('datetime64[ns]')
     
-    result = os.path.join(current_dir,"interpolation_result.csv")
-    df_correct = pd.read_csv(result)
+    result = os.path.join(current_dir, "interpolation_result.csv")
+    df_correct = pd.read_csv(result,index_col=0)
     
     dh = dhorda([])
 
@@ -29,11 +29,26 @@ def test_interpolation():
 
 
     calculated_df = dh.add_interpolation_to_df(df_to_test)
-    #print(calculated_df.dtypes)
-    #print(calculated_df.head(5))
+    calculated_df = calculated_df.drop(columns="Unnamed: 0")
+
+    calculated_df["ADate"] =  [time.date() for time in calculated_df['ADate']] 
+    df_correct["ADate"] =  pd.to_datetime(df_correct["ADate"])
+    for x in df_correct.columns:
+        calculated_df[x]=calculated_df[x].astype(df_correct[x].dtypes.name)
     
-    #print(df_correct.head(5))
    
-  
-    assert df_correct.equals(calculated_df)
+    print(type(df_correct["ADate"][0]) )
+    print( type(calculated_df["ADate"][0]) )
+
+
+
+
+    assert df_correct["ALow"].equals(calculated_df["ALow"])
+    assert df_correct["AHigh"].equals(calculated_df["AHigh"])
+    assert df_correct["AOpen"].equals(calculated_df["AOpen"])
+    assert df_correct["AClose"].equals(calculated_df["AClose"])
+    assert df_correct["AssetTicker"].equals(calculated_df["AssetTicker"])
+    assert df_correct["IsInterpolated"].equals(calculated_df["IsInterpolated"])
+    assert df_correct["ADate"].equals(calculated_df["ADate"])
+   
     

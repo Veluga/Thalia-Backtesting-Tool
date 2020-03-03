@@ -231,11 +231,10 @@ class DataHarvester:
                 tomorrow = df["ADate"][index_rows+1]
                 
                 delta = tomorrow - today
-                print(df.head(1))
+                
                 rows_interpolated = []
                 #why is it losing precision out of nowhere
                 df_today = df.loc[index_rows]
-                print(df_today)
                 df_today_app = df_today.to_frame().transpose()
 
                 interpolated_df = interpolated_df.append(
