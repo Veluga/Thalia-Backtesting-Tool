@@ -14,7 +14,6 @@ def test_filter_tickers():
 def test_update_dashboard_prevents_update():
     with pytest.raises(PreventUpdate):
         callbacks.update_dashboard(*[None] * 8)
-        callbacks.update_dashboard(*[None] * 8)
         pytest.fail("update_dashboard should not run on startup")
 
 
