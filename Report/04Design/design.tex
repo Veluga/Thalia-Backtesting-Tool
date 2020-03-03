@@ -11,9 +11,9 @@ We have chosen pandas dataframes \cite{pandas} as the common data format for bot
 \subsection{Overview of System Architecture}
 
 Before discussing any specific component and architectural layer in depth, it is worth revisiting our original architecture \cite{TR}.
-\begin{figure}[h]
+\begin{figure}[H]
     \caption{Original Thalia System Architecture \cite{TR}}
-	\includegraphics{./Pictures/architecture_layer_diagram}
+	\includegraphics[width=\textwidth]{04Design/04Pictures/architecture_layer_diagram.png}
 \end{figure}
 The above schematic illustrates how we modified a typical Three Layer architecture [citation needed] to include a Data Collection Layer. Subsequent discussion will refer to this layer as the `Data Harvester`. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. The decision to isolate this system component has been made in order to increase security by limiting the acess of the Thalia web service to the financial data database to read-only and to allow for independent scaling of the Data Harvester and our web service \cite{TR}.
 

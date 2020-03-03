@@ -13,6 +13,7 @@ One of the first decision we have made this term was to completely recreate our 
 
 Despite the risks posed by using an Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR_SVC}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
 
+
 TODO talk about API keys and security measures
 
 We have also decided to develop the application with python as our main choice of programming language. Even though this choice seemed obvious from the beginning, we did consider its main benefits, these would be the following:
@@ -49,7 +50,7 @@ Throughout the whole project we had a total of 110 tickets, and 71 pull requests
 
 \begin{figure}[H]
    \centering
-   \includegraphics[scale=0.8]{05Coding/05Pictures/contributions.png}
+   \includegraphics[width=\textwidth]{05Coding/05Pictures/contributions.jpg}
    \caption{Contributions to the Master branch (source: https://github.com/)}
 \end{figure}
 
@@ -67,7 +68,7 @@ In addition, we also had a scrum board as an overview for the ongoing tickets. A
 
 \begin{figure}[H]
    \centering
-   \includegraphics[scale=0.55]{05Coding/05Pictures/scrumboard.png}
+   \includegraphics[width=\textwidth]{05Coding/05Pictures/scrumboard.png}
    \caption{Scrum board - truncated}
    \label{Scrum}
 \end{figure}
@@ -75,18 +76,6 @@ In addition, we also had a scrum board as an overview for the ongoing tickets. A
 The workflow then largely depended on the task at hand and the person working on it. It was up to them if they met for pair-programming, or chose to work individually. In the beginning we all agreed on the developing environment and coding standards (for a detailed analysis see the later section \ref{Coding Standards}). Since this report was a relevant portion of the workload, we decided to treat it as code. The report was written in \LaTeX, first creating the overall structure of the document with a main.tex compiling the sections together. This let us to work on different sections separately just like features in our software.
 
 Regardless of the nature of the ticket, the week, or in case of some larger tasks, two weeks, ended by the creator indicating that the changes were ready to be integrated. This was done by publishing the changes and creating a new pull request, pushing the changes onto the master branch. To ensure code quality, we set up a continuous integration (CI) environment (more on that in \ref{Coding Standards}). After all checks have passed, the changes were successfully integrated into the code base.
-
-\subsection{Schedule}
-As mentioned in our Technical Report, we introduced some milestones or releases for our product based on incremental sets of features. This was done to help us stay on track with development. The roadmap based on this schedule can be seen on \figurename{\ref{Roadmap}}.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[scale=0.55]{05Coding/05Pictures/initial_roadmap.png}
-   \caption{Technical Report: Roadmap - revisited}
-   \label{Roadmap}
-\end{figure}
-
-TODO retrospective on schedule
 
 \subsection{Key Implementation Decisions}
 
@@ -121,6 +110,7 @@ https://coderseye.com/django-vs-flask
 \fi
 
 \subsubsection{GUI}
+
 \label{GUI}
 \subsubsection{Business Logic}
 \label{BL}
@@ -173,7 +163,7 @@ The main drawbacks of using SQLite, namely scalability and performance are not a
 \subsubsection{Harvester}
 \label{Harvester}
 
-\subsection{Integration}
+\subsection{Integration  \& Deployment}
 \label{Coding Standards}
 
  Writing well documented and good quality code is one thing, but making sure it all works together as a whole is a completely different story. In the first term, many hours have been wasted on trying to integrate different components of the system which did not want to fit together. Even then we had some DevOps tools in place \cite{DevOps}, but considering that we had to produce significantly less code and more documentation last term, this was not a priority.
@@ -246,7 +236,7 @@ The outcome of these steps is visible on CircleCI, but more importantly also on 
 
 With the help of these steps and CircleCI we managed to ensure that the code written is uniform and of good quality. It significantly reduced the time needed for integrating and code reviewing. The last step was now to deploy the system.
 
-\subsection{Hosting and Deployment}
+\subsubsection{Hosting and Continuous Deployment}
 \label{Continuous Deployment}
 
 An overview over the literature covering reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
@@ -269,6 +259,14 @@ The benefits of using continuous deployment have been well established for multi
 	\item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
 \end{enumerate}
 
-Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state.
+Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state. The full CI/CD workflow is captured by the on \figurename{\ref{CI_CD}}.
+
+ \begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.6]{05Coding/05Pictures/CI_CD.png}
+   \caption{CI/CD workflow}
+   \label{CI_CD}
+\end{figure}
 
 \end{document}
+
