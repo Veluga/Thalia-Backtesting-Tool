@@ -49,7 +49,7 @@ jobs:
           path: test-results  
   deploy:
     docker:
-      - image: circleci/python:3.6.2-stretch-browsers
+      - image: circleci/python:3.8-buster 
     steps:
       - checkout
       - run:
