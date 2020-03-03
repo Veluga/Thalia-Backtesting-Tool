@@ -15,8 +15,9 @@ from Finda import FdMultiController
 class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
-        FdMultiController.fd_register("asset")
-        self.conn = FdMultiController.fd_connect("asset", "rw")
+        
+        #FdMultiController.fd_register("asset")
+        #self.conn = FdMultiController.fd_connect("asset", "rw")
 
         self.log = Logger()
 
