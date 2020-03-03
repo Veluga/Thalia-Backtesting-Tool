@@ -1,3 +1,0 @@
-#!/bin/bash
-
-find . -regex ".*\.tex" | xargs -L1 sed -i -e 's/monsterhunter/applepie/g'
