@@ -207,7 +207,7 @@ def get_figure(total_returns):
 
 
 def get_trace(x, y):
-    return go.Scatter(x=x, y=y, mode="lines+markers",)
+    return go.Scattergl(x=x, y=y, mode="lines+markers",)
 
 
 def normalise(arr):
