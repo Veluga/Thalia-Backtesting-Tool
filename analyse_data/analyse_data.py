@@ -92,7 +92,7 @@ def total_return(strat) -> pd.Series:
     balance = strat.starting_balance
 
     for day in strat.dates:
-        asset_vals_today = [values.at[day] for values in asset_values]
+        asset_vals_today = [values.at[day] for values in asset_values if day in values]
         if day == strat.dates[0] or day in strat.rebalancing_dates:
             investments = _allocate_investments(
                 balance, ideal_weights, asset_vals_today
