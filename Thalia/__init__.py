@@ -1,7 +1,6 @@
 import dash
 from config import Config
 from flask import Flask
-from flask.helpers import get_root_path
 from flask_login import login_required
 
 
@@ -11,10 +10,10 @@ def create_app(test_config={}):
     # load the test config if passed in otherwise nothing happens
     server.config.update(test_config)
 
+    register_asset_db(server)
     register_dashapps(server)
     register_extensions(server)
     register_blueprints(server)
-    register_asset_db(server)
 
     return server
 
@@ -80,13 +79,6 @@ def register_blueprints(server):
 
 
 def register_asset_db(server, db_name="asset"):
-    from Finda import fd_manager
+    from .findb_conn import findb
 
-    try:
-        server.config.update(
-            THALIA_DB_CONN=fd_manager.FdMultiController.fd_connect(db_name, "rwd")
-        )
-    except Exception as e:
-        print("Fatal: Unable to connect to database " + db_name)
-        print(e)
-        exit()
+    findb.register_asset_db(server, db_name)
