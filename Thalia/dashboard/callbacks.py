@@ -58,6 +58,7 @@ def register_callbacks(dashapp):
         [Input("memory_ticker", "value")],
         [State("memory-table", "data")],
     )(filter_tickers)
+
     # pass input dates
     dashapp.callback(
         Output("output_dates", "children"),
