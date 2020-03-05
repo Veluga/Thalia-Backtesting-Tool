@@ -197,7 +197,22 @@ def options():
     )
 
 
-def graph_box(graph_name, figure, id):
+def options_wrapper():
+    return html.Div(
+        html.Div(html.Div(options(), className="box"), className="column is-12"),
+        className="columns is-multiline is-vcentered",
+    )
+
+
+def options_title():
+    return html.Div(
+        html.H1("Ticker Selection", className="title"),
+        className="column is-12",
+        id="tickers",
+    )
+
+
+def graph_box(graph_name, figure, id, size=6):
     return html.Div(
         html.Div(
             [
@@ -206,55 +221,22 @@ def graph_box(graph_name, figure, id):
             ],
             className="panel",
         ),
-        className="column is-6",
+        className="column is-" + str(size),
     )
 
 
-def box(values_dict):
+def box(metric_names, metric_values):
     return html.Div(
         [
             html.Div(
                 [
-                    html.Div(list(values_dict.keys())[0], className="heading"),
-                    html.Div(str(list(values_dict.values())[0]), className="title"),
+                    html.Div(metric_names[0], className="heading"),
+                    html.Div(str(metric_values[0]), className="title"),
                     html.Div(
                         [
-                            html.Div(
-                                [
-                                    html.Div(
-                                        list(values_dict.keys())[1], className="heading"
-                                    ),
-                                    html.Div(
-                                        str(list(values_dict.values())[1]),
-                                        className="title is-5",
-                                    ),
-                                ],
-                                className="level-item",
-                            ),
-                            html.Div(
-                                [
-                                    html.Div(
-                                        list(values_dict.keys())[2], className="heading"
-                                    ),
-                                    html.Div(
-                                        str(list(values_dict.values())[2]),
-                                        className="title is-5",
-                                    ),
-                                ],
-                                className="level-item",
-                            ),
-                            html.Div(
-                                [
-                                    html.Div(
-                                        list(values_dict.keys())[3], className="heading"
-                                    ),
-                                    html.Div(
-                                        str(list(values_dict.values())[3]),
-                                        className="title is-5",
-                                    ),
-                                ],
-                                className="level-item",
-                            ),
+                            box_item(metric_names[1], metric_values[1]),
+                            box_item(metric_names[2], metric_values[2]),
+                            box_item(metric_names[3], metric_values[3]),
                         ],
                         className="level",
                     ),
@@ -266,7 +248,17 @@ def box(values_dict):
     )
 
 
-def read_nav_html(html_file):
+def box_item(metric_name, metric_value):
+    return html.Div(
+        [
+            html.Div(metric_name, className="heading"),
+            html.Div(str(metric_value), className="title is-5",),
+        ],
+        className="level-item",
+    )
+
+
+def read_html(html_file):
     base_html_path = os.path.join(
         os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -281,99 +273,74 @@ def read_nav_html(html_file):
     return base_html
 
 
+def navbar():
+    return html.Div(
+        [
+            inner_html.DangerouslySetInnerHTML(read_html("dash_navbar.html")),
+            html.Hr(style={"margin-top": 0}),
+        ],
+    )
+
+
+def level_item():
+    return html.Div(
+        [
+            html.Div(
+                html.Div(
+                    html.Div("Dashboard", className="title"), className="level-item",
+                ),
+                className="level-left",
+                id="dashboard",
+            ),
+            html.Div(
+                html.Div(
+                    html.Div(id="output_dates", className="subtitle",),
+                    className="level-item",
+                ),
+                className="level-right",
+            ),
+        ],
+        className="level",
+    )
+
+
+def main_dashboard():
+    return html.Div(
+        [
+            box(
+                ["Top Seller Total", "Sales", "Overall", "Sales %"],
+                [56950, 250000, 750000, 25],
+            ),
+            box(
+                ["Top Seller Total", "Sales", "Overall", "Sales %"],
+                [56950, 250000, 750000, 25],
+            ),
+            box(
+                ["Top Seller Total", "Sales", "Overall", "Sales %"],
+                [56950, 250000, 750000, 25],
+            ),
+            graph_box("Overall Graph", figure={}, id="graph", size=12),
+            graph_box("Another Graph", figure={}, id="graph2", size=6),
+            graph_box("More Graphs", figure={}, id="graph3", size=6),
+        ],
+        className="columns is-multiline",
+    )
+
+
 layout = html.Div(
     [
-        html.Div(
-            [
-                inner_html.DangerouslySetInnerHTML(read_nav_html("dash_navbar.html")),
-                html.Hr(style={"margin-top": 0}),
-            ],
-        ),
+        navbar(),
         html.Div(
             html.Main(
                 [
-                    html.Aside(
-                        inner_html.DangerouslySetInnerHTML(
-                            read_nav_html("dash_aside.html")
-                        ),
-                        className="column is-2",
-                    ),
                     html.Div(
                         [
-                            html.Div(
-                                html.H1("Ticker Selection", className="title"),
-                                className="column is-12",
-                                id="tickers",
-                            ),
-                            html.Div(
-                                [
-                                    html.Div(
-                                        html.Div(options(), className="box"),
-                                        className="column is-12",
-                                    ),
-                                ],
-                                className="columns is-multiline is-vcentered",
-                            ),
-                            html.Div(
-                                [
-                                    html.Div(
-                                        html.Div(
-                                            html.Div("Dashboard", className="title"),
-                                            className="level-item",
-                                        ),
-                                        className="level-left",
-                                        id="dashboard",
-                                    ),
-                                    html.Div(
-                                        html.Div(
-                                            html.Div(
-                                                id="output_dates", className="subtitle",
-                                            ),
-                                            className="level-item",
-                                        ),
-                                        className="level-right",
-                                    ),
-                                ],
-                                className="level",
-                            ),
-                            html.Div(
-                                [
-                                    box(
-                                        {
-                                            "Top Seller Total": 56950,
-                                            "Sales": 250000,
-                                            "Overall": 750000,
-                                            "Sales %": 25,
-                                        }
-                                    ),
-                                    box(
-                                        {
-                                            "Top Seller Total": 56950,
-                                            "Sales": 250000,
-                                            "Overall": 750000,
-                                            "Sales %": 25,
-                                        }
-                                    ),
-                                    box(
-                                        {
-                                            "Top Seller Total": 56950,
-                                            "Sales": 250000,
-                                            "Overall": 750000,
-                                            "Sales %": 25,
-                                        }
-                                    ),
-                                    graph_box("Overall Graph", figure={}, id="graph"),
-                                    graph_box("Another Graph", figure={}, id="graph2"),
-                                    graph_box("More Graphs", figure={}, id="graph3"),
-                                    graph_box(
-                                        "Graphs Graphs Graphs", figure={}, id="graph4"
-                                    ),
-                                    table([], "table"),
-                                ],
-                                className="columns is-multiline",
-                            ),
+                            options_title(),
+                            options_wrapper(),
+                            level_item(),
+                            main_dashboard(),
                         ],
-                        className="column is-10",
+                        className="column is-offset-1 is-10",
                     ),
                 ],
                 className="columns",
