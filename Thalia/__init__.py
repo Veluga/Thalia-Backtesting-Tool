@@ -14,6 +14,7 @@ def create_app(test_config={}):
     register_dashapps(server)
     register_extensions(server)
     register_blueprints(server)
+    register_asset_db(server)
 
     return server
 
@@ -76,3 +77,16 @@ def register_blueprints(server):
     from .views import server_bp
 
     server.register_blueprint(server_bp)
+
+
+def register_asset_db(server, db_name="asset"):
+    from Finda import fd_manager
+
+    try:
+        server.config.update(
+            THALIA_DB_CONN=fd_manager.FdMultiController.fd_connect(db_name, "rwd")
+        )
+    except Exception as e:
+        print("Fatal: Unable to connect to database " + db_name)
+        print(e)
+        exit()
