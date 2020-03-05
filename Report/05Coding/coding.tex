@@ -210,13 +210,13 @@ Another tool used for enforcing uniform style was the black auto-formatter for P
 
 Many studies have investigated the positive effects of developing in a continuous integration (CI) environment \cite{CI_1}, \cite{CI_2}. Regardless of the exact implementation, its obvious benefit is that it provides security and uniformity for projects. We already made some steps to achieve a uniform style, but had no means to know whether the code published has been also passed its tests. Note in this section we will only discuss testing as a part of CI and not the testing strategy, for that see the section \ref{Testing}.
 
-Another important part of the DevOps toolchain is the use of containers, which is what Docker helps to achieve \cite{Docker}. Docker helps developers focus on writing code rather than worrying about the system the application will be running on, and also helps to reveal dependency and library issues. As Docker is open source, there are many free to use docker images available online \cite{Docker Images}. When choosing the CI environment, Docker support was one of the main requirements.
+Another important part of the DevOps toolchain is the use of containers, which is what Docker helps to achieve \cite{Docker}. Docker helps developers focus on writing code rather than worrying about the system the application will be running on, and also helps to reveal dependency and library issues. As Docker is open source, there are many free to use docker images available online \cite{DockerImages}. When choosing the CI environment, Docker support was one of the main requirements.
 
 The most promising candidate for this was CircleCI \cite{CircleCI}, which is a cloud-based system with first-class Docker support and a free trial. After connecting our GitHub repository to CircleCI, and setting up a configuration, CircleCI now does the following on every pull-request:
 
 \begin{enumerate}
     \item Sets up a clean container or virtual machine for the code.
-    \item Checks previously cached requirements.
+    \item Checks previously cached requirements, for more detail see \figurename{\ref{cache_CI}}.
     \item Installs the requirements from requirements.txt
     \item Caches the requirements for faster performance.
     \item Clones the branch needed to be merged.
@@ -224,6 +224,13 @@ The most promising candidate for this was CircleCI \cite{CircleCI}, which is a c
     \item Runs tests and saves results.
     \item Deploys the master branch to Heroku, see \ref{Continuous Deployment}
 \end{enumerate}
+
+ \begin{figure}[H]
+   \centering
+   \includegraphics[width=\textwidth]{05Coding/05Pictures/cache_CI.png}
+   \caption{CircleCI on Caching (source: https://circleci.com/docs/2.0/caching/)}
+   \label{cache_CI}
+\end{figure}
 
 The outcome of these steps is visible on CircleCI, but more importantly also on GitHub, and it refuses to merge if failing test (or no tests) have been found.
 
