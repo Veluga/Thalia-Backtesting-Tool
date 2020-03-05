@@ -163,7 +163,7 @@ def rebalancing_dates():
             html.Br(),
             dcc.Dropdown(
                 id="rebalancing_dropdown",
-                options=[   # Business month END
+                options=[  # Business month END
                     {"label": "None", "value": None},
                     {"label": "Monthly", "value": "BM"},
                     {"label": "Quarterly", "value": "BQ"},
@@ -341,41 +341,51 @@ layout = html.Div(
                                 ],
                                 className="level",
                             ),
-                            html.Div(
-                                [
-                                    box(
-                                        {
-                                            "Top Seller Total": 56950,
-                                            "Sales": 250000,
-                                            "Overall": 750000,
-                                            "Sales %": 25,
-                                        }
-                                    ),
-                                    box(
-                                        {
-                                            "Top Seller Total": 56950,
-                                            "Sales": 250000,
-                                            "Overall": 750000,
-                                            "Sales %": 25,
-                                        }
-                                    ),
-                                    box(
-                                        {
-                                            "Top Seller Total": 56950,
-                                            "Sales": 250000,
-                                            "Overall": 750000,
-                                            "Sales %": 25,
-                                        }
-                                    ),
-                                    graph_box("Overall Graph", figure={}, id="graph"),
-                                    graph_box("Another Graph", figure={}, id="graph2"),
-                                    graph_box("More Graphs", figure={}, id="graph3"),
-                                    graph_box(
-                                        "Graphs Graphs Graphs", figure={}, id="graph4"
-                                    ),
-                                    table([], "table"),
-                                ],
-                                className="columns is-multiline",
+                            dcc.Loading(
+                                html.Div(
+                                    [
+                                        box(
+                                            {
+                                                "Top Seller Total": 56950,
+                                                "Sales": 250000,
+                                                "Overall": 750000,
+                                                "Sales %": 25,
+                                            }
+                                        ),
+                                        box(
+                                            {
+                                                "Top Seller Total": 56950,
+                                                "Sales": 250000,
+                                                "Overall": 750000,
+                                                "Sales %": 25,
+                                            }
+                                        ),
+                                        box(
+                                            {
+                                                "Top Seller Total": 56950,
+                                                "Sales": 250000,
+                                                "Overall": 750000,
+                                                "Sales %": 25,
+                                            }
+                                        ),
+                                        graph_box(
+                                            "Overall Graph", figure={}, id="graph"
+                                        ),
+                                        graph_box(
+                                            "Another Graph", figure={}, id="graph2"
+                                        ),
+                                        graph_box(
+                                            "More Graphs", figure={}, id="graph3"
+                                        ),
+                                        graph_box(
+                                            "Graphs Graphs Graphs",
+                                            figure={},
+                                            id="graph4",
+                                        ),
+                                        table([], "table"),
+                                    ],
+                                    className="columns is-multiline",
+                                )
                             ),
                         ],
                         className="column is-10",
