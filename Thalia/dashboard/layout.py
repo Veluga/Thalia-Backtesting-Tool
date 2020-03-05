@@ -88,9 +88,15 @@ def selected_tickers_table():
 
 def select_dates():
     # TODO: end date should be today!
+    today = dt.now().date()
     return html.Div(
         [
-            dcc.DatePickerRange(id="my-date-picker-range", max_date_allowed=dt.now(),),
+            dcc.DatePickerRange(
+                id="my-date-picker-range",
+                max_date_allowed=today,
+                start_date="1970-01-01",
+                end_date=today,
+            ),
             html.Div(id="date-picker-range-container"),
         ]
     )
@@ -107,6 +113,7 @@ def initial_amount_of_money():
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
+                value=10000,
             ),
             html.Div(id="output_money"),
         ]
