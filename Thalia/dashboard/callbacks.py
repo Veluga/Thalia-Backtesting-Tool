@@ -151,9 +151,12 @@ def update_backtest_results(
     assets_data = get_assets(tickers, weights, start_date, end_date)
     risk_free_rate = mock_risk_free(start_date, end_date)
 
+    real_start_date = min(asset.values.index[0] for asset in assets_data)
+    real_end_date = max(asset.values.index[-1] for asset in assets_data)
+
     strategy = anda.Strategy(
-        start_date,
-        end_date,
+        real_start_date,
+        real_end_date,
         input_money,
         assets_data,
         contribution_dates,
