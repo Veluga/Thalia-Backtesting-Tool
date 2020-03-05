@@ -94,6 +94,9 @@ def update_dashboard(
     )
     if any(param is None for param in values):
         raise PreventUpdate
+    if all(tkr["Allocation"] == 0 for tkr in tickers_selected):
+        raise PreventUpdate
+
     if contribution_dropdown is not None:
         contribution_dates = pd.date_range(
             start_date, end_date, freq=contribution_dropdown
