@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
-from . import layout
+from .tab_elements.tickers import df
 from datetime import datetime
 
 from analyse_data import analyse_data as anda
@@ -23,7 +23,7 @@ def filter_tickers(tickers_selected, param_state):
     if param_state is None:
         param_state = []
     #  prefix variable name with @ to perform query
-    filtered = layout.df.query("AssetTicker in @tickers_selected")
+    filtered = df.query("AssetTicker in @tickers_selected")
     dict_ver = filtered.to_dict(orient="records")
     new_store = param_state + (dict_ver)
 
