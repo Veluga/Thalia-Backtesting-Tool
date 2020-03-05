@@ -225,28 +225,19 @@ def get_assets(tickers, proportions, start_date, end_date):
     Returns a list of all assets.
     """
     assert len(tickers) == len(proportions)
-    return [
-        anda.Asset(tick, prop, mock_prices(tick, start_date, end_date))
-        for tick, prop in zip(tickers, proportions)
-    ]
-
-
-def mock_prices(ticker, start_date, end_date):
-    """
-    Makes up data and shoves it in a dataframe.
-    """
-    import numpy as np
-
-    date_rng = pd.date_range(start=start_date, end=end_date, freq="D")
-    columns = ["Open", "Low", "High", "Close"]
-
-    n_rows = len(date_rng)
-    n_cols = len(columns)
-    prices = [[Decimal("5.00") for _ in range(n_cols)] for _ in range(n_rows)]
-
-    df = pd.DataFrame(prices, index=date_rng, columns=columns)
-    return df
+    data = util.get_data(tickers, start_date, end_date)
+    data = data.rename(
+        columns={"AOpen": "Open", "AClose": "Close", "ALow": "Low", "AHigh": "High"}
+    )
+    assets = []
+    for tick, prop in zip(tickers, proportions):
+        asset_data = data[(data.AssetTicker == tick)]
+        only_market_data = asset_data[["ADate", "Open", "Close", "Low", "High"]]
+        only_market_data.index = only_market_data["ADate"]
+        assets.append(anda.Asset(tick, prop, only_market_data))
+    return assets
 
 
 def mock_risk_free(start_date, end_date):
-    return mock_prices("TODO: actual US Bonds name", start_date, end_date)
+    # TODO: Implement
+    return None
