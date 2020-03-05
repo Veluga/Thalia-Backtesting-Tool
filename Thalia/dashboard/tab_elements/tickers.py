@@ -75,7 +75,8 @@ def select_dates():
         [
             dcc.DatePickerRange(id="my-date-picker-range", max_date_allowed=dt.now(),),
             html.Div(id="date-picker-range-container"),
-        ]
+        ],
+        className="container has-text-centered",
     )
 
 
@@ -155,12 +156,12 @@ def rebalancing_dates():
 def options():
     return html.Div(
         [
-            html.Div([select_dates()], className="container",),
-            html.Div([initial_amount_of_money()], className="container",),
-            html.Div([contribution_amount()], className="container",),
-            html.Div([contribution_dates()], className="container",),
-            html.Div([rebalancing_dates()], className="container",),
-            html.Div([ticker_selector()], className="container",),
+            html.Div([select_dates()],),
+            html.Div([initial_amount_of_money()],),
+            html.Div([contribution_amount()],),
+            html.Div([contribution_dates()],),
+            html.Div([rebalancing_dates()],),
+            html.Div([ticker_selector()],),
         ]
     )
 
@@ -178,15 +179,4 @@ def submit_button():
 
 
 def options_wrapper():
-    return html.Div(
-        html.Div(
-            html.Div(
-                html.Div(
-                    [options(), html.Br(), submit_button(),], className="container",
-                ),
-                className="box",
-            ),
-            className="column is-12",
-        ),
-        className="columns is-multiline is-vcentered",
-    )
+    return html.Div([options(), html.Br(), submit_button(),], className="box",)

@@ -3,6 +3,7 @@ from config import Config
 from flask import Flask
 from flask.helpers import get_root_path
 from flask_login import login_required
+from .templates.dash.dash_base import base_html
 
 
 def create_app(test_config={}):
@@ -30,8 +31,9 @@ def register_dashapps(app):
     }
 
     external_stylesheets = [
-        'https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css'
-]
+        "https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css",
+        "https://use.fontawesome.com/releases/v5.3.1/js/all.js",
+    ]
 
     dashapp = dash.Dash(
         __name__,
@@ -39,11 +41,12 @@ def register_dashapps(app):
         url_base_pathname="/dashboard/",
         meta_tags=[meta_viewport],
         suppress_callback_exceptions=True,
-        external_stylesheets=external_stylesheets
+        external_stylesheets=external_stylesheets,
     )
 
     with app.app_context():
         dashapp.title = "Backtest dashboard"
+        dashapp.index_string = base_html
         dashapp.layout = layout
         register_callbacks(dashapp)
 
