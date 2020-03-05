@@ -14,20 +14,19 @@ def print_output(start_date, end_date):
     return display_date
 
 
-def filter_tickers(tickers_selected, param_state):
+def filter_tickers(ticker_selected, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
-    if tickers_selected is None:
+    if ticker_selected is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
-    #  prefix variable name with @ to perform query
-    filtered = layout.df.query("AssetTicker in @tickers_selected")
-    dict_ver = filtered.to_dict(orient="records")
-    new_store = param_state + (dict_ver)
+    asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+    if all(asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state):
+        param_state.append(asset)
 
-    return new_store
+    return param_state
 
 
 def register_callbacks(dashapp):

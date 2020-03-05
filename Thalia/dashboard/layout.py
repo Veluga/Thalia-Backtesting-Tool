@@ -31,58 +31,58 @@ def table(data, id):
 
 
 def ticker_selector():
-
+    tickers = util.get_asset_names()
+    dropdown_items = [{"value": x, "label": x} for x in tickers]
     return html.Div(
-        [
-            html.Div(
+        [ticker_dropdown(dropdown_items), selected_tickers_table()],
+        className="columns is-marginless ",
+    )
+
+
+def ticker_dropdown(dropdown_items):
+    return html.Div(
+        html.Div(
+            [
+                html.Label("Ticker: ", className="label"),
                 html.Div(
                     [
-                        html.Label("Ticker: ", className="label"),
-                        html.Div(
-                            [
-                                dcc.Dropdown(
-                                    id="memory_ticker",
-                                    options=[
-                                        {"value": x, "label": x} for x in AssetTicker
-                                    ],
-                                    multi=False,
-                                    className="",
-                                ),
-                            ],
-                            className="control",
+                        dcc.Dropdown(
+                            id="memory_ticker",
+                            options=dropdown_items,
+                            multi=False,
+                            className="",
                         ),
                     ],
-                    className="field",
+                    className="control",
                 ),
-                className="column",
-            ),
-            html.Div(
-                html.Div(
-                    [
-                        dash_table.DataTable(
-                            id="memory-table",
-                            columns=[
-                                {
-                                    "name": "AssetTicker",
-                                    "id": "AssetTicker",
-                                    "type": "text",
-                                },
-                                {"name": "Name", "id": "Name", "type": "text"},
-                                {
-                                    "name": "Allocation",
-                                    "id": "Allocation",
-                                    "type": "numeric",
-                                    "editable": True,
-                                },
-                            ],
-                            row_deletable=True,
-                        )
+            ],
+            className="field",
+        ),
+        className="column",
+    )
+
+
+def selected_tickers_table():
+    return html.Div(
+        html.Div(
+            [
+                dash_table.DataTable(
+                    id="memory-table",
+                    columns=[
+                        {"name": "AssetTicker", "id": "AssetTicker", "type": "text"},
+                        # {"name": "Name", "id": "Name", "type": "text"},
+                        {
+                            "name": "Allocation",
+                            "id": "Allocation",
+                            "type": "numeric",
+                            "editable": True,
+                        },
                     ],
-                    className="section",
+                    row_deletable=True,
                 )
-            ),
-        ],
-        className="columns is-marginless ",
+            ],
+            className="section",
+        )
     )
 
 
