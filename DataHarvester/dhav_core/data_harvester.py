@@ -16,8 +16,8 @@ class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
 
-        # FdMultiController.fd_register("asset")
-        # self.conn = FdMultiController.fd_connect("asset", "rw")
+        #FdMultiController.fd_register("asset")
+        #self.conn = FdMultiController.fd_connect("asset", "rw")
 
         self.log = Logger()
 
@@ -236,7 +236,7 @@ class DataHarvester:
                 delta = tomorrow - today
 
                 rows_interpolated = []
-                # why is it losing precision out of nowhere
+                
                 df_today = df.loc[index_rows]
                 df_today_app = df_today.to_frame().transpose()
 
@@ -266,6 +266,14 @@ class DataHarvester:
                         df_rows, ignore_index=True, sort=False
                     )
 
+            # add the last row to the dataframe
+            df_today = df.loc[index_rows+1]
+            df_today_app = df_today.to_frame().transpose()
+            interpolated_df = interpolated_df.append(
+                    df_today_app, ignore_index=True, sort=False
+                )
+
+            
             return interpolated_df
 
     """
@@ -275,12 +283,12 @@ class DataHarvester:
     """
 
     def write_to_db(self, dataset_to_sql, ticker_name):
+       
         self.log.log_simple(
             "Start interpolation" + "dataframe shape: " + str(dataset_to_sql.shape)
         )
 
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
-
         self.log.log_simple(
             "Data Frame Interpolated" + "dataframe shape: " + str(df_to_send.shape)
         )

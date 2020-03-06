@@ -5,10 +5,10 @@ from DataHarvester.dhav_core.init_finda_db_structure import init_db_finda
 
 """
 Only content remaining after developement phase
-init_db_finda()
+
 reset_update_lists()
 run_me()
 """
-
+init_db_finda()
 reset_update_lists()
 run_me()

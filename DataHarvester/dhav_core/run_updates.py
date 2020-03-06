@@ -14,7 +14,7 @@ def run_me():
     path = os.path.join(path, "apis_access")
 
     api_calls_api1 = 1
-    api_calls_api2 = 0
+    api_calls_api2 = 1
     api1 = apic(
         "yfinance", ["bonds", "comodities_future", "index_funds"], api_calls_api1
     )

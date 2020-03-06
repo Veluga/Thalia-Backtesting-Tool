@@ -7,9 +7,6 @@ import sys
 import os
 import pandas as pd
 
-# do not change the directory structure
-sys.path.append("../../../")
-
 from Finda import FdMultiController
 
 
@@ -18,10 +15,13 @@ class DataBaseConstructor:
         self.conn = FdMultiController.fd_connect("asset", "rw")
 
     def asset_classes_list(self):
-        basepath = "../tickers/"
+        path = os.path.abspath(__file__)
+        path = os.path.dirname(path)
+        path = os.path.dirname(path)
+        path = os.path.join(path,"tickers")
         array_list = []
-        for entry in os.listdir(basepath):
-            if os.path.isfile(os.path.join(basepath, entry)):
+        for entry in os.listdir(path):
+            if os.path.isfile(os.path.join(path, entry)):
                 entry = entry.replace("_tickers.csv", "")
                 array_list.append(entry)
 
@@ -106,6 +106,7 @@ def init_db_finda():
     # can try a if file exists however it
     # would not work when changing to a different database
     # better let the dbms tell you if the db exists or not
+    
     try:
         FdMultiController.fd_create("asset")
     except:
@@ -115,8 +116,9 @@ def init_db_finda():
     dbc.create_db_connection()
     dbc.dh_pass_asset_classes_fd()
     dbc.dh_pass_tickers_fd()
-
+  
 
 if __name__ == "__main__":
+
     init_db_finda()
 
