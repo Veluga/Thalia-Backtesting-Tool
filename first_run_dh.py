@@ -12,5 +12,3 @@ run_me()
 
 reset_update_lists()
 run_me()
-
-
