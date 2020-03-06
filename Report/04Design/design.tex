@@ -95,9 +95,13 @@ The separation of dissimilar collections of data is a practice widely adopted in
 
 The Finda module was designed to implement the data layer, acting as an intermediary between the data harvester/business logic and the financial data. It allows users to manage a number of databases implementing a common schema and give them access to a suite of tools for reading, writing, and removing the data stored in each. In addition to this the Finda module implements the following features:
 
-A system for managing user permissions to help reinforce separation of responsibilities among Thalia's other modules. 
-Integrity checks to ensure the integrity of the data provided to the end user. 
-A suite of administrative features to aid with managing the application back end
+\begin{itemize}
+\item A system for managing user permissions to help reinforce separation of responsibilities among Thalia's other modules. 
+\item Integrity checks to ensure the integrity of the data provided to the end user.
+\item A suite of administrative features to aid with managing the application back end.
+\end{itemize}
+
+Users can access these features through an outwards facing interface object, designed based on the controller design pattern.
 
 Finda's design was modeled after object relational mappers (ORMs), libraries offered by most popular web frameworks the use of which was prohibited by the project constraints. Although the implementation of what is essentially our own ORM proved to be costly in terms of developer time, it allowed us to create a more focused module tailored to our requirements. This helped to streamline the development of other modules.
 
