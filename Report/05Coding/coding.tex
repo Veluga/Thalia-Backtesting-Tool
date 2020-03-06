@@ -33,7 +33,7 @@ We will discuss other technologies used in more detail after the discussion on p
 
 Early in the inception phase of development we have decided that our goal was not to have fixed responsibilities in our team, allowing everybody to work on each component of the system. This decision has also eased the code review process, as we had no status differences to distort the error-correcting mechanism \cite{statusdifference}. Furthermore, since no team member was the sole developer of a system component, this allowed us to direct comments at the code and not the author \cite{howtoreview}. For these reasons we have decided to follow the Egalitarian Team structure, and make use of the flexibility offered by it.
 
-Our workflow was centered around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were sometimes given by the team on the weekly meetings, but occasionally they were chosen by the member proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks.
+Our workflow was centred around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were sometimes given by the team on the weekly meetings, but occasionally they were chosen by the member proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks.
 
 A typical ticket in our project was an encapsulation of a user story, as it consisted of a title, a one liner, value, acceptance criteria, and sub tasks. In the first half of development we also used effort-oriented metrics, called story points to measure the amount of work but we decided to abandon this aspect. An example of a ticket can be seen on \figurename{\ref{Ticket}}.
 
@@ -122,15 +122,15 @@ Research into developing this module was initiated by listing our requirements f
 \begin{itemize}
 	\item Specification of a portfolio as a set of pandas dataframes, the common data exchange format in our application
 	\item Calculation of a portfolio's return over time
-	\item Regular contributions to mimick saving
+	\item Regular contributions to mimic saving
 	\item Rebalancing strategies to reestablish the desired weighting of a portfolio
 	\item Calculation of key metrics, including the Sharpe and Sortino Ratio, Max Drawdown, Best and Worst Year
 	\item Collecting and reinvesting dividends for equities
 \end{itemize}
 
-Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aformentioned tasks.
+Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aforementioned tasks.
 
-The result of this effort is "Anda" (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into indivual functions.
+The result of this effort is "Anda" (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into individual functions.
 This approach has allowed us to tailor the entire business logic module exactly to our needs without having to produce complicated wrapper code for existing backtesting libraries.
 
 \subsubsection{Database \& Finda}
@@ -156,12 +156,27 @@ It has a small footprint and offers good performance. \cite{dbPerfComparison}
 Portable serverless design aids with development and testing.
 All team members have experience working with SQLite from previous term. This helps to reduce overhead of knowledge transfer.
 
-The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \cite{frameworkDataMigration} \cite{understandingDataMigration}. To preempt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
+The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \cite{frameworkDataMigration} \cite{understandingDataMigration}. To pre-empt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
 
 
 
 \subsubsection{Harvester}
 \label{Harvester}
+All financial backtesting application rely on having accurate data to work with. We required a system that can centralize the data from multiple APIs and to keep our database updated with live data.
+The requirements for such a system were:
+\begin{itemize}
+\item \textbf{Standard data format:} In order to be able to store the data into a database with Finda and have the financial analysis done by Anda the Harvester needs to put all the data received trough the APIs in a standard format without losing numerical accuracy or granularity.
+\item \textbf{Update the database:} The database has to be updated regularly in order to contain live data.
+\item \textbf{Data Interpolation:} Some financial assets require interpolation in order to account for the days without any transactions.
+\item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can still retrieve live data even if a API fails.
+\item \textbf{Cross Checking capabilities:} Comparing data from multiple source brings us a advantage over all other competitors.
+\item \textbf{Maintenance:} The financial world is in a continuous change. Because of this it is important to make sure that we are able to add and delete assets as the time goes on.
+\end{itemize}
+
+We started our quest for data by trying to find APIs that could call for the main financial assets used when making a investment portfolio. We observed that for cryptographic and normal currencies we can use \textbf{nomics}. We chose nomics because compared to other APIs it was the only one to give free live data for a unlimited amount of time. For the rest of the assets and more we found that \textbf{pandas\_datareader} provides access to a large number of APIs that also happen to be the biggest APIs for financial data available on the internet. Pandas Datareader gives us the possibility of implementing the redundancy and cross checking capabilities that we desire. In addition to this pandas\_datareader is the only option on the market that manages to standardise the calling procedure for multiple financial APIs.
+
+For the rest of the requirements of the data collection system we have seen that there is already existing systems that can do what we want. As a result we had to write our own system.
+
 
 \subsection{Integration and Deployment}
 \label{Coding Standards}
