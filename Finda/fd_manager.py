@@ -126,6 +126,9 @@ class FdMultiController:
         conn = sqlite3.connect(path)
         conn.close()
         # register
+        # check if db already registered. If so quietly agree
+        if db_name in FdMultiController.fd_list():
+            return
         # TODO: In future could check if database follows appropriate schema
         FdMultiController._add_name(db_name)
 
