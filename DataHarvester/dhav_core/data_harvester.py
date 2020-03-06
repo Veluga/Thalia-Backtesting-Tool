@@ -54,12 +54,14 @@ class DataHarvester:
         
         return position_frame["Position Universal"][0]
 
-    """
-        Moves the update index by 1
-        If it reaches the end of the list starts again from the first position
-    """
+    
 
     def next_index(self, api):
+        """
+            Moves the update index by 1
+            If it reaches the end of the list starts again from the first position
+        """    
+        
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
         path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
@@ -70,30 +72,38 @@ class DataHarvester:
 
         update_list = pd.read_csv(path)
 
+        #get number of tickers to update
         number_rows = update_list.shape[0]
+        
+        
         index_position = position_frame["Position Universal"][0]
         index_position += 1
-
+        
+        # if the end of the list is reached reset
         if index_position + 1 > number_rows:
             index_position = 0
+
 
         position_frame["Position Universal"][0] = index_position
 
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
         path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
-        
+        #write back to persistant data folder
         position_frame.to_csv(path, index=False)
         return 0
 
-    """
-        Updates the ticker under the index.
-        Ignores API calls that do not work because the ticker does not exist.
-    """
-
+    
     def update_on_index(self, api):
+        """
+            Updates the ticker under the index.
+            Ignores API calls that do not work because the ticker does not exist.
+        """
+
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
+        
+        # get update list and index position to know the name of the ticker to update
         path = os.path.join(path, "persistant_data/update_list_" + api.name + ".csv")
         up_list = pd.read_csv(path)
         index = self.current_index(api)
@@ -101,6 +111,7 @@ class DataHarvester:
         ticker_under_index = up_list.iloc[index]
         ticker_name = up_list.iloc[index]["Ticker"]
 
+    
         start_date = ""
         # set end_date to yesterday
         end_date = datetime.date(datetime.now()) + timedelta(days=-1)
@@ -112,17 +123,20 @@ class DataHarvester:
         if end_date == ticker_under_index["Last_Update"]:
             self.log.log_simple("Updated all tickers for today for with current API")
             return "full_circle"
-
+        # for first update there is no date written in the update list so the ticker has NaN value
         if pd.isna(ticker_under_index["Last_Update"]):
             start_date = "1970-1-1"
         else:
+            # get the date from the list
             start_date = ticker_under_index["Last_Update"]
             start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            # add 1 more day so that the last date is not called twice
             start_date = start_date + timedelta(days=1)
             start_date = str(start_date)
 
         # if data retrieval fails just go to the next ticker
-
+        # in this call to get_date we can see that standard format for calling data from APIs
+        # this might get changed when implementing dividents
         data_set_retrieved = self.get_data(
             ticker_under_index["Asset_Class"],
             ticker_under_index["Ticker"],
@@ -130,9 +144,10 @@ class DataHarvester:
             end_date,
         )
 
-        """
-            Change this after data format accross apis has been standardized.
-        """
+        
+        # the api format returns 1 in case of no data from the API call
+        # if the df received is not int it means it is a dataframe and the call
+        # worked.
 
         if type(data_set_retrieved) != int:
             self.log.log_simple(
@@ -151,14 +166,14 @@ class DataHarvester:
         else:
             return 1
 
-    """
-        Writes back in the persitant data update list.
-        This is done after updating a ticker.
-        At this moment the data in update list should corespond with the
-        data in the database.
-    """
-
     def write_to_up_list(self, api, start_date, end_date):
+        
+        """
+            Writes back in the persitant data update list.
+            This is done after updating a ticker.
+            At this moment the data in update list should corespond with the
+            data in the database.
+        """    
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
 
@@ -172,14 +187,14 @@ class DataHarvester:
 
         up_list.to_csv(path, index=False)
 
-    """
+    
+
+    def start_updating(self):
+        """
         Start the updating process.
         Each API does as many calls as there are in the calls_per_run
         variable in the api wrapper.
-    """
-
-    def start_updating(self):
-        # go trough APIs
+        """
         self.log.log_simple("\n\nStarted update at: " + str(datetime.now()))
 
         for api in self.api_list:
@@ -199,26 +214,27 @@ class DataHarvester:
             for x in range(api.api_calls_per_run):
                 answer = self.update_on_index(api)
                 if answer == 0:
-
                     self.next_index(api)
                 elif answer == 1:
                     self.next_index(api)
-                elif answer == "full_circle":
+                # can change it to 2 but I need a good reason too
+                elif answer == "full_circle": 
                     break
             self.log.log_simple(
                 "Finished updating " + api.name + " at " + str(datetime.now())
             )
         self.log.log_simple("Finished all  updates at: " + str(datetime.now()))
 
-    """
-        Interpolation 
-    """
+    
 
     def add_interpolation_to_df(self, df):
-        pd.set_option('precision', 6)
+        """
+            Interpolation 
+        """
         interpolated_df = pd.DataFrame(columns=df.columns)
 
         interpolated_df.reset_index()
+        # if only 1 row
         if(df.shape[0] == 1):
             return df
         else:
