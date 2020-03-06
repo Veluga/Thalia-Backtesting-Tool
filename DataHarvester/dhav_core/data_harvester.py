@@ -15,9 +15,9 @@ from Finda import FdMultiController
 class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
-        
-        #FdMultiController.fd_register("asset")
-        #self.conn = FdMultiController.fd_connect("asset", "rw")
+
+        # FdMultiController.fd_register("asset")
+        # self.conn = FdMultiController.fd_connect("asset", "rw")
 
         self.log = Logger()
 
@@ -51,17 +51,15 @@ class DataHarvester:
         path = os.path.dirname(path)
         path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
         position_frame = pd.read_csv(path)
-        
-        return position_frame["Position Universal"][0]
 
-    
+        return position_frame["Position Universal"][0]
 
     def next_index(self, api):
         """
             Moves the update index by 1
             If it reaches the end of the list starts again from the first position
-        """    
-        
+        """
+
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
         path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
@@ -72,28 +70,25 @@ class DataHarvester:
 
         update_list = pd.read_csv(path)
 
-        #get number of tickers to update
+        # get number of tickers to update
         number_rows = update_list.shape[0]
-        
-        
+
         index_position = position_frame["Position Universal"][0]
         index_position += 1
-        
+
         # if the end of the list is reached reset
         if index_position + 1 > number_rows:
             index_position = 0
-
 
         position_frame["Position Universal"][0] = index_position
 
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
         path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
-        #write back to persistant data folder
+        # write back to persistant data folder
         position_frame.to_csv(path, index=False)
         return 0
 
-    
     def update_on_index(self, api):
         """
             Updates the ticker under the index.
@@ -102,7 +97,7 @@ class DataHarvester:
 
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
-        
+
         # get update list and index position to know the name of the ticker to update
         path = os.path.join(path, "persistant_data/update_list_" + api.name + ".csv")
         up_list = pd.read_csv(path)
@@ -111,7 +106,6 @@ class DataHarvester:
         ticker_under_index = up_list.iloc[index]
         ticker_name = up_list.iloc[index]["Ticker"]
 
-    
         start_date = ""
         # set end_date to yesterday
         end_date = datetime.date(datetime.now()) + timedelta(days=-1)
@@ -144,7 +138,6 @@ class DataHarvester:
             end_date,
         )
 
-        
         # the api format returns 1 in case of no data from the API call
         # if the df received is not int it means it is a dataframe and the call
         # worked.
@@ -167,13 +160,13 @@ class DataHarvester:
             return 1
 
     def write_to_up_list(self, api, start_date, end_date):
-        
+
         """
             Writes back in the persitant data update list.
             This is done after updating a ticker.
             At this moment the data in update list should corespond with the
             data in the database.
-        """    
+        """
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
 
@@ -186,8 +179,6 @@ class DataHarvester:
             up_list.loc[index, "Earliest_Record"] = start_date
 
         up_list.to_csv(path, index=False)
-
-    
 
     def start_updating(self):
         """
@@ -218,14 +209,12 @@ class DataHarvester:
                 elif answer == 1:
                     self.next_index(api)
                 # can change it to 2 but I need a good reason too
-                elif answer == "full_circle": 
+                elif answer == "full_circle":
                     break
             self.log.log_simple(
                 "Finished updating " + api.name + " at " + str(datetime.now())
             )
         self.log.log_simple("Finished all  updates at: " + str(datetime.now()))
-
-    
 
     def add_interpolation_to_df(self, df):
         """
@@ -235,20 +224,19 @@ class DataHarvester:
 
         interpolated_df.reset_index()
         # if only 1 row
-        if(df.shape[0] == 1):
+        if df.shape[0] == 1:
             return df
         else:
-            for index_rows in range(df.shape[0]-1):
-                
+            for index_rows in range(df.shape[0] - 1):
+
                 today = df["ADate"][index_rows]
-                
-                
-                tomorrow = df["ADate"][index_rows+1]
-                
+
+                tomorrow = df["ADate"][index_rows + 1]
+
                 delta = tomorrow - today
-                
+
                 rows_interpolated = []
-                #why is it losing precision out of nowhere
+                # why is it losing precision out of nowhere
                 df_today = df.loc[index_rows]
                 df_today_app = df_today.to_frame().transpose()
 
@@ -256,28 +244,28 @@ class DataHarvester:
                     df_today_app, ignore_index=True, sort=False
                 )
 
-                
                 if delta.days > 1:
 
                     for index_days in range(delta.days - 1):
-                        
+
                         interpolated_row = df_today.copy()
 
-                        interpolated_row["ADate"] = today + timedelta(days=index_days + 1)
+                        interpolated_row["ADate"] = today + timedelta(
+                            days=index_days + 1
+                        )
 
                         interpolated_row["IsInterpolated"] = 1
-                        
+
                         interpolated_row = interpolated_row.to_frame().transpose()
 
                         rows_interpolated.append(interpolated_row)
 
                     df_rows = pd.concat(rows_interpolated, ignore_index=True, sort=True)
-                    
+
                     interpolated_df = interpolated_df.append(
                         df_rows, ignore_index=True, sort=False
                     )
 
-            
             return interpolated_df
 
     """
@@ -287,7 +275,9 @@ class DataHarvester:
     """
 
     def write_to_db(self, dataset_to_sql, ticker_name):
-        self.log.log_simple("Start interpolation" + "dataframe shape: " + str(dataset_to_sql.shape))
+        self.log.log_simple(
+            "Start interpolation" + "dataframe shape: " + str(dataset_to_sql.shape)
+        )
 
         df_to_send = self.add_interpolation_to_df(dataset_to_sql)
 
@@ -297,5 +287,5 @@ class DataHarvester:
         df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
 
         self.log.log_simple("Writing interpolted dataframe to DB")
-        
+
         self.conn.write.write_asset_values(df_to_send)

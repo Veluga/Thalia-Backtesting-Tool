@@ -1,16 +1,13 @@
 """
-    This has to corelate with what Finda is reading from.
-    This could be a single module used by both.
+    
 """
-
-# I need a way to check if the result of what I did is what I expect it to be
 
 
 import sys
 import os
 import pandas as pd
 
-# find a better way to reach Finda
+# do not change the directory structure
 sys.path.append("../../../")
 
 from Finda import FdMultiController
@@ -18,7 +15,6 @@ from Finda import FdMultiController
 
 class DataBaseConstructor:
     def __init__(self):
-        # can put some for the fd_connect
         self.conn = FdMultiController.fd_connect("asset", "rw")
 
     def asset_classes_list(self):
@@ -61,7 +57,7 @@ class DataBaseConstructor:
             Fromat from the documentation: {Columns: [Name<String>, AssetClassName<String>] Index: [AssetTicker<String>]}
 
     All tickers have to be passed to finda.
-    Since there is no update mechanism only a overwrite
+    
     """
 
     def dh_pass_tickers_fd(self):
@@ -107,12 +103,19 @@ class DataBaseConstructor:
 
 
 def init_db_finda():
+    # can try a if file exists however it
+    # would not work when changing to a different database
+    # better let the dbms tell you if the db exists or not
+    try:
+        FdMultiController.fd_create("asset")
+    except:
+        pass
 
-    FdMultiController.fd_create("asset")
     dbc = DataBaseConstructor()
     dbc.create_db_connection()
     dbc.dh_pass_asset_classes_fd()
     dbc.dh_pass_tickers_fd()
+
 
 if __name__ == "__main__":
     init_db_finda()

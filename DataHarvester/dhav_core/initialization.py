@@ -1,7 +1,7 @@
 """
     Make sure that tickers exist
     Make sure that APIs have been initialized before
-    This creates the persitent data csvs based on the tickers and apis used
+    This creates the persitent data update_list and position csvs based on the tickers and apis used
 
 """
 import pandas as pd
@@ -23,12 +23,11 @@ class Initializer:
     """
 
     def construct_update_list(self):
-        pd.set_option("display.max_rows", None)
-        
+
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
-        path = os.path.join(path,"tickers")
-        
+        path = os.path.join(path, "tickers")
+
         ticker_files = [
             f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))
         ]
@@ -41,18 +40,18 @@ class Initializer:
                 if ticker_f in api.supported_assets:
                     path = os.path.dirname(__file__)
                     path = os.path.dirname(path)
-                    path = os.path.join(path,"tickers/" + ticker_f + "_tickers.csv")
-                    get_one_frame = pd.read_csv(
-                        path
-                    )
+                    path = os.path.join(path, "tickers/" + ticker_f + "_tickers.csv")
+                    get_one_frame = pd.read_csv(path)
                     get_one_frame["Asset_Class"] = ticker_f
                     frames.append(get_one_frame)
 
             frames = pd.concat(frames, ignore_index=True)
-            # frames = frames.drop(["Asset_Class"],axis=1)
+
             path = os.path.dirname(__file__)
             path = os.path.dirname(path)
-            path = os.path.join(path,"persistant_data/update_list_" + api.name + ".csv")
+            path = os.path.join(
+                path, "persistant_data/update_list_" + api.name + ".csv"
+            )
             frames.to_csv(path)
             frames = []
 
@@ -75,9 +74,9 @@ class Initializer:
             frame_to_write = pd.DataFrame(names_dict, index=[0])
             path = os.path.dirname(__file__)
             path = os.path.dirname(path)
-            path = os.path.join(path,"persistant_data/" + self.api_list[x].name + "_position.csv")
-            frame_to_write.to_csv(
-                path
+            path = os.path.join(
+                path, "persistant_data/" + self.api_list[x].name + "_position.csv"
             )
+            frame_to_write.to_csv(path)
             names_dict = {}
         return 0
