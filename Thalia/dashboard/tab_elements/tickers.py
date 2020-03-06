@@ -14,7 +14,7 @@ df = pd.DataFrame(
 AssetTicker = set(df.get("AssetTicker"))
 
 
-def ticker_selector():
+def ticker_selector(count):
     return html.Div(
         [
             html.Div(
@@ -24,7 +24,7 @@ def ticker_selector():
                         html.Div(
                             [
                                 dcc.Dropdown(
-                                    id="memory_ticker",
+                                    id="memory-ticker-" + str(count),
                                     options=[
                                         {"value": x, "label": x} for x in AssetTicker
                                     ],
@@ -43,7 +43,7 @@ def ticker_selector():
                 html.Div(
                     [
                         dash_table.DataTable(
-                            id="memory-table",
+                            id="memory-table-" + str(count),
                             columns=[
                                 {
                                     "name": "AssetTicker",
@@ -86,40 +86,40 @@ def initial_amount_of_money():
             html.I("Initial Amount"),
             html.Br(),
             dcc.Input(
-                id="input_money",
+                id="input-money",
                 min=1,
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
             ),
-            html.Div(id="output_money"),
+            html.Div(id="output-money"),
         ]
     )
 
 
-def contribution_amount():
+def contribution_amount(count):
     return html.Div(
         [
             html.I("Contribution Amount"),
             html.Br(),
             dcc.Input(
-                id="input_contribution",
+                id="input-contribution-" + str(count),
                 placeholder="Insert contribution amount of $",
                 type="number",
                 className="input",
             ),
-            html.Div(id="output_contribution"),
+            html.Div(id="output-contribution-" + str(count)),
         ]
     )
 
 
-def contribution_dates():
+def contribution_dates(count):
     return html.Div(
         [
             html.I("Contribution frequency"),
             html.Br(),
             dcc.Dropdown(
-                id="contribution_dropdown",
+                id="contribution-dropdown-" + str(count),
                 options=[  # Business month END
                     {"label": "None", "value": None},
                     {"label": "Monthly", "value": "BM"},
@@ -128,18 +128,18 @@ def contribution_dates():
                     {"label": "Semi-Annualy", "value": "6BM"},
                 ],
             ),
-            html.Div(id="output_contribution_dpp"),
+            html.Div(id="output-contribution-dpp-" + str(count)),
         ]
     )
 
 
-def rebalancing_dates():
+def rebalancing_dates(count):
     return html.Div(
         [
             html.I("Rebalancing frequency"),
             html.Br(),
             dcc.Dropdown(
-                id="rebalancing_dropdown",
+                id="rebalancing-dropdown-" + str(count),
                 options=[  # Business month END
                     {"label": "None", "value": None},
                     {"label": "Monthly", "value": "BM"},
@@ -148,21 +148,59 @@ def rebalancing_dates():
                     {"label": "Semi-Annualy", "value": "6BM"},
                 ],
             ),
-            html.Div(id="output_rebalancing"),
+            html.Div(id="output-rebalancing-" + str(count)),
         ]
     )
 
 
-def options():
+def lazy_portfolios(count):
+    return dcc.Dropdown(
+        id="lazy-portfolios-" + str(count),
+        placeholder="Lazy",
+        className="has-text-left",
+        options=[  # Business month END
+            {"label": "None", "value": None},
+            {"label": "Lazy 1", "value": "Lazy 1"},
+            {"label": "Lazy 2", "value": "Lazy 2"},
+            {"label": "Lazy 3", "value": "Lazy 3"},
+            {"label": "Lazy 4", "value": "Lazy 4"},
+        ],
+    )
+
+
+def options(count):
     return html.Div(
         [
-            html.Div([select_dates()],),
-            html.Div([initial_amount_of_money()],),
-            html.Div([contribution_amount()],),
-            html.Div([contribution_dates()],),
-            html.Div([rebalancing_dates()],),
-            html.Div([ticker_selector()],),
-        ]
+            html.Div(
+                [
+                    html.Div(
+                        dcc.Input(
+                            placeholder="Portfolio " + str(count),
+                            type="text",
+                            value="Portfolio " + str(count),
+                            style={
+                                "border-width": "0px",
+                                "color": "#363636",
+                                "font-size": "2rem",
+                                "font-weight": "600",
+                                "line-height": "1.125",
+                                "padding-bottom": "0.5cm",
+                            },
+                        ),
+                        className="column is-11 has-text-left",
+                    ),
+                    html.Div(
+                        lazy_portfolios(count), className="column is-1 has-text-right"
+                    ),
+                    html.Div([contribution_amount(count)], className="column is-12"),
+                    html.Div([contribution_dates(count)], className="column is-12"),
+                    html.Div([rebalancing_dates(count)], className="column is-12"),
+                    html.Div([ticker_selector(count)], className="column is-12"),
+                ],
+                className="columns is-multiline",
+            )
+        ],
+        className="box",
     )
 
 
@@ -179,4 +217,15 @@ def submit_button():
 
 
 def options_wrapper():
-    return html.Div([options(), html.Br(), submit_button(),], className="box",)
+    return html.Div(
+        [
+            html.Div(
+                [html.Div([select_dates()]), html.Div([initial_amount_of_money()],),],
+                className="box",
+            ),
+            options(1),
+            options(2),
+            html.Br(),
+            submit_button(),
+        ],
+    )

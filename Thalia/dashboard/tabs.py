@@ -38,7 +38,7 @@ def tickers():
 
     return dcc.Tab(
         label="Ticker Selection",
-        children=[title("Ticker Selection"), options_wrapper()],
+        children=[title("Select Constraints"), options_wrapper()],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
