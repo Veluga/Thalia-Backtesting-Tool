@@ -17,7 +17,9 @@ layout = html.Div(
                             tabs.returns(),
                             tabs.drawdowns(),
                             tabs.assets(),
-                        ]
+                        ],
+                        id="tabs",
+                        value="tickers",
                     )
                 ],
                 className="column",

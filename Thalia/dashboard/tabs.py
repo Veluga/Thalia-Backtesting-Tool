@@ -16,6 +16,14 @@ tab_selected_style = {
     "padding": "6px",
 }
 
+tab_disabled_style = {
+    "borderTop": "1px solid #d6d6d6",
+    "borderBottom": "1px solid #d6d6d6",
+    "backgroundColor": "#d6d6d6",
+    "color": "white",
+    "padding": "6px",
+}
+
 
 def title(title):
     return html.Div(
@@ -33,6 +41,11 @@ def tickers():
         children=[title("Ticker Selection"), options_wrapper()],
         style=tab_style,
         selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="tickers",
+        value="tickers",
+        disabled=False,
+        className="has-text-vcentered",
     )
 
 
@@ -44,6 +57,10 @@ def summary():
         children=[title("Portfolio Summary"), summary_dashboard()],
         style=tab_style,
         selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="summary",
+        value="summary",
+        disabled=True,
     )
 
 
@@ -55,6 +72,10 @@ def metrics():
         children=[title("Key Metrics"), table([], "table")],
         style=tab_style,
         selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="metrics",
+        value="metrics",
+        disabled=True,
     )
 
 
@@ -79,6 +100,10 @@ def returns():
         ],
         style=tab_style,
         selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="returns",
+        value="returns",
+        disabled=True,
     )
 
 
@@ -103,6 +128,10 @@ def drawdowns():
         ],
         style=tab_style,
         selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="drawdowns",
+        value="drawdowns",
+        disabled=True,
     )
 
 
@@ -127,4 +156,8 @@ def assets():
         ],
         style=tab_style,
         selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="assets",
+        value="assets",
+        disabled=True,
     )

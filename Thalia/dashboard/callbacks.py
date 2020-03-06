@@ -68,6 +68,26 @@ def register_callbacks(dashapp):
         ],
     )(print_output)
 
+    # Tab switch upon submit
+    dashapp.callback(
+        [
+            Output("tabs", "value"),
+            Output("summary", "disabled"),
+            Output("metrics", "disabled"),
+            Output("returns", "disabled"),
+            Output("drawdowns", "disabled"),
+            Output("assets", "disabled"),
+        ],
+        [Input("submit-btn", "n_clicks")],
+    )(tab_switch)
+
+
+def tab_switch(n_clicks):
+    if n_clicks is None:
+        raise PreventUpdate
+
+    return "summary", False, False, False, False, False
+
 
 def update_dashboard(
     n_clicks,
