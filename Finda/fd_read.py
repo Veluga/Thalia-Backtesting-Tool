@@ -22,10 +22,12 @@ class FdRead:
         Pandas dataframe of format:
         {Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>,
                    AHigh<Decimal.decimal>, ALow<Decimal.decimal>]
-         Index: [int]}
+         Index: [AssetTicker<String>, ADate <datetime.date>]}
         containing AssetValues with date between start and end date and assetTicker
         in assetTickers
         """
+        # cast asset_tickers to list ensure appending works
+        asset_tickers = list(asset_tickers)
         # Optionally move name to seperate config file later
         conn = sqlite3.connect(self.db_address)
         # generate parameter list for subsitution
@@ -54,6 +56,7 @@ class FdRead:
         df0["AHigh"] = df0["AHigh"].map(Decimal)
         df0["ALow"] = df0["ALow"].map(Decimal)
         df0["ADate"] = pd.to_datetime(df0["ADate"], format="%Y-%m-%d %H:%M:%S")
+        df0.set_index(["AssetTicker", "ADate"], inplace=True)
         return df0
 
     def read_assets(self):
