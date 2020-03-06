@@ -148,7 +148,6 @@ def update_backtest_results(
     normalise(weights)
 
     assets_data = get_assets(tickers, weights, start_date, end_date)
-    risk_free_rate = mock_risk_free(start_date, end_date)
 
     real_start_date = min(asset.values.index[0] for asset in assets_data)
     real_end_date = max(asset.values.index[-1] for asset in assets_data)
@@ -162,12 +161,12 @@ def update_backtest_results(
         input_contribution,
         rebalancing_dates,
     )
-    table_data = get_table_data(strategy, risk_free_rate)
+    table_data = get_table_data(strategy)
     returns = anda.total_return(strategy)
     return get_figure(returns), table_data
 
 
-def get_table_data(strat, risk_free_rate=None):
+def get_table_data(strat):
     """
     return a list of key metrics and their values
     """
@@ -179,22 +178,21 @@ def get_table_data(strat, risk_free_rate=None):
         {"metric": "Worst Year", "value": anda.worst_year(strat)},
         {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
     ]
-    if risk_free_rate is not None:
-        try:
-            # We can't use append here because we want the table
-            # unaltered if anything goes wrong.
-            table = table + [
-                {
-                    "metric": "Sortino Ratio",
-                    "value": anda.sortino_ratio(strat, risk_free_rate),
-                },
-                {
-                    "metric": "Sharpe Ratio",
-                    "value": anda.sharpe_ratio(strat, risk_free_rate),
-                },
-            ]
-        except Exception:
-            print("Could not calculate Sharpe/Sortino ratios")
+    try:
+        # We can't use append here because we want the table
+        # unaltered if anything goes wrong.
+        table = table + [
+            {
+                "metric": "Sortino Ratio",
+                "value": anda.sortino_ratio(strat, None),
+            },
+            {
+                "metric": "Sharpe Ratio",
+                "value": anda.sharpe_ratio(strat, None),
+            },
+        ]
+    except Exception:
+        print("Could not calculate Sharpe/Sortino ratios")
 
     return table
 
@@ -237,7 +235,3 @@ def get_assets(tickers, proportions, start_date, end_date):
         assets.append(anda.Asset(tick, prop, only_market_data))
     return assets
 
-
-def mock_risk_free(start_date, end_date):
-    # TODO: Implement
-    return None
