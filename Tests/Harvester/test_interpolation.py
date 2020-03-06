@@ -29,19 +29,14 @@ def test_interpolation():
 
 
     calculated_df = dh.add_interpolation_to_df(df_to_test)
+    
     calculated_df = calculated_df.drop(columns="Unnamed: 0")
-
+   
     calculated_df["ADate"] =  [time.date() for time in calculated_df['ADate']] 
     df_correct["ADate"] =  pd.to_datetime(df_correct["ADate"])
     for x in df_correct.columns:
         calculated_df[x]=calculated_df[x].astype(df_correct[x].dtypes.name)
     
-   
-    print(type(df_correct["ADate"][0]) )
-    print( type(calculated_df["ADate"][0]) )
-
-
-
 
     assert df_correct["ALow"].equals(calculated_df["ALow"])
     assert df_correct["AHigh"].equals(calculated_df["AHigh"])
