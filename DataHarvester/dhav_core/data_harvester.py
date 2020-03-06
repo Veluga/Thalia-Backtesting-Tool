@@ -51,6 +51,7 @@ class DataHarvester:
         path = os.path.dirname(path)
         path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
         position_frame = pd.read_csv(path)
+        
         return position_frame["Position Universal"][0]
 
     """
@@ -216,9 +217,6 @@ class DataHarvester:
     def add_interpolation_to_df(self, df):
         pd.set_option('precision', 6)
         interpolated_df = pd.DataFrame(columns=df.columns)
-        interpolated_df = pd.DataFrame({i[0]: pd.Series(dtype=i[1])
-                    for i in df.dtypes.iteritems()},
-                    columns=df.dtypes.index)
 
         interpolated_df.reset_index()
         if(df.shape[0] == 1):
@@ -283,5 +281,5 @@ class DataHarvester:
         df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
 
         self.log.log_simple("Writing interpolted dataframe to DB")
-
+        
         self.conn.write.write_asset_values(df_to_send)
