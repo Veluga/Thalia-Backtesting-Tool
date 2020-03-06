@@ -29,7 +29,7 @@ def title(title):
     return html.Div(
         html.H1(title, className="title"),
         className="column is-12",
-        style={"padding-top": "2cm"},
+        style={"padding-top": "2cm", "padding-bottom": "1cm"},
     )
 
 

@@ -15,7 +15,7 @@ def graph_box(graph_name, figure, id, size=6):
                 html.P(graph_name, className="panel-heading"),
                 html.Div(dcc.Graph(figure=figure, id=id), className="panel-block"),
             ],
-            className="panel",
+            className="box",
         ),
         className="column is-" + str(size),
     )
@@ -38,6 +38,7 @@ def box(metric_names, metric_values):
                     ),
                 ],
                 className="box",
+                style={"background-color": "#efeae2 "},
             )
         ],
         className="column is-4",
