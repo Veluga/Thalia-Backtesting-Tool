@@ -10,7 +10,7 @@ def create_app(test_config={}):
     # load the test config if passed in otherwise nothing happens
     server.config.update(test_config)
 
-    register_asset_db(server)
+    register_asset_db(server.config['THALIA_DB_CONN'])
     register_dashapps(server)
     register_extensions(server)
     register_blueprints(server)
@@ -78,7 +78,13 @@ def register_blueprints(server):
     server.register_blueprint(server_bp)
 
 
-def register_asset_db(server, db_name="asset"):
-    from .findb_conn import findb
+def register_asset_db(db_name):
+    from . import findb_conn
+    from Finda import fd_manager
 
-    findb.register_asset_db(server, db_name)
+    try:
+        findb_conn.findb = fd_manager.FdMultiController.fd_connect(db_name, "r")
+    except Exception as e:
+        print("Fatal: Unable to connect to database " + db_name)
+        print(e)
+        exit()

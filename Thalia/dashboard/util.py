@@ -1,32 +1,19 @@
-from functools import wraps
 from Thalia.findb_conn import findb
 
 
-def conn(f):
-    wraps(f)
-    conn = findb.conn
-
-    def wrapper(*args, **kwargs):
-        return f(conn, *args, **kwargs)
-
-    return wrapper
-
-
-@conn
-def get_asset_names(conn):
-    assets = conn.read.read_assets()
+def get_asset_names():
+    assets = findb.read.read_assets()
     names = assets["Name"].tolist()
     return names
 
 
-@conn
-def get_data(conn, tickers, start_date, end_date):
+def get_data(tickers, start_date, end_date):
     # TODO: is calling list here too much coupling?
-    asset_data = conn.read.read_asset_values(list(tickers), start_date, end_date)
+    asset_data = findb.read.read_asset_values(tickers, start_date, end_date)
+    asset_data = asset_data.reset_index()
     return asset_data
 
 
-@conn
-def get_dividends(conn, tickers):
-    dividends = conn.read.read_assets_div_payout(tickers)
+def get_dividends(tickers):
+    dividends = findb.read.read_assets_div_payout(tickers)
     return dividends
