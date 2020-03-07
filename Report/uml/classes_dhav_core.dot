@@ -1,0 +1,11 @@
+digraph "classes_dhav_core" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{ApiObject|api_calls_per_run\lhas_key : bool\lkey : bool\llog\lname\lsupported_assets\l|call_api(asset_class, ticker, start_date, end_date)\lcheck_df_format(df)\lnomics_call(asset_class, ticker, start_date, end_date)\lnomics_format(df, ticker)\lyahoo_df_format(df, ticker)\lyahoo_finance(asset_class, ticker, start_date, end_date)\l}", shape="record"];
+"1" [label="{DataBaseConstructor|conn : FdConnection\l|asset_classes_list()\lcreate_db_connection()\ldh_pass_asset_classes_fd()\ldh_pass_tickers_fd()\l}", shape="record"];
+"2" [label="{DataHarvester|api_list\llog\l|add_interpolation_to_df(df)\lcurrent_index(api)\lget_data(asset_class, ticker, start_date, end_date)\lnext_index(api)\lstart_updating()\lupdate_on_index(api)\lwrite_to_db(dataset_to_sql, ticker_name)\lwrite_to_up_list(api, start_date, end_date)\l}", shape="record"];
+"3" [label="{Initializer|api_list\l|construct_position()\lconstruct_update_list()\l}", shape="record"];
+"4" [label="{Logger|\l|crit(asset_class, ticker, start_date, end_date)\lerror_log(message)\llog_api_call(asset_class, ticker, start_date, end_date)\llog_simple(message)\l}", shape="record"];
+"4" -> "0" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="log", style="solid"];
+"4" -> "2" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="log", style="solid"];
+}
