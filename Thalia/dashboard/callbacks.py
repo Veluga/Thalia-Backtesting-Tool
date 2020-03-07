@@ -182,15 +182,15 @@ def get_table_data(strat):
         # We can't use append here because we want the table
         # unaltered if anything goes wrong.
         table = table + [
-            {
-                "metric": "Sortino Ratio",
-                "value": anda.sortino_ratio(strat, None),
-            },
-            {
-                "metric": "Sharpe Ratio",
-                "value": anda.sharpe_ratio(strat, None),
-            },
+            {"metric": "Best Year", "value": anda.best_year(strat)},
+            {"metric": "Worst Year", "value": anda.worst_year(strat)},
         ]
+        table = table + [
+            {"metric": "Sortino Ratio", "value": anda.sortino_ratio(strat, None)},
+            {"metric": "Sharpe Ratio", "value": anda.sharpe_ratio(strat, None)},
+        ]
+    except anda.InsufficientTimeframe:
+        print("Not enough enough data for best/worst year")
     except Exception:
         print("Could not calculate Sharpe/Sortino ratios")
 
