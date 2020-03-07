@@ -11,5 +11,6 @@ class Config:
         "DATABASE_URL", f"sqlite:///{os.path.join(basedir, 'app.dbexport')}"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # secret key used to fight agains CSRF attacks: http://en.wikipedia.org/wiki/Cross-site_request_forgery
+    # secret key used to fight agains CSRF attacks:
+    # http://en.wikipedia.org/wiki/Cross-site_request_forgery
     SECRET_KEY = os.environ.get("SECRET_KEY", DEFAULT_DEV_KEY)

@@ -36,7 +36,8 @@ def register_callbacks(dashapp):
     function is called with Input and States as values and func
     returns values are sent to Output components
     """
-    # gets ticker data, pass tickers and proportions, runs backetesting, passes result to figures graphs, tables
+    # gets ticker data, pass tickers and proportions, runs backetesting,
+    # passes result to figures graphs, tables
     dashapp.callback(
         [Output("graph", "figure"), Output("table", "data")],
         [Input("submit-btn", "n_clicks")],
@@ -174,8 +175,6 @@ def get_table_data(strat):
     table = [
         {"metric": "Initial Balance", "value": returns[strat.dates[0]]},
         {"metric": "End Balance", "value": returns[strat.dates[-1]]},
-        {"metric": "Best Year", "value": anda.best_year(strat)},
-        {"metric": "Worst Year", "value": anda.worst_year(strat)},
         {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
     ]
     try:
@@ -234,4 +233,3 @@ def get_assets(tickers, proportions, start_date, end_date):
         only_market_data.index = only_market_data["ADate"]
         assets.append(anda.Asset(tick, prop, only_market_data))
     return assets
-
