@@ -1,6 +1,10 @@
 digraph "classes" {
 charset="utf-8"
 rankdir=BT
-"0" [label="{Asset|dividends : DataFrame\lticker\lvalues\lweight\l|}", shape="record"];
-"1" [label="{Strategy|assets\lcontribution_amount\lcontribution_dates\ldates : DatetimeIndex\lrebalancing_dates\lstarting_balance\l|best_year(strat)\lworst_year(strat)\ltotal_return(strat)\lsortino_ratio(strat, risk_free_rate)\lsharpe_ratio(strat, risk_free_rate)\lmax_drawdown(strat)\l}", shape="record"];
+"0" [label="{Asset|+dividends(date) : DataFrame(Dividends)\l+ticker : String\l+values(date) : DataFrame(Open, Low, High, Close)\l+weight : Decimal\l|}", shape="record"];
+"1" [label="{Strategy|+assets\l+contribution_amount : Decimal\l+contribution_dates\l+dates : DatetimeIndex\l+rebalancing_dates\l+starting_balance : Decimal\l|+best_year() : Decimal\l+worst_year() : Decimal\l+total_return() : Series\l+sortino_ratio(risk_free_rate : DataFrame) : float\l+sharpe_ratio(risk_free_rate : DataFrame) : float\l+max_drawdown() : Decimal\l-allocate_investments(
+    balance: Decimal, asset_weights: List[Decimal], asset_vals: List[Decimal]) : List[Decimal]\l-measure_weights(asset_vals: List[Decimal]) : List[Decimal]\l-calc_balance(invesments: List[Decimal], asset_vals: List[Decimal]) : Decimal\l-collect_dividend(dividend: Decimal, holdings: Decimal, price: Decimal) : Decimal\l-risk_adjusted_returns(
+    risk_free_rate: pd.DataFrame
+) : List[Decimal]\l}", shape="record"];
+
 }
