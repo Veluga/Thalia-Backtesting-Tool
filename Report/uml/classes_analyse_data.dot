@@ -1,0 +1,6 @@
+digraph "classes" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{Asset|dividends : DataFrame\lticker\lvalues\lweight\l|}", shape="record"];
+"1" [label="{Strategy|assets\lcontribution_amount\lcontribution_dates\ldates : DatetimeIndex\lrebalancing_dates\lstarting_balance\l|best_year(strat)\lworst_year(strat)\ltotal_return(strat)\lsortino_ratio(strat, risk_free_rate)\lsharpe_ratio(strat, risk_free_rate)\lmax_drawdown(strat)\l}", shape="record"];
+}

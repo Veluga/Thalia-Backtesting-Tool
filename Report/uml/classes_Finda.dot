@@ -1,0 +1,9 @@
+digraph "classes_Finda" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{FdConnection|read : NoneType\lremove : NoneType\lwrite : NoneType\l|}", shape="record"];
+"1" [label="{FdMultiController|\l|fd_connect(db_name, permissions_string)\lfd_create(db_name)\lfd_list()\lfd_register(db_name)\lfd_remove(db_name)\l}", shape="record"];
+"2" [label="{FdRead|db_address\l|read_asset_classes()\lread_asset_values(asset_tickers, startDate, endDate)\lread_assets()\lread_assets_div_payout(asset_tickers)\lread_assets_in_class(asset_class)\l}", shape="record"];
+"3" [label="{FdRemove|db_address\l|deleteAssetClasses(assetclassname)\ldeleteAssets(ticker)\ldeleteValues(ticker, date)\ldelete_div_payouts(ticker)\l}", shape="record"];
+"4" [label="{FdWrite|db_address\l|t_check_df_format(df, names)\lt_insert_df(recordsDF, tableName)\lwrite_asset_classes(asset_classes)\lwrite_asset_values(values)\lwrite_assets(assets)\lwrite_dividend_payouts(payouts)\l}", shape="record"];
+}
