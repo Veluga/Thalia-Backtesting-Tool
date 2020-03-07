@@ -216,6 +216,14 @@ def submit_button():
     )
 
 
+def add_portfolio_button():
+    return html.Div(
+        html.Button(
+            "Add Portfolio", "add-portfolio-btn", className="button is-small is-link"
+        )
+    )
+
+
 def options_wrapper():
     return html.Div(
         [
@@ -223,9 +231,10 @@ def options_wrapper():
                 [html.Div([select_dates()]), html.Div([initial_amount_of_money()],),],
                 className="box",
             ),
-            options(1),
-            options(2),
+            html.Div(children=[options(1),], id="portfolios-container"),
+            add_portfolio_button(),
             html.Br(),
             submit_button(),
         ],
+        id="portfolios-main",
     )

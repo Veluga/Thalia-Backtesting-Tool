@@ -9,6 +9,34 @@ from datetime import datetime
 from analyse_data import analyse_data as anda
 
 
+MAX_PORTFOLIOS = 5
+
+
+def portfolio_states():
+    states = [
+        State("my-date-picker-range", "start_date"),
+        State("my-date-picker-range", "end_date"),
+        State("input-money", "value"),
+    ]
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        states += [
+            State("input-contribution-" + str(i), "value"),
+            State("contribution-dropdown-" + str(i), "value"),
+            State("rebalancing-dropdown-" + str(i), "value"),
+        ]
+    return states
+
+
+def register_table_callbacks(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        # callback for updating the ticker table
+        dashapp.callback(
+            Output("memory-table-" + str(i), "data"),
+            [Input("memory-ticker-" + str(i), "value")],
+            [State("memory-table-" + str(i), "data")],
+        )(filter_tickers)
+
+
 def print_output(start_date, end_date):
     display_date = ("start date: ", start_date, " end date :", end_date)
     return display_date
@@ -41,23 +69,11 @@ def register_callbacks(dashapp):
     dashapp.callback(
         [Output("graph", "figure"), Output("table", "data")],
         [Input("submit-btn", "n_clicks")],
-        [
-            State("memory-table", "data"),
-            State("my-date-picker-range", "start_date"),
-            State("my-date-picker-range", "end_date"),
-            State("input_money", "value"),
-            State("input_contribution", "value"),
-            State("contribution_dropdown", "value"),
-            State("rebalancing_dropdown", "value"),
-        ],
+        portfolio_states(),
     )(update_dashboard)
 
     # callback for updating the ticker table
-    dashapp.callback(
-        Output("memory-table", "data"),
-        [Input("memory_ticker", "value")],
-        [State("memory-table", "data")],
-    )(filter_tickers)
+    register_table_callbacks(dashapp)
 
     # pass input dates
     dashapp.callback(
@@ -80,6 +96,40 @@ def register_callbacks(dashapp):
         ],
         [Input("submit-btn", "n_clicks")],
     )(tab_switch)
+
+    # Add Portfolio Button
+    dashapp.callback(
+        Output("portfolios-container", "children"),
+        [Input("add-portfolio-btn", "n_clicks")],
+        [State("portfolios-container", "children")],
+    )(add_portfolio)
+
+    # Make button dissappear at 5 portfolios
+    dashapp.callback(
+        Output("add-portfolio-btn", "disabled"),
+        [Input("add-portfolio-btn", "n_clicks")],
+        [State("portfolios-container", "children")],
+    )(remove_button)
+
+
+def remove_button(n_clicks, param_state):
+    if n_clicks == 0:
+        raise PreventUpdate
+
+    no_portfolios = len(param_state)
+    if no_portfolios < MAX_PORTFOLIOS - 1:
+        raise PreventUpdate
+
+    return True
+
+
+def add_portfolio(n_clicks, param_state_layout):
+    from .tab_elements.tickers import options
+
+    if n_clicks is None:
+        raise PreventUpdate
+    no_portfolios = len(param_state_layout)
+    return param_state_layout + [options(no_portfolios + 1)]
 
 
 def tab_switch(n_clicks):
