@@ -9,7 +9,7 @@ from datetime import datetime
 from analyse_data import analyse_data as anda
 
 
-def _print_output(start_date, end_date):
+def print_output(start_date, end_date):
     display_date = ("start date: ", start_date, " end date :", end_date)
     return display_date
 
@@ -65,7 +65,7 @@ def register_callbacks(dashapp):
             Input("my-date-picker-range", "start_date"),
             Input("my-date-picker-range", "end_date"),
         ],
-    )(_print_output)
+    )(print_output)
 
 
 def update_dashboard(

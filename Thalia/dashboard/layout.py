@@ -5,16 +5,6 @@ import os
 
 import dash_table
 from datetime import datetime as dt
-import pandas as pd
-
-
-df = pd.DataFrame(
-    [
-        {"AssetTicker": "RCK", "Name": "Rock", "Allocation": "0"},
-        {"AssetTicker": "BRY", "Name": "Berry", "Allocation": "0"},
-    ]
-)
-AssetTicker = set(df.get("AssetTicker"))
 
 
 def table(data, id):
@@ -70,7 +60,6 @@ def selected_tickers_table():
                     id="memory-table",
                     columns=[
                         {"name": "AssetTicker", "id": "AssetTicker", "type": "text"},
-                        # {"name": "Name", "id": "Name", "type": "text"},
                         {
                             "name": "Allocation",
                             "id": "Allocation",

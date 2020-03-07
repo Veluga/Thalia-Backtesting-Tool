@@ -8,7 +8,6 @@ def get_asset_names():
 
 
 def get_data(tickers, start_date, end_date):
-    # TODO: is calling list here too much coupling?
     asset_data = findb.read.read_asset_values(tickers, start_date, end_date)
     asset_data = asset_data.reset_index()
     return asset_data
