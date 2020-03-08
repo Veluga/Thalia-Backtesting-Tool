@@ -65,13 +65,76 @@ def total_return(strat) -> pd.Series:
 \end{lstlisting}
 will calculate a series of total return values ordered by date within the date range specified in the passed Strategy instance.
 
-Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it ``provides support for fast correctly-rounded decimal floating point arithmetic`` \cite{PyDecimal}. As rounding errors and imprecision are unaccaptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
+Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it ``provides support for fast correctly-rounded decimal floating point arithmetic`` \cite{PyDecimal}. As rounding errors and imprecision are unacceptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
 
-Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
+Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectored operations.
 
 \subsection{Data Harvester Structure}
+The role of Data Harvester is collecting live data from multiple source  refining it in a format that makes it usable by Anda and easily storable  by our in house DBMS system Finda. In addition to this a mechanism for changing the data collected and adapting to the market demands has to exist. Another requirement relates to the limitations that imposed by the APIs used. The first design decision made in order to accomplish the above was the creation of the updating mechanism.
 
-% TBD - stable release of harvester required
+\subsubsection{How to run it }
+Not the place to put it but it needs a diagram for the read me anyway.
+
+\subsubsection{Continuous Updating Mechanism}
+The Updating is comprised of 3 components:
+\begin{itemize}
+    \item \textbf{The update procedure} made out of a series of methods. The procedure starts by looking at what APIs are available to be called. Each API has a update list that contains the tickers of the financial assets that we wish to get data on and the last and earliest record we have on that asset. If it is the first time when asking for data on a specific asset then we ask for all data available between 1970/1/1 up until the last financial day available. If the number of allowed calls for a API is greater then the number of assets to be updated then all assets can be updated in a daily run. However if it is not possible to update all assets in one update run then will update the rest of the assets in the following run so that we can get as close as we can to live data. 
+    \item \textbf{A run\_updates script} that starts a update round. It contains the configuration with the API names, the location of the access key if it exists and the number of calls to be done for each API. 
+    \item \textbf{A initialiser} module that based on the the Persistent data folder that contains the asset classes and the assets in the form of CSV files. The initialiser gets a configuration similar to that given to the run\_updates script. Based on the asset classes, the assets and the APIs given the initialiser creates a update\_list for each API.
+\end{itemize}
+FLOW CHART for THE UPDATE MECHANISM  
+
+
+\subsubsection{APIs Handler}
+For each API the API Handler has a call method and a method that formats the data so that it fits our data model. In addition there also is a api\_selector method that makes the right API call based on what asset class is requested and a dataframe format checker that does a final check before sending the data to the updating mechanism. 
+
+
+\begin{figure}[H]
+    \centering
+    \caption{API Handler Flow Chart\cite{TR}}
+	\includegraphics[width=0.47\textwidth]{04Design/04Pictures/api_handler_v2.png}
+\end{figure}
+
+\subsubsection{Interpolation}
+Our business logic library requires continuous data in order o be able to perform the numerical analysis. In order to transform real life data that includes weekends and bank holidays into a continuous data sets we have used interpolation. The type of interpolation used is nearest neighbour. To be more precises, the algorithm designed goes over the data in pairs of adjacent dates, if there are any missing days then the older nearest neighbour is duplicated over the missing days. In addition to this the duplicated rows are flagged as interpolated in the database.
+
+\subsubsection{Standardization of Data}
+All data written to database has to be in the following format:
+\begin{lstlisting}[language=Python, caption= Pandas Data Frame Format , label=lst:Development_env]
+
+Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>,
+          AHigh<Decimal.decimal>, ALow<Decimal.decimal>,
+          IsInterpolated<Integer>] 
+          
+Index: [AssetTicker<String>, ADate <datetime.date>]
+
+\end{lstlisting}
+
+\subsubsection{Maintenance of the financial assets}
+All the financial assets that the Data Harvester will retrieve data for, are stored in a folder that contains a CSV file for each financial asset class where the asset class name is the name of each CSV file. Each row in of a CSV file will contain the ticker, the last and earliest record and the full name of the financial asset. If there is no data on the asset in the database then the last and earliest records are left empty so that the Data Harvester will pull all available information on the first update of that asset. 
+
+\begin{itemize}
+    \item \textbf{Add/remove an asset class: } Create a new CSV file  in the folder with asset classes, add the columns in the following form:\newline
+    \begin{lstlisting}
+    Ticker,Last_Update,Earliest_Record,Name
+    \end{lstlisting}
+    It is important to remember to add the new asset class in the list of supported asset classes of the API that supports it.\newline
+    In order to remove a asset class delete CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
+    \item \textbf{Add/remove an asset : } Go into the asset class CSV file that contains the asset and add the required details under the correct columns.
+    Example of adding a new asset class.
+    \begin{lstlisting}
+    Ticker,Last_Update,Earliest_Record,Name
+    SPY,,,S&P 500
+    \end{lstlisting}
+    In order to delete a asset you have to remove the row that contains it.
+    
+    \item \textbf{Re-add an asset: } First check in the database for the last and earliest records. Then introduce a new row that contains them. 
+
+    
+\end{itemize}
+
+\subsubsection{Security Decisions}
+
 
 \subsection{Database Structure}
 \label{DB Structure}
@@ -86,7 +149,6 @@ The decision was made early on to horizontally partition the data store by Thali
 \item Although the security of both types of data is important to our business model, protecting user’s private information is the highest priority. The financial data is accessed by the data harvester, a separate program gathering data from many sources on the web and introducing additional security risks. Data segregation is helps limit the scope of a potential data breach \cite{ciscoSeg}.
 \item The two types of data serve two separate purposes. The modules responsible for managing each are also decoupled. Thus, separation helps to enforce the principle of least concern.
 \item A large corpus of guides and examples on how to manage user accounts is available online. Extending any of these to include financial data might be difficult, and risks leading to bad design.
-
 \end{itemize}
 
 The separation of dissimilar collections of data is a practice widely adopted in industry. Criteria for assessing when this approach is appropriate have also been documented. \cite{dataSegImp} Based on the decision to use SQLite as our DBMS and to maximize the portability and security of the financial data, we decided to implement this decision by using two seperate databases.

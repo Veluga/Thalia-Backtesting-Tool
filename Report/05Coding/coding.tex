@@ -176,7 +176,7 @@ The requirements for such a system were:
 We started our quest for data by trying to find APIs that could call for the main financial assets used when making a investment portfolio. We observed that for cryptographic and normal currencies we can use \textbf{nomics}. We chose nomics because compared to other APIs it was the only one to give free live data for a unlimited amount of time. For the rest of the assets and more we found that \textbf{pandas\_datareader} provides access to a large number of APIs that also happen to be the biggest APIs for financial data available on the internet. Pandas Datareader gives us the possibility of implementing the redundancy and cross checking capabilities that we desire. In addition to this pandas\_datareader is the only option on the market that manages to standardise the calling procedure for multiple financial APIs.
 
 For the rest of the requirements of the data collection system we have seen that there is already existing systems that can do what we want. As a result we had to write our own system.
-
+In the building of the system we have used python as a programming language. This decision has been made because python is the language with most APIs for financial data. In order to manipulate the data we have used the pandas library. The persistent data required by the update mechanism is stored in CSV format because of the readability and the ease of use when using pandas.
 
 \subsection{Integration and Deployment}
 \label{Coding Standards}
