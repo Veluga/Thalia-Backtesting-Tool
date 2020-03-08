@@ -4,7 +4,7 @@ import dash_table
 import pandas as pd
 from datetime import datetime as dt
 
-
+MIN_TICKERS = 3
 df = pd.DataFrame(
     [
         {"AssetTicker": "RCK", "Name": "Rock", "Allocation": "0"},
@@ -13,8 +13,8 @@ df = pd.DataFrame(
 )
 AssetTicker = set(df.get("AssetTicker"))
 
-
-def ticker_selector(count):
+"""
+def ticker_selector(id):
     return html.Div(
         [
             html.Div(
@@ -24,7 +24,7 @@ def ticker_selector(count):
                         html.Div(
                             [
                                 dcc.Dropdown(
-                                    id="memory-ticker-" + str(count),
+                                    id="memory-ticker-" + str(id),
                                     options=[
                                         {"value": x, "label": x} for x in AssetTicker
                                     ],
@@ -43,7 +43,7 @@ def ticker_selector(count):
                 html.Div(
                     [
                         dash_table.DataTable(
-                            id="memory-table-" + str(count),
+                            id="memory-table-" + str(id),
                             columns=[
                                 {
                                     "name": "AssetTicker",
@@ -66,6 +66,56 @@ def ticker_selector(count):
             ),
         ],
         className="columns is-marginless ",
+    )
+"""
+
+
+def ticker_selector(portfolio_id, ticker_id):
+    tickers = [
+        {"label": "Coke", "value": "COKE"},
+        {"label": "Tesla", "value": "TSLA"},
+        {"label": "Apple", "value": "AAPL"},
+    ]
+    return html.Div(
+        [
+            html.Div(
+                html.Div(
+                    [
+                        html.Label("Ticker: ", className="label"),
+                        html.Div(
+                            dcc.Dropdown(
+                                id=f"ticker-{portfolio_id}-{ticker_id}",
+                                options=tickers,
+                                className="",
+                            ),
+                            className="control",
+                        ),
+                    ],
+                    className="field",
+                ),
+                className="column is-6",
+            ),
+            html.Div(
+                html.Div(
+                    [
+                        html.Label("Allocation: ", className="label"),
+                        html.Div(
+                            dcc.Input(
+                                id=f"proportion-{portfolio_id}-{ticker_id}",
+                                type="number",
+                                min=0,
+                                max=100,
+                                className="input",
+                            ),
+                            className="control",
+                        ),
+                    ],
+                    className="field",
+                ),
+                className="column is-6",
+            ),
+        ],
+        className="columns is-marginless is-multiline",
     )
 
 
@@ -97,29 +147,29 @@ def initial_amount_of_money():
     )
 
 
-def contribution_amount(count):
+def contribution_amount(id):
     return html.Div(
         [
             html.I("Contribution Amount"),
             html.Br(),
             dcc.Input(
-                id="input-contribution-" + str(count),
+                id="input-contribution-" + str(id),
                 placeholder="Insert contribution amount of $",
                 type="number",
                 className="input",
             ),
-            html.Div(id="output-contribution-" + str(count)),
+            html.Div(id="output-contribution-" + str(id)),
         ]
     )
 
 
-def contribution_dates(count):
+def contribution_dates(id):
     return html.Div(
         [
             html.I("Contribution frequency"),
             html.Br(),
             dcc.Dropdown(
-                id="contribution-dropdown-" + str(count),
+                id="contribution-dropdown-" + str(id),
                 options=[  # Business month END
                     {"label": "None", "value": None},
                     {"label": "Monthly", "value": "BM"},
@@ -128,18 +178,18 @@ def contribution_dates(count):
                     {"label": "Semi-Annualy", "value": "6BM"},
                 ],
             ),
-            html.Div(id="output-contribution-dpp-" + str(count)),
+            html.Div(id="output-contribution-dpp-" + str(id)),
         ]
     )
 
 
-def rebalancing_dates(count):
+def rebalancing_dates(id):
     return html.Div(
         [
             html.I("Rebalancing frequency"),
             html.Br(),
             dcc.Dropdown(
-                id="rebalancing-dropdown-" + str(count),
+                id="rebalancing-dropdown-" + str(id),
                 options=[  # Business month END
                     {"label": "None", "value": None},
                     {"label": "Monthly", "value": "BM"},
@@ -148,14 +198,14 @@ def rebalancing_dates(count):
                     {"label": "Semi-Annualy", "value": "6BM"},
                 ],
             ),
-            html.Div(id="output-rebalancing-" + str(count)),
+            html.Div(id="output-rebalancing-" + str(id)),
         ]
     )
 
 
-def lazy_portfolios(count):
+def lazy_portfolios(id):
     return dcc.Dropdown(
-        id="lazy-portfolios-" + str(count),
+        id="lazy-portfolios-" + str(id),
         placeholder="Lazy",
         className="has-text-left",
         options=[  # Business month END
@@ -168,16 +218,16 @@ def lazy_portfolios(count):
     )
 
 
-def options(count):
+def options(id):
     return html.Div(
         [
             html.Div(
                 [
                     html.Div(
                         dcc.Input(
-                            placeholder="Portfolio " + str(count),
+                            placeholder="Portfolio " + str(id),
                             type="text",
-                            value="Portfolio " + str(count),
+                            value="Portfolio " + str(id),
                             style={
                                 "border-width": "0px",
                                 "color": "#363636",
@@ -190,12 +240,17 @@ def options(count):
                         className="column is-11 has-text-left",
                     ),
                     html.Div(
-                        lazy_portfolios(count), className="column is-1 has-text-right"
+                        lazy_portfolios(id), className="column is-1 has-text-right"
                     ),
-                    html.Div([contribution_amount(count)], className="column is-12"),
-                    html.Div([contribution_dates(count)], className="column is-12"),
-                    html.Div([rebalancing_dates(count)], className="column is-12"),
-                    html.Div([ticker_selector(count)], className="column is-12"),
+                    html.Div([contribution_amount(id)], className="column is-12"),
+                    html.Div([contribution_dates(id)], className="column is-12"),
+                    html.Div([rebalancing_dates(id)], className="column is-12"),
+                    html.Div(
+                        [ticker_selector(id, i) for i in range(MIN_TICKERS)],
+                        className="column is-12",
+                        id=f"tickers-container-{id}",
+                    ),
+                    add_asset_button(id),
                 ],
                 className="columns is-multiline",
             )
@@ -222,6 +277,21 @@ def add_portfolio_button():
             "Add Portfolio",
             "add-portfolio-btn",
             className="button is-medium",
+            style={
+                "border": "0px",
+                "color": "#f26a4b",
+                "background-color": "transparent",
+            },
+        )
+    )
+
+
+def add_asset_button(id):
+    return html.Div(
+        html.Button(
+            "Add Asset",
+            id=f"add-asset-btn-{id}",
+            className="button is-small",
             style={
                 "border": "0px",
                 "color": "#f26a4b",

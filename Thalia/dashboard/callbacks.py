@@ -37,6 +37,19 @@ def register_table_callbacks(dashapp):
         )(filter_tickers)
 
 
+def register_add_asset_buttons(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        # Add Asset Button
+        dashapp.callback(
+            Output(f"tickers-container-{i}", "children"),
+            [Input(f"add-asset-btn-{i}", "n_clicks")],
+            [
+                State(f"tickers-container-{i}", "children"),
+                State(f"tickers-container-{i}", "id"),
+            ],
+        )(add_ticker)
+
+
 def print_output(start_date, end_date):
     display_date = ("start date: ", start_date, " end date :", end_date)
     return display_date
@@ -75,6 +88,9 @@ def register_callbacks(dashapp):
     # callback for updating the ticker table
     register_table_callbacks(dashapp)
 
+    # callback for add assets
+    register_add_asset_buttons(dashapp)
+
     # pass input dates
     dashapp.callback(
         Output("output_dates", "children"),
@@ -112,8 +128,18 @@ def register_callbacks(dashapp):
     )(remove_button)
 
 
+def add_ticker(n_clicks, param_state, param_id):
+    from .tab_elements.tickers import ticker_selector
+
+    if n_clicks is None:
+        raise PreventUpdate
+
+    no_tickers = len(param_state) - 6  # Not ticker children
+    return param_state + [ticker_selector(param_id, no_tickers + 1)]
+
+
 def remove_button(n_clicks, param_state):
-    if n_clicks == 0:
+    if n_clicks is None:
         raise PreventUpdate
 
     no_portfolios = len(param_state)
@@ -123,13 +149,13 @@ def remove_button(n_clicks, param_state):
     return True
 
 
-def add_portfolio(n_clicks, param_state_layout):
+def add_portfolio(n_clicks, param_state):
     from .tab_elements.tickers import options
 
     if n_clicks is None:
         raise PreventUpdate
-    no_portfolios = len(param_state_layout)
-    return param_state_layout + [options(no_portfolios + 1)]
+    no_portfolios = len(param_state)
+    return param_state + [options(no_portfolios + 1)]
 
 
 def tab_switch(n_clicks):
