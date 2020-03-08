@@ -10,6 +10,7 @@ from analyse_data import analyse_data as anda
 
 
 MAX_PORTFOLIOS = 5
+MAX_ASSETS = 15
 
 
 def portfolio_states():
@@ -41,7 +42,10 @@ def register_add_asset_buttons(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         # Add Asset Button
         dashapp.callback(
-            Output(f"tickers-container-{i}", "children"),
+            [
+                Output(f"tickers-container-{i}", "children"),
+                Output(f"add-asset-btn-{i}", "disabled"),
+            ],
             [Input(f"add-asset-btn-{i}", "n_clicks")],
             [
                 State(f"tickers-container-{i}", "children"),
@@ -135,7 +139,12 @@ def add_ticker(n_clicks, param_state, param_id):
         raise PreventUpdate
 
     no_tickers = len(param_state) - 6  # Not ticker children
-    return param_state + [ticker_selector(param_id, no_tickers + 1)]
+
+    if no_tickers == MAX_ASSETS:
+        return param_state, True
+
+    else:
+        return param_state + [ticker_selector(param_id, no_tickers + 1)], False
 
 
 def remove_button(n_clicks, param_state):
