@@ -6,5 +6,6 @@ rankdir=BT
     balance: Decimal, asset_weights: List[Decimal], asset_vals: List[Decimal]) : List[Decimal]\l-measure_weights(asset_vals: List[Decimal]) : List[Decimal]\l-calc_balance(invesments: List[Decimal], asset_vals: List[Decimal]) : Decimal\l-collect_dividend(dividend: Decimal, holdings: Decimal, price: Decimal) : Decimal\l-risk_adjusted_returns(
     risk_free_rate: pd.DataFrame
 ) : List[Decimal]\l}", shape="record"];
+"0" -> "1" [arrowhead="diamond", arrowtail="none", style="solid"];
 
 }

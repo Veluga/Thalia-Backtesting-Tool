@@ -8,4 +8,6 @@ rankdir=BT
 "4" [label="{Logger|\l|crit(asset_class, ticker, start_date, end_date)\lerror_log(message)\llog_api_call(asset_class, ticker, start_date, end_date)\llog_simple(message)\l}", shape="record"];
 "4" -> "0" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="log", style="solid"];
 "4" -> "2" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="log", style="solid"];
+"3" -> "2" [arrowhead="normal", arrowtail="none", style="solid"];
+"2" -> "0" [arrowhead="normal", arrowtail="none", style="solid"];
 }
