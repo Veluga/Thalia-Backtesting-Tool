@@ -209,7 +209,7 @@ def submit_button():
         html.Button(
             "Submit",
             "submit-btn",
-            className="button is-medium is-primary",
+            className="button is-large is-primary",
             style={"background-color": "#f26a4b"},
         ),
         className="container has-text-centered",
@@ -219,7 +219,14 @@ def submit_button():
 def add_portfolio_button():
     return html.Div(
         html.Button(
-            "Add Portfolio", "add-portfolio-btn", className="button is-small is-link"
+            "Add Portfolio",
+            "add-portfolio-btn",
+            className="button is-medium",
+            style={
+                "border": "0px",
+                "color": "#f26a4b",
+                "background-color": "transparent",
+            },
         )
     )
 
