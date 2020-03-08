@@ -5,7 +5,102 @@
 
 \section{Testing}
 \label{Testing}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\subsection{Testing Strategy}
+
+Our initial testing strategy was devised during the first semester. Throughout development, it remained mostly unchanged. Since we opted to redesign most of our first semester’s prototype from scratch we were also forced to recreate our testing suite and test data. This ultimately proved to be beneficial, as we were better able to design our tests. We also opted to spend more developer time designing our testing suite based on our experience in the first semester. We also used this opportunity to integrate several additional tools into our testing suite (last semester we only used our testing harness Pytest). In addition to a higher focus on testing and additional tooling, we also devised a testing strategy for evaluating key non-functional requirements, which will be elaborated on in [section next evaluation]. Our testing strategy consisted of three main types of the test; unit, integration and end-to-end tests. We opted to use a mix of white and black box testing techniques for the first two and conducted our end to end tests purely as black-box tests.
+
+\subsubsection{Unit Tests}
+All team members were required to write automated unit tests for any code they wished to merge into the project’s master branch on GitHub. These were designed to test small parts of our software and its component modules and work independently of each other. As part of the code review process, team members reviewed each other's tests as well as production code. This helped us to guarantee that unit tests were exhaustive and tested the full range of input classes and boundary cases of each class and method. We also used white box testing techniques to maximize test coverage and make sure all possible paths of execution we’re accounted for.
+
+We found that this approach meshed well with our agile approach to software development, as units of work loosely corresponding to functional requirements could be added to the live version of Thalia without the risk of breaking it. This, in turn, meant that after the continuous integration process was set up, we could continually test to see that all of the components of our project worked together. Since each functional requirement had an associated suite of unit tests, we could be reasonably certain that said implementation was correct and would not act as a blocker to our progress later down the line. In addition, team members could work on Thalia’s components interchangeably as per our management strategy, as any undesired side effects of one person’s changes would fail the tests. Another consequence of adopting an agile approach was that we found ourselves merging code often. Unit tests helped us to identify bugs resulting from merge conflicts and in doing so help keep the live version of Thalia bug-free. 
+
+\subsubsection{Integration Testing}
+Equally important to the unit tests were our integration tests. As with unit testing, we used a mixture of white and black box testing techniques. The majority of integration testing was done when first setting up the CI process when the individual components of Thalia first had to interact with one another. Subsequently, as we added new features, additional tests were added to the testing suite to make sure new dependencies between components we’re integrated properly. Integration tests also helped us to refactor existing code to work better with other modules, as first designing breaking integration tests would help to highlight areas where interfaces would differ.
+
+\subsubsection{End-to-end Testing}
+Finally, upon completion of the prototype, we conducted extensive end to end testing. We used these tests to help identify system dependencies and to check that data integrity was maintained throughout the execution. They were also key in conclusively evaluating the functionality of our system, as they tested it holistically with real-world data as input.
+
+
+
+\subsection{Testing Tools}
+The following is the list of 3rd party tools used by our testing suite to aid with the testing of Thalia and its components:
+
+\begin{enumerate}
+\item \textbf{Pytest: }[citation needed]
+For our testing harness, we opted to use the standard python testing framework pytest. With it we could easily create a testing suite independent of production code. By using simple assert statements pytest remains easy to use, helping to reduce overhead for our team, most of whom had little to no experience writing automated tests for their code. Although simple, pytest offers several powerful features that helped us during testing:
+\begin{itemize}
+\item Detailed introspection of failing tests helped decrease time spent debugging
+\item Fixtures allowed us to automate test setup and teardown
+\item Test discovery helped to keep the structure of the testing suite simple and physically separated from production code
+\item Testing for expected exceptions allowed us to  properly test for the unexpected flows of events
+\end{itemize}
+
+
+\item \textbf{Mock: } [citation needed]
+The Mock package allowed us to replace parts of the system with mock objects. This was useful when testing API’s as it allowed us to control the input to the data harvester and allowed for repeatable execution and predictable output.
+
+\item \textbf{Selenium: } [citation needed]
+Selenium is a testing tool we used to create unit and integration tests for Thalia’s website. Using Firefox or Chromium in headless or full browser mode it allowed us to automate user tasks such as clicking links and input. With it we were able to test logging in, running a simulation, registering a new account, and accessing the various pages of our website.
+
+\item \textbf{Coverage: } [citation needed]
+Coverage is a tool to measure code coverage in Python. It creates detailed reports on what lines of code are passed through during program execution. We used this in conjunction with Pytest to monitor what code was covered by tests to ensure our testing suite covered all possible branches of execution. In addition to validating test coverage, Coverage aided us in designing white-box tests by showing what parts of the codebase were in need of additional testing. Although not related to testing, the tool proved useful when refactoring code, as it allowed us to identify dead code.
+
+\end{enumerate}
+
+
+\subsection{Test Data}
+
+We selected test data for our testing suite with the following considerations in mind:
+For Black-Box tests, the test data should contain representatives of all major equivalence classes of the tests possible inputs.
+For Black-Box tests, the test data should encompass all major boundaries of equivalence classes in the accepted inputs.
+For White-Box testing, the data should be such that tested code is executed exhaustively.
+
+Broadly speaking, the data we used for testing can be separated into two categories, based on how it was collected. Either we wrote code to procedurally generate the data or we used a subsection of the real world data included in the final prototype and collected from financial data API’s. Each of these had its own benefits and drawbacks when being used to design tests.
+
+\subsubsection{Mock Data}
+In the real world, financial data, especially that relating to the prices of assets tends to be quite messy as prices tend to vary greatly from day to day [citation needed]. Part of our testing strategy was the generation mock sets of historical price data that we designed to be as clean and easy to understand as possible. This allowed us to work with neat, easily understandable datasets. For example, we created a fictitious asset whose price increased linearly over time, an asset whose price decreased and an asset whose price remained fixed. All mock data was either generated procedurally by auxiliary code we wrote ourselves or hand-coded in cases where large amounts of data were not necessary (for example when testing the functionality of the database adapter). 
+
+[image needed neat] [image needed messy]
+
+Being able to design these custom data sets helped us to overcome the following difficulties when designing and writing tests:
+
+\begin{itemize}
+
+\item Predictability:
+Since complex financial equations are a key part of our service, a core requirement for our testing strategy was to be able to independently verify the results generated the Anda library. Having simple data showing, for example, a linear or quadratic increase in the daily price of an asset meant we could predict the expected results and compare them to Anda’s output. With real-world data, calculating expected values by hand would have been effectively impossible.
+
+\item Interpretation of results:
+Components of both Thalia Web and Finda modify financial data as it passes through them. It proved difficult to see the effect processing had on real-world data. Using clean datasets meant that the effect methods had on data could be examined by a human. This was a significant aid to development and saved us considerable time in the long run.
+
+\item Designing tests:
+When designing black-box tests for Thalia’s components, it was helpful to be able to create datasets that had specific properties for use as edge cases. A good example of this would be creating a series of prices that never decreased, as this represents an edge case for the calculation of an assets maximum draw-down [cite glossary].
+\end{itemize}
+
+\subsubsection{Real-world testing data}
+
+In addition to generating our own assets for testing, we used real a limited subset of real-world data for testing across components. This is the data included in our prototype that we chose to include assets from across all supported asset classes over a significant period of time (several years as the simulation will at most span several decades). We found that this approach was easier than trying to emulate the complex fluctuations of real-world asset prices ourselves. While predicting the expected output of methods when handling real-world data was more difficult, we still found it proved useful in the following circumstances: 
+
+\begin{itemize}
+
+\item Validation:
+Correct behaviour of system components can only be confirmed after running them on live data [citation needed]. In our case, this is especially true since the live data we work with is so complex.
+
+\item Performance:
+Performance of some of Thalia's features might vary based on the complexity of the input. As a result of this real data was needed to properly assess performance.
+
+\item Design:
+An important design consideration was how clear the UI elements, especially the ones displaying data visually (for example the price graph) looked on screens of varying form factors. Having realistic test data helped us to better assess the quality of the user experience.
+
+\end{itemize}
+ 
+
+\subsection{Testing Results}
+
+With all unit, integration and end to end tests passing it is safe to assume that the core functionality of Thalia works as expected (short of a manageable risk of further bugs appearing, as no testing suite of this scale is perfect). Our unit tests are exhaustive, testing for the majority of possible edge cases and achieving a high (over 90 per cent) [citation needed] level of coverage for each module tested. The functionality of the final prototype was additionally tested by hand and found to be working for the included data (A range of assets from all major asset classes with over 10 years of historical data). As such it is safe to assume adding additional, structurally similar data will not break the product. 
+	Performance tests showed a potential issue with the speed of financial calculations for large portfolios, but this should only be an issue for unusually complex portfolios run over time scales of several decades [citation needed]. It is worth noting that competing software performed similarly [citation needed].
+	At the time of writing, we deem the testing of Thalia to be successful and to have demonstrated the suitability of our product for further development and eventually market.
+
 
 
 \end{document}
