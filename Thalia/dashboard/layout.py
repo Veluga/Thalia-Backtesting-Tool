@@ -6,6 +6,8 @@ import os
 import dash_table
 from datetime import datetime as dt
 
+from . import util
+
 
 def table(data, id):
     """
