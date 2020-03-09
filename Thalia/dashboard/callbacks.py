@@ -13,41 +13,45 @@ MAX_PORTFOLIOS = 5
 MAX_ASSETS = 15
 
 
-def portfolio_states():
-    states = [
-        State("my-date-picker-range", "start_date"),
-        State("my-date-picker-range", "end_date"),
-        State("input-money", "value"),
-    ]
-    for i in range(1, MAX_PORTFOLIOS + 1):
-        states += [
+def register_dashboard(dashapp):
+    # gets ticker data, pass tickers and proportions,
+    # runs backetesting, passes result to figures graphs, tables
+    for i in range(MAX_PORTFOLIOS, 0, -1):
+        states = [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+            State("input-money", "value"),
             State(f"input-contribution-{i}", "value"),
             State(f"contribution-dropdown-{i}", "value"),
             State(f"rebalancing-dropdown-{i}", "value"),
+            State(f"memory-table-{i}", "data"),
         ]
 
-        for j in range(1, MAX_ASSETS + 1):
-            states += [
-                State(f"ticker-{i}-{j}", "value"),
-                State(f"proportion-{i}-{j}", "value"),
-            ]
-    return states
-
-
-def register_add_asset_buttons(dashapp):
-    for i in range(1, MAX_PORTFOLIOS + 1):
-        # Add Asset Button
         dashapp.callback(
-            [
-                Output(f"tickers-container-{i}", "children"),
-                Output(f"add-asset-btn-{i}", "disabled"),
-            ],
-            [Input(f"add-asset-btn-{i}", "n_clicks")],
-            [
-                State(f"tickers-container-{i}", "children"),
-                State(f"tickers-container-{i}", "id"),
-            ],
-        )(add_ticker)
+            Output(f"graph-{i}", "figure"), [Input("submit-btn", "n_clicks")], states
+        )(test_dashboard)
+
+
+def test_dashboard(
+    n_clicks, start_date, end_date, input_money, contr, contr_drpd, reb, table
+):
+    if n_clicks is None:
+        raise PreventUpdate
+
+    print("\n")
+    print(start_date, end_date, input_money, contr, contr_drpd, reb, table)
+    print("\n")
+    return None
+
+
+def register_table_callbacks(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        # callback for updating the ticker table
+        dashapp.callback(
+            Output(f"memory-table-{i}", "data"),
+            [Input(f"memory-ticker-{i}", "value")],
+            [State(f"memory-table-{i}", "data")],
+        )(filter_tickers)
 
 
 def print_output(start_date, end_date):
@@ -78,15 +82,9 @@ def register_callbacks(dashapp):
     function is called with Input and States as values and func
     returns values are sent to Output components
     """
-    # gets ticker data, pass tickers and proportions, runs backetesting, passes result to figures graphs, tables
-    dashapp.callback(
-        [Output("graph", "figure"), Output("table", "data")],
-        [Input("submit-btn", "n_clicks")],
-        portfolio_states(),
-    )(update_dashboard)
+    register_dashboard(dashapp)
 
-    # callback for add assets
-    register_add_asset_buttons(dashapp)
+    register_table_callbacks(dashapp)
 
     # pass input dates
     dashapp.callback(
@@ -125,21 +123,6 @@ def register_callbacks(dashapp):
     )(remove_button)
 
 
-def add_ticker(n_clicks, param_state, param_id):
-    from .tab_elements.tickers import ticker_selector
-
-    if n_clicks is None:
-        raise PreventUpdate
-
-    no_tickers = len(param_state)
-
-    if no_tickers == MAX_ASSETS - 1:
-        return param_state, True
-
-    else:
-        return param_state + [ticker_selector(param_id, no_tickers + 1)], False
-
-
 def remove_button(n_clicks, param_state):
     if n_clicks is None:
         raise PreventUpdate
@@ -167,16 +150,7 @@ def tab_switch(n_clicks):
     return "summary", False, False, False, False, False
 
 
-def update_dashboard(
-    n_clicks,
-    tickers_selected,
-    start_date,
-    end_date,
-    input_money,
-    input_contribution,
-    contribution_dropdown,
-    rebalancing_dropdown,
-):
+def update_dashboard(n_clicks, start_date, end_date, input_money):
     """
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
