@@ -16,8 +16,8 @@ class DataHarvester:
     def __init__(self, api_list):
         self.api_list = api_list
 
-        #FdMultiController.fd_register("asset")
-        #self.conn = FdMultiController.fd_connect("asset", "rw")
+        FdMultiController.fd_register("asset")
+        self.conn = FdMultiController.fd_connect("asset", "rw")
 
         self.log = Logger()
 
@@ -141,17 +141,16 @@ class DataHarvester:
         # the api format returns 1 in case of no data from the API call
         # if the df received is not int it means it is a dataframe and the call
         # worked.
-
+        start_date = data_set_retrieved["ADate"][0]
         if type(data_set_retrieved) != int:
             self.log.log_simple(
                 "Received data frame with data between "
                 + str(start_date)
                 + " - "
                 + str(end_date)
-                + "\n Writing to the database."
             )
 
-            start_date = data_set_retrieved["ADate"][0]
+            
 
             self.write_to_up_list(api, start_date, end_date)
             self.write_to_db(data_set_retrieved, ticker_name)
