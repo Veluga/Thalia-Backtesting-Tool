@@ -13,62 +13,6 @@ df = pd.DataFrame(
 )
 AssetTicker = set(df.get("AssetTicker"))
 
-"""
-def ticker_selector(id):
-    return html.Div(
-        [
-            html.Div(
-                html.Div(
-                    [
-                        html.Label("Ticker: ", className="label"),
-                        html.Div(
-                            [
-                                dcc.Dropdown(
-                                    id="memory-ticker-" + str(id),
-                                    options=[
-                                        {"value": x, "label": x} for x in AssetTicker
-                                    ],
-                                    multi=False,
-                                    className="",
-                                ),
-                            ],
-                            className="control",
-                        ),
-                    ],
-                    className="field",
-                ),
-                className="column",
-            ),
-            html.Div(
-                html.Div(
-                    [
-                        dash_table.DataTable(
-                            id="memory-table-" + str(id),
-                            columns=[
-                                {
-                                    "name": "AssetTicker",
-                                    "id": "AssetTicker",
-                                    "type": "text",
-                                },
-                                {"name": "Name", "id": "Name", "type": "text"},
-                                {
-                                    "name": "Allocation",
-                                    "id": "Allocation",
-                                    "type": "numeric",
-                                    "editable": True,
-                                },
-                            ],
-                            row_deletable=True,
-                        )
-                    ],
-                    className="section",
-                )
-            ),
-        ],
-        className="columns is-marginless ",
-    )
-"""
-
 
 def ticker_selector(portfolio_id, ticker_id):
     tickers = [
@@ -153,12 +97,12 @@ def contribution_amount(id):
             html.I("Contribution Amount"),
             html.Br(),
             dcc.Input(
-                id="input-contribution-" + str(id),
+                id=f"input-contribution-{id}",
                 placeholder="Insert contribution amount of $",
                 type="number",
                 className="input",
             ),
-            html.Div(id="output-contribution-" + str(id)),
+            html.Div(id=f"output-contribution-{id}"),
         ]
     )
 
@@ -169,7 +113,7 @@ def contribution_dates(id):
             html.I("Contribution frequency"),
             html.Br(),
             dcc.Dropdown(
-                id="contribution-dropdown-" + str(id),
+                id=f"contribution-dropdown-{id}",
                 options=[  # Business month END
                     {"label": "None", "value": None},
                     {"label": "Monthly", "value": "BM"},
@@ -178,7 +122,7 @@ def contribution_dates(id):
                     {"label": "Semi-Annualy", "value": "6BM"},
                 ],
             ),
-            html.Div(id="output-contribution-dpp-" + str(id)),
+            html.Div(id=f"output-contribution-dpp-{id}"),
         ]
     )
 
@@ -189,7 +133,7 @@ def rebalancing_dates(id):
             html.I("Rebalancing frequency"),
             html.Br(),
             dcc.Dropdown(
-                id="rebalancing-dropdown-" + str(id),
+                id=f"rebalancing-dropdown-{id}",
                 options=[  # Business month END
                     {"label": "None", "value": None},
                     {"label": "Monthly", "value": "BM"},
@@ -198,14 +142,14 @@ def rebalancing_dates(id):
                     {"label": "Semi-Annualy", "value": "6BM"},
                 ],
             ),
-            html.Div(id="output-rebalancing-" + str(id)),
+            html.Div(id=f"output-rebalancing-{id}"),
         ]
     )
 
 
 def lazy_portfolios(id):
     return dcc.Dropdown(
-        id="lazy-portfolios-" + str(id),
+        id=f"lazy-portfolios-{id}",
         placeholder="Lazy",
         className="has-text-left",
         options=[  # Business month END
@@ -225,9 +169,9 @@ def options(id):
                 [
                     html.Div(
                         dcc.Input(
-                            placeholder="Portfolio " + str(id),
+                            placeholder=f"Portfolio {id}",
                             type="text",
-                            value="Portfolio " + str(id),
+                            value=f"Portfolio {id}",
                             style={
                                 "border-width": "0px",
                                 "color": "#363636",

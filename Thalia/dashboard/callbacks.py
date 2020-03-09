@@ -21,21 +21,17 @@ def portfolio_states():
     ]
     for i in range(1, MAX_PORTFOLIOS + 1):
         states += [
-            State("input-contribution-" + str(i), "value"),
-            State("contribution-dropdown-" + str(i), "value"),
-            State("rebalancing-dropdown-" + str(i), "value"),
+            State(f"input-contribution-{i}", "value"),
+            State(f"contribution-dropdown-{i}", "value"),
+            State(f"rebalancing-dropdown-{i}", "value"),
         ]
+
+        for j in range(1, MAX_ASSETS + 1):
+            states += [
+                State(f"ticker-{i}-{j}", "value"),
+                State(f"proportion-{i}-{j}", "value"),
+            ]
     return states
-
-
-def register_table_callbacks(dashapp):
-    for i in range(1, MAX_PORTFOLIOS + 1):
-        # callback for updating the ticker table
-        dashapp.callback(
-            Output("memory-table-" + str(i), "data"),
-            [Input("memory-ticker-" + str(i), "value")],
-            [State("memory-table-" + str(i), "data")],
-        )(filter_tickers)
 
 
 def register_add_asset_buttons(dashapp):
@@ -89,9 +85,6 @@ def register_callbacks(dashapp):
         portfolio_states(),
     )(update_dashboard)
 
-    # callback for updating the ticker table
-    register_table_callbacks(dashapp)
-
     # callback for add assets
     register_add_asset_buttons(dashapp)
 
@@ -138,9 +131,9 @@ def add_ticker(n_clicks, param_state, param_id):
     if n_clicks is None:
         raise PreventUpdate
 
-    no_tickers = len(param_state) - 6  # Not ticker children
+    no_tickers = len(param_state)
 
-    if no_tickers == MAX_ASSETS:
+    if no_tickers == MAX_ASSETS - 1:
         return param_state, True
 
     else:

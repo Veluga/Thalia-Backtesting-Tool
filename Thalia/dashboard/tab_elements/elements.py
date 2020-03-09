@@ -17,7 +17,7 @@ def graph_box(graph_name, figure, id, size=6):
             ],
             className="box",
         ),
-        className="column is-" + str(size),
+        className=f"column is-{size}",
     )
 
 
