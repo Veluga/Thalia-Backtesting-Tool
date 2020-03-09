@@ -184,4 +184,62 @@ TODO
 \subsection{Use Cases}
 TODO
 
+\subsection{Feasibility Analysis}
+\label{Feasibility Analysis}
+
+The feasibility of this project hinges not only on technical considerations, but must be evaluated across multiple dimensions. To conduct our analysis, we have used the TELOS methodology \cite{drljaca_latinovic_2018}. TELOS is an acronym for:
+
+\begin{itemize}
+    \item Technical
+    \item Economic
+    \item Legal
+    \item Operational
+    \item Scheduling
+\end{itemize}
+
+The following sections will analyse each of these areas in detail to allow for drawing conclusions about the project feasibility.
+
+\subsubsection{Technical}
+
+This area concerns the question of whether there exist technologies that enable us to realise our project idea. We consider the prototype developed over the last semester sufficient evidence for the technical feasibility of our project as we have successfully developed implementations for each of our system components, albeit in stripped-down form. As a result of familiarising ourselves with the technologies we used in developing this prototype, we are confident that scaling it up to a fully functional product will pose little technical challenge to our team.
+
+\subsubsection{Economic}
+
+To reduced reliance on external funding for operating our business over time, license sales must outweigh costs. As part of our effort to determine economic feasibility, we have forecasted our cash flow for the year of 2020.
+
+\begin{figure}[H]
+    \caption{Thalia Cash Flow Forecast}
+	\includegraphics[width=\textwidth]{03Requirements/03Pictures/cash_flow_forecast.png}
+\end{figure}
+
+This forecast makes several assumptions that we deem justifiable:
+
+\begin{itemize}
+    \item Seed and Series A venture capital investments of a total of £75.000.
+    \item Approximately linear growth of license sales throughout the year.
+    \item Team members being able to sustain themselves without a salary for the four starting months.
+    \item Being able to acquire a £20.000 business loan with less than 5\% interest p.a.
+\end{itemize}
+
+These assumptions lead to our company being profitable by mid 2021. Time to profitability of around 18 months is very typical for startups, as shown e.g. by Olsen and Kolvereid \cite{startup_profitability}. While these findings are indicators of economic feasibility, we will have to constantly revise our cash flow forecast to account for changing market conditions and advances in product development.
+
+\subsubsection{Legal}
+
+Fundamentally, backtesting is not considered to encourage purchases or sales of assets. Our company is merely providing information to our customers and thus can not be considered to provide financial advice. Decisions drawn from the information presented by Thalia solely consists of the opinions of our customers and do not reflect the opinions of the Thalia team or any associates. A disclaimer of this form will be placed on our website and within our terms and conditions which have to be accepted by users upon sign up.
+Within the framework of the Financial Conduct Authority, our product is understood to provide guidance on investment decisions. Entities offering guidance "are responsible for the accuracy and quality of the information they provide" \cite{fca_guidance_advice}. Thus, it is paramount that the information provided by our tool is accurate.
+
+Our research has not revealed any other potential legal issues with our service. Given correctness of our calculations, we thus consider this project to be legally feasible.
+
+\subsubsection{Operational}
+
+After deployment of our service, we will need to continually update price data for all assets while integrating new assets to stay competitive. For a discussion of how live data is integrated into our service, please refer to the design section concerning the Data Collection module \ref{Data Harvester}. Given that these requirements are the only way in which we deviate from other web applications, we are confident that this project is feasible from an operations standpoint.
+
+\subsubsection{Scheduling}
+
+The Thalia Technical Report established a schedule for this sub-session. The aforementioned strict requirement of correctness of our service makes it difficult to estimate the time required for developing a system component. We are using the Agile development methodology as described in our white paper \cite{WP} as a means of adjusting for this uncertainty. Our previous schedule must then be understood to be less rigid and used instead for orientation of how to prioritise work efforts. Delivery of a correct product is thus ensured at any point. Scheduling issues are therfore less of an issue as reducing the feature specification in favour of accuracy of results is the preferred course of action.
+
+\subsubsection{Conclusion}
+
+The areas in the TELOS analysis yielding questions about the feasibility of this project are Economic and Legal. Accordingly, we have incorporated actions that reduce any potential negative impact of these risks into our strategy. In particular, we will be including legal disclaimers on our website and as part of our terms of service and try to acquire external funding for the initial development stage of our business as soon as possible. We believe that these discussions solidify the case for our project being feasible.
+
 \end{document}
