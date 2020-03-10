@@ -112,9 +112,10 @@ https://coderseye.com/django-vs-flask
 \subsubsection{GUI}
 
 \label{GUI}
-\subsubsection{Dash}
-\label{Dash}
-We decided to use "Dash" as our framework for building our web application. Since Dash is a pure Python framework and some team members were already familiar with it, it was our clear option for building our application. Dash is very good for applications that require data visualisation, modelling, analysis which is precisely what is needed for our portfolio backtesting software.
+The User-Interface is made with the use of 'Bulma', which is an open-source CSS framework . Bulma is ideal for creating responsive elements and reusable components. It is fairly simple to learn in comparison to 'Bootstrap'. There are no javascript elements, only CSS, which makes it adaptable to frameworks such as Dash, which we also used and is described below.
+
+We decided to use 'Dash' as our framework for building our web application. Since Dash is a pure Python framework and some team members were already familiar with it, it was our clear option for building our application. Dash is basically a wrapper for 'React' components, therefore we could create the dashboard with just Python, which the entire team is familiar with, rather than learn Javascript. Dash is very good for applications that require data visualisation, modelling, analysis which is precisely what is needed for our portfolio backtesting software. Another benefit of Dash, is that it is designed in a way to work in multi-user environments, allowing multiple users to be visiting the website and having independent sessions. Dash allows to create reactive dashboards, meaning that with the use of tables, drop-down menus, etc. the app is updated instantly. This is done with the use of 'callbacks', which whenever an input changes the output value is updated automatically. With the use of the 'Dash HTML components' library there is no need to write HTML for the dashboard, since the layout can be composed using Python, that generates HTML content.
+
 \subsubsection{Business Logic}
 \label{BL}
 
