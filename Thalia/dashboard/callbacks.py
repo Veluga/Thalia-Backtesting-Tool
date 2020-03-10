@@ -29,19 +29,7 @@ def register_dashboard(dashapp):
 
         dashapp.callback(
             Output(f"graph-{i}", "figure"), [Input("submit-btn", "n_clicks")], states
-        )(test_dashboard)
-
-
-def test_dashboard(
-    n_clicks, start_date, end_date, input_money, contr, contr_drpd, reb, table
-):
-    if n_clicks is None:
-        raise PreventUpdate
-
-    print("\n")
-    print(start_date, end_date, input_money, contr, contr_drpd, reb, table)
-    print("\n")
-    return None
+        )(update_dashboard)
 
 
 def register_table_callbacks(dashapp):
@@ -106,6 +94,12 @@ def register_callbacks(dashapp):
             Output("assets", "disabled"),
         ],
         [Input("submit-btn", "n_clicks")],
+        [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+            State("input-money", "value"),
+            State("memory-table-1", "data"),
+        ],
     )(tab_switch)
 
     # Add Portfolio Button
@@ -143,14 +137,23 @@ def add_portfolio(n_clicks, param_state):
     return param_state + [options(no_portfolios + 1)]
 
 
-def tab_switch(n_clicks):
-    if n_clicks is None:
+def tab_switch(n_clicks, *args):
+    if n_clicks is None or None in args:
         raise PreventUpdate
 
     return "summary", False, False, False, False, False
 
 
-def update_dashboard(n_clicks, start_date, end_date, input_money):
+def update_dashboard(
+    n_clicks,
+    start_date,
+    end_date,
+    input_money,
+    contribution_amount,
+    contribution_frequency,
+    rebalancing_frequency,
+    table_data,
+):
     """
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
@@ -159,34 +162,29 @@ def update_dashboard(n_clicks, start_date, end_date, input_money):
     if n_clicks is None:
         raise PreventUpdate
 
-    values = (
-        tickers_selected,
-        start_date,
-        end_date,
-        input_money,
-    )
+    values = (start_date, end_date, input_money, table_data)
     if any(param is None for param in values):
         raise PreventUpdate
-    if contribution_dropdown is not None:
+    if contribution_frequency is not None:
         contribution_dates = pd.date_range(
-            start_date, end_date, freq=contribution_dropdown
+            start_date, end_date, freq=contribution_frequency
         )
     else:
         contribution_dates = set()
-    if rebalancing_dropdown is not None:
+    if rebalancing_frequency is not None:
         rebalancing_dates = pd.date_range(
-            start_date, end_date, freq=rebalancing_dropdown
+            start_date, end_date, freq=rebalancing_frequency
         )
     else:
         rebalancing_dates = set()
-    if input_contribution is None:
-        input_contribution = 0
+    if contribution_amount is None:
+        contribution_amount = 0
 
     format_string = "%Y-%m-%d"
     start_date = datetime.strptime(start_date, format_string)
     end_date = datetime.strptime(end_date, format_string)
     tickers, proportions = zip(
-        *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in tickers_selected)
+        *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in table_data)
     )
 
     return update_backtest_results(
@@ -195,7 +193,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money):
         start_date,
         end_date,
         input_money,
-        input_contribution,
+        contribution_amount,
         contribution_dates,
         rebalancing_dates,
     )
@@ -207,7 +205,7 @@ def update_backtest_results(
     start_date,
     end_date,
     input_money,
-    input_contribution,
+    contribution_amount,
     contribution_dates,
     rebalancing_dates,
 ):
@@ -227,12 +225,12 @@ def update_backtest_results(
         input_money,
         assets_data,
         contribution_dates,
-        input_contribution,
+        contribution_amount,
         rebalancing_dates,
     )
     table_data = get_table_data(strategy, risk_free_rate)
     returns = anda.total_return(strategy)
-    return get_figure(returns), table_data
+    return get_figure(returns)
 
 
 def get_table_data(strat, risk_free_rate=None):
