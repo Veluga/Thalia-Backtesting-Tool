@@ -181,7 +181,7 @@ Furthermore it has been pointed out, that our requirements fail to capture ...
 
 TODO
 
-\subsection{Use Cases}
+\subsection{Use Case}
 \newpage
 
 \subsubsection{Backtest Strategy}
@@ -200,7 +200,6 @@ TODO
 \newline
 \textbf{Flow of Events:}
 \newline
-\newline
 \begin{enumerate}
 	\item The user navigates to the \textit{backtest} page of the website.
 	\item The system sends a list of available assets.
@@ -214,7 +213,8 @@ TODO
 \textbf{Alternate Flow of Events}
 \begin{itemize}
 	\item Steps 4 and 5 may repeat any number of times, allowing the user to have as large a portfolio as they like. But they must happen at least once.
-	\item Between steps 3 and 6, the user may optionally enter a rebalancing frequency and a contribution/withdrawl amount and frequency. The system should take these into account when calculating.
+	\item In step 6, the system may have insufficient data for the user's desired time range. If this is the case, the system should give results for the time it does have data for.
+	\item Between steps 3 and 6, the user may optionally enter a rebalancing frequency and a contribution amount and frequency. The system should take these into account when calculating.
 \end{itemize}
 
 \end{document}
