@@ -4,18 +4,16 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from .tab_elements.tickers import df
+from .tab_elements.tickers import options
 from datetime import datetime
 
 from analyse_data import analyse_data as anda
 
 
 MAX_PORTFOLIOS = 5
-MAX_ASSETS = 15
 
 
 def register_dashboard(dashapp):
-    # gets ticker data, pass tickers and proportions,
-    # runs backetesting, passes result to figures graphs, tables
     for i in range(MAX_PORTFOLIOS, 0, -1):
         states = [
             State("my-date-picker-range", "start_date"),
@@ -42,6 +40,90 @@ def register_table_callbacks(dashapp):
         )(filter_tickers)
 
 
+def register_tab_switch(dashapp):
+    dashapp.callback(
+        [
+            Output("tabs", "value"),
+            Output("summary", "disabled"),
+            Output("metrics", "disabled"),
+            Output("returns", "disabled"),
+            Output("drawdowns", "disabled"),
+            Output("assets", "disabled"),
+        ],
+        [Input("submit-btn", "n_clicks")],
+        [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+            State("input-money", "value"),
+            State("memory-table-1", "data"),
+        ],
+    )(tab_switch)
+
+
+def register_input_dates(dashapp):
+    dashapp.callback(
+        Output("output_dates", "children"),
+        [
+            Input("my-date-picker-range", "start_date"),
+            Input("my-date-picker-range", "end_date"),
+        ],
+    )(print_output)
+
+
+def register_add_portfolio_button(dashapp):
+    dashapp.callback(
+        Output("portfolios-container", "children"),
+        [Input("add-portfolio-btn", "n_clicks")],
+        [State("portfolios-container", "children")],
+    )(add_portfolio)
+
+
+def register_remove_portfolio_button(dashapp):
+    dashapp.callback(
+        Output("add-portfolio-btn", "disabled"),
+        [Input("add-portfolio-btn", "n_clicks")],
+        [State("portfolios-container", "children")],
+    )(remove_button)
+
+
+def register_callbacks(dashapp):
+    """
+    Works as essentially react component routing.
+    Whenever changes happen in an Input components chosen attribute
+    function is called with Input and States as values and func
+    returns values are sent to Output components
+    """
+
+    # Register sending portfolio data
+    register_dashboard(dashapp)
+
+    # Register updating the tables with the ticker dropdown
+    register_table_callbacks(dashapp)
+
+    # Register showing the input dates
+    register_input_dates(dashapp)
+
+    # Register tab switch upon submit
+    register_tab_switch(dashapp)
+
+    # Register add Portfolio Button
+    register_add_portfolio_button(dashapp)
+
+    # Register removing the button at 5 portfolios
+    register_remove_portfolio_button(dashapp)
+
+
+def remove_button(n_clicks, param_state):
+    if n_clicks is None:
+        raise PreventUpdate
+
+    no_portfolios = len(param_state)
+    if no_portfolios < MAX_PORTFOLIOS - 1:
+        raise PreventUpdate
+
+    return True
+
+
 def print_output(start_date, end_date):
     display_date = ("start date: ", start_date, " end date :", end_date)
     return display_date
@@ -63,74 +145,7 @@ def filter_tickers(tickers_selected, param_state):
     return new_store
 
 
-def register_callbacks(dashapp):
-    """
-    Works as essentially react component routing.
-    Whenever changes happen in an Input components chosen attribute
-    function is called with Input and States as values and func
-    returns values are sent to Output components
-    """
-    register_dashboard(dashapp)
-
-    register_table_callbacks(dashapp)
-
-    # pass input dates
-    dashapp.callback(
-        Output("output_dates", "children"),
-        [
-            Input("my-date-picker-range", "start_date"),
-            Input("my-date-picker-range", "end_date"),
-        ],
-    )(print_output)
-
-    # Tab switch upon submit
-    dashapp.callback(
-        [
-            Output("tabs", "value"),
-            Output("summary", "disabled"),
-            Output("metrics", "disabled"),
-            Output("returns", "disabled"),
-            Output("drawdowns", "disabled"),
-            Output("assets", "disabled"),
-        ],
-        [Input("submit-btn", "n_clicks")],
-        [
-            State("my-date-picker-range", "start_date"),
-            State("my-date-picker-range", "end_date"),
-            State("input-money", "value"),
-            State("memory-table-1", "data"),
-        ],
-    )(tab_switch)
-
-    # Add Portfolio Button
-    dashapp.callback(
-        Output("portfolios-container", "children"),
-        [Input("add-portfolio-btn", "n_clicks")],
-        [State("portfolios-container", "children")],
-    )(add_portfolio)
-
-    # Make button dissappear at 5 portfolios
-    dashapp.callback(
-        Output("add-portfolio-btn", "disabled"),
-        [Input("add-portfolio-btn", "n_clicks")],
-        [State("portfolios-container", "children")],
-    )(remove_button)
-
-
-def remove_button(n_clicks, param_state):
-    if n_clicks is None:
-        raise PreventUpdate
-
-    no_portfolios = len(param_state)
-    if no_portfolios < MAX_PORTFOLIOS - 1:
-        raise PreventUpdate
-
-    return True
-
-
 def add_portfolio(n_clicks, param_state):
-    from .tab_elements.tickers import options
-
     if n_clicks is None:
         raise PreventUpdate
     no_portfolios = len(param_state)
