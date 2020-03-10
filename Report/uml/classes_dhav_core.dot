@@ -1,10 +1,10 @@
 digraph "classes_dhav_core" {
 charset="utf-8"
 rankdir=BT
-"0" [label="{ApiObject|+api_calls_per_run\l+has_key : bool\l+key : bool\l+log\l+name\l+supported_assets\l|+call_api(asset_class, ticker, start_date, end_date)\l+check_df_format(df)\l+nomics_call(asset_class, ticker, start_date, end_date)\l+nomics_format(df, ticker)\l+yahoo_df_format(df, ticker)\l+yahoo_finance(asset_class, ticker, start_date, end_date)\l}", shape="record"];
+"0" [label="{ApiObject|+api_calls_per_run : integer\l+has_key : bool\l+key : bool\l+log : Class\l+name : String\l+supported_assets : []\l|+call_api(asset_class, ticker, start_date, end_date)\l+check_df_format(df)\l+nomics_call(asset_class, ticker, start_date, end_date)\l+nomics_format(df, ticker)\l+yahoo_df_format(df, ticker)\l+yahoo_finance(asset_class, ticker, start_date, end_date)\l}", shape="record"];
 "1" [label="{DataBaseConstructor|+conn : FdConnection\l|+asset_classes_list()\l+create_db_connection()\l+dh_pass_asset_classes_fd()\l+dh_pass_tickers_fd()\l}", shape="record"];
-"2" [label="{DataHarvester|+api_list\l+log\l|+add_interpolation_to_df(df)\l+current_index(api)\l+get_data(asset_class, ticker, start_date, end_date)\l+next_index(api)\l+start_updating()\l+update_on_index(api)\l+write_to_db(dataset_to_sql, ticker_name)\l+write_to_up_list(api, start_date, end_date)\l}", shape="record"];
-"3" [label="{Initializer|+api_list\l|+construct_position()\l+construct_update_list()\l}", shape="record"];
+"2" [label="{DataHarvester|+api_list : []\l+log : Class\l|+add_interpolation_to_df(df)\l+current_index(api)\l+get_data(asset_class, ticker, start_date, end_date)\l+next_index(api)\l+start_updating()\l+update_on_index(api)\l+write_to_db(dataset_to_sql, ticker_name)\l+write_to_up_list(api, start_date, end_date)\l}", shape="record"];
+"3" [label="{Initializer|+api_list : []\l|+construct_position()\l+construct_update_list()\l}", shape="record"];
 "4" [label="{Logger|\l|+crit(asset_class, ticker, start_date, end_date)\l+error_log(message)\l+log_api_call(asset_class, ticker, start_date, end_date)\+llog_simple(message)\l}", shape="record"];
 "4" -> "0" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="log", style="solid"];
 "4" -> "2" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="log", style="solid"];
