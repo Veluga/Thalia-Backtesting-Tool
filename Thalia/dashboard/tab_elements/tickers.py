@@ -14,58 +14,77 @@ df = pd.DataFrame(
 AssetTicker = set(df.get("AssetTicker"))
 
 
-def ticker_selector(id):
+def ticker_dropdown(id):
     return html.Div(
-        [
-            html.Div(
+        html.Div(
+            [
+                html.Label("Ticker: ", className="label"),
                 html.Div(
                     [
-                        html.Label("Ticker: ", className="label"),
-                        html.Div(
-                            [
-                                dcc.Dropdown(
-                                    id=f"memory-ticker-{id}",
-                                    options=[
-                                        {"value": x, "label": x} for x in AssetTicker
-                                    ],
-                                    multi=False,
-                                    className="",
-                                ),
-                            ],
-                            className="control",
+                        dcc.Dropdown(
+                            id=f"memory-ticker-{id}",
+                            options=[{"value": x, "label": x} for x in AssetTicker],
+                            multi=False,
+                            className="",
                         ),
                     ],
-                    className="field",
+                    className="control",
                 ),
-                className="column",
-            ),
-            html.Div(
-                html.Div(
-                    [
-                        dash_table.DataTable(
-                            id=f"memory-table-{id}",
-                            columns=[
-                                {
-                                    "name": "AssetTicker",
-                                    "id": "AssetTicker",
-                                    "type": "text",
-                                },
-                                {"name": "Name", "id": "Name", "type": "text"},
-                                {
-                                    "name": "Allocation",
-                                    "id": "Allocation",
-                                    "type": "numeric",
-                                    "editable": True,
-                                },
-                            ],
-                            row_deletable=True,
-                        )
+            ],
+            className="field",
+        ),
+        className="column is-6 is-offset-3",
+    )
+
+
+def ticker_table(id):
+    return html.Div(
+        html.Div(
+            [
+                dash_table.DataTable(
+                    id=f"memory-table-{id}",
+                    columns=[
+                        {"name": "AssetTicker", "id": "AssetTicker", "type": "text",},
+                        {"name": "Name", "id": "Name", "type": "text"},
+                        {
+                            "name": "Allocation",
+                            "id": "Allocation",
+                            "type": "numeric",
+                            "editable": True,
+                        },
                     ],
-                    className="section",
+                    row_deletable=True,
+                    style_data_conditional=[
+                        {
+                            "if": {"row_index": "odd"},
+                            "backgroundColor": "rgb(248, 248, 248)",
+                        },
+                        {
+                            "if": {
+                                "column_id": "Allocation",
+                                "filter_query": "{Allocation} > 100",
+                            },
+                            "backgroundColor": "#f26a4b",
+                            "color": "white",
+                        },
+                    ],
+                    style_header={
+                        "backgroundColor": "rgb(230, 230, 230)",
+                        "fontWeight": "bold",
+                    },
+                    style_cell_conditional=[{"textAlign": "center"}],
                 )
-            ),
-        ],
-        className="columns is-marginless ",
+            ],
+            className="section",
+        ),
+        className="column is-4 is-offset-4",
+    )
+
+
+def ticker_selector(id):
+    return html.Div(
+        [ticker_dropdown(id), ticker_table(id),],
+        className="columns is-marginless is-multiline",
     )
 
 
