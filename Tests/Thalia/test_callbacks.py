@@ -26,7 +26,7 @@ def test_update_dashboard():
     contribution_amount = 50
     contribution_frequency = "BM"
     rebalancing_frequency = "BM"
-    fig, table_data = callbacks.update_dashboard(
+    fig = callbacks.update_dashboard(
         1,
         start_date,
         end_date,
