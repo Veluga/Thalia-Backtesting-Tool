@@ -181,8 +181,41 @@ Furthermore it has been pointed out, that our requirements fail to capture ...
 
 TODO
 
-\subsection{Use Cases}
-TODO
+\subsection{Use Case}
+\newpage
+
+\subsubsection{Backtest Strategy}
+
+\textbf{Actors}: User
+\newline
+\newline
+\textbf{Purpose}: Show a user how their strategy would have performed in the past.
+\newline
+\newline
+\textbf{Overview}: The user selects they assets they want in their portfolio, along with how much to invest in each asset. They may select contribution/withdrawl and rebalancing options also. On completion, the user will see a graph plotting the value of their portfolio over time and a table of a few key metrics summarising performance.
+\newline
+\newline
+\textbf{Preconditions}: The user must be logged in.
+\newline
+\newline
+\textbf{Flow of Events:}
+\newline
+\begin{enumerate}
+	\item The user navigates to the \textit{backtest} page of the website.
+	\item The system sends a list of available assets.
+	\item The user enters the period of time over which they wish to backtest.
+	\item The user selects a financial asset.
+	\item The user enters the proportion of their portfolio they want to invest in that asset.
+	\item The user submits their strategy for evaluation.
+	\item The system analyses the user's strategy over the specified period.
+	\item The user received their strategy's performance.
+\end{enumerate}
+\textbf{Alternate Flow of Events}
+\begin{itemize}
+	\item Steps 4 and 5 may repeat any number of times, allowing the user to have as large a portfolio as they like. But they must happen at least once.
+	\item In step 6, the system may have insufficient data for the user's desired time range. If this is the case, the system should give results for the time it does have data for.
+	\item Between steps 3 and 6, the user may optionally enter a rebalancing frequency and a contribution amount and frequency. The system should take these into account when calculating.
+\end{itemize}
 
 \subsection{Feasibility Analysis}
 \label{Feasibility Analysis}
