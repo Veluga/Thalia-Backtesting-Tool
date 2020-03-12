@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import math
 from decimal import Decimal, InvalidOperation
-from datetime import date
+from datetime import date, timedelta
 from dataclasses import dataclass
 from typing import List
 
@@ -81,7 +81,7 @@ def _collect_dividend(dividend: Decimal, holdings: Decimal, price: Decimal) -> D
 
 
 # TODO: make numpy and pandas do the work.
-def total_return(strat) -> pd.Series:
+def total_return(strat: Strategy) -> pd.Series:
     if strat.returns is not None:
         return strat.returns
     # Returns the value of the portfolio at each day in the time frame.
@@ -92,7 +92,8 @@ def total_return(strat) -> pd.Series:
     balance = strat.starting_balance
 
     for day in strat.dates:
-        asset_vals_today = [values.at[day] for values in asset_values]
+        # I shouldn't *have* to convert to Decimal, but for some reason I do.
+        asset_vals_today = [Decimal(values.at[day]) for values in asset_values]
         if day == strat.dates[0] or day in strat.rebalancing_dates:
             investments = _allocate_investments(
                 balance, ideal_weights, asset_vals_today
@@ -119,6 +120,27 @@ def total_return(strat) -> pd.Series:
         ret.at[day] = balance
 
     return ret
+
+
+def final_balance(strat: Strategy) -> Decimal:
+    returns = total_return(strat)
+    return returns.at[strat.dates[len(strat.dates) - 1]]
+
+
+# Compound Annual Growth Rate
+def cagr(strat: Strategy) -> float:
+    returns = total_return(strat)
+    begin = strat.starting_balance
+    end = final_balance(strat)
+    
+    growth = float(final_balance(strat) / strat.starting_balance)
+    time = strat.dates[-1] - strat.dates[0]
+    years = time.total_seconds() / (APPROX_DAY_PER_YEAR * 24 * 60 * 60)
+    growth_factor = math.pow(growth, 1.0 / years)
+    
+    print(years, begin, end, growth, growth_factor)
+    
+    return (growth_factor - 1.0) * 100
 
 
 def _risk_adjusted_returns(
@@ -196,3 +218,24 @@ def worst_year(strat) -> Decimal:
         return min(rel_diff) * Decimal("100")  # Adjust for percentage.
     else:
         raise InsufficientTimeframe
+
+
+def parse_csv(data_file) -> pd.DataFrame:
+    """
+    Takes a csv file with columns [Date, Open, High, Low, Close} and returns
+    a dataframe that can be put in an Asset object.
+    If invalid, throws ValueError. (TODO)
+    """
+    df = pd.read_csv(
+        data_file,
+        index_col="Date",
+        converters = {
+            "Open": Decimal,
+            "High": Decimal,
+            "Low": Decimal,
+            "Close": Decimal,
+        }
+    )
+    df.index = pd.todatetime(df.index, format="%d/%m/%Y")
+    df.ffill(inplace=True)
+    return df
