@@ -18,23 +18,23 @@ def test_update_dashboard_prevents_update():
 
 
 def test_update_dashboard():
-    tickers = [{"AssetTicker": "RCK", "Name": "Rock", "Allocation": 5}]
+    table_data = [{"AssetTicker": "RCK", "Name": "Rock", "Allocation": 5}]
 
     start_date = "2015-02-19"
     end_date = "2020-02-19"
     input_money = 50
-    input_contribution = 50
-    contribution_dropdown = "BM"
-    rebalancing_dropdown = "BM"
+    contribution_amount = 50
+    contribution_frequency = "BM"
+    rebalancing_frequency = "BM"
     fig, table_data = callbacks.update_dashboard(
         1,
-        tickers,
         start_date,
         end_date,
         input_money,
-        input_contribution,
-        contribution_dropdown,
-        rebalancing_dropdown,
+        contribution_amount,
+        contribution_frequency,
+        rebalancing_frequency,
+        table_data,
     )
 
     assert isinstance(fig, go.Figure), "update dashboard should return a plotly figure"
