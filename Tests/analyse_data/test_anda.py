@@ -529,10 +529,13 @@ class TestDividends(TestCase):
 
 class TestCurrencyConversion(TestCase):
     def setUp(self):
-        pass
+        start_date = date(1998, 1, 1)
+        end_date = date(2020, 1, 1)
+        self.forex_vals = read_asset("/test_data/USDJPY.csv")
+        self.forex_vals = self.forex_vals.reindex(pd.date_range(start_date, end_date)).ffill()
 
     def test_xyz(self):
-        self.assertTrue(True)
+        self.assertTrue(False)
 
 if __name__ == "__main__":
     unittest.main()
