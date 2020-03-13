@@ -527,6 +527,12 @@ class TestDividends(TestCase):
             anda.total_return(strategy)[end_date], Decimal("9856511.60"), delta=1
         )
 
+class TestCurrencyConversion(TestCase):
+    def setUp(self):
+        pass
+
+    def test_xyz(self):
+        self.assertTrue(True)
 
 if __name__ == "__main__":
     unittest.main()

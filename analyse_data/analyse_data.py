@@ -196,3 +196,6 @@ def worst_year(strat) -> Decimal:
         return min(rel_diff) * Decimal("100")  # Adjust for percentage.
     else:
         raise InsufficientTimeframe
+
+def convert_currency(currency_pair: pd.DataFrame, vals: pd.Series) -> pd.Series:
+    pass
