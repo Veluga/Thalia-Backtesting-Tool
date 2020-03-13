@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hello</title>
+    <title>Thalia</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
@@ -12,18 +12,52 @@
       defer
       src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
     ></script>
+
+    <style>
+      .has-background-inspire1 {
+        background-color: #01191c !important;
+      }
+      .has-background-inspire2 {
+        background-color: #01434a !important;
+      }
+      .has-background-inspire3 {
+        background-color: #f26a4b !important;
+      }
+      .has-background-inspire4 {
+        background-color: #f23d3d !important;
+      }
+      .has-background-inspire5 {
+        background-color: #feedd0 !important;
+      }
+      .tag {
+        color: #f26a4b !important;
+        background-color: white !important;
+      }
+      .is-inspire:after {
+        border-color: #f26a4b !important;
+      }
+      ul > li {
+        margin-left: 25px;
+      }
+      .has-background-main {
+        background: url(static/images/index/thalia_background.jpg) center /
+          cover;
+      }
+      .has-background-stonks {
+        background: url(static/images/index/stonks.jpg) center / cover;
+      }
+      .columns.is-full {
+        flex: none;
+        width: 100%;
+      }
+      .has-color-inspire {
+        color: #f26a4b !important;
+      }
+    </style>
   </head>
   <body>
-    <section class="section">
-      <a href="{{ url_for('main.index') }}">Home</a>
-      {% if current_user.is_anonymous %}
-        <a href="{{ url_for('main.login') }}">Login</a>
-      {% else %}
-        <a href="{{ url_for('main.logout') }}">Logout</a>
-        <a href="/dashboard">Backtest</a>
-      {% endif %}
-      {% block content %}
-      {% endblock %}
-    </section>
+    {% include 'navbar.html' %}
+    {% block content %}
+    {% endblock %}
   </body>
 </html>

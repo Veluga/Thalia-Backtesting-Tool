@@ -1,21 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Register</h1>
-<form action="" method="post">
-  {{ form.hidden_tag() }}
-    {# renders all hidden input fields including CSRF token field #}
-  <p>
-    {{ form.username.label }}<br />
-    {{ form.username(size=32) }}<br />
-  </p>
-  <p>
-    {{ form.password.label }}<br />
-    {{ form.password(size=32) }}<br />
-  </p>
-  <p>{{ form.submit() }}</p>
-</form>
-{% if error %}
-<p class="error"><strong>Error:</strong> {{ error }}</p>
-{% endif %}
+<style>
+    .has-background-main {
+        background: url(../static/images/index/thalia_background.jpg) center / cover;
+      }
+      .tag {
+        color: #F26A4B !important;
+        background-color: transparent !important;
+      }
+</style>
+<!-- Register -->
+<div class="hero is-medium has-background-main">
+  <section id="contact" class="section section-light-grey is-large">
+    <div class="container">
+
+
+        <div class="content-wrapper">
+            <div class="columns">
+                <div class="column is-half">
+
+                </div>
+                <div class="column">
+                    <div class="title-wrapper has-text-centered">
+                        <h2 class="title is-2 is-spaced has-text-light">Register</h2>
+                        <div class="divider is-centered"></div>
+                    </div>
+                  {% include 'error.html' %}
+                  {% include 'register_form.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+<!-- /Register -->
 {% endblock %}
