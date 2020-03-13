@@ -200,7 +200,7 @@ def worst_year(strat) -> Decimal:
 
 def parse_csv(data_file) -> pd.DataFrame:
     """
-    Takes a csv file with columns [Date, Open, High, Low, Close} and returns
+    Takes a csv file with columns [Date, Open, High, Low, Close] and returns
     a dataframe that can be put in an Asset object.
     If invalid, throws ValueError. (TODO)
     """
@@ -214,6 +214,6 @@ def parse_csv(data_file) -> pd.DataFrame:
             "Close": Decimal,
         }
     )
-    df.index = pd.todatetime(df.index, format="%d/%m/%Y")
+    df.index = pd.to_datetime(df.index, format="%d/%m/%Y")
     df.ffill(inplace=True)
     return df
