@@ -150,8 +150,14 @@ def update_backtest_results(
 
     assets_data = get_assets(tickers, weights, start_date, end_date)
 
-    real_start_date = min(asset.values.index[0] for asset in assets_data)
-    real_end_date = max(asset.values.index[-1] for asset in assets_data)
+    real_start_date = max(asset.values.index[0] for asset in assets_data)
+    real_end_date = min(asset.values.index[-1] for asset in assets_data)
+
+    print(real_end_date - real_start_date)
+
+    if real_end_date < real_start_date:
+        # raise Error
+        return None, None
 
     strategy = anda.Strategy(
         real_start_date,
