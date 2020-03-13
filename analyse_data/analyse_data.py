@@ -197,5 +197,9 @@ def worst_year(strat) -> Decimal:
     else:
         raise InsufficientTimeframe
 
-def convert_currency(currency_pair: pd.DataFrame, vals: pd.Series) -> pd.Series:
-    pass
+
+def convert_currency(currency_pair: pd.DataFrame, usd_vals: pd.Series) -> pd.Series:
+    return pd.Series(
+        [val * currency_pair.at[idx, "Close"] for idx, val in usd_vals.iteritems()],
+        usd_vals.index,
+    )
