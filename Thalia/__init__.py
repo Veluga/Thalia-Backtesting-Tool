@@ -1,7 +1,6 @@
 import dash
 from config import Config
 from flask import Flask
-from flask.helpers import get_root_path
 from flask_login import login_required
 
 
@@ -11,6 +10,7 @@ def create_app(test_config={}):
     # load the test config if passed in otherwise nothing happens
     server.config.update(test_config)
 
+    register_asset_db(server.config['THALIA_DB_CONN'])
     register_dashapps(server)
     register_extensions(server)
     register_blueprints(server)
@@ -29,13 +29,17 @@ def register_dashapps(app):
         "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
     }
 
+    external_stylesheets = [
+        'https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css'
+]
+
     dashapp = dash.Dash(
         __name__,
         server=app,
         url_base_pathname="/dashboard/",
-        assets_folder=get_root_path(__name__) + "/static/",
         meta_tags=[meta_viewport],
         suppress_callback_exceptions=True,
+        external_stylesheets=external_stylesheets
     )
 
     with app.app_context():
@@ -72,3 +76,15 @@ def register_blueprints(server):
     from .views import server_bp
 
     server.register_blueprint(server_bp)
+
+
+def register_asset_db(db_name):
+    from . import findb_conn
+    from Finda import fd_manager
+
+    try:
+        findb_conn.findb = fd_manager.FdMultiController.fd_connect(db_name, "r")
+    except Exception as e:
+        print("Fatal: Unable to connect to database " + db_name)
+        print(e)
+        exit()
