@@ -121,28 +121,6 @@ def total_return(strat: Strategy) -> pd.Series:
 
     return ret
 
-
-def final_balance(strat: Strategy) -> Decimal:
-    returns = total_return(strat)
-    return returns.at[strat.dates[len(strat.dates) - 1]]
-
-
-# Compound Annual Growth Rate
-def cagr(strat: Strategy) -> float:
-    returns = total_return(strat)
-    begin = strat.starting_balance
-    end = final_balance(strat)
-    
-    growth = float(final_balance(strat) / strat.starting_balance)
-    time = strat.dates[-1] - strat.dates[0]
-    years = time.total_seconds() / (APPROX_DAY_PER_YEAR * 24 * 60 * 60)
-    growth_factor = math.pow(growth, 1.0 / years)
-    
-    print(years, begin, end, growth, growth_factor)
-    
-    return (growth_factor - 1.0) * 100
-
-
 def _risk_adjusted_returns(
     strat: Strategy, risk_free_rate: pd.DataFrame
 ) -> List[Decimal]:

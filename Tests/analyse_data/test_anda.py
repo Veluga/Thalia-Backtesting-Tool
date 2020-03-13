@@ -198,37 +198,7 @@ class TestTotalReturn(TestCase):
         self.assertEqual(roi[self.start], Decimal("100.00"))
         self.assertEqual(roi[self.start + timedelta(days=14)], Decimal("220.40"))
         self.assertEqual(roi[self.end], Decimal("320.40"))
-
-
-class TestCagr(TestCase):
-    def setUp(self):
-        self.starting_balance = Decimal("10000")
-        self.contribution_dates = set()
-        self.contribution_amount = None
-        self.rebalancing_dates = set()
-
-        self.msft_vals = read_asset("/test_data/MSFT.csv")
-
-    def test_cagr(self):
-        start_date = date(1986, 12, 31)
-        end_date = date(2019, 12, 31)
-
-        msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-
-        assets = [anda.Asset("MSFT", Decimal("1.00"), msft_vals)]
-
-        strategy = anda.Strategy(
-            start_date,
-            end_date,
-            self.starting_balance,
-            assets,
-            self.contribution_dates,
-            self.contribution_amount,
-            self.rebalancing_dates,
-        )
-
-        self.assertAlmostEqual(anda.cagr(strategy), 23.0, delta=0.5)
-
+        
 
 class TestSharpeRatio(TestCase):
     def setUp(self):
