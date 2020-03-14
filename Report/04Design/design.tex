@@ -11,9 +11,9 @@ We have chosen pandas dataframes \cite{pandas} as the common data format for bot
 \subsection{Overview of System Architecture}
 
 Before discussing any specific component and architectural layer in depth, it is worth revisiting our original architecture \cite{TR}.
-\begin{figure}[h]
+\begin{figure}[H]
     \caption{Original Thalia System Architecture \cite{TR}}
-	\includegraphics{./Pictures/architecture_layer_diagram}
+	\includegraphics[width=\textwidth]{04Design/04Pictures/architecture_layer_diagram.png}
 \end{figure}
 The above schematic illustrates how we modified a typical Three Layer architecture [citation needed] to include a Data Collection Layer. Subsequent discussion will refer to this layer as the `Data Harvester`. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. The decision to isolate this system component has been made in order to increase security by limiting the acess of the Thalia web service to the financial data database to read-only and to allow for independent scaling of the Data Harvester and our web service \cite{TR}.
 
@@ -30,6 +30,7 @@ The responsibility of our business logic can be summarised as follows: Given an 
 
 To achieve this, we have developed a library (Anda) that performs the necessary calculations. Anda is decoupled from both the presentation and database layer by relying on external providers for any price data and the specification of a strategy.
 This decision has been made to allow for alternative sources of price data in the future. One of our optional features for future development is allowing users to input their own price data for assets not supported by Thalia. This data could be uploaded, for example, as a CSV file or JSON. Without our current design, i.e. by coupling calculation of performance and metrics to database access, we would have to modify the business logic to support multiple data sources. Given our current implementation, however, we can simply parse the user data into a pandas dataframe in a wrapper around Anda and then call functions within the library as require.
+Currently supported metrics include Total Return, Max Drawdown, Best / Worst Year, and the Sharpe and Sortino Ratios. However, the library is open for extension, hence additional metrics may be added at any point.
 
 For a closer look at how an investment strategy is specified, consider the following class that serves as input to Anda library functionality (e.g. for calculating the Sharpe Ratio [citation needed]):
 
@@ -69,7 +70,7 @@ Another important design decision has been the choice of data type to represent 
 Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
 
 \subsection{Data Harvester Structure}
-
+\label{Data Harvester}
 % TBD - stable release of harvester required
 
 \subsection{Database Structure}
@@ -94,9 +95,13 @@ The separation of dissimilar collections of data is a practice widely adopted in
 
 The Finda module was designed to implement the data layer, acting as an intermediary between the data harvester/business logic and the financial data. It allows users to manage a number of databases implementing a common schema and give them access to a suite of tools for reading, writing, and removing the data stored in each. In addition to this the Finda module implements the following features:
 
-A system for managing user permissions to help reinforce separation of responsibilities among Thalia's other modules. 
-Integrity checks to ensure the integrity of the data provided to the end user. 
-A suite of administrative features to aid with managing the application back end
+\begin{itemize}
+\item A system for managing user permissions to help reinforce separation of responsibilities among Thalia's other modules. 
+\item Integrity checks to ensure the integrity of the data provided to the end user.
+\item A suite of administrative features to aid with managing the application back end.
+\end{itemize}
+
+Users can access these features through an outwards facing interface object, designed based on the facade design pattern \cite{designPatterns}.
 
 Finda's design was modeled after object relational mappers (ORMs), libraries offered by most popular web frameworks the use of which was prohibited by the project constraints. Although the implementation of what is essentially our own ORM proved to be costly in terms of developer time, it allowed us to create a more focused module tailored to our requirements. This helped to streamline the development of other modules.
 

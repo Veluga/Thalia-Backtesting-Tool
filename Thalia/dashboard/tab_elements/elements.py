@@ -13,7 +13,16 @@ def graph_box(graph_name, figure, id, size=6):
         html.Div(
             [
                 html.P(graph_name, className="panel-heading"),
-                html.Div(dcc.Graph(figure=figure, id=id), className="panel-block"),
+                dcc.Loading(
+                    html.Div(
+                        dcc.Graph(
+                            figure=figure,
+                            id=id,
+                            style={"width": "100%", "height": "100%"},
+                        ),
+                        className="panel-block",
+                    )
+                ),
             ],
             className="box",
         ),

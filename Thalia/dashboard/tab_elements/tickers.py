@@ -1,20 +1,12 @@
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_table
-import pandas as pd
 from datetime import datetime as dt
-
-MIN_TICKERS = 3
-df = pd.DataFrame(
-    [
-        {"AssetTicker": "RCK", "Name": "Rock", "Allocation": "0"},
-        {"AssetTicker": "BRY", "Name": "Berry", "Allocation": "0"},
-    ]
-)
-AssetTicker = set(df.get("AssetTicker"))
+from .. import util
 
 
 def ticker_dropdown(id):
+    tickers = util.get_asset_names()
     return html.Div(
         html.Div(
             [
@@ -23,7 +15,7 @@ def ticker_dropdown(id):
                     [
                         dcc.Dropdown(
                             id=f"memory-ticker-{id}",
-                            options=[{"value": x, "label": x} for x in AssetTicker],
+                            options=[{"value": x, "label": x} for x in tickers],
                             multi=False,
                             className="",
                         ),
@@ -90,9 +82,15 @@ def ticker_selector(id):
 
 def select_dates():
     # TODO: end date should be today!
+    today = dt.now().date()
     return html.Div(
         [
-            dcc.DatePickerRange(id="my-date-picker-range", max_date_allowed=dt.now(),),
+            dcc.DatePickerRange(
+                id="my-date-picker-range",
+                max_date_allowed=today,
+                start_date="1970-01-01",
+                end_date=today,
+            ),
             html.Div(id="date-picker-range-container"),
         ],
         className="container has-text-centered",
@@ -110,6 +108,7 @@ def initial_amount_of_money():
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
+                value=1000
             ),
             html.Div(id="output-money"),
         ]

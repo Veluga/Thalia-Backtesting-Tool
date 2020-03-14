@@ -11,7 +11,8 @@ After a brief overview of the project and the project plan, this section will fo
 
 One of the first decision we have made this term was to completely recreate our prototype of Thalia. Firstly, this radical move was the consequence of a new implementation decision (for more detail see \ref{Web Framework}). Secondly, as prototypes are meant to be disposable and are designed only to answer key questions about the system \cite{pragmaticprog}, the proof of concept served its purpose, giving us a chance to refine the structure and the quality of the code.
 
-Despite the risks posed by using an Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR_SVC}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
+Despite the risks posed by using an Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
+
 
 
 TODO talk about API keys and security measures
@@ -50,7 +51,7 @@ Throughout the whole project we had a total of 110 tickets, and 71 pull requests
 
 \begin{figure}[H]
    \centering
-   \includegraphics[scale=0.8]{05Coding/05Pictures/contributions.png}
+   \includegraphics[width=\textwidth]{05Coding/05Pictures/contributions.jpg}
    \caption{Contributions to the Master branch (source: https://github.com/)}
 \end{figure}
 
@@ -68,7 +69,7 @@ In addition, we also had a scrum board as an overview for the ongoing tickets. A
 
 \begin{figure}[H]
    \centering
-   \includegraphics[scale=0.55]{05Coding/05Pictures/scrumboard.png}
+   \includegraphics[width=\textwidth]{05Coding/05Pictures/scrumboard.png}
    \caption{Scrum board - truncated}
    \label{Scrum}
 \end{figure}
@@ -76,18 +77,6 @@ In addition, we also had a scrum board as an overview for the ongoing tickets. A
 The workflow then largely depended on the task at hand and the person working on it. It was up to them if they met for pair-programming, or chose to work individually. In the beginning we all agreed on the developing environment and coding standards (for a detailed analysis see the later section \ref{Coding Standards}). Since this report was a relevant portion of the workload, we decided to treat it as code. The report was written in \LaTeX, first creating the overall structure of the document with a main.tex compiling the sections together. This let us to work on different sections separately just like features in our software.
 
 Regardless of the nature of the ticket, the week, or in case of some larger tasks, two weeks, ended by the creator indicating that the changes were ready to be integrated. This was done by publishing the changes and creating a new pull request, pushing the changes onto the master branch. To ensure code quality, we set up a continuous integration (CI) environment (more on that in \ref{Coding Standards}). After all checks have passed, the changes were successfully integrated into the code base.
-
-\subsection{Schedule}
-As mentioned in our Technical Report, we introduced some milestones or releases for our product based on incremental sets of features. This was done to help us stay on track with development. The roadmap based on this schedule can be seen on \figurename{\ref{Roadmap}}.
-
-\begin{figure}[H]
-   \centering
-   \includegraphics[scale=0.55]{05Coding/05Pictures/initial_roadmap.png}
-   \caption{Technical Report: Roadmap - revisited}
-   \label{Roadmap}
-\end{figure}
-
-TODO retrospective on schedule
 
 \subsection{Key Implementation Decisions}
 
@@ -175,7 +164,7 @@ The main drawbacks of using SQLite, namely scalability and performance are not a
 \subsubsection{Harvester}
 \label{Harvester}
 
-\subsection{Integration}
+\subsection{Integration and Deployment}
 \label{Coding Standards}
 
  Writing well documented and good quality code is one thing, but making sure it all works together as a whole is a completely different story. In the first term, many hours have been wasted on trying to integrate different components of the system which did not want to fit together. Even then we had some DevOps tools in place \cite{DevOps}, but considering that we had to produce significantly less code and more documentation last term, this was not a priority.
@@ -222,13 +211,13 @@ Another tool used for enforcing uniform style was the black auto-formatter for P
 
 Many studies have investigated the positive effects of developing in a continuous integration (CI) environment \cite{CI_1}, \cite{CI_2}. Regardless of the exact implementation, its obvious benefit is that it provides security and uniformity for projects. We already made some steps to achieve a uniform style, but had no means to know whether the code published has been also passed its tests. Note in this section we will only discuss testing as a part of CI and not the testing strategy, for that see the section \ref{Testing}.
 
-Another important part of the DevOps toolchain is the use of containers, which is what Docker helps to achieve \cite{Docker}. Docker helps developers focus on writing code rather than worrying about the system the application will be running on, and also helps to reveal dependency and library issues. As Docker is open source, there are many free to use docker images available online \cite{Docker Images}. When choosing the CI environment, Docker support was one of the main requirements.
+Another important part of the DevOps toolchain is the use of containers, which is what Docker helps to achieve \cite{Docker}. Docker helps developers focus on writing code rather than worrying about the system the application will be running on, and also helps to reveal dependency and library issues. As Docker is open source, there are many free to use docker images available online \cite{DockerImages}. When choosing the CI environment, Docker support was one of the main requirements.
 
 The most promising candidate for this was CircleCI \cite{CircleCI}, which is a cloud-based system with first-class Docker support and a free trial. After connecting our GitHub repository to CircleCI, and setting up a configuration, CircleCI now does the following on every pull-request:
 
 \begin{enumerate}
     \item Sets up a clean container or virtual machine for the code.
-    \item Checks previously cached requirements.
+    \item Checks previously cached requirements, for more detail see \figurename{\ref{cache_CI}}.
     \item Installs the requirements from requirements.txt
     \item Caches the requirements for faster performance.
     \item Clones the branch needed to be merged.
@@ -236,6 +225,13 @@ The most promising candidate for this was CircleCI \cite{CircleCI}, which is a c
     \item Runs tests and saves results.
     \item Deploys the master branch to Heroku, see \ref{Continuous Deployment}
 \end{enumerate}
+
+ \begin{figure}[H]
+   \centering
+   \includegraphics[width=\textwidth]{05Coding/05Pictures/cache_CI.png}
+   \caption{CircleCI on Caching (source: https://circleci.com/docs/2.0/caching/)}
+   \label{cache_CI}
+\end{figure}
 
 The outcome of these steps is visible on CircleCI, but more importantly also on GitHub, and it refuses to merge if failing test (or no tests) have been found.
 
@@ -248,7 +244,7 @@ The outcome of these steps is visible on CircleCI, but more importantly also on 
 
 With the help of these steps and CircleCI we managed to ensure that the code written is uniform and of good quality. It significantly reduced the time needed for integrating and code reviewing. The last step was now to deploy the system.
 
-\subsection{Hosting and Deployment}
+\subsubsection{Hosting and Continuous Deployment}
 \label{Continuous Deployment}
 
 An overview over the literature covering reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
@@ -271,7 +267,14 @@ The benefits of using continuous deployment have been well established for multi
 	\item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
 \end{enumerate}
 
-Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state.
+Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state. The full CI/CD workflow is captured by the flowchart on \figurename{\ref{CI_CD}}.
+
+ \begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.6]{05Coding/05Pictures/CI_CD.png}
+   \caption{CI/CD workflow}
+   \label{CI_CD}
+\end{figure}
 
 \end{document}
 

@@ -3,8 +3,8 @@ import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
-from .tab_elements.tickers import df
 from .tab_elements.tickers import options
+from . import util
 from datetime import datetime
 
 from analyse_data import analyse_data as anda
@@ -179,6 +179,10 @@ def update_dashboard(
     values = (start_date, end_date, input_money, table_data)
     if any(param is None for param in values):
         raise PreventUpdate
+
+    if any(tkr["Allocation"] == 0 for tkr in table_data):
+        raise PreventUpdate
+
     if contribution_frequency != "None":
         contribution_dates = pd.date_range(
             start_date, end_date, freq=contribution_frequency
@@ -231,23 +235,31 @@ def update_backtest_results(
     normalise(weights)
 
     assets_data = get_assets(tickers, weights, start_date, end_date)
-    risk_free_rate = mock_risk_free(start_date, end_date)
+
+    real_start_date = max(asset.values.index[0] for asset in assets_data)
+    real_end_date = min(asset.values.index[-1] for asset in assets_data)
+
+    print(real_end_date - real_start_date)
+
+    if real_end_date < real_start_date:
+        # raise Error
+        return None, None
 
     strategy = anda.Strategy(
-        start_date,
-        end_date,
+        real_start_date,
+        real_end_date,
         input_money,
         assets_data,
         contribution_dates,
         contribution_amount,
         rebalancing_dates,
     )
-    table_data = get_table_data(strategy, risk_free_rate)
+    table_data = get_table_data(strategy)
     returns = anda.total_return(strategy)
     return get_figure(returns)
 
 
-def get_table_data(strat, risk_free_rate=None):
+def get_table_data(strat):
     """
     return a list of key metrics and their values
     """
@@ -255,26 +267,23 @@ def get_table_data(strat, risk_free_rate=None):
     table = [
         {"metric": "Initial Balance", "value": returns[strat.dates[0]]},
         {"metric": "End Balance", "value": returns[strat.dates[-1]]},
-        {"metric": "Best Year", "value": anda.best_year(strat)},
-        {"metric": "Worst Year", "value": anda.worst_year(strat)},
         {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
     ]
-    if risk_free_rate is not None:
-        try:
-            # We can't use append here because we want the table
-            # unaltered if anything goes wrong.
-            table = table + [
-                {
-                    "metric": "Sortino Ratio",
-                    "value": anda.sortino_ratio(strat, risk_free_rate),
-                },
-                {
-                    "metric": "Sharpe Ratio",
-                    "value": anda.sharpe_ratio(strat, risk_free_rate),
-                },
-            ]
-        except Exception:
-            print("Could not calculate Sharpe/Sortino ratios")
+    try:
+        # We can't use append here because we want the table
+        # unaltered if anything goes wrong.
+        table = table + [
+            {"metric": "Best Year", "value": anda.best_year(strat)},
+            {"metric": "Worst Year", "value": anda.worst_year(strat)},
+        ]
+        table = table + [
+            {"metric": "Sortino Ratio", "value": anda.sortino_ratio(strat, None)},
+            {"metric": "Sharpe Ratio", "value": anda.sharpe_ratio(strat, None)},
+        ]
+    except anda.InsufficientTimeframe:
+        print("Not enough enough data for best/worst year")
+    except Exception:
+        print("Could not calculate Sharpe/Sortino ratios")
 
     return table
 
@@ -286,7 +295,7 @@ def get_figure(total_returns):
 
 
 def get_trace(x, y):
-    return go.Scatter(x=x, y=y, mode="lines+markers",)
+    return go.Scattergl(x=x, y=y, mode="lines+markers",)
 
 
 def normalise(arr):
@@ -305,28 +314,14 @@ def get_assets(tickers, proportions, start_date, end_date):
     Returns a list of all assets.
     """
     assert len(tickers) == len(proportions)
-    return [
-        anda.Asset(tick, prop, mock_prices(tick, start_date, end_date))
-        for tick, prop in zip(tickers, proportions)
-    ]
-
-
-def mock_prices(ticker, start_date, end_date):
-    """
-    Makes up data and shoves it in a dataframe.
-    """
-    import numpy as np
-
-    date_rng = pd.date_range(start=start_date, end=end_date, freq="D")
-    columns = ["Open", "Low", "High", "Close"]
-
-    n_rows = len(date_rng)
-    n_cols = len(columns)
-    prices = [[Decimal("5.00") for _ in range(n_cols)] for _ in range(n_rows)]
-
-    df = pd.DataFrame(prices, index=date_rng, columns=columns)
-    return df
-
-
-def mock_risk_free(start_date, end_date):
-    return mock_prices("TODO: actual US Bonds name", start_date, end_date)
+    data = util.get_data(tickers, start_date, end_date)
+    data = data.rename(
+        columns={"AOpen": "Open", "AClose": "Close", "ALow": "Low", "AHigh": "High"}
+    )
+    assets = []
+    for tick, prop in zip(tickers, proportions):
+        asset_data = data[(data.AssetTicker == tick)]
+        only_market_data = asset_data[["ADate", "Open", "Close", "Low", "High"]]
+        only_market_data.index = only_market_data["ADate"]
+        assets.append(anda.Asset(tick, prop, only_market_data))
+    return assets
