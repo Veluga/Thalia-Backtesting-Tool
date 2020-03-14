@@ -4,6 +4,8 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from . import util
+import base64
+import io
 from datetime import datetime
 
 from analyse_data import analyse_data as anda
@@ -149,6 +151,7 @@ def update_backtest_results(
     normalise(weights)
 
     assets_data = get_assets(tickers, weights, start_date, end_date)
+    # assets_data.extend(user_upload_data(thigns))
 
     real_start_date = max(asset.values.index[0] for asset in assets_data)
     real_end_date = min(asset.values.index[-1] for asset in assets_data)
@@ -239,3 +242,16 @@ def get_assets(tickers, proportions, start_date, end_date):
         only_market_data.index = only_market_data["ADate"]
         assets.append(anda.Asset(tick, prop, only_market_data))
     return assets
+
+
+def parse_user_upload(contents, filename, date):
+    content_type, content_string = contents.split(',')
+
+    decoded = base64.b64decode(content_string)
+    try:
+        df = anda.parse_csv(io.StringIO(decoded.decode('utf-8')))
+    except Exception as e:
+        print(e)
+        # return html.Div([
+            # 'There was an error processing this file.'
+        # ])
