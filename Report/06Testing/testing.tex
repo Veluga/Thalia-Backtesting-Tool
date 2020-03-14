@@ -36,7 +36,7 @@ Finally, upon completion of the prototype, we conducted extensive end-to-end tes
 \subsubsection{Data Harvester Logs}
 Since our data is collected from 3rd party APIs, we opted to implement a series of logs to track their behaviour at runtime. These aim to record issues with received data that stop short of causing a catastrophic failure in the Data Harvester's execution. Such a situation might occur if an API were to change its policy or experience downtime, or if there is a problem with the network on Thalia's side. In this case, we are able to look through the logs and determine what caused the error and, consequently, what parts of the Data Harvester may need modification.
 
-The logs record where and when data retrieval failed, what data was successfully retrieved and weather or not the data was successfully written to the database. In addition they perform checks at runtime to test weather the API's data is of the expected type and format.
+The logs record where and when data retrieval failed, what data was successfully retrieved and whether the data was successfully written to the database. In addition, they perform checks at runtime to test whether the API's data is of the expected type and format.
 
 \begin{figure}[H]
    \centering
