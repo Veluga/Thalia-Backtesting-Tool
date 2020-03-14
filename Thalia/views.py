@@ -11,6 +11,7 @@ server_bp = Blueprint("main", __name__)
 
 @server_bp.route("/")
 def index():
+    # TODO
     form = RegistrationForm()
     return render_template("index.html", title="Home Page", form=form)
 
@@ -22,6 +23,7 @@ def about():
 
 @server_bp.route("/issues/")
 def issues():
+    # TODO
     form = FeedbackForm()
     return render_template("issues.html", title="Report Issues", form=form)
 
