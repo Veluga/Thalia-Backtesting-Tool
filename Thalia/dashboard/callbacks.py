@@ -1,5 +1,7 @@
 import pandas as pd
 import plotly.graph_objects as go
+import uuid
+import multiprocessing
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
@@ -239,3 +241,34 @@ def get_assets(tickers, proportions, start_date, end_date):
         only_market_data.index = only_market_data["ADate"]
         assets.append(anda.Asset(tick, prop, only_market_data))
     return assets
+
+
+def store_user_asset(asset_data):
+    """
+    Takes the base64 representation of a user's custom uploaded data and
+    stores it in a file. Returns a handle that can be passed to
+    `retrieve_user_asset` to get the data back.
+    The data will only be valid for a short time (~30 minutes), so
+    retrieval may fail.
+    Raises a ValueError if the data is not valid utf-8.
+    """
+    """
+    The caller should treat the handle as an opaque type, but if you 
+    need to modify this code it is a tuple of (str, datetime)
+    representing the filename ("<uuid>.csv") and last-accessible moment.
+    Soon after the last-accessible moment, a subprocess will delete the
+    file.
+    The files are stored in the directory `Thalia/dashboard/user-assets/`.
+    """
+    
+    pass
+
+
+def retrieve_user_asset(handle):
+    """
+    Takes a handle returned by store_user_asset and returns dataframe
+    that can be passed to anda.
+    If the file doesn't exist, or has timed out, raises FileNotFound.
+    If the data is invalid, passes the exception upward from anda's parser.
+    """
+    pass
