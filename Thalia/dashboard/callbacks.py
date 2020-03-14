@@ -129,20 +129,19 @@ def print_output(start_date, end_date):
     return display_date
 
 
-def filter_tickers(tickers_selected, param_state):
+def filter_tickers(ticker_selected, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
-    if tickers_selected is None:
+    if ticker_selected is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
-    #  prefix variable name with @ to perform query
-    filtered = df.query("AssetTicker in @tickers_selected")
-    dict_ver = filtered.to_dict(orient="records")
-    new_store = param_state + (dict_ver)
+    asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+    if all(asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state):
+        param_state.append(asset)
 
-    return new_store
+    return param_state
 
 
 def add_portfolio(n_clicks, param_state):
@@ -180,13 +179,13 @@ def update_dashboard(
     values = (start_date, end_date, input_money, table_data)
     if any(param is None for param in values):
         raise PreventUpdate
-    if contribution_frequency is not None:
+    if contribution_frequency != "None":
         contribution_dates = pd.date_range(
             start_date, end_date, freq=contribution_frequency
         )
     else:
         contribution_dates = set()
-    if rebalancing_frequency is not None:
+    if rebalancing_frequency != "None":
         rebalancing_dates = pd.date_range(
             start_date, end_date, freq=rebalancing_frequency
         )

@@ -140,7 +140,7 @@ def contribution_dates(id):
             dcc.Dropdown(
                 id=f"contribution-dropdown-{id}",
                 options=[  # Business month END
-                    {"label": "None", "value": None},
+                    {"label": "None", "value": "None"},
                     {"label": "Monthly", "value": "BM"},
                     {"label": "Quarterly", "value": "BQ"},
                     {"label": "Annualy", "value": "BA"},
@@ -160,7 +160,7 @@ def rebalancing_dates(id):
             dcc.Dropdown(
                 id=f"rebalancing-dropdown-{id}",
                 options=[  # Business month END
-                    {"label": "None", "value": None},
+                    {"label": "None", "value": "None"},
                     {"label": "Monthly", "value": "BM"},
                     {"label": "Quarterly", "value": "BQ"},
                     {"label": "Annualy", "value": "BA"},
@@ -178,7 +178,7 @@ def lazy_portfolios(id):
         placeholder="Lazy",
         className="has-text-left",
         options=[  # Business month END
-            {"label": "None", "value": None},
+            {"label": "None", "value": "None"},
             {"label": "Lazy 1", "value": "Lazy 1"},
             {"label": "Lazy 2", "value": "Lazy 2"},
             {"label": "Lazy 3", "value": "Lazy 3"},
