@@ -3,9 +3,10 @@ import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
-from .tab_elements.tickers import options
+from .tab_elements.tickers import options, incomplete_input_warning
 from . import util
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from analyse_data import analyse_data as anda
 
@@ -24,7 +25,6 @@ def register_dashboard(dashapp):
             State(f"rebalancing-dropdown-{i}", "value"),
             State(f"memory-table-{i}", "data"),
         ]
-
         dashapp.callback(
             Output(f"graph-{i}", "figure"), [Input("submit-btn", "n_clicks")], states
         )(update_dashboard)
@@ -50,7 +50,7 @@ def register_tab_switch(dashapp):
             Output("drawdowns", "disabled"),
             Output("assets", "disabled"),
         ],
-        [Input("submit-btn", "n_clicks")],
+        [Input("submit-btn", "n_clicks"),],
         [
             State("my-date-picker-range", "start_date"),
             State("my-date-picker-range", "end_date"),
@@ -86,6 +86,19 @@ def register_remove_portfolio_button(dashapp):
     )(remove_button)
 
 
+def register_warning_message(dashapp):
+    dashapp.callback(
+        Output("warning-message", "style"),
+        [Input("submit-btn", "n_clicks"), Input("close-warning", "n_clicks"),],
+        [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+            State("input-money", "value"),
+            State("memory-table-1", "data"),
+        ],
+    )(warning_message)
+
+
 def register_callbacks(dashapp):
     """
     Works as essentially react component routing.
@@ -111,6 +124,23 @@ def register_callbacks(dashapp):
 
     # Register removing the button at 5 portfolios
     register_remove_portfolio_button(dashapp)
+
+    # Register dispalying and closing warning
+    register_warning_message(dashapp)
+
+
+def warning_message(
+    n_clicks, n_clicks_close, start_date, end_date, init_amount, table_data
+):
+    if n_clicks is None and n_clicks_close is None:
+        raise PreventUpdate
+
+    if n_clicks_close:
+        return {"display": "none"}
+
+    args = (start_date, end_date, init_amount, table_data)
+    if None in args or not is_range_enough(start_date, end_date):
+        return {"display": "block"}
 
 
 def remove_button(n_clicks, param_state):
@@ -151,9 +181,22 @@ def add_portfolio(n_clicks, param_state):
     return param_state + [options(no_portfolios + 1)]
 
 
-def tab_switch(n_clicks, *args):
-    if n_clicks is None or None in args:
+def is_range_enough(start_date, end_date):
+    datetime_start = datetime.strptime(start_date, "%Y-%m-%d")
+    datetime_end = datetime.strptime(end_date, "%Y-%m-%d")
+    difference_in_years = relativedelta(datetime_end, datetime_start).years
+
+    return difference_in_years > 2
+
+
+def tab_switch(n_clicks, start_date, end_date, *args):
+    if n_clicks is None:
         raise PreventUpdate
+
+    if any(param is None for param in args) or not is_range_enough(
+        start_date, end_date
+    ):
+        return "tickers", True, True, True, True, True
 
     return "summary", False, False, False, False, False
 
@@ -177,7 +220,7 @@ def update_dashboard(
         raise PreventUpdate
 
     values = (start_date, end_date, input_money, table_data)
-    if any(param is None for param in values):
+    if None in values or not is_range_enough(start_date, end_date):
         raise PreventUpdate
 
     if any(tkr["Allocation"] == 0 for tkr in table_data):

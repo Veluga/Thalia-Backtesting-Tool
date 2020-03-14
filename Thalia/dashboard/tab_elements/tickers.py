@@ -5,6 +5,18 @@ from datetime import datetime as dt
 from .. import util
 
 
+def incomplete_input_warning():
+    return html.Div(
+        [
+            "Please make sure you entered an investment period of at least two years, an input amount and at an asset allocation.",
+            html.Button(className="delete", id="close-warning"),
+        ],
+        className="notification is-warning has-text-centered",
+        id="warning-message",
+        style={"display": "none"},
+    )
+
+
 def ticker_dropdown(id):
     tickers = util.get_asset_names()
     return html.Div(
@@ -108,7 +120,7 @@ def initial_amount_of_money():
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
-                value=1000
+                value=1000,
             ),
             html.Div(id="output-money"),
         ]
@@ -231,6 +243,8 @@ def submit_button():
             style={"background-color": "#f26a4b"},
         ),
         className="container has-text-centered",
+        style={"padding-bottom": "1cm"},
+        id="submit-btn-container",
     )
 
 
@@ -260,6 +274,7 @@ def options_wrapper():
             add_portfolio_button(),
             html.Br(),
             submit_button(),
+            incomplete_input_warning(),
         ],
         id="portfolios-main",
     )
