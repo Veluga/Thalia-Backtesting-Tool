@@ -183,13 +183,13 @@ def update_dashboard(
     if any(tkr["Allocation"] == 0 for tkr in table_data):
         raise PreventUpdate
 
-    if contribution_frequency != "None":
+    if str(contribution_frequency) != "None":
         contribution_dates = pd.date_range(
             start_date, end_date, freq=contribution_frequency
         )
     else:
         contribution_dates = set()
-    if rebalancing_frequency != "None":
+    if str(rebalancing_frequency) != "None":
         rebalancing_dates = pd.date_range(
             start_date, end_date, freq=rebalancing_frequency
         )
@@ -254,7 +254,7 @@ def update_backtest_results(
         contribution_amount,
         rebalancing_dates,
     )
-    table_data = get_table_data(strategy)
+    # table_data = get_table_data(strategy)
     returns = anda.total_return(strategy)
     return get_figure(returns)
 
