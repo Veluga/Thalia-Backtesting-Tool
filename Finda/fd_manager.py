@@ -90,8 +90,9 @@ class FdMultiController:
         -Will overwrite existing files not registered with Finda
         """
         # check db exists
-        if db_name in (FdMultiController.fd_list()
-                       + [FdMultiController._db_registry_name]):
+        if db_name in (
+            FdMultiController.fd_list() + [FdMultiController._db_registry_name]
+        ):
             raise Exception("DB " + db_name + " already exists")
         try:
             os.remove(FdMultiController._path_generator(db_name))
@@ -111,6 +112,25 @@ class FdMultiController:
         except Exception:
             # generic class used to account for OS and import exceptions
             return False
+
+    @staticmethod
+    def fd_register(db_name):
+        """Register database with name db_name in finda folder,
+        if database cannot be found opened with sqlite raises exception
+        """
+        path = FdMultiController._path_generator(db_name)
+        # check existance
+        if not os.path.exists(path):
+            raise Exception("No file found at: " + path)
+        # check connection
+        conn = sqlite3.connect(path)
+        conn.close()
+        # register
+        # check if db already registered. If so quietly agree
+        if db_name in FdMultiController.fd_list():
+            return
+        # TODO: In future could check if database follows appropriate schema
+        FdMultiController._add_name(db_name)
 
     @staticmethod
     def fd_connect(db_name, permissions_string):

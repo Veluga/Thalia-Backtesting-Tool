@@ -21,3 +21,4 @@ class FeedbackForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     description = TextAreaField("Description")
     submit = SubmitField("Send")
+

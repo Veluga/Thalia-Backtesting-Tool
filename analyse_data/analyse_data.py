@@ -4,6 +4,7 @@ import math
 from decimal import Decimal, InvalidOperation
 from datetime import date
 from dataclasses import dataclass
+from typing import List
 
 PENNY = Decimal("0.01")
 
@@ -25,13 +26,17 @@ APPROX_TDAY_PER_YEAR = 252
 APPROX_DAY_PER_YEAR = 365.25
 
 
+class InsufficientTimeframe(Exception):
+    pass
+
+
 class Strategy:
     def __init__(
         self,
         start_date: date,
         end_date: date,
         starting_balance: Decimal,
-        assets: [Asset],
+        assets: List[Asset],
         contribution_dates,  # implements __contains__ for date
         contribution_amount: Decimal,
         rebalancing_dates,  # implements __contains__ for date
@@ -43,27 +48,30 @@ class Strategy:
         self.contribution_amount = contribution_amount
         self.rebalancing_dates = rebalancing_dates
 
+        self.returns = None
+        self.returns = total_return(self)
+
 
 # INTERNAL
 def _allocate_investments(
-    balance: Decimal, asset_weights: [Decimal], asset_vals: [Decimal]
-) -> [Decimal]:
+    balance: Decimal, asset_weights: List[Decimal], asset_vals: List[Decimal]
+) -> List[Decimal]:
     return [
         balance * weight / price for (weight, price) in zip(asset_weights, asset_vals)
     ]
 
 
 # INTERNAL
-def _measure_weights(asset_vals: [Decimal]) -> [Decimal]:
+def _measure_weights(asset_vals: List[Decimal]) -> List[Decimal]:
     # asset_vals is the current amount of money invested in each asset.
     total = sum(asset_vals)
     return [val / total for val in asset_vals]
 
 
 # INTERNAL
-def _calc_balance(invesments: [Decimal], asset_vals: [Decimal]) -> Decimal:
-    return sum(
-        holdings * value for holdings, value in zip(invesments, asset_vals)
+def _calc_balance(invesments: List[Decimal], asset_vals: List[Decimal]) -> Decimal:
+    return Decimal(
+        sum(holdings * value for holdings, value in zip(invesments, asset_vals))
     ).quantize(PENNY)
 
 
@@ -74,6 +82,8 @@ def _collect_dividend(dividend: Decimal, holdings: Decimal, price: Decimal) -> D
 
 # TODO: make numpy and pandas do the work.
 def total_return(strat) -> pd.Series:
+    if strat.returns is not None:
+        return strat.returns
     # Returns the value of the portfolio at each day in the time frame.
 
     ret = pd.Series(Decimal("0"), index=strat.dates)
@@ -111,7 +121,9 @@ def total_return(strat) -> pd.Series:
     return ret
 
 
-def _risk_adjusted_returns(strat: Strategy, risk_free_rate: pd.DataFrame) -> [Decimal]:
+def _risk_adjusted_returns(
+    strat: Strategy, risk_free_rate: pd.DataFrame
+) -> List[Decimal]:
     returns = total_return(strat)
     """ flake8 doesn't like unused variables
     risk_free_rate_daily = risk_free_rate.map(
@@ -127,9 +139,10 @@ def _risk_adjusted_returns(strat: Strategy, risk_free_rate: pd.DataFrame) -> [De
 def sortino_ratio(strat: Strategy, risk_free_rate: pd.DataFrame) -> float:
     risk_adjusted_returns = _risk_adjusted_returns(strat, risk_free_rate)
     below_target_std = np.std(list(map(lambda x: min(0, x), risk_adjusted_returns)))
+
     return (
         np.mean(risk_adjusted_returns)
-        / below_target_std
+        / Decimal(below_target_std)
         * Decimal(math.sqrt(APPROX_DAY_PER_YEAR))
     )
 
@@ -145,14 +158,14 @@ def sharpe_ratio(strat: Strategy, risk_free_rate: pd.DataFrame) -> float:
 
 def max_drawdown(strat: Strategy) -> Decimal:
     returns = total_return(strat)
-    max_seen, max_diff = 0, 1
+    max_seen, max_diff = Decimal(0.0), Decimal(1.0)
     for i in range(returns.size):
         max_seen = max(max_seen, returns[i])
         max_diff = min(max_diff, returns[i] / max_seen)
-    return (1 - max_diff) * 100
+    return (Decimal(1.0) - max_diff) * Decimal(100.0)
 
 
-def _relative_yearly_diff(returns: pd.Series) -> [Decimal]:
+def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
     all_dates = returns.index
     year_begins = [d for d in all_dates if d.month == d.day == 1]
     return [
@@ -162,20 +175,24 @@ def _relative_yearly_diff(returns: pd.Series) -> [Decimal]:
 
 
 # TODO: efficiency.
-def best_year(strat) -> float:
+def best_year(strat) -> Decimal:
     """
     Returns the increase (hopefully) in value of the strategy over its
     best calendar year - beginning and ending on Jan. 1, as a percentage.
     """
     returns = total_return(strat)
-    return max(_relative_yearly_diff(returns)) * Decimal(
-        "100"
-    )  # Adjust for percentage.
+    rel_diff = _relative_yearly_diff(returns)
+    if rel_diff:
+        return max(rel_diff) * Decimal("100")  # Adjust for percentage.
+    else:
+        raise InsufficientTimeframe
 
 
-def worst_year(strat) -> float:
+def worst_year(strat) -> Decimal:
     # Same convention as best_year
     returns = total_return(strat)
-    return min(_relative_yearly_diff(returns)) * Decimal(
-        "100"
-    )  # Adjust for percentage.
+    rel_diff = _relative_yearly_diff(returns)
+    if rel_diff:
+        return min(rel_diff) * Decimal("100")  # Adjust for percentage.
+    else:
+        raise InsufficientTimeframe

@@ -12,6 +12,7 @@ install_requires = [
     "flask-wtf",
     "pandas",
     "dash",
+    "dash_dangerously_set_inner_html",
 ]
 
 
@@ -21,7 +22,7 @@ extras_require = {"dev": ["black", "flake8", "pre-commit"], "test": tests_requir
 
 setup(
     name="Thalia",
-    version="0.2.0",
+    version="0.3.0",
     packages=find_packages(),
     install_requires=install_requires,
     extras_require=extras_require,
