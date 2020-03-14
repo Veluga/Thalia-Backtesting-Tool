@@ -66,14 +66,14 @@ For our testing harness, we opted to use the standard python testing framework P
    \label{Pytest example}
 \end{figure}
 
-\item \textbf{Mock\cite{mock}:}
-The Mock package allowed us to replace parts of the system with mock objects. This was useful when testing API’s as it allowed us to control the input to the data harvester and allowed for repeatable execution and predictable output.
+\item \textbf{Mock:}
+The Mock\cite{mock} package allowed us to replace parts of the system with mock objects. This was useful when testing API’s as it allowed us to control the input to the data harvester and allowed for repeatable execution and predictable output.
 
-\item \textbf{Selenium\cite{selenium}}
-Selenium is a testing tool we used to create unit and integration tests for Thalia’s website. Using Firefox or Chromium in headless or full browser mode it allowed us to automate user tasks such as clicking links and input. With it we were able to test logging in, running a simulation, registering a new account, and accessing the various pages of our website.
+\item \textbf{Selenium}
+Selenium\cite{selenium} is a testing tool we used to create unit and integration tests for Thalia’s website. Using Firefox or Chromium in headless or full browser mode it allowed us to automate user tasks such as clicking links and input. With it we were able to test logging in, running a simulation, registering a new account, and accessing the various pages of our website.
 
-\item \textbf{Coverage:\cite{coverage}}
-Coverage is a tool to measure code coverage in Python. It creates detailed reports on what lines of code are passed through during program execution. We used this in conjunction with Pytest to monitor what code was covered by tests to ensure our testing suite covered all possible branches of execution. In addition to validating test coverage, Coverage aided us in designing white-box tests by showing what parts of the codebase were in need of additional testing. Although not related to testing, the tool proved useful when refactoring code, as it allowed us to identify dead code.
+\item \textbf{Coverage:}
+Coverage\cite{coverage} is a tool to measure code coverage in Python. It creates detailed reports on what lines of code are passed through during program execution. We used this in conjunction with Pytest to monitor what code was covered by tests to ensure our testing suite covered all possible branches of execution. In addition to validating test coverage, Coverage aided us in designing white-box tests by showing what parts of the codebase were in need of additional testing. Although not related to testing, the tool proved useful when refactoring code, as it allowed us to identify dead code.
 
 \end{enumerate}
 
