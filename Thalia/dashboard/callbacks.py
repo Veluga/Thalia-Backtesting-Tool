@@ -8,7 +8,7 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from . import util
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from analyse_data import analyse_data as anda
 
@@ -245,7 +245,7 @@ def get_assets(tickers, proportions, start_date, end_date):
     return assets
 
 
-def store_user_asset(encoded, timeout=datetime.timedelta(minutes=30)):
+def store_user_asset(encoded, timeout=timedelta(minutes=30)):
     """
     Takes the base64 representation of a user's custom uploaded data and
     stores it in a file. Returns a handle that can be passed to
