@@ -2,6 +2,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import uuid
 import multiprocessing
+import time
+import os
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
@@ -243,32 +245,58 @@ def get_assets(tickers, proportions, start_date, end_date):
     return assets
 
 
-def store_user_asset(asset_data):
+def store_user_asset(encoded, timeout=datetime.timedelta(minutes=30)):
     """
     Takes the base64 representation of a user's custom uploaded data and
     stores it in a file. Returns a handle that can be passed to
     `retrieve_user_asset` to get the data back.
     The data will only be valid for a short time (~30 minutes), so
     retrieval may fail.
-    Raises a ValueError if the data is not valid utf-8.
+    Raises a ValueError if the data is not valid utf-8. (maybe?)
     """
     """
     The caller should treat the handle as an opaque type, but if you 
     need to modify this code it is a tuple of (str, datetime)
-    representing the filename ("<uuid>.csv") and last-accessible moment.
+    representing the filepath ("user-data/<uuid>.csv") and last-accessible moment.
     Soon after the last-accessible moment, a subprocess will delete the
     file.
     The files are stored in the directory `Thalia/dashboard/user-assets/`.
     """
+    decoded_str = base64.b64decode(encoded)
+    identifier = uuid.uuid4()
+    filepath = "user-data/" + str(identifier) + ".csv"
+    end_time = datetime.now() + timeout
+    with open(filepath, "w") as out_file:
+        out_file.write(decoded_str)
     
-    pass
+    # We want a bit of buffer time to avoid race conditions.
+    delay_sec = int(timeout.total_seconds() * 1.2)
+    deleter = multiprocessing.Process(
+        target=wait_and_delete, args=(filepath, delay_sec)
+    )
+    deleter.start()
+
+    return (filepath, end_time)
 
 
 def retrieve_user_asset(handle):
     """
     Takes a handle returned by store_user_asset and returns dataframe
     that can be passed to anda.
-    If the file doesn't exist, or has timed out, raises FileNotFound.
-    If the data is invalid, passes the exception upward from anda's parser.
+    If the file doesn't exist, or has timed out, raises FileNotFoundError.
+    If the data is invalid, carries the exception upward from anda's parser.
     """
-    pass
+    filepath, last_moment = handle
+    if last_moment >= datetime.now():
+        raise FileNotFoundError(f'[Errno 2] No such file or directory: "{filepath}"')
+    return anda.parse_csv(filepath)
+
+
+def wait_and_delete(filepath, delay_sec):
+    # TODO: Security audit.
+    assert "user-data/" == filepath[:10]
+    assert ".." not in filepath
+    assert "~" not in filepath
+    assert "//" not in filepath
+    time.sleep(delay_sec)
+    os.remove(filepath)
