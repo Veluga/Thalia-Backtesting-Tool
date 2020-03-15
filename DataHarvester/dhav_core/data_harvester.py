@@ -151,9 +151,8 @@ class DataHarvester:
             )
 
             
-
-            self.write_to_up_list(api, start_date, end_date)
             self.write_to_db(data_set_retrieved, ticker_name)
+            self.write_to_up_list(api, start_date, end_date)
             return 0
         else:
             return 1
