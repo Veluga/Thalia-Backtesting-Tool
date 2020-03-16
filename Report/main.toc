@@ -35,7 +35,7 @@
 \contentsline {subsubsection}{\numberline {5.4.2}Hosting and Continuous Deployment}{24}% 
 \contentsline {section}{\numberline {6}Testing}{26}% 
 \contentsline {subsection}{\numberline {6.1}Testing Strategy}{26}% 
-\contentsline {subsubsection}{\numberline {6.1.1}Unit Tests}{26}% 
+\contentsline {subsubsection}{\numberline {6.1.1}Unit Testing}{26}% 
 \contentsline {subsubsection}{\numberline {6.1.2}Integration Testing}{27}% 
 \contentsline {subsubsection}{\numberline {6.1.3}End-to-end Testing}{27}% 
 \contentsline {subsubsection}{\numberline {6.1.4}Data Harvester Logs}{27}% 
