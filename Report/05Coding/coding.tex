@@ -162,7 +162,7 @@ The main drawbacks of using SQLite, namely scalability and performance are not a
 
 \subsubsection{Harvester}
 \label{Harvester}
-All financial backtesting application rely on having accurate data to work with. We required a system that can centralize the data from multiple APIs and to keep our database updated with live data.
+All financial backtesting applications rely on having accurate data to work with. We required a system that can aggregate the data from multiple APIs and that would keep our database updated with live data.
 The requirements for such a system were:
 \begin{itemize}
 \item \textbf{Standard data format:} In order to be able to store the data into a database with Finda and have the financial analysis done by Anda the Harvester needs to put all the data received trough the APIs in a standard format without losing numerical accuracy or granularity.
