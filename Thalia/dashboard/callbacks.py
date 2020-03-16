@@ -245,7 +245,10 @@ def get_assets(tickers, proportions, start_date, end_date):
         assets.append(anda.Asset(tick, prop, only_market_data))
     return assets
 
+
 USER_DATA_DIR = "Thalia/dashboard/user-data/"
+
+
 def store_user_asset(encoded, timeout=timedelta(minutes=30)):
     """
     Takes the base64 representation of a user's custom uploaded data and
@@ -267,7 +270,7 @@ def store_user_asset(encoded, timeout=timedelta(minutes=30)):
     identifier = uuid.uuid4()
     filepath = USER_DATA_DIR + str(identifier) + ".csv"
     end_time = datetime.now() + timeout
-    
+
     with open(filepath, "w") as out_file:
         out_file.write(decoded_bytes.decode("utf-8"))
 
@@ -290,13 +293,13 @@ def retrieve_user_asset(handle):
     """
     filepath, last_moment = handle
     if last_moment <= datetime.now():
-        raise FileNotFoundError(f'{filepath} has timed out.')
+        raise FileNotFoundError(f"{filepath} has timed out.")
     return anda.parse_csv(filepath)
 
 
 def wait_and_delete(filepath, delay_sec):
     # TODO: Security audit.
-    assert USER_DATA_DIR == filepath[:len(USER_DATA_DIR)]
+    assert USER_DATA_DIR == filepath[: len(USER_DATA_DIR)]
     assert ".." not in filepath
     assert "~" not in filepath
     assert "//" not in filepath
