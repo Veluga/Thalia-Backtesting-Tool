@@ -165,7 +165,7 @@ The main drawbacks of using SQLite, namely scalability and performance are not a
 All financial backtesting applications rely on having accurate data to work with. We required a system that can aggregate the data from multiple APIs and that would keep our database updated with live data.
 The requirements for such a system were:
 \begin{itemize}
-\item \textbf{Standard data format:} In order to be able to store the data into a database with Finda and have the financial analysis done by Anda the Harvester needs to put all the data received trough the APIs in a standard format without losing numerical accuracy or granularity.
+\item \textbf{Standard data format:} In order to be able to store the data into a database with Finda and have the financial analysis done by Anda, the Harvester needs to parse all the data received trough the APIs to a standard format without losing numerical accuracy or granularity.
 \item \textbf{Update the database:} The database has to be updated regularly in order to contain live data.
 \item \textbf{Data Interpolation:} Some financial assets require interpolation in order to account for the days without any transactions.
 \item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can still retrieve live data even if a API fails.
