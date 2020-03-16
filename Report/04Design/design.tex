@@ -190,7 +190,8 @@ An extensive logging mechanism that logs information from all running parts of t
     It is important to remember to add the new asset class in the list of supported asset classes of the API that supports it.\newline
     In order to remove an asset class, delete the respective CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
     \item \textbf{Add/remove an asset : } Go into the asset class CSV file that contains the asset and add the required details under the correct columns.
-    At the end of the CSV asset class file add a line containing the ticker and name of the asset. If the database already has records of this asset then the last and earliest records are required.
+    At the end of the CSV asset class file add a line containing the ticker and name of the asset. If the database already has records of this asset then the last and earliest records are required.\newline
+  	Example:
     \begin{lstlisting}
     Ticker,Last_Update,Earliest_Record,Name
     ...................
@@ -227,7 +228,23 @@ An extensive logging mechanism that logs information from all running parts of t
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Security Decisions}
+\subsubsection{Security}
+In order to identify possible vulnerabilities we have created a scenario where a attacker is trying to disrupt our flow of data or worse, gain control of our updating process. During this phase we have identified three security concerns that will be listed below. It has to be mentioned that any vulnerabilities coming  from the code base itself will be discussed in the coding practices part.\newline
+
+\textbf{Security concerns}
+\begin{enumerate}
+    \item \textbf{API calls:} The data received from a API can be intercepted and modified.
+    \item \textbf{API keys:} The keys used by each API have to be stored safely.
+    \item \textbf{Rogue API:} An API can send a malicious package instead of the data we are expecting.
+\end{enumerate}
+
+\textbf{Solutions}
+\begin{enumerate}
+    \item \textbf{API calls:} Depending on the API settings we will use either a IPSec policy or a VPN connection. The details of this will be discussed with the financial data provider.
+    \item \textbf{API keys:} We will salt and then hash the API keys with SHA512 before storing it. There are only 20 financial data APIs on the market this low number available APIs allows us to use SHA512 without having to worry about computation time. 
+    \item \textbf{Rogue API:} We have added a number of checks that make sure that the data we retrieve from the APIs are what we expect it to be. If a API sends malformed data then a critical error will be displayed and logs of what did the API sent will be saved for inspection. 
+\end{enumerate}
+
 
 
 \subsection{Database Structure}
