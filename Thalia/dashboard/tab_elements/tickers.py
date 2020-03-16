@@ -108,7 +108,7 @@ def initial_amount_of_money():
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
-                value=1000
+                value=1000,
             ),
             html.Div(id="output-money"),
         ]
@@ -186,7 +186,7 @@ def lazy_portfolios(id):
     )
 
 
-def options(id):
+def options(id, visibility):
     return html.Div(
         [
             html.Div(
@@ -219,6 +219,8 @@ def options(id):
             )
         ],
         className="box",
+        id=f"portfolio-{id}",
+        style={"display": f"{visibility}"},
     )
 
 
@@ -253,10 +255,19 @@ def options_wrapper():
     return html.Div(
         [
             html.Div(
-                [html.Div([select_dates()]), html.Div([initial_amount_of_money()],),],
+                [html.Div(select_dates()), html.Div(initial_amount_of_money())],
                 className="box",
             ),
-            html.Div(children=[options(1),], id="portfolios-container"),
+            html.Div(
+                children=[
+                    options(1, visibility="block"),
+                    options(2, visibility="none"),
+                    options(3, visibility="none"),
+                    options(4, visibility="none"),
+                    options(5, visibility="none"),
+                ],
+                id="portfolios-container",
+            ),
             add_portfolio_button(),
             html.Br(),
             submit_button(),
