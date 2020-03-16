@@ -245,7 +245,7 @@ def get_assets(tickers, proportions, start_date, end_date):
         assets.append(anda.Asset(tick, prop, only_market_data))
     return assets
 
-
+USER_DATA_DIR = "Thalia/dashboard/user-data/"
 def store_user_asset(encoded, timeout=timedelta(minutes=30)):
     """
     Takes the base64 representation of a user's custom uploaded data and
@@ -261,14 +261,15 @@ def store_user_asset(encoded, timeout=timedelta(minutes=30)):
     representing the filepath ("user-data/<uuid>.csv") and last-accessible moment.
     Soon after the last-accessible moment, a subprocess will delete the
     file.
-    The files are stored in the directory `Thalia/dashboard/user-assets/`.
+    The files are stored in the directory `Thalia/dashboard/user-data/`.
     """
-    decoded_str = base64.b64decode(encoded)
+    decoded_bytes = base64.b64decode(encoded)
     identifier = uuid.uuid4()
-    filepath = "user-data/" + str(identifier) + ".csv"
+    filepath = USER_DATA_DIR + str(identifier) + ".csv"
     end_time = datetime.now() + timeout
+    
     with open(filepath, "w") as out_file:
-        out_file.write(decoded_str)
+        out_file.write(decoded_bytes.decode("utf-8"))
 
     # We want a bit of buffer time to avoid race conditions.
     delay_sec = int(timeout.total_seconds() * 1.2)
@@ -288,14 +289,14 @@ def retrieve_user_asset(handle):
     If the data is invalid, carries the exception upward from anda's parser.
     """
     filepath, last_moment = handle
-    if last_moment >= datetime.now():
-        raise FileNotFoundError(f'[Errno 2] No such file or directory: "{filepath}"')
+    if last_moment <= datetime.now():
+        raise FileNotFoundError(f'{filepath} has timed out.')
     return anda.parse_csv(filepath)
 
 
 def wait_and_delete(filepath, delay_sec):
     # TODO: Security audit.
-    assert "user-data/" == filepath[:10]
+    assert USER_DATA_DIR == filepath[:len(USER_DATA_DIR)]
     assert ".." not in filepath
     assert "~" not in filepath
     assert "//" not in filepath
