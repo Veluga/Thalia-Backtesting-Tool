@@ -4,6 +4,7 @@ import uuid
 import multiprocessing
 import time
 import os
+import base64
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
@@ -255,7 +256,7 @@ def store_user_asset(encoded, timeout=timedelta(minutes=30)):
     Raises a ValueError if the data is not valid utf-8. (maybe?)
     """
     """
-    The caller should treat the handle as an opaque type, but if you 
+    The caller should treat the handle as an opaque type, but if you
     need to modify this code it is a tuple of (str, datetime)
     representing the filepath ("user-data/<uuid>.csv") and last-accessible moment.
     Soon after the last-accessible moment, a subprocess will delete the
@@ -268,7 +269,7 @@ def store_user_asset(encoded, timeout=timedelta(minutes=30)):
     end_time = datetime.now() + timeout
     with open(filepath, "w") as out_file:
         out_file.write(decoded_str)
-    
+
     # We want a bit of buffer time to avoid race conditions.
     delay_sec = int(timeout.total_seconds() * 1.2)
     deleter = multiprocessing.Process(
