@@ -28,15 +28,15 @@ In addition, team members could work on Thalia’s components interchangeably, a
 Finally, unit tests helped us to identify bugs resulting from merge conflicts and in doing so helped keep the live version of Thalia bug-free. This was especially important as we we're aiming to merge as quickly and as often as possible, in line with our Agile approach.
 
 \subsubsection{Integration Testing}
-Equally important to the unit tests were our integration tests. As with unit testing, we used a mixture of white and black box testing techniques. The majority of integration testing was done when first setting up the CI process when the individual components of Thalia first had to interact with one another. Subsequently, as we added new features, additional testing was performed to make sure new dependencies between components were integrated properly. Integration tests also helped us to refactor existing code to work better with other modules, since first designing integration tests helped highlight areas where component's interfaces differed, and that therefore needed to be fixed.
+Equally important to the unit tests were our integration tests. As with unit testing, we used a mixture of white and black box testing techniques. The majority of integration testing was done upon first setting up the CI process as this was when the individual components of Thalia first had to interact with one another. Subsequently, as we added new features, additional testing was performed to make sure new dependencies between components were integrated properly. Integration tests also helped us to refactor existing code to work better with other modules, since designing integration tests before writing code helped highlight areas where components' interfaces differed.
 
 \subsubsection{End-to-end Testing}
-Finally, upon completion of the prototype, we conducted extensive end to end testing. We used these tests to help identify system dependencies and to check weather data integrity was maintained throughout execution. They were also key in conclusively evaluating the functionality of our system, as they tested it holistically with real-world data as input, witch is as close to a real world environment as we could get before the alpha release.
+Finally, upon completion of the prototype, we conducted extensive end-to-end testing. We used these tests to help identify system dependencies and to check whether data integrity was maintained throughout execution. They were also key in conclusively evaluating the functionality of our system, as they tested it holistically with real-world data as input, which is as close to a real world environment as we could get before the Alpha release.
 
 \subsubsection{Data Harvester Logs}
-Since our data is collected from 3rd party API's we opted to implement a series of logs to track their behaviour at runtime. These aim to record issues with received data that stop short of causing a catastrophic failure in the data harvesters execution. Such a situation might occur if an API we're to change its policy or experience downtime, or if there is a problem with the network on Thalia's side. In this case we are able to look through the logs and determine what cased the error and consequently what parts of the data harvester may need modification.
+Since our data is collected from 3rd party APIs, we opted to implement a series of logs to track their behaviour at runtime. These aim to record issues with received data that stop short of causing a catastrophic failure in the Data Harvester's execution. Such a situation might occur if an API were to change its policy or experience downtime, or if there is a problem with the network on Thalia's side. In this case, we are able to look through the logs and determine what caused the error and, consequently, what parts of the Data Harvester may need modification.
 
-The logs record where and when data retrieval failed, what data was successfully retrieved and weather or not the data was successfully written to the database. In addition they perform checks at runtime to test weather the API's data is of the expected type and format.
+The logs record where and when data retrieval failed, what data was successfully retrieved and whether the data was successfully written to the database. In addition, they perform checks at runtime to test whether the API's data is of the expected type and format.
 
 \begin{figure}[H]
    \centering
@@ -49,23 +49,29 @@ The logs record where and when data retrieval failed, what data was successfully
 The following is the list of 3rd party tools used by our testing suite to aid with the testing of Thalia and its components:
 
 \begin{enumerate}
+<<<<<<< HEAD
 \item \textbf{Pytest:}
 For our testing harness, we opted to use the standard python testing framework Pytest. With it we could easily create a testing suite independent of production code. By using simple assert statements Pytest remains easy to use, helping to reduce overhead for our team, most of whom had little to no experience writing automated tests for their code. Although simple, Pytest offers several powerful features that helped us during testing:
+=======
+\item \textbf{Pytest\cite{pytest}:}
+For our testing setup, we opted to use the standard Python testing framework pytest. Using this, we could easily create a testing suite independent of production code. By using simple assert statements, pytest remains easy to use, helping to reduce overhead for our team, most of whom had little to no experience writing automated tests for their code. Although simple, pytest offers several powerful features that helped us during testing:
+>>>>>>> 9ee07e047dd3500f62879bef878735cec1740982
 \begin{itemize}
 \item Detailed introspection of failing tests helped decrease time spent debugging
 \item Fixtures allowed us to automate test setup and teardown
 \item Test discovery helped to keep the structure of the testing suite simple and physically separated from production code
-\item Testing for expected exceptions allowed us to  properly test for the unexpected flows of events
+\item Testing for expected exceptions allowed us to properly test for unexpected flows of events
 \end{itemize}
 
 
 \begin{figure}[H]
    \centering
    \includegraphics[scale=0.3]{06Testing/06Pictures/failedTest.png}
-   \caption{Example of Pytest assertion introspection}
+   \caption{Example of pytest assertion introspection}
    \label{Pytest example}
 \end{figure}
 
+<<<<<<< HEAD
 \item \textbf{Mock:}
 The Mock\cite{mock} package allowed us to replace parts of the system with mock objects. This was useful when testing API’s as it allowed us to control the input to the data harvester and allowed for repeatable execution and predictable output.
 
@@ -84,16 +90,16 @@ We selected test data for our testing suite with the following considerations in
 
 \begin{itemize}
 
-\item For Black-Box tests, the test data should contain representatives of all major equivalence classes of possible inputs.
+\item For black-box tests, the test data should contain representatives of all major equivalence classes of possible inputs.
 \item For Black-Box tests, the test data should encompass all major boundaries of equivalence classes in the accepted inputs.
 \item For White-Box testing, the data should be selected so tested code is executed exhaustively.
 
 \end{itemize}
 
-Broadly speaking, the data we used for testing can be separated into two categories, based on how it was collected. Either we wrote code to procedurally generate the data or we used a subsection of the real world data included in the final prototype and collected from financial data API’s. Each of these had its own benefits and drawbacks when being used to design tests.
+Broadly speaking, the data we used for testing can be separated into two categories, based on how it was collected. Either we wrote code to procedurally generate the data or we used a subsection of the real world data included in the final prototype and collected from financial data APIs. Each of these had its own benefits and drawbacks when being used to design tests.
 
 \subsubsection{Mock Data}
-In the real world, financial data, especially that relating to the prices of assets tends to be quite messy as prices can vary greatly from day to day \cite{bcIsVolatile}. Part of our testing strategy was the generation mock sets of historical price data that we designed to be as clean and easy to understand as possible. This allowed us to work with neat, easily understandable datasets. For example, we created a fictitious asset whose price increased linearly over time, an asset whose price decreased and an asset whose price remained fixed. All mock data was either generated procedurally by auxiliary code we wrote ourselves or hand-coded in cases where large amounts of data were not necessary (for example when testing the functionality of the database adapter). Being able to design these custom data sets helped us to overcome the following difficulties when designing and writing tests:
+In the real world, financial data, the prices of assets, tends to experience frequent and unpredictable fluctuations \cite{bcIsVolatile}. Part of our testing strategy was the generation mock sets of historical price data that we designed to be as clean and easy to understand as possible. This allowed us to work with neat, easily understandable datasets. For example, we created a fictitious asset whose price increased linearly over time, an asset whose price decreased and an asset whose price remained fixed. All mock data was either generated procedurally by auxiliary code we wrote ourselves or hand-coded in cases where large amounts of data were not necessary (for example when testing the functionality of the database adapter). Being able to design these custom data sets helped us to overcome the following difficulties when designing and writing tests:
 
 \begin{itemize}
 
