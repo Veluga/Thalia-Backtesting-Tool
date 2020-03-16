@@ -3,7 +3,6 @@ import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
-from .tab_elements.tickers import options
 from . import util
 from datetime import datetime
 
@@ -38,6 +37,7 @@ def register_dashboard(dashapp):
     ]
     for i in range(1, MAX_PORTFOLIOS + 1):
         states += [
+            State(f"portfolio-name-{i}", "value"),
             State(f"input-contribution-{i}", "value"),
             State(f"contribution-dropdown-{i}", "value"),
             State(f"rebalancing-dropdown-{i}", "value"),
@@ -172,10 +172,11 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     if n_clicks is None:
         raise PreventUpdate
 
-    contribution_amount_args = [list(args)[i * 4] for i in range(MAX_PORTFOLIOS)]
-    contribution_frequency_args = [list(args)[i * 4 + 1] for i in range(MAX_PORTFOLIOS)]
-    rebalancing_frequency_args = [list(args)[i * 4 + 2] for i in range(MAX_PORTFOLIOS)]
-    table_data_args = [list(args)[i * 4 + 3] for i in range(MAX_PORTFOLIOS)]
+    portfolio_name_args = [list(args)[i * 5] for i in range(MAX_PORTFOLIOS)]
+    contribution_amount_args = [list(args)[i * 5 + 1] for i in range(MAX_PORTFOLIOS)]
+    contribution_frequency_args = [list(args)[i * 5 + 2] for i in range(MAX_PORTFOLIOS)]
+    rebalancing_frequency_args = [list(args)[i * 5 + 3] for i in range(MAX_PORTFOLIOS)]
+    table_data_args = [list(args)[i * 5 + 4] for i in range(MAX_PORTFOLIOS)]
 
     no_portfolios = table_data_args.index(None)
 
@@ -183,7 +184,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     if None in values or no_portfolios == 0:
         raise PreventUpdate
 
-    fig = go.Figure()
+    fig = get_figure()
 
     format_string = "%Y-%m-%d"
     start_date = datetime.strptime(start_date, format_string)
@@ -223,7 +224,15 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             rebalancing_dates,
         )
 
-        fig.add_trace(get_trace(total_returns.index, total_returns.tolist()))
+        fig.add_trace(
+            get_trace(
+                total_returns.index,
+                total_returns.tolist(),
+                name=str(portfolio_name_args[i]),
+                color=get_color(i),
+            )
+        )
+
     return fig
 
 
@@ -298,8 +307,29 @@ def get_table_data(strat):
     return table
 
 
-def get_trace(x, y):
-    return go.Scattergl(x=x, y=y, mode="lines+markers",)
+def get_figure():
+    fig = go.Figure()
+    fig.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Total Returns",
+        font=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
+    )
+    return fig
+
+
+def get_trace(x, y, name, color):
+    return go.Scattergl(x=x, y=y, mode="lines", name=name, marker_color=color)
+
+
+def get_color(i):
+    official_colours = [
+        "#01434a",
+        "#f26a4b",
+        "#01191c",
+        "#f23d3d",
+        "#feedd0",
+    ]
+    return official_colours[i]
 
 
 def normalise(arr):

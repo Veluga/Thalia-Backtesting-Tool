@@ -30,18 +30,33 @@ def graph_box(graph_name, figure, id, size=6):
     )
 
 
-def box(metric_names, metric_values):
+def box(
+    portfolio_name,
+    start_date,
+    end_date,
+    initial_amount,
+    end_balance,
+    max_drawdown,
+    best_year,
+    worst_year,
+):
     return html.Div(
         [
             html.Div(
                 [
-                    html.Div(metric_names[0], className="heading"),
-                    html.Div(str(metric_values[0]), className="title"),
+                    html.Div(portfolio_name, className="title"),
                     html.Div(
                         [
-                            box_item(metric_names[1], metric_values[1]),
-                            box_item(metric_names[2], metric_values[2]),
-                            box_item(metric_names[3], metric_values[3]),
+                            box_item("Initial Investment", initial_amount),
+                            box_item("End Balance", end_balance),
+                        ],
+                        className="level",
+                    ),
+                    html.Div(
+                        [
+                            box_item("Best Year", best_year),
+                            box_item("Worst Year", worst_year),
+                            box_item("Max Drawdown", max_drawdown),
                         ],
                         className="level",
                     ),

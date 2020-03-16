@@ -204,6 +204,7 @@ def options(id, visibility):
                                 "line-height": "1.125",
                                 "padding-bottom": "0.5cm",
                             },
+                            id=f"portfolio-name-{id}",
                         ),
                         className="column is-11 has-text-left",
                     ),
