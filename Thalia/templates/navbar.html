@@ -20,7 +20,7 @@
         About
       </a>
     {% if not current_user.is_anonymous %}
-      <a href="/dashboard" class="navbar-item">
+      <a href="{{ url_for('/dashboard/') }}" class="navbar-item">
         Dashboard
       </a>
     {% endif %}
