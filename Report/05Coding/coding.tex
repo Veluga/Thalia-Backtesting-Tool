@@ -167,7 +167,7 @@ The requirements for such a system were:
 \begin{itemize}
 \item \textbf{Standard data format:} In order to be able to store the data into a database with Finda and have the financial analysis done by Anda, the Harvester needs to parse all the data received trough the APIs to a standard format without losing numerical accuracy or granularity.
 \item \textbf{Update the database:} The database has to be updated regularly in order to contain live data.
-\item \textbf{Data Interpolation:} Some financial assets require interpolation in order to account for the days without any transactions.
+\item \textbf{Data Interpolation:} Some financial assets require interpolation in order to account for the days without any transactions (e.g. bank holidays).
 \item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can still retrieve live data even if a API fails.
 \item \textbf{Cross Checking capabilities:} Comparing data from multiple source brings us a advantage over all other competitors.
 \item \textbf{Maintenance:} The financial world is changing continuously. Hence it is important to ensure that we are able to add and delete assets in the future.
