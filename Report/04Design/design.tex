@@ -67,7 +67,7 @@ will calculate a series of total return values ordered by date within the date r
 
 Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it ``provides support for fast correctly-rounded decimal floating point arithmetic`` \cite{PyDecimal}. As rounding errors and imprecision are unacceptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
 
-Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectored operations.
+Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
 
 \subsection{Data Harvester Structure}
 The role of Data Harvester is collecting live data from multiple sources, parsing it to a format that makes it usable by Anda and easily storable by our in-house DBMS system Finda. In addition to this, gudiance for changing the data collected and adapting to the market demands has to exist. This guidance will be found in the maintenance section. Another requirement relates to the limitations that the third party APIs impose on us. The first design decision made in order to accomplish the above was the creation of the updating mechanism.
@@ -77,8 +77,8 @@ The role of Data Harvester is collecting live data from multiple sources, parsin
 The Updating is comprised of 3 components:
 \begin{itemize}
     \item \textbf{The update procedure} made out of a series of methods. The procedure starts by looking at what APIs are available to be called. Each API has a update list that contains the tickers of the financial assets that we wish to get data on and the last and earliest record we have on that asset. If it is the first time when asking for data on a specific asset then we ask for all data available between 1970/1/1 up until the last financial day available. If the number of allowed calls for a API is greater then the number of assets to be updated then all assets can be updated in a daily run. However if it is not possible to update all assets in one update run then will update the rest of the assets in the following run so that we can get as close as we can to live data. In order to have a better view of this a flow chart of how the 
-    \item \textbf{A run\_updates script} that starts a update round. It contains the configuration with the API names, the location of the access key if it exists and the number of calls to be done for each API. 
-    \item \textbf{A initialiser} module that based on the the Persistent data folder that contains the asset classes and the assets in the form of CSV files. The initialiser gets a configuration similar to that given to the run\_updates script. Based on the asset classes, the assets and the APIs given the initialiser creates a update\_list for each API.
+    \item \textbf{A run\_updates script} that starts an update round. It contains the configuration with the API names, the location of the access key (if it exists) and the number of calls to be done for each API. 
+    \item \textbf{An initialiser} module that is based on the persistent data folder that contains the asset classes and the assets in the form of CSV files. The initialiser gets a configuration similar to that given to the run\_updates script. Based on the asset classes, the assets and the APIs given, the initialiser creates an update\_list for each API.
 \end{itemize}
 
 \begin{figure}[H]
@@ -91,7 +91,7 @@ In order to know more about how the updating mechanism works consult the logs se
 
 
 \subsubsection{APIs Handler}
-For each API the API Handler has a call method and a method that formats the data so that it fits our data model. In addition there also is a api\_selector method that makes the right API call based on what asset class is requested and a dataframe format checker that does a final check before sending the data to the updating mechanism. 
+For each API, the API Handler has a call method and a method that formats the data so that it fits our data model. In addition, there also is an api\_selector method that makes the right API call based on what asset class is requested and a dataframe format checker that does a final check before sending the data to the updating mechanism. 
 
 
 \begin{figure}[H]
@@ -143,7 +143,7 @@ Our business logic library requires continuous data in order to be able to perfo
 
 
 \subsubsection{Standardization of Data}
-All data written to database has to be in the following format:
+All data written to the database has to be in the following format:
 \begin{lstlisting}[language=Python, caption= Pandas Data Frame Format , label=lst:Development_env]
 
 Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>,
@@ -183,12 +183,12 @@ An extensive logging mechanism that logs information from all running parts of t
 
 \textbf{Maintenance of the Assets:}
 \begin{itemize}
-    \item \textbf{Add/remove an asset class: } Create a new CSV file  in the folder with asset classes, add the columns in the following form:\newline
+    \item \textbf{Add/remove an asset class:} Create a new CSV file with the name of the asset class as filename within the asset classes folder and add the columns in the following form:\newline
     \begin{lstlisting}
     Ticker,Last_Update,Earliest_Record,Name
     \end{lstlisting}
     It is important to remember to add the new asset class in the list of supported asset classes of the API that supports it.\newline
-    In order to remove a asset class delete CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
+    In order to remove an asset class, delete the respective CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
     \item \textbf{Add/remove an asset : } Go into the asset class CSV file that contains the asset and add the required details under the correct columns.
     At the end of the CSV asset class file add a line containing the ticker and name of the asset. If the database already has records of this asset then the last and earliest records are required.
     \begin{lstlisting}
