@@ -67,7 +67,7 @@ will calculate a series of total return values ordered by date within the date r
 
 Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it ``provides support for fast correctly-rounded decimal floating point arithmetic`` \cite{PyDecimal}. As rounding errors and imprecision are unacceptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
 
-Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectored operations.
+Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
 
 \subsection{Data Harvester Structure}
 The role of Data Harvester is collecting live data from multiple source  refining it in a format that makes it usable by Anda and easily storable  by our in house DBMS system Finda. In addition to this a mechanism for changing the data collected and adapting to the market demands has to exist. Another requirement relates to the limitations that imposed by the APIs used. 
