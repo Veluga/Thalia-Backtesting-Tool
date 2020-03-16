@@ -113,7 +113,7 @@ Components of both Thalia Web and Finda modify financial data as it passes throu
 When designing black-box tests for Thalia’s components, it was helpful to be able to create datasets that had specific properties for use as edge cases. A good example of this would be creating a series of prices that never decreased, as this represents an edge case for the calculation of an asset's Max Draw-Down.
 \end{itemize}
 
-\subsubsection{Real-world testing data}
+\subsubsection{Real-world Testing Data}
 
 In addition to generating our own assets for testing, we used a limited subset of real-world data for testing across components. We chose to include assets from across all supported asset classes over a significant period of time (several years as the simulation will at most span several decades). We found that this approach was easier than trying to emulate the complex fluctuations of real-world asset prices ourselves. While predicting the expected output of methods when handling real-world data was more difficult, we still found it proved useful in the following circumstances: 
 
