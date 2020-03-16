@@ -70,8 +70,7 @@ Another important design decision has been the choice of data type to represent 
 Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectored operations.
 
 \subsection{Data Harvester Structure}
-The role of Data Harvester is collecting live data from multiple source  refining it in a format that makes it usable by Anda and easily storable  by our in house DBMS system Finda. In addition to this a mechanism for changing the data collected and adapting to the market demands has to exist. Another requirement relates to the limitations that imposed by the APIs used. 
-
+The role of Data Harvester is collecting live data from multiple sources, parsing it to a format that makes it usable by Anda and easily storable by our in-house DBMS system Finda. In addition to this, gudiance for changing the data collected and adapting to the market demands has to exist. This guidance will be found in the maintenance section. Another requirement relates to the limitations that the third party APIs impose on us. The first design decision made in order to accomplish the above was the creation of the updating mechanism.
 
 
 \subsubsection{Continuous Updating Mechanism}
@@ -102,7 +101,7 @@ For each API the API Handler has a call method and a method that formats the dat
 \end{figure}
 
 \subsubsection{Interpolation}
-Our business logic library requires continuous data in order o be able to perform the numerical analysis. In order to transform real life data that includes weekends and bank holidays into a continuous data sets we have used interpolation. The type of interpolation used is nearest neighbour. To be more precises, the algorithm designed goes over the data in pairs of adjacent dates, if there are any missing days then the older nearest neighbour is duplicated over the missing days. In addition to this the duplicated rows are flagged as interpolated in the database. Here is a example of how it would look like:
+Our business logic library requires continuous data in order to be able to perform the numerical analysis. In order to transform real life data that includes weekends and bank holidays into a continuous data sets we have used interpolation. The type of interpolation used is nearest neighbour. To be more precises, the algorithm designed goes over the data in pairs of adjacent dates, if there are any missing days then the older nearest neighbour is duplicated over the missing days. In addition to this the duplicated rows are flagged as interpolated in the database. Here is a example of how it would look like:
 \textbf{\newline Pre-Interpolation: }
 \begin{center}
  \begin{tabular}{||c c c c c c c c||} 
@@ -182,7 +181,7 @@ An extensive logging mechanism that logs information from all running parts of t
 
 
 
-\textbf{Maintenance of the assets:}
+\textbf{Maintenance of the Assets:}
 \begin{itemize}
     \item \textbf{Add/remove an asset class: } Create a new CSV file  in the folder with asset classes, add the columns in the following form:\newline
     \begin{lstlisting}
@@ -191,10 +190,12 @@ An extensive logging mechanism that logs information from all running parts of t
     It is important to remember to add the new asset class in the list of supported asset classes of the API that supports it.\newline
     In order to remove a asset class delete CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
     \item \textbf{Add/remove an asset : } Go into the asset class CSV file that contains the asset and add the required details under the correct columns.
-    Example of adding a new asset class.
+    At the end of the CSV asset class file add a line containing the ticker and name of the asset. If the database already has records of this asset then the last and earliest records are required.
     \begin{lstlisting}
     Ticker,Last_Update,Earliest_Record,Name
+    ...................
     SPY,,,S&P 500
+	EOF    
     \end{lstlisting}
     In order to delete a asset you have to remove the row that contains it.
     
