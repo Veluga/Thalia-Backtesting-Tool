@@ -130,7 +130,7 @@ Research into developing this module was initiated by listing our requirements f
 
 Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aforementioned tasks.
 
-The result of this effort is "Anda" (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into individual functions.
+The result of this effort is `Anda` (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into individual functions.
 This approach has allowed us to tailor the entire business logic module exactly to our needs without having to produce complicated wrapper code for existing backtesting libraries.
 
 \subsubsection{Database \& Finda}
@@ -162,10 +162,10 @@ The main drawbacks of using SQLite, namely scalability and performance are not a
 
 \subsubsection{Harvester}
 \label{Harvester}
-All financial backtesting application rely on having accurate data to work with. We required a system that can centralize the data from multiple APIs and to keep our database updated with live data.
+All financial backtesting applications rely on having accurate data to work with. We required a system that can aggregate the data from multiple APIs and that would keep our database updated with live data.
 The requirements for such a system were:
 \begin{itemize}
-\item \textbf{Standard data format:} In order to be able to store the data into a database with Finda and have the financial analysis done by Anda the Harvester needs to put all the data received trough the APIs in a standard format without losing numerical accuracy or granularity.
+\item \textbf{Standard data format:} In order to be able to store the data into a database with Finda and have the financial analysis done by Anda, the Harvester needs to parse all the data received trough the APIs to a standard format without losing numerical accuracy or granularity.
 \item \textbf{Update the database:} The database has to be updated regularly in order to contain live data.
 \item \textbf{Data Interpolation:} Some financial assets require interpolation in order to account for the days without any transactions.
 \item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can still retrieve live data even if a API fails.

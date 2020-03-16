@@ -186,11 +186,12 @@ An extensive logging mechanism that logs information from all running parts of t
     \item \textbf{Add/remove an asset class:} Create a new CSV file with the name of the asset class as filename within the asset classes folder and add the columns in the following form:\newline
     \begin{lstlisting}
     Ticker,Last_Update,Earliest_Record,Name
+    EOF
     \end{lstlisting}
     It is important to remember to add the new asset class in the list of supported asset classes of the API that supports it.\newline
     In order to remove an asset class, delete the respective CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
     \item \textbf{Add/remove an asset : } Go into the asset class CSV file that contains the asset and add the required details under the correct columns.
-    At the end of the CSV asset class file add a line containing the ticker and name of the asset. If the database already has records of this asset then the last and earliest records are required.\newline
+    At the end of the CSV asset class file add a line containing the ticker and name of the asset.\newline
   	Example:
     \begin{lstlisting}
     Ticker,Last_Update,Earliest_Record,Name
@@ -198,9 +199,9 @@ An extensive logging mechanism that logs information from all running parts of t
     SPY,,,S&P 500
 	EOF    
     \end{lstlisting}
-    In order to delete a asset you have to remove the row that contains it.
+    In order to delete an asset, you simply have to remove the row that contains it.
     
-    \item \textbf{Re-add an asset: } First check in the database for the last and earliest records. Then introduce a new row that contains them. 
+    \item \textbf{Re-add an asset:} First check in the database for the last and earliest records. Then introduce a new row that contains them.
 \end{itemize}
 
 \textbf{Maintenance of the APIs:}
