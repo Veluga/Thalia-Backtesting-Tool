@@ -34,10 +34,20 @@
 \contentsline {subsubsection}{\numberline {5.4.1}Continuous Integration}{21}% 
 \contentsline {subsubsection}{\numberline {5.4.2}Hosting and Continuous Deployment}{23}% 
 \contentsline {section}{\numberline {6}Testing}{25}% 
-\contentsline {section}{\numberline {7}Evaluation and further Work}{26}% 
-\contentsline {subsection}{\numberline {7.1}Schedule}{26}% 
-\contentsline {subsection}{\numberline {7.2}Feasibility Analysis}{26}% 
-\contentsline {subsection}{\numberline {7.3}Appendix A - User Manual}{27}% 
-\contentsline {subsection}{\numberline {7.4}Appendix B - Maintenance Manual}{28}% 
-\contentsline {subsection}{\numberline {7.5}Appendix C - Glossary}{29}% 
-\contentsline {subsection}{\numberline {7.6}Appendix D - Glossary}{31}% 
+\contentsline {subsection}{\numberline {6.1}Testing Strategy}{25}% 
+\contentsline {subsubsection}{\numberline {6.1.1}Unit Testing}{25}% 
+\contentsline {subsubsection}{\numberline {6.1.2}Integration Testing}{26}% 
+\contentsline {subsubsection}{\numberline {6.1.3}End-to-end Testing}{26}% 
+\contentsline {subsubsection}{\numberline {6.1.4}Data Harvester Logs}{26}% 
+\contentsline {subsection}{\numberline {6.2}Testing Tools}{27}% 
+\contentsline {subsection}{\numberline {6.3}Test Data}{27}% 
+\contentsline {subsubsection}{\numberline {6.3.1}Mock Data}{28}% 
+\contentsline {subsubsection}{\numberline {6.3.2}Real-world testing data}{28}% 
+\contentsline {subsection}{\numberline {6.4}Testing Results}{29}% 
+\contentsline {section}{\numberline {7}Evaluation and further Work}{30}% 
+\contentsline {subsection}{\numberline {7.1}Schedule}{30}% 
+\contentsline {subsection}{\numberline {7.2}Feasibility Analysis}{30}% 
+\contentsline {subsection}{\numberline {7.3}Appendix A - User Manual}{31}% 
+\contentsline {subsection}{\numberline {7.4}Appendix B - Maintenance Manual}{32}% 
+\contentsline {subsection}{\numberline {7.5}Appendix C - Glossary}{33}% 
+\contentsline {subsection}{\numberline {7.6}Appendix D - Glossary}{35}% 
