@@ -6,6 +6,8 @@ import base64
 import pandas as pd
 from decimal import Decimal
 from datetime import timedelta, date
+import time
+import os
 
 
 def test_filter_tickers():
@@ -29,7 +31,9 @@ def test_user_data():
         "16/12/1980,0.45,0.45,0.45,0.45\n"
     )
     encoded = base64.b64encode(csv_data.encode("utf-8"))
-    handle = callbacks.store_user_asset(encoded, timeout=timedelta(seconds=5))
+    empty = os.listdir(callbacks.USER_DATA_DIR)
+    handle = callbacks.store_user_asset(encoded, timeout=timedelta(seconds=2))
+    assert empty != os.listdir(callbacks.USER_DATA_DIR)
     retrieved = callbacks.retrieve_user_asset(handle)
     expected = pd.DataFrame(
         [
@@ -39,9 +43,11 @@ def test_user_data():
             [Decimal("0.48"), Decimal("0.48"), Decimal("0.48"), Decimal("0.48")],
             [Decimal("0.45"), Decimal("0.45"), Decimal("0.45"), Decimal("0.45")],
         ],
-        columns = ["Open", "High", "Low", "Close"],
-        index = pd.date_range(date(1980, 12, 12), date(1980, 12, 16), freq="D"),
+        columns=["Open", "High", "Low", "Close"],
+        index=pd.date_range(date(1980, 12, 12), date(1980, 12, 16), freq="D"),
     )
-    print(retrieved)
-    print(expected)
-    assert str(expected) == str(retrieved) # Why can't equality be sensible on dataframes?
+    assert expected.equals(retrieved)
+    time.sleep(4)
+    assert empty == os.listdir(callbacks.USER_DATA_DIR)
+
+
