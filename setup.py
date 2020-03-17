@@ -12,7 +12,6 @@ install_requires = [
     "flask-wtf",
     "pandas",
     "dash",
-    "dash_dangerously_set_inner_html",
 ]
 
 
