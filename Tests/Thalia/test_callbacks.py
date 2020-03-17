@@ -46,9 +46,7 @@ def test_user_data():
         columns=["Open", "High", "Low", "Close"],
         index=pd.date_range(date(1980, 12, 12), date(1980, 12, 16), freq="D"),
     )
-    print(retrieved)
-    print(expected)
-    assert str(expected) == str(retrieved) # Why can't equality be sensible on dataframes?
+    assert expected.equals(retrieved)
     time.sleep(2)
     assert empty == os.listdir(callbacks.USER_DATA_DIR)
 
