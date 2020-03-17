@@ -178,10 +178,10 @@ We have seen that there were several APIs that could be used. After a quick look
 
 
 \textbf{FOREX API\newline}
-Between nomics \cite{nomics-python} and fixerio \cite{fixerio} we have chosen nomics for the simple fact that nomics had unlimited calls for free, besides, nomics also has cryptocurrencies data. However, Fixerio is a more robust API with a larger user base and more data, that we would have used if could have afforded the investment. In the scenario where we would have had money to spend we would have used fixerio for currencies and nomics for cryptocurrencies. However, in our case we have no money so we used nomics for both currencies and cryptocurrencies.\newline
+Between nomics \cite{nomics-python} and fixerio \cite{fixerio} we have chosen nomics for the simple fact that nomics had unlimited calls for free, besides, nomics also has cryptocurrencies data. However, Fixerio is a more robust API with a larger user base and more data, that we would have used if could have afforded the investment. In the scenario where we would have had money to spend we would have used fixerio for currencies and nomics for cryptocurrencies. However, in our case we have no money so we used nomics for both currencies and cryptocurrencies. To compare the two options we have used the documentation provided by each API . \newline
 
 \textbf{Stock Market Data\newline}
-Out of yfinance \cite{yfinance}, Alpha Vantage \cite{alphavantage}and Quandl \cite{quandl} we have chosen yfinance because it offered the most data and API calls for free, compared to the other two. If we had money to spend we would have used Alpha Vantage because of the larger number of available assets and the high number of requests per minute. As for Quandl we found it to be expensive and not centered on the type of data we need.\newline
+Out of yfinance \cite{yfinance}, Alpha Vantage \cite{alphavantage}and Quandl \cite{quandl} we have chosen yfinance because it offered the most data and API calls for free, compared to the other two. If we had money to spend we would have used Alpha Vantage because of the larger number of available assets and the high number of requests per minute. As for Quandl we found it to be expensive and not centered on the type of data we need. We have made our choice based on the API specification given in the documentation of each API.\newline
 
 \textbf{Standard Data Format\newline}
 While looking for solutions that would help with solving the data format and the maintenance problem we have found pandas\_datareader \cite{pandas_datareader}. It is a wrapper for the biggest financial APIs. We saw that it included all of the Stock Market Data APIs named above and more. 
@@ -189,7 +189,7 @@ In addition, it standardizes the calling procedure for all APIs it includes and 
     
 \textbf{Update the database \& Redundancy \& Data Interpolation\newline}   
 For these requirements, we have seen that no already existing systems can do what we want. As a result, we had to write our system.
-In the building of the system, we have used python as a programming language. This decision has been made because the APIs chosen have been built in python. Writing the system in a different language while the APIs are in python would have created additional problems without any benefits.  To manipulate the data we have used the pandas library. The persistent data required by the update mechanism is stored in CSV format because of the readability and the ease of use when using pandas.
+In the building of the system, we have used python as a programming language. This decision has been made because the APIs chosen have been built in python. Writing the system in a different language while the APIs are in python would have created additional problems without any benefits.  To manipulate the data we have used the pandas library. The persistent data required by the update mechanism is stored in CSV \cite{csv_iso} format because of the readability and the ease of use when using pandas.
 
 \subsection{Integration and Deployment}
 \label{Coding Standards}

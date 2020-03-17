@@ -70,7 +70,7 @@ Another important design decision has been the choice of data type to represent 
 Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
 
 \subsection{Data Harvester Structure}
-The role of Data Harvester is collecting live data from multiple sources, parsing it to a format that makes it usable by Anda and easily storable by our in-house DBMS system Finda. In addition to this, guidance for changing the data collected and adapting to the market demands has to exist. This guidance will be found in the maintenance section. Another requirement relates to the limitations that the third party APIs impose on us. The first design decision made to accomplish the above was the creation of the updating mechanism.
+The purpose of Data Harvester is collecting live data from multiple sources and parse it to a format that makes it usable by Anda and easily storable by our in-house DBMS system Finda. The parts that make the Data Harvester are the Continuous Updating Mechanism, the API Handler, the Data Standardization and Interpolation, the Logging mechanism. Besides the mentioned mentioned Data Harvester components another section on long term maintenance of the assets and APIs will be included.
 
 
 \subsubsection{Continuous Updating Mechanism}
@@ -90,7 +90,7 @@ The Updating is comprised of 3 components:
 To know more about how the updating mechanism works consult the logs section in Maintenance design.
 
 
-\subsubsection{APIs Handler}
+\subsubsection{API Handler}
 For each API, the API Handler has a call method and a method that formats the data so that it fits our data model. Also, there is an api\_selector method that makes the right API call based on what asset class is requested and a data frame format checker that does a final check before sending the data to the updating mechanism. 
 
 
@@ -99,6 +99,21 @@ For each API, the API Handler has a call method and a method that formats the da
     \caption{API Handler Flow Chart\cite{TR}}
     \includegraphics[width=0.47\textwidth]{04Design/04Pictures/api_handler_v3.png}
 \end{figure}
+
+
+
+\subsubsection{Standardization of Data}
+All data written to the database has to be in the following format:
+\begin{lstlisting}[language=Python, caption= Pandas Data Frame Format , label=lst:Development_env]
+
+Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>,
+          AHigh<Decimal.decimal>, ALow<Decimal.decimal>,
+          IsInterpolated<Integer>] 
+          
+Index: [AssetTicker<String>, ADate <datetime.date>]
+\end{lstlisting}
+
+The data standardization is being done as soon as the data frame has been received from the API by a method specific to each API. All APIs implemented need to have a method that takes the data frame received and modifies is so that it abides by our standard. To further reinforce our standard we have also added a format checker in the APIs Handler. It can be used to verify any newly added API or to catch any data frame modifications done by the API owners before they get written in our database.  A flow chart with this behaviour is displayed in Figure 3 of this section. 
 
 \subsubsection{Interpolation}
 Our business logic library requires continuous data in order to be able to perform the numerical analysis. In order to transform real life data that includes weekends and bank holidays into a continuous data sets we have used interpolation. The type of interpolation used is nearest neighbour. To be more precises, the algorithm designed goes over the data in pairs of adjacent dates, if there are any missing days then the older nearest neighbour is duplicated over the missing days. In addition to this the duplicated rows are flagged as interpolated in the database. Here is a example of how it would look like:
@@ -114,7 +129,7 @@ Our business logic library requires continuous data in order to be able to perfo
  \hline
  5&2000-11-20&124.12&124.15&124.15&85.47&VFIAX&0\\ 
  \hline
- z6&2000-11-21&124.55&124.45&124.55&85.78&VFIAX&0\\
+ 6&2000-11-21&124.55&124.45&124.55&85.78&VFIAX&0\\
  \hline
 \end{tabular}
 \end{center}
@@ -142,19 +157,6 @@ Our business logic library requires continuous data in order to be able to perfo
 \end{center}
 
 
-\subsubsection{Standardization of Data}
-All data written to the database has to be in the following format:
-\begin{lstlisting}[language=Python, caption= Pandas Data Frame Format , label=lst:Development_env]
-
-Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>,
-          AHigh<Decimal.decimal>, ALow<Decimal.decimal>,
-          IsInterpolated<Integer>] 
-          
-Index: [AssetTicker<String>, ADate <datetime.date>]
-\end{lstlisting}
-
-The data standardization is being done as soon as the data frame has been received from the API by a method specific to each API. All APIs implemented need to have a method that takes the data frame received and modifies is so that it abides by our standard. To further reinforce our standard we have also added a format checker in the APIs Handler. It can be used to verify any newly added API or to catch any data frame modifications done by the API owners before they get written in our database.  A flow chart with this behaviour is displayed in Figure 2 of this section. 
-
 
 \subsubsection{Maintenance Design}
 \textbf{Things to keep in mind.\newline}
@@ -168,10 +170,10 @@ An extensive logging mechanism that logs information from all running parts of t
     \item For each API call: 
         \begin{itemize}
         \item The asset class name, asset ticker and time range for the API call.
-        \item The type of data frame retrieved.  Is <class 'pandas.core.frame.DataFrame'> if the API returned that the call worked.
+        \item The type of data frame retrieved.  Is $<$class 'pandas.core.frame.DataFrame'$>$ if the API returned that the call worked.
         \item The time range in the data frame retrieved. The newest date always is the date of the last financial day for that asset.
         \item The shape of the data frame before the interpolation.
-        \item The shape after the interpolation. Some assets are traded every day so no new rows appear after the interpolation.
+        \item The shape after the interpolation. For those assets that are traded every day no new rows appear after the interpolation.
         \item A message that we started writing the data frame to the database.
     \end{itemize}
     \item A message that the requested number of API calls has been done.
@@ -242,7 +244,7 @@ To identify possible vulnerabilities, we have created a scenario where an attack
 \textbf{Solutions}
 \begin{enumerate}
     \item \textbf{API calls:} Depending on the API settings we will use either an IPSec policy or a VPN connection. The details of this will be discussed with the financial data provider.
-    \item \textbf{API keys:} We will salt and then hash the API keys with SHA512 before storing it. There are only 20 financial data APIs on the market this low number available APIs allows us to use SHA512 without having to worry about computation time. 
+    \item \textbf{API keys:} We will salt and then hash the API keys with SHA512 before storing it. The number of financial data APIs on the market is low enough to allow us to use SHA512 without having to worry about computation time. 
     \item \textbf{Rogue API:} We have added several checks that make sure that the data we retrieve from the APIs are what we expect it to be. If an API sends malformed data then a critical error will be displayed and logs of what did the API sent will be saved for inspection. 
 \end{enumerate}
 
