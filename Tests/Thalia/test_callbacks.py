@@ -47,7 +47,7 @@ def test_user_data():
         index=pd.date_range(date(1980, 12, 12), date(1980, 12, 16), freq="D"),
     )
     assert expected.equals(retrieved)
-    time.sleep(2)
+    time.sleep(4)
     assert empty == os.listdir(callbacks.USER_DATA_DIR)
 
 
