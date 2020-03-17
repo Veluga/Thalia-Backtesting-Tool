@@ -16,7 +16,6 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), index=True, unique=True)
     password_hash = db.Column(db.String(), nullable=False)
-    portfolios = db.relationship('Portfolio', backref='owner', lazy=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
