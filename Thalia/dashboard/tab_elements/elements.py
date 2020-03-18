@@ -30,34 +30,24 @@ def graph_box(graph_name, figure, id, size=6):
     )
 
 
-def box(
-    portfolio_name,
-    start_date,
-    end_date,
-    initial_amount,
-    end_balance,
-    max_drawdown,
-    best_year,
-    worst_year,
-):
+def metrics_box(id, visibility, size):
     return html.Div(
         [
             html.Div(
                 [
-                    html.Div(portfolio_name, className="title"),
+                    html.Div(
+                        html.Div(id=f"box-Portfolio Name-{id}", className="title"),
+                        className="level has-text-centered",
+                    ),
                     html.Div(
                         [
-                            box_item("Initial Investment", initial_amount),
-                            box_item("End Balance", end_balance),
+                            box_item("Initial Investment", id),
+                            box_item("End Balance", id),
                         ],
                         className="level",
                     ),
                     html.Div(
-                        [
-                            box_item("Best Year", best_year),
-                            box_item("Worst Year", worst_year),
-                            box_item("Max Drawdown", max_drawdown),
-                        ],
+                        [box_item("Best Year", id), box_item("Worst Year", id),],
                         className="level",
                     ),
                 ],
@@ -65,15 +55,17 @@ def box(
                 style={"background-color": "#efeae2 "},
             )
         ],
-        className="column is-4",
+        className=f"column is-{size}",
+        style={"display": str(visibility)},
+        id=f"metrics-box-{id}",
     )
 
 
-def box_item(metric_name, metric_value):
+def box_item(metric_name, id):
     return html.Div(
         [
             html.Div(metric_name, className="heading"),
-            html.Div(str(metric_value), className="title is-5",),
+            html.Div(id=f"box-{metric_name}-{id}", className="title is-5",),
         ],
         className="level-item",
     )

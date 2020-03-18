@@ -12,29 +12,13 @@ from analyse_data import analyse_data as anda
 MAX_PORTFOLIOS = 5
 
 
-"""def register_dashboard(dashapp):
-    for i in range(MAX_PORTFOLIOS, 0, -1):
-        states = [
-            State("my-date-picker-range", "start_date"),
-            State("my-date-picker-range", "end_date"),
-            State("input-money", "value"),
-            State(f"input-contribution-{i}", "value"),
-            State(f"contribution-dropdown-{i}", "value"),
-            State(f"rebalancing-dropdown-{i}", "value"),
-            State(f"memory-table-{i}", "data"),
-        ]
-
-        dashapp.callback(
-            Output(f"graph-{i}", "figure"), [Input("submit-btn", "n_clicks")], states
-        )(update_dashboard)"""
-
-
 def register_dashboard(dashapp):
     states = [
         State("my-date-picker-range", "start_date"),
         State("my-date-picker-range", "end_date"),
         State("input-money", "value"),
     ]
+    outputs = [Output(f"main-graph", "figure")]
     for i in range(1, MAX_PORTFOLIOS + 1):
         states += [
             State(f"portfolio-name-{i}", "value"),
@@ -43,10 +27,18 @@ def register_dashboard(dashapp):
             State(f"rebalancing-dropdown-{i}", "value"),
             State(f"memory-table-{i}", "data"),
         ]
+        outputs += [
+            Output(f"metrics-box-{i}", "style"),
+            Output(f"box-Portfolio Name-{i}", "children"),
+            Output(f"box-Initial Investment-{i}", "children"),
+            Output(f"box-End Balance-{i}", "children"),
+            Output(f"box-Best Year-{i}", "children"),
+            Output(f"box-Worst Year-{i}", "children"),
+        ]
 
-    dashapp.callback(
-        Output(f"main-graph", "figure"), [Input("submit-btn", "n_clicks")], states
-    )(update_dashboard)
+    dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
+        update_dashboard
+    )
 
 
 def register_table_callbacks(dashapp):
@@ -79,16 +71,6 @@ def register_tab_switch(dashapp):
     )(tab_switch)
 
 
-def register_input_dates(dashapp):
-    dashapp.callback(
-        Output("output_dates", "children"),
-        [
-            Input("my-date-picker-range", "start_date"),
-            Input("my-date-picker-range", "end_date"),
-        ],
-    )(print_output)
-
-
 def register_add_portfolio_button(dashapp):
     dashapp.callback(
         [Output(f"portfolio-{i}", "style") for i in range(1, MAX_PORTFOLIOS + 1)]
@@ -112,19 +94,11 @@ def register_callbacks(dashapp):
     # Register updating the tables with the ticker dropdown
     register_table_callbacks(dashapp)
 
-    # Register showing the input dates
-    register_input_dates(dashapp)
-
     # Register tab switch upon submit
     register_tab_switch(dashapp)
 
     # Register add Portfolio Button
     register_add_portfolio_button(dashapp)
-
-
-def print_output(start_date, end_date):
-    display_date = ("start date: ", start_date, " end date :", end_date)
-    return display_date
 
 
 def filter_tickers(ticker_selected, param_state):
@@ -178,13 +152,17 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     rebalancing_frequency_args = [list(args)[i * 5 + 3] for i in range(MAX_PORTFOLIOS)]
     table_data_args = [list(args)[i * 5 + 4] for i in range(MAX_PORTFOLIOS)]
 
-    no_portfolios = table_data_args.index(None)
+    if None in table_data_args:
+        no_portfolios = table_data_args.index(None)
+    else:
+        no_portfolios = 5
 
     values = (start_date, end_date, input_money)
     if None in values or no_portfolios == 0:
         raise PreventUpdate
 
     fig = get_figure()
+    return_key_metrics = []
 
     format_string = "%Y-%m-%d"
     start_date = datetime.strptime(start_date, format_string)
@@ -213,7 +191,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             )
         )
 
-        total_returns = update_backtest_results(
+        total_returns, key_metrics = update_backtest_results(
             tickers,
             proportions,
             start_date,
@@ -233,7 +211,13 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             )
         )
 
-    return fig
+        return_key_metrics += [{"display": "block"}, portfolio_name_args[i]]
+        return_key_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
+
+    for i in range(no_portfolios, MAX_PORTFOLIOS):
+        return_key_metrics += [{"display": "none"}, "", "", "", "", ""]
+
+    return [fig] + return_key_metrics
 
 
 def update_backtest_results(
@@ -273,9 +257,9 @@ def update_backtest_results(
         contribution_amount,
         rebalancing_dates,
     )
-    # table_data = get_table_data(strategy)
+    table_data = get_table_data(strategy)
     returns = anda.total_return(strategy)
-    return returns
+    return returns, table_data
 
 
 def get_table_data(strat):
@@ -286,7 +270,6 @@ def get_table_data(strat):
     table = [
         {"metric": "Initial Balance", "value": returns[strat.dates[0]]},
         {"metric": "End Balance", "value": returns[strat.dates[-1]]},
-        {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
     ]
     try:
         # We can't use append here because we want the table
@@ -294,6 +277,7 @@ def get_table_data(strat):
         table = table + [
             {"metric": "Best Year", "value": anda.best_year(strat)},
             {"metric": "Worst Year", "value": anda.worst_year(strat)},
+            {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
         ]
         table = table + [
             {"metric": "Sortino Ratio", "value": anda.sortino_ratio(strat, None)},
