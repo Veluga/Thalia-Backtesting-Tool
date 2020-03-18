@@ -137,8 +137,6 @@ def cagr(strat: Strategy) -> float:
     years = time.total_seconds() / (APPROX_DAY_PER_YEAR * 24 * 60 * 60)
     growth_factor = math.pow(growth, 1.0 / years)
 
-    print(years, begin, end, growth, growth_factor)
-
     return (growth_factor - 1.0) * 100
 
 
@@ -186,6 +184,40 @@ def max_drawdown(strat: Strategy) -> Decimal:
     return (Decimal(1.0) - max_diff) * Decimal(100.0)
 
 
+# INTERNAL
+def _jan_firsts(dates: pd.DatetimeIndex) -> pd.DatetimeIndex:
+    """
+    Takes a DatetimeIndex and the largest sub-range of dates that only
+    include the beginnings of each year.
+    """
+    # TODO: find a way to do this efficiently.
+    jan_firsts_list = [d for d in dates if d.month == d.day == 1]
+    if len(jan_firsts_list) == 0:
+        return pd.DatetimeIndex([])
+    begin = jan_firsts_list[0]
+    end = jan_firsts_list[-1]
+    return pd.date_range(begin, end, freq="AS")  # Annual start
+
+
+def relative_yearly_returns(strat: Strategy) -> pd.Series:
+    """
+    Returns a yearly-indexed series of the percentage rise/fall in the
+    portfolio's value.
+    The value associated with 2018-01-01 is the difference between the
+    portfolio's value at 2019-01-01 and 2018-01-01, relative to the value
+    of the portfolio at 2018-01-01.
+    """
+    returns = total_return(strat)
+    year_begins = _jan_firsts(returns.index)
+    rel_diffs = [
+        (returns.at[next_year] / returns.at[this_year]) - Decimal("1")
+        for this_year, next_year in zip(year_begins, year_begins[1:])
+    ]
+    return pd.Series(
+        [x * Decimal("100") for x in rel_diffs], index=year_begins[:-1], dtype=object
+    )
+
+
 def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
     all_dates = returns.index
     year_begins = [d for d in all_dates if d.month == d.day == 1]
@@ -194,8 +226,8 @@ def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
         for (this_year, next_year) in zip(year_begins, year_begins[1:])
     ]
 
-
-# TODO: efficiency.
+# TODO: make best_year and worst_year use relative_yearly returns instead
+# of duplicate logic.
 def best_year(strat) -> Decimal:
     """
     Returns the increase (hopefully) in value of the strategy over its
