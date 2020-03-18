@@ -80,6 +80,21 @@ def register_add_portfolio_button(dashapp):
     )(add_portfolio)
 
 
+def register_pie_charts(dashapp):
+    dashapp.callback(
+        [
+            item
+            for i in range(1, MAX_PORTFOLIOS + 1)
+            for item in (
+                Output(f"pie-{i}", "figure"),
+                Output(f"graph-box-pie-{i}", "style"),
+            )
+        ],
+        [Input("submit-btn", "n_clicks")],
+        [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
+    )(pie_charts)
+
+
 def register_callbacks(dashapp):
     """
     Works as essentially react component routing.
@@ -99,6 +114,35 @@ def register_callbacks(dashapp):
 
     # Register add Portfolio Button
     register_add_portfolio_button(dashapp)
+
+    # Register plotting asset distribution
+    register_pie_charts(dashapp)
+
+
+def pie_charts(n_clicks, *args):
+    if n_clicks is None:
+        raise PreventUpdate
+
+    if None in args:
+        no_portfolios = args.index(None)
+    else:
+        no_portfolios = 5
+
+    ret = []
+    for i in range(no_portfolios):
+        tickers, proportions = zip(
+            *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in args[i])
+        )
+        fig = go.Figure(data=[go.Pie(labels=tickers, values=proportions)])
+        fig.update_traces(
+            hoverinfo="label", marker=dict(colors=get_color(0, return_all=True))
+        )
+        ret += [fig, {"display": "block"}]
+
+    for i in range(no_portfolios, MAX_PORTFOLIOS):
+        ret += [None, {"display": "none"}]
+
+    return ret
 
 
 def filter_tickers(ticker_selected, param_state):
@@ -214,8 +258,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         return_key_metrics += [{"display": "block"}, portfolio_name_args[i]]
         return_key_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
 
+    no_data = [{"display": "none"}, "", "", "", "", ""]
     for i in range(no_portfolios, MAX_PORTFOLIOS):
-        return_key_metrics += [{"display": "none"}, "", "", "", "", ""]
+        return_key_metrics += no_data
 
     return [fig] + return_key_metrics
 
@@ -305,7 +350,7 @@ def get_trace(x, y, name, color):
     return go.Scattergl(x=x, y=y, mode="lines", name=name, marker_color=color)
 
 
-def get_color(i):
+def get_color(i, return_all=False):
     official_colours = [
         "#01434a",
         "#f26a4b",
@@ -313,7 +358,11 @@ def get_color(i):
         "#f23d3d",
         "#feedd0",
     ]
-    return official_colours[i]
+    if return_all:
+        return official_colours
+
+    else:
+        return official_colours[i]
 
 
 def normalise(arr):
