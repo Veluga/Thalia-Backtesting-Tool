@@ -19,8 +19,8 @@ def test_interpolation():
     
     result = os.path.join(current_dir, "interpolation_result.csv")
     df_correct = pd.read_csv(result,index_col=0)
-    
-    dh = dhorda([])
+    testing = True
+    dh = dhorda([],testing)
 
     df_to_test["AHigh"] = pd.to_numeric(df_to_test["AHigh"])
     df_to_test["ALow"] = pd.to_numeric(df_to_test["ALow"])

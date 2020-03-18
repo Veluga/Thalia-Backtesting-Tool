@@ -13,11 +13,12 @@ from Finda import FdMultiController
 
 
 class DataHarvester:
-    def __init__(self, api_list):
+    def __init__(self, api_list,test=False):
         self.api_list = api_list
-
-        FdMultiController.fd_register("asset")
-        self.conn = FdMultiController.fd_connect("asset", "rw")
+        self.testing = test
+        if not self.testing:
+            FdMultiController.fd_register("asset")
+            self.conn = FdMultiController.fd_connect("asset", "rw")
 
         self.log = Logger()
 
@@ -293,5 +294,6 @@ class DataHarvester:
         df_to_send = df_to_send.set_index(["AssetTicker", "ADate"])
 
         self.log.log_simple("Writing interpolted dataframe to DB")
-
-        self.conn.write.write_asset_values(df_to_send)
+        
+        if not self.testing:
+            self.conn.write.write_asset_values(df_to_send)
