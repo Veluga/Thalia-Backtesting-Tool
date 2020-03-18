@@ -6,7 +6,7 @@ import random
 
 from unittest import TestCase
 from datetime import date, timedelta
-from decimal import Decimal, getcontext
+from decimal import Decimal
 
 sys.path.insert(0, ".")
 from analyse_data import analyse_data as anda
