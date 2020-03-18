@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hello</title>
+    <title>Thalia</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
@@ -12,18 +12,12 @@
       defer
       src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
     ></script>
+    <link rel="stylesheet" type="text/css" href="../static/stylesheets/base.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   </head>
   <body>
-    <section class="section">
-      <a href="{{ url_for('main.index') }}">Home</a>
-      {% if current_user.is_anonymous %}
-        <a href="{{ url_for('main.login') }}">Login</a>
-      {% else %}
-        <a href="{{ url_for('main.logout') }}">Logout</a>
-        <a href="/dashboard">Backtest</a>
-      {% endif %}
-      {% block content %}
-      {% endblock %}
-    </section>
+    {% include 'navbar.html' %}
+    {% block content %}
+    {% endblock %}
   </body>
 </html>

@@ -53,10 +53,16 @@ def test_fd_manager_fd_register(db_controller):
     # test sucess
     # Warning: If schema checks implemented as per TODO, rewrite this
     conn = sqlite3.connect(path)
+    # reregister existing db and check no duplicate added
     FdMultiController.fd_register('RaNdOmGibBeRiSh')
-    assert 'RaNdOmGibBeRiSh' in FdMultiController.fd_list()
+    FdMultiController.fd_register('RaNdOmGibBeRiSh')
+
+    assert FdMultiController.fd_list().count('RaNdOmGibBeRiSh') == 1
+    
     FdMultiController.fd_remove('RaNdOmGibBeRiSh')
     assert 'RaNdOmGibBeRiSh' not in FdMultiController.fd_list()
+
+
 
 
 def test_fd_manager_fd_connect(db_controller):
