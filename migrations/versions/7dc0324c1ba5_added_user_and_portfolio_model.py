@@ -1,8 +1,8 @@
-"""Added Portfolio and User table.
+"""Added user and portfolio model.
 
-Revision ID: 0fd0acf96276
+Revision ID: 7dc0324c1ba5
 Revises: 
-Create Date: 2020-03-17 14:06:50.492693
+Create Date: 2020-03-18 15:09:48.622447
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0fd0acf96276'
+revision = '7dc0324c1ba5'
 down_revision = None
 branch_labels = None
 depends_on = None
