@@ -567,12 +567,18 @@ class TestYearlyReturns(TestCase):
         self.rebalancing_dates = set()
 
         self.msft_vals = read_asset("/test_data/MSFT.csv")
+        self.msft_dividends = read_dividends("/test_data/MSFT_dividends.csv")
+
     
     def test_msft(self):
         start_date = date(1986, 3, 13)
         end_date = date(2019, 1, 1)
         msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
-        assets = [anda.Asset("MSFT", Decimal("1.0"), msft_vals)]
+        msft_dividends = self.msft_dividends.reindex(
+            pd.date_range(start_date, end_date)
+        ).dropna()
+        
+        assets = [anda.Asset("MSFT", Decimal("1.0"), msft_vals, msft_dividends)]
         
         strategy = anda.Strategy(
             start_date,
@@ -593,6 +599,7 @@ class TestYearlyReturns(TestCase):
             (2002, Decimal("-22")),
             (2003, Decimal("7")),
             (2017, Decimal("41")),
+            (2018, Decimal("21")),
         ]
         for year, change in expected:
             self.assertAlmostEqual(annual_returns.at[date(year, 1, 1)], change, delta=Decimal("0.5"))
