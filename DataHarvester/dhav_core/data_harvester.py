@@ -50,7 +50,7 @@ class DataHarvester:
     def current_index(self, api):
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
-        path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
+        path = os.path.join(path, "persistent_data/" + api.name + "_position.csv")
         position_frame = pd.read_csv(path)
 
         return position_frame["Position Universal"][0]
@@ -63,7 +63,7 @@ class DataHarvester:
 
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
-        path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
+        path = os.path.join(path, "persistent_data/" + api.name + "_position.csv")
         position_frame = pd.read_csv(path)
 
         path = os.path.dirname(path)
@@ -85,8 +85,8 @@ class DataHarvester:
 
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
-        path = os.path.join(path, "persistant_data/" + api.name + "_position.csv")
-        # write back to persistant data folder
+        path = os.path.join(path, "persistent_data/" + api.name + "_position.csv")
+        # write back to persistent data folder
         position_frame.to_csv(path, index=False)
         return 0
 
@@ -100,7 +100,7 @@ class DataHarvester:
         path = os.path.dirname(path)
 
         # get update list and index position to know the name of the ticker to update
-        path = os.path.join(path, "persistant_data/update_list_" + api.name + ".csv")
+        path = os.path.join(path, "persistent_data/update_list_" + api.name + ".csv")
         up_list = pd.read_csv(path)
         index = self.current_index(api)
 
@@ -142,8 +142,9 @@ class DataHarvester:
         # the api format returns 1 in case of no data from the API call
         # if the df received is not int it means it is a dataframe and the call
         # worked.
-        start_date = data_set_retrieved["ADate"][0]
+        
         if type(data_set_retrieved) != int:
+            start_date = data_set_retrieved["ADate"][0]
             self.log.log_simple(
                 "Received data frame with data between "
                 + str(start_date)
@@ -169,7 +170,7 @@ class DataHarvester:
         path = os.path.dirname(__file__)
         path = os.path.dirname(path)
 
-        path = os.path.join(path, "persistant_data/update_list_" + api.name + ".csv")
+        path = os.path.join(path, "persistent_data/update_list_" + api.name + ".csv")
 
         up_list = pd.read_csv(path)
         index = self.current_index(api)

@@ -18,7 +18,7 @@ class Initializer:
         each ticker will have Last Record,Earliest Record,
         and a Asset class.
 
-        The update list is stored in persistant_data folder
+        The update list is stored in persistent_data folder
         it is of the form: update_list_<api_name>.csv 
     """
 
@@ -50,7 +50,7 @@ class Initializer:
             path = os.path.dirname(__file__)
             path = os.path.dirname(path)
             path = os.path.join(
-                path, "persistant_data/update_list_" + api.name + ".csv"
+                path, "persistent_data/update_list_" + api.name + ".csv"
             )
             frames.to_csv(path)
             frames = []
@@ -59,7 +59,7 @@ class Initializer:
 
     """
         The update position of each API is stored in a file
-        called <api_name>_position.csv in the persistant_data
+        called <api_name>_position.csv in the persistent_data
         folder.
         With each api call that gets data up until the current day
         the position is incremented by 1 by the DataHarvester
@@ -75,7 +75,7 @@ class Initializer:
             path = os.path.dirname(__file__)
             path = os.path.dirname(path)
             path = os.path.join(
-                path, "persistant_data/" + self.api_list[x].name + "_position.csv"
+                path, "persistent_data/" + self.api_list[x].name + "_position.csv"
             )
             frame_to_write.to_csv(path)
             names_dict = {}
