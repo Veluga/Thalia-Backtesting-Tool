@@ -218,34 +218,25 @@ def relative_yearly_returns(strat: Strategy) -> pd.Series:
     )
 
 
-def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
-    all_dates = returns.index
-    year_begins = [d for d in all_dates if d.month == d.day == 1]
-    return [
-        returns.at[next_year] / returns.at[this_year] - Decimal("1.0")
-        for (this_year, next_year) in zip(year_begins, year_begins[1:])
-    ]
-
-# TODO: make best_year and worst_year use relative_yearly returns instead
-# of duplicate logic.
-def best_year(strat) -> Decimal:
+def best_year(strat: Strategy) -> Decimal:
     """
-    Returns the increase (hopefully) in value of the strategy over its
-    best calendar year - beginning and ending on Jan. 1, as a percentage.
+    Returns the highest percentage increase in a portfolio's value between
+    one Jan 1. and the next Jan 1.
     """
-    returns = total_return(strat)
-    rel_diff = _relative_yearly_diff(returns)
-    if rel_diff:
-        return max(rel_diff) * Decimal("100")  # Adjust for percentage.
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return rel_diff.max()
     else:
         raise InsufficientTimeframe
 
 
-def worst_year(strat) -> Decimal:
-    # Same convention as best_year
-    returns = total_return(strat)
-    rel_diff = _relative_yearly_diff(returns)
-    if rel_diff:
-        return min(rel_diff) * Decimal("100")  # Adjust for percentage.
+def worst_year(strat: Strategy) -> Decimal:
+    """
+    Same convention as best_year, but takes the *lowest* percentage
+    increase (probably negative).
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return rel_diff.min()
     else:
         raise InsufficientTimeframe
