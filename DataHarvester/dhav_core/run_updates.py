@@ -16,7 +16,7 @@ def run_me():
     api_calls_api1 = 20
     api_calls_api2 = 20
     api1 = apic(
-        "yfinance", ["bonds", "comodities_future", "index_funds"], api_calls_api1
+        "yfinance", ["bonds", "comodities_future", "index_funds","stocks"], api_calls_api1
     )
     api2 = apic("nomics", ["crypto", "currency"], api_calls_api2, path, True)
 
