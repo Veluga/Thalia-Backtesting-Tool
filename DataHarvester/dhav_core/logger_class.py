@@ -32,6 +32,7 @@ class Logger:
     def crit(self, asset_class, ticker, start_date, end_date):
         logging.critical(
             "WRONG DATAFRAME FORMAT FROM API CALL at " + str(datetime.now())
+            + "\nOR WRONG TICKER NAME"
         )
         logging.critical(
             "calling for:\nasset_class: "

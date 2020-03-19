@@ -4,8 +4,8 @@
 venv/*
 # Harvester stuff
 DataHarvester/darhv/*
-DataHarvester/persistant_data/
-DataHarvester/persistant_data/*
+DataHarvester/persistent_data/
+DataHarvester/persistent_data/*
 DataHarvester/dhav_core/dh.log
 dh.log
 
