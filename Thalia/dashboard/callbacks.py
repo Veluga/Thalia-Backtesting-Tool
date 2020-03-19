@@ -6,6 +6,9 @@ from decimal import Decimal
 from .tab_elements.tickers import options
 from . import util
 from datetime import datetime
+import sys
+import itertools
+import json
 
 from analyse_data import analyse_data as anda
 
@@ -35,7 +38,10 @@ def register_table_callbacks(dashapp):
         # callback for updating the ticker table
         dashapp.callback(
             Output(f"memory-table-{i}", "data"),
-            [Input(f"memory-ticker-{i}", "value")],
+            [
+                Input(f"memory-ticker-{i}", "value"),
+                Input(f"lazy-portfolios-{i}", "value"),
+            ],
             [State(f"memory-table-{i}", "data")],
         )(filter_tickers)
 
@@ -129,17 +135,30 @@ def print_output(start_date, end_date):
     return display_date
 
 
-def filter_tickers(ticker_selected, param_state):
+def filter_tickers(ticker_selected, lazy_portfolio, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
-    if ticker_selected is None:
+
+    if (ticker_selected or lazy_portfolio) is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
-    asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
-    if all(asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state):
-        param_state.append(asset)
+    if lazy_portfolio is not None:
+        json_acceptable_string = lazy_portfolio.replace("'", '"')
+        lazy_dict = json.loads(json_acceptable_string)
+        for asset in lazy_dict.values():
+            if all(
+                asset["AssetTicker"] != existing["AssetTicker"]
+                for existing in param_state
+            ):
+                param_state.append(asset)
+    else:
+        asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+        if all(
+            asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
+        ):
+            param_state.append(asset)
 
     return param_state
 
