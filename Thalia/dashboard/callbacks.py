@@ -10,6 +10,13 @@ from analyse_data import analyse_data as anda
 
 
 MAX_PORTFOLIOS = 5
+OFFICIAL_COLOURS = [
+    "#f26a4b",
+    "#01434a",
+    "#01191c",
+    "#f23d3d",
+    "#feedd0",
+]
 
 
 def register_dashboard(dashapp):
@@ -185,9 +192,7 @@ def pie_charts(n_clicks, *args):
             *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in args[i])
         )
         fig = go.Figure(data=[go.Pie(labels=tickers, values=proportions)])
-        fig.update_traces(
-            hoverinfo="label", marker=dict(colors=get_color(0, return_all=True))
-        )
+        fig.update_traces(hoverinfo="label", marker=dict(colors=OFFICIAL_COLOURS))
         ret += [fig, {"display": "block"}]
 
     for i in range(no_portfolios, MAX_PORTFOLIOS):
@@ -237,7 +242,6 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
     """
-    # With store we may be able to separate the metrics box from the main graph
 
     if n_clicks is None:
         raise PreventUpdate
@@ -303,7 +307,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
                 total_returns.index,
                 total_returns.tolist(),
                 name=str(portfolio_name_args[i]),
-                color=get_color(i),
+                color=OFFICIAL_COLOURS[i],
             )
         )
 
@@ -311,12 +315,14 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         return_key_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
         return_key_metrics += ["1", "2"]  # TODO Add date for best and worst year here
 
-        annual_figure = {
-            "data": [
-                {"x": [1, 2, 3], "y": [2, 4, 3], "type": "bar", "name": "SF"},
-                {"x": [1, 2, 3], "y": [5, 4, 3], "type": "bar", "name": "Montréal",},
+        # TODO add annual returns here
+        annual_figure = go.Figure(
+            data=[
+                go.Bar(
+                    name="SF Zoo", x=["zebras", "gorillas", "monkeys"], y=[20, 14, 23]
+                ),
             ]
-        }
+        )
         return_key_metrics.append(annual_figure)
 
     no_data = [{"display": "none"}, "", "", "", "", "", "", "", None]
@@ -409,21 +415,6 @@ def get_figure():
 
 def get_trace(x, y, name, color):
     return go.Scattergl(x=x, y=y, mode="lines", name=name, marker_color=color)
-
-
-def get_color(i, return_all=False):
-    official_colours = [
-        "#01434a",
-        "#f26a4b",
-        "#01191c",
-        "#f23d3d",
-        "#feedd0",
-    ]
-    if return_all:
-        return official_colours
-
-    else:
-        return official_colours[i]
 
 
 def normalise(arr):

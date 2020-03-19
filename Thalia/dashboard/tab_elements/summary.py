@@ -41,8 +41,8 @@ def metrics_box(id, visibility, size):
                     html.Hr(),
                     html.Div(
                         [
-                            box_item("Initial Investment", id, unit="$"),
-                            box_item("End Balance", id, unit="$"),
+                            box_item("Initial Investment", id, unit=""),
+                            box_item("End Balance", id, unit=""),
                         ],
                         className="level",
                     ),
