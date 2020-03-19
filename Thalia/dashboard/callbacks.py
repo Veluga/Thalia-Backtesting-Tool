@@ -6,8 +6,6 @@ from decimal import Decimal
 from .tab_elements.tickers import options
 from . import util
 from datetime import datetime
-import sys
-import itertools
 import json
 
 from analyse_data import analyse_data as anda
