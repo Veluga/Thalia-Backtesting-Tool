@@ -70,7 +70,16 @@ Another important design decision has been the choice of data type to represent 
 Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
 
 \subsection{Data Harvester Structure}
-The purpose of Data Harvester is collecting live data from multiple sources and parse it to a format that makes it usable by Anda and easily storable by our in-house DBMS system Finda. The parts that make the Data Harvester are the Continuous Updating Mechanism, the API Handler, the Data Standardization and Interpolation, the Logging mechanism. Besides the mentioned mentioned Data Harvester components another section on long term maintenance of the assets and APIs will be included.
+All financial backtesting applications rely on having accurate data to work with. We required a system that can aggregate the data from multiple APIs and that would keep our database updated with live data.
+The requirements for such a system were:
+\begin{itemize}
+\item \textbf{Standard data format:} To be able to store the data into a database with Finda and have the financial analysis done by Anda, the Harvester needs to parse all the data received through the APIs to a standard format without losing numerical accuracy or granularity.
+\item \textbf{Update the database:} The database has to be updated regularly to contain live data.
+\item \textbf{Data Interpolation:} Some financial assets require interpolation to account for the days without any transactions.
+\item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can still retrieve live data even if an API fails.
+\item \textbf{Maintenance:} The financial world is in a continuous change. Because of this, it is important to make sure that we can add and delete assets as time goes on.
+\end{itemize}
+
 
 
 \subsubsection{Continuous Updating Mechanism}
@@ -214,7 +223,7 @@ An extensive logging mechanism that logs information from all running parts of t
         
         Here are the steps required when adding a new API. 
         \begin{enumerate}
-            \item Clearly outline the reason why you are adding the API. Is it for adding new assets that were not available before? Replacing an older API? Adding redundancy for more reliable service?
+            \item Clearly outline the reason why you are adding the API. Is it for adding new assets that were not available before? Replacing an older API? Adding redundancy for a more reliable service?
             In any of those cases, the appropriate adding and removing of assets and asset classes is required.
             \item Add a wrapper to the API call so that it works with the updating mechanism. The updating mechanism passes an asset ticker, an asset class name and a time range for the dates it is requesting data. In return, it expects a data frame with data from 1970-1-1 in the case of old assets or the first available data for newer ones. In the case that the API has no data on the ticker then the update mechanism expects single value 1. The call wrapper should have a name of the form $<$api\_name$>$\_call. 
             \item Create a method that formats the data frame retrieved by the API. Use the format checker method from the API Handler class to verify if your formatting is correct. 
@@ -244,7 +253,7 @@ To identify possible vulnerabilities, we have created a scenario where an attack
 \textbf{Solutions}
 \begin{enumerate}
     \item \textbf{API calls:} Depending on the API settings we will use either an IPSec policy or a VPN connection. The details of this will be discussed with the financial data provider.
-    \item \textbf{API keys:} We will salt and then hash the API keys with SHA512 before storing it. The number of financial data APIs on the market is low enough to allow us to use SHA512 without having to worry about computation time. 
+    \item \textbf{API keys:} We will salt and then hash the API keys with SHA512 before storing it. The number of financial data APIs on the market is low enough to allow us to use SHA512 without having to worry about computation time.
     \item \textbf{Rogue API:} We have added several checks that make sure that the data we retrieve from the APIs are what we expect it to be. If an API sends malformed data then a critical error will be displayed and logs of what did the API sent will be saved for inspection. 
 \end{enumerate}
 

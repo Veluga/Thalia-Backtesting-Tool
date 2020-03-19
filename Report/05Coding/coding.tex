@@ -160,19 +160,11 @@ The main drawbacks of using SQLite, namely scalability and performance are not a
 
 
 
-\subsubsection{Harvester}
+\subsubsection{Data Harvester}
 \label{Harvester}
-All financial backtesting applications rely on having accurate data to work with. We required a system that can aggregate the data from multiple APIs and that would keep our database updated with live data.
-The requirements for such a system were:
-\begin{itemize}
-\item \textbf{Standard data format:} To be able to store the data into a database with Finda and have the financial analysis done by Anda, the Harvester needs to parse all the data received through the APIs to a standard format without losing numerical accuracy or granularity.
-\item \textbf{Update the database:} The database has to be updated regularly to contain live data.
-\item \textbf{Data Interpolation:} Some financial assets require interpolation to account for the days without any transactions.
-\item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can still retrieve live data even if an API fails.
-\item \textbf{Maintenance:} The financial world is in a continuous change. Because of this, it is important to make sure that we can add and delete assets as time goes on.
-\end{itemize}
+The Data Harvester role is to provide the application with the data it requires in order to allow the users to construct their investment portfolios. The choices we have made had to fulfil all our requirements while keeping in mind our financial and time-related limitations.
 
-
+\textbf{Chosing the  APIs\newline}
 We started our quest for data by trying to find APIs that could call for the main financial assets used when making an investment portfolio \cite{best-stock-api}.
 We have seen that there were several APIs that could be used. After a quick look at them, we have seen that there were two types of APIs. There were those that had FOREX \cite{forex} data and those designed for Stock Market Data \cite{stock_market}. Those two APIs that we considered for FOREX data were Fixerio and Nomics. For stock market data we have considered yfinance, Alpha Vantage and Quandl.\newline
 
@@ -181,11 +173,11 @@ We have seen that there were several APIs that could be used. After a quick look
 Between nomics \cite{nomics-python} and fixerio \cite{fixerio} we have chosen nomics for the simple fact that nomics had unlimited calls for free, besides, nomics also has cryptocurrencies data. However, Fixerio is a more robust API with a larger user base and more data, that we would have used if could have afforded the investment. In the scenario where we would have had money to spend we would have used fixerio for currencies and nomics for cryptocurrencies. However, in our case we have no money so we used nomics for both currencies and cryptocurrencies. To compare the two options we have used the documentation provided by each API . \newline
 
 \textbf{Stock Market Data\newline}
-Out of yfinance \cite{yfinance}, Alpha Vantage \cite{alphavantage}and Quandl \cite{quandl} we have chosen yfinance because it offered the most data and API calls for free, compared to the other two. If we had money to spend we would have used Alpha Vantage because of the larger number of available assets and the high number of requests per minute. As for Quandl we found it to be expensive and not centered on the type of data we need. We have made our choice based on the API specification given in the documentation of each API.\newline
+Out of yfinance \cite{yfinance}, Alpha Vantage \cite{alphavantage}and Quandl \cite{quandl} we have chosen yfinance because it offered the most data and API calls for free, compared to the other two. If we had money to spend we would have used Alpha Vantage because of the larger number of available assets and the high number of requests per minute. As for Quandl we found it to be expensive and not centred on the type of data we need. We have made our choice based on the API specification given in the documentation of each API.\newline
 
 \textbf{Standard Data Format\newline}
 While looking for solutions that would help with solving the data format and the maintenance problem we have found pandas\_datareader \cite{pandas_datareader}. It is a wrapper for the biggest financial APIs. We saw that it included all of the Stock Market Data APIs named above and more. 
-In addition, it standardizes the calling procedure for all APIs it includes and it returns the same format no matter the API you are calling. This is the only product that does this on the market so no compassion with other product can be done. In the case where we would have not used it we would have produced code that would have achievedd the same result. In conclusion, using pandas\_datareader has saved us some valuable man-hours.\newline
+In addition, it standardizes the calling procedure for all APIs it includes and it returns the same format no matter the API you are calling. This is the only product that does this on the market so no compassion with other product can be done. In the case where we would have not used it we would have produced code that would have archived the same result. In conclusion, using pandas\_datareader has saved us some valuable man-hours.\newline
     
 \textbf{Update the database \& Redundancy \& Data Interpolation\newline}   
 For these requirements, we have seen that no already existing systems can do what we want. As a result, we had to write our system.
