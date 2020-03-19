@@ -179,7 +179,6 @@ def lazy_portfolios(id):
 
     return dcc.Dropdown(
         id=f"lazy-portfolios-{id}",
-        # placeholder="None",
         className="has-text-left",
         options=[
             {"label": "None", "value": "None"},
