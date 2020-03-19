@@ -9,6 +9,7 @@ layout = html.Div(
         [
             html.Div(
                 [
+                    dcc.Store(id="memory-output"),
                     dcc.Tabs(
                         [
                             tabs.tickers(),
@@ -20,7 +21,7 @@ layout = html.Div(
                         ],
                         id="tabs",
                         value="tickers",
-                    )
+                    ),
                 ],
                 className="column",
             ),

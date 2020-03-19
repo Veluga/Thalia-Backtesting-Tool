@@ -14,9 +14,12 @@ def metrics_box(id, visibility, size):
             html.Div(
                 [
                     html.Div(
-                        html.Div(id=f"box-Portfolio Name-{id}", className="title"),
+                        html.Div(
+                            id=f"box-Portfolio Name-{id}", className="level-item title"
+                        ),
                         className="level",
                     ),
+                    html.Hr(),
                     html.Div(
                         [
                             box_item("Initial Investment", id),
@@ -28,12 +31,22 @@ def metrics_box(id, visibility, size):
                         [box_item("Best Year", id), box_item("Worst Year", id),],
                         className="level",
                     ),
+                    html.Div(
+                        [
+                            box_item("Difference in Best Year", id),
+                            box_item("Difference in Worst Year", id),
+                        ],
+                        className="level",
+                    ),
                 ],
                 className="box",
                 style={"background-color": "#efeae2 "},
-            )
+            ),
+            graph_box(
+                "Annual Returns", id=f"annual-returns-{id}", size=6, visibility="block"
+            ),
         ],
-        className=f"column is-{size}",
+        className=f"column is-{size} has-text-vcentered",
         style={"display": str(visibility)},
         id=f"metrics-box-{id}",
     )
@@ -42,7 +55,11 @@ def metrics_box(id, visibility, size):
 def box_item(metric_name, id):
     return html.Div(
         [
-            html.Div(metric_name, className="heading"),
+            html.Div(
+                f"{metric_name}: ",
+                className="title is-5",
+                style={"padding-right": "1cm"},
+            ),
             html.Div(id=f"box-{metric_name}-{id}", className="title is-5",),
         ],
         className="level-item",

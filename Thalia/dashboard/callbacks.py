@@ -32,6 +32,8 @@ def register_dashboard(dashapp):
             Output(f"box-Portfolio Name-{i}", "children"),
             Output(f"box-Initial Investment-{i}", "children"),
             Output(f"box-End Balance-{i}", "children"),
+            Output(f"box-Difference in Best Year-{i}", "children"),
+            Output(f"box-Difference in Worst Year-{i}", "children"),
             Output(f"box-Best Year-{i}", "children"),
             Output(f"box-Worst Year-{i}", "children"),
         ]
@@ -95,6 +97,17 @@ def register_pie_charts(dashapp):
     )(pie_charts)
 
 
+def register_asset_contributions_table(dashapp):
+    dashapp.callback(
+        [
+            Output(f"asset-contributions-{i}", "data")
+            for i in range(1, MAX_PORTFOLIOS + 1)
+        ],
+        [Input("submit-btn", "n_clicks")],
+        [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
+    )(asset_contributions_table)
+
+
 def register_callbacks(dashapp):
     """
     Works as essentially react component routing.
@@ -117,6 +130,29 @@ def register_callbacks(dashapp):
 
     # Register plotting asset distribution
     register_pie_charts(dashapp)
+
+    # Register contributions per assets
+    # register_asset_contributions_table(dashapp)
+
+
+def asset_contributions_table(n_clicks, *args):
+    # TODO
+    if n_clicks is None:
+        raise PreventUpdate
+
+    if None in args:
+        no_portfolios = args.index(None)
+    else:
+        no_portfolios = 5
+
+    ret = []
+    for i in range(no_portfolios):
+        ret.append(args[i])
+
+    for i in range(no_portfolios, MAX_PORTFOLIOS):
+        ret.append(None)
+
+    return ret
 
 
 def pie_charts(n_clicks, *args):
@@ -186,6 +222,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     based on selected tickers and assets generate a graph of portfolios value over time
     and a table of key metrics
     """
+    # With store we may be able to separate the metrics box from the main graph
 
     if n_clicks is None:
         raise PreventUpdate
@@ -257,8 +294,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
         return_key_metrics += [{"display": "block"}, portfolio_name_args[i]]
         return_key_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
+        return_key_metrics += ["1", "2"]  # TODO Add date for best and worst year here
 
-    no_data = [{"display": "none"}, "", "", "", "", ""]
+    no_data = [{"display": "none"}, "", "", "", "", "", "", ""]
     for i in range(no_portfolios, MAX_PORTFOLIOS):
         return_key_metrics += no_data
 
