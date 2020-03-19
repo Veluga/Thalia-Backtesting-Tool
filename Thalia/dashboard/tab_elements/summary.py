@@ -41,8 +41,8 @@ def metrics_box(id, visibility, size):
                     html.Hr(),
                     html.Div(
                         [
-                            box_item("Initial Investment", id),
-                            box_item("End Balance", id),
+                            box_item("Initial Investment", id, unit="$"),
+                            box_item("End Balance", id, unit="$"),
                         ],
                         className="level",
                     ),
@@ -52,8 +52,8 @@ def metrics_box(id, visibility, size):
                     ),
                     html.Div(
                         [
-                            box_item("Difference in Best Year", id),
-                            box_item("Difference in Worst Year", id),
+                            box_item("Difference in Best Year", id, unit="%"),
+                            box_item("Difference in Worst Year", id, unit="%"),
                         ],
                         className="level",
                     ),
@@ -69,7 +69,7 @@ def metrics_box(id, visibility, size):
     )
 
 
-def box_item(metric_name, id):
+def box_item(metric_name, id, unit=""):
     return html.Div(
         [
             html.Div(
@@ -78,6 +78,7 @@ def box_item(metric_name, id):
                 style={"padding-right": "1cm"},
             ),
             html.Div(id=f"box-{metric_name}-{id}", className="title is-5",),
+            html.Div(unit),
         ],
         className="level-item",
     )
