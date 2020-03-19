@@ -245,3 +245,26 @@ def worst_year(strat: Strategy) -> Decimal:
         return rel_diff.min()
     else:
         raise InsufficientTimeframe
+
+
+def best_year_no(strat: Strategy) -> int:
+    """
+    Returns the year number (Gregorian calandar) of the best year.
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        # Would use .idxmax(), but pandas hates Decimal.
+        return max(rel_diff.index, key=lambda day: rel_diff.at[day]).year
+    else:
+        raise InsufficentTimeframe
+
+
+def worst_year_no(strat: Strategy) -> int:
+    """
+    Returns the year number (Gregorian calandar) of the worst year.
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return min(rel_diff.index, key=lambda day: rel_diff.at[day]).year
+    else:
+        raise InsufficentTimeframe

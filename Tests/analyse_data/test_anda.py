@@ -462,8 +462,15 @@ class TestBestWorstYear(TestCase):
         b = anda.best_year(strategy)
         w = anda.worst_year(strategy)
 
-        self.assertAlmostEqual(b, Decimal("120"), delta=2)
-        self.assertAlmostEqual(w, Decimal("-63"), delta=2)
+        self.assertAlmostEqual(b, Decimal("122"), delta=Decimal("0.5"))
+        self.assertAlmostEqual(w, Decimal("-63"), delta=Decimal("0.5"))
+        
+        b_year = anda.best_year_no(strategy)
+        w_year = anda.worst_year_no(strategy)
+        
+        self.assertEqual(b_year, 1991)
+        self.assertEqual(w_year, 2000)
+
 
     def test_short_time(self):
         start_date = date(1989, 1, 4)
