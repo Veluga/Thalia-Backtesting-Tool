@@ -13,13 +13,19 @@ MAX_PORTFOLIOS = 5
 
 
 def register_dashboard(dashapp):
+    """ Main callback, instantiates strategy object """
+    # Backtest constraints
     states = [
         State("my-date-picker-range", "start_date"),
         State("my-date-picker-range", "end_date"),
         State("input-money", "value"),
     ]
+
+    # Portfolio Growth Graph
     outputs = [Output(f"main-graph", "figure")]
     for i in range(1, MAX_PORTFOLIOS + 1):
+
+        # Portfolio specific data
         states += [
             State(f"portfolio-name-{i}", "value"),
             State(f"input-contribution-{i}", "value"),
@@ -27,8 +33,12 @@ def register_dashboard(dashapp):
             State(f"rebalancing-dropdown-{i}", "value"),
             State(f"memory-table-{i}", "data"),
         ]
+
+        # Portfolio specific out
         outputs += [
+            # Box visibility
             Output(f"metrics-box-{i}", "style"),
+            # Box data
             Output(f"box-Portfolio Name-{i}", "children"),
             Output(f"box-Initial Investment-{i}", "children"),
             Output(f"box-End Balance-{i}", "children"),
@@ -36,6 +46,8 @@ def register_dashboard(dashapp):
             Output(f"box-Difference in Worst Year-{i}", "children"),
             Output(f"box-Best Year-{i}", "children"),
             Output(f"box-Worst Year-{i}", "children"),
+            # Annual returns graph
+            Output(f"annual-returns-{i}", "figure"),
         ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -44,8 +56,8 @@ def register_dashboard(dashapp):
 
 
 def register_table_callbacks(dashapp):
+    """ Callback tying the ticker dropdown to table """
     for i in range(1, MAX_PORTFOLIOS + 1):
-        # callback for updating the ticker table
         dashapp.callback(
             Output(f"memory-table-{i}", "data"),
             [Input(f"memory-ticker-{i}", "value")],
@@ -54,6 +66,7 @@ def register_table_callbacks(dashapp):
 
 
 def register_tab_switch(dashapp):
+    """ Callback for switching and enabling tabs """
     dashapp.callback(
         [
             Output("tabs", "value"),
@@ -74,6 +87,7 @@ def register_tab_switch(dashapp):
 
 
 def register_add_portfolio_button(dashapp):
+    """ Callback for adding new portfolios and disabling button at 5 """
     dashapp.callback(
         [Output(f"portfolio-{i}", "style") for i in range(1, MAX_PORTFOLIOS + 1)]
         + [Output("add-portfolio-btn", "disabled")],
@@ -83,6 +97,7 @@ def register_add_portfolio_button(dashapp):
 
 
 def register_pie_charts(dashapp):
+    """ Callback for the piecharts per portfolio """
     dashapp.callback(
         [
             item
@@ -296,7 +311,15 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         return_key_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
         return_key_metrics += ["1", "2"]  # TODO Add date for best and worst year here
 
-    no_data = [{"display": "none"}, "", "", "", "", "", "", ""]
+        annual_figure = {
+            "data": [
+                {"x": [1, 2, 3], "y": [2, 4, 3], "type": "bar", "name": "SF"},
+                {"x": [1, 2, 3], "y": [5, 4, 3], "type": "bar", "name": "Montréal",},
+            ]
+        }
+        return_key_metrics.append(annual_figure)
+
+    no_data = [{"display": "none"}, "", "", "", "", "", "", "", None]
     for i in range(no_portfolios, MAX_PORTFOLIOS):
         return_key_metrics += no_data
 

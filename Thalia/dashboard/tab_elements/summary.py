@@ -1,10 +1,29 @@
 import dash_html_components as html
+import dash_core_components as dcc
 from .elements import graph_box
 
 
 def dates():
     return html.Div(
         html.Div(id="output_dates", className="subtitle",), className="box",
+    )
+
+
+def annual_returns(id):
+    return html.Div(
+        [
+            html.P("Annual Returns", className="panel-heading"),
+            dcc.Loading(
+                html.Div(
+                    dcc.Graph(
+                        id=f"annual-returns-{id}",
+                        style={"width": "100%", "height": "400px"},
+                    ),
+                    className="panel-block",
+                )
+            ),
+        ],
+        className="box",
     )
 
 
@@ -42,9 +61,7 @@ def metrics_box(id, visibility, size):
                 className="box",
                 style={"background-color": "#efeae2 "},
             ),
-            graph_box(
-                "Annual Returns", id=f"annual-returns-{id}", size=6, visibility="block"
-            ),
+            annual_returns(id),
         ],
         className=f"column is-{size} has-text-vcentered",
         style={"display": str(visibility)},
@@ -68,8 +85,14 @@ def box_item(metric_name, id):
 
 def portfolio_summary(id, reverse_layout=False):
     elements = [
-        metrics_box(id, visibility="none", size=6),
-        graph_box("Asset Allocations", id=f"pie-{id}", size=6, visibility="none"),
+        metrics_box(id, visibility="none", size=7),
+        graph_box(
+            "Asset Allocations",
+            id=f"pie-{id}",
+            size=5,
+            visibility="none",
+            height="650px",
+        ),
     ]
     if reverse_layout:
         elements.reverse()
@@ -81,7 +104,11 @@ def summary_dashboard():
     return html.Div(
         [
             graph_box(
-                "Total Returns over Time", id="main-graph", size=12, visibility="block"
+                "Total Returns over Time",
+                id="main-graph",
+                size=12,
+                visibility="block",
+                height="600px",
             ),
             portfolio_summary(id=1),
             portfolio_summary(id=2, reverse_layout=True),
