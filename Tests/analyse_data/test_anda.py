@@ -496,6 +496,8 @@ class TestBestWorstYear(TestCase):
 
         self.assertRaises(anda.InsufficientTimeframe, lambda: anda.best_year(strategy))
         self.assertRaises(anda.InsufficientTimeframe, lambda: anda.worst_year(strategy))
+        self.assertRaises(anda.InsufficientTimeframe, lambda: anda.best_year_no(strategy))
+        self.assertRaises(anda.InsufficientTimeframe, lambda: anda.worst_year_no(strategy))
 
 
 class TestDividends(TestCase):
