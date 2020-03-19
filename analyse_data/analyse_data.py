@@ -256,7 +256,7 @@ def best_year_no(strat: Strategy) -> int:
         # Would use .idxmax(), but pandas hates Decimal.
         return max(rel_diff.index, key=lambda day: rel_diff.at[day]).year
     else:
-        raise InsufficentTimeframe
+        raise InsufficientTimeframe
 
 
 def worst_year_no(strat: Strategy) -> int:
@@ -267,4 +267,4 @@ def worst_year_no(strat: Strategy) -> int:
     if len(rel_diff) > 0:
         return min(rel_diff.index, key=lambda day: rel_diff.at[day]).year
     else:
-        raise InsufficentTimeframe
+        raise InsufficientTimeframe
