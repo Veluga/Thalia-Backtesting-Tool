@@ -50,6 +50,8 @@ class Strategy:
 
         self.returns = None
         self.returns = total_return(self)
+        self.annual_returns = None
+        self.annual_returns = relative_yearly_returns(self)
 
 
 # INTERNAL
@@ -207,6 +209,9 @@ def relative_yearly_returns(strat: Strategy) -> pd.Series:
     portfolio's value at 2019-01-01 and 2018-01-01, relative to the value
     of the portfolio at 2018-01-01.
     """
+    if strat.annual_returns is not None:
+        return strat.annual_returns
+
     returns = total_return(strat)
     year_begins = _jan_firsts(returns.index)
     rel_diffs = [
