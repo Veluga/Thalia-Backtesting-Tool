@@ -90,7 +90,7 @@ class FdRead:
         return df0
 
     def read_assets_in_class(self, asset_class):
-        """Get records of all assets in an asset class
+        """Get records of all assets in an asset class with values in AssetValues
 
         Args:
         assetClass: string | Name of asset class
@@ -103,6 +103,8 @@ class FdRead:
         currently saved in db with asset class equal to assetClass
 
         Notes:
+        - Will only return assets that have asset values stored in AssetValues table
+
         - If assetClass not in database, return empty dataframe in format
 
         - Will return AssetClass row in dataframe despite all values being equal
@@ -118,7 +120,7 @@ class FdRead:
         df0 = pd.read_sql(
             "SELECT * \
          FROM Asset \
-         WHERE Asset.AssetClassName = $className;",
+         WHERE Asset.AssetClassName = $className AND Asset.AssetTicker IN (SELECT AssetTicker FROM AssetValue);",
             conn,
             params={"className": asset_class},  # use params dict to sanitize input
         )
