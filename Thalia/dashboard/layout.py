@@ -9,7 +9,6 @@ layout = html.Div(
         [
             html.Div(
                 [
-                    dcc.Store(id="memory-output"),
                     dcc.Tabs(
                         [
                             tabs.tickers(),

@@ -3,9 +3,11 @@ import dash_core_components as dcc
 from .elements import graph_box
 
 
-def dates():
+def dates_container():
     return html.Div(
-        html.Div(id="output_dates", className="subtitle",), className="box",
+        html.Div(id="output-dates", className="subtitle",),
+        className="column is-12 has-text-right",
+        style={"padding-bottom": "0px"},
     )
 
 
@@ -104,6 +106,7 @@ def portfolio_summary(id, reverse_layout=False):
 def summary_dashboard():
     return html.Div(
         [
+            dates_container(),
             graph_box(
                 "Total Returns over Time",
                 id="main-graph",

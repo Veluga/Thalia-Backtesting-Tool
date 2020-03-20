@@ -119,6 +119,18 @@ def register_pie_charts(dashapp):
     )(pie_charts)
 
 
+def register_print_dates(dashapp):
+    """ Callback for showing dates on summary tab """
+    dashapp.callback(
+        Output("output-dates", "children"),
+        [Input("submit-btn", "n_clicks")],
+        [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+        ],
+    )(print_dates)
+
+
 def register_asset_contributions_table(dashapp):
     dashapp.callback(
         [
@@ -153,6 +165,9 @@ def register_callbacks(dashapp):
     # Register plotting asset distribution
     register_pie_charts(dashapp)
 
+    # Register date listener
+    register_print_dates(dashapp)
+
     # Register contributions per assets
     # register_asset_contributions_table(dashapp)
 
@@ -175,6 +190,13 @@ def asset_contributions_table(n_clicks, *args):
         ret.append(None)
 
     return ret
+
+
+def print_dates(n_clicks, start_date, end_date):
+    if n_clicks is None:
+        raise PreventUpdate
+
+    return f"{start_date} - {end_date}"
 
 
 def pie_charts(n_clicks, *args):
