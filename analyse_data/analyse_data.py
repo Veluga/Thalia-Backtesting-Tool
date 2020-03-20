@@ -50,6 +50,8 @@ class Strategy:
 
         self.returns = None
         self.returns = total_return(self)
+        self.annual_returns = None
+        self.annual_returns = relative_yearly_returns(self)
 
 
 # INTERNAL
@@ -121,6 +123,24 @@ def total_return(strat) -> pd.Series:
     return ret
 
 
+def final_balance(strat: Strategy) -> Decimal:
+    returns = total_return(strat)
+    return returns.at[strat.dates[len(strat.dates) - 1]]
+
+
+# Compound Annual Growth Rate
+def cagr(strat: Strategy) -> float:
+    begin = strat.starting_balance
+    end = final_balance(strat)
+
+    growth = float(end / begin)
+    time = strat.dates[-1] - strat.dates[0]
+    years = time.total_seconds() / (APPROX_DAY_PER_YEAR * 24 * 60 * 60)
+    growth_factor = math.pow(growth, 1.0 / years)
+
+    return (growth_factor - 1.0) * 100
+
+
 def _risk_adjusted_returns(
     strat: Strategy, risk_free_rate: pd.DataFrame
 ) -> List[Decimal]:
@@ -165,34 +185,85 @@ def max_drawdown(strat: Strategy) -> Decimal:
     return (Decimal(1.0) - max_diff) * Decimal(100.0)
 
 
-def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
-    all_dates = returns.index
-    year_begins = [d for d in all_dates if d.month == d.day == 1]
-    return [
-        returns.at[next_year] / returns.at[this_year] - Decimal("1.0")
-        for (this_year, next_year) in zip(year_begins, year_begins[1:])
-    ]
+# INTERNAL
+def _jan_firsts(dates: pd.DatetimeIndex) -> pd.DatetimeIndex:
+    """
+    Takes a DatetimeIndex and the largest sub-range of dates that only
+    include the beginnings of each year.
+    """
+    # TODO: find a way to do this efficiently.
+    jan_firsts_list = [d for d in dates if d.month == d.day == 1]
+    if len(jan_firsts_list) == 0:
+        return pd.DatetimeIndex([])
+    begin = jan_firsts_list[0]
+    end = jan_firsts_list[-1]
+    return pd.date_range(begin, end, freq="AS")  # Annual start
 
 
-# TODO: efficiency.
-def best_year(strat) -> Decimal:
+def relative_yearly_returns(strat: Strategy) -> pd.Series:
     """
-    Returns the increase (hopefully) in value of the strategy over its
-    best calendar year - beginning and ending on Jan. 1, as a percentage.
+    Returns a yearly-indexed series of the percentage rise/fall in the
+    portfolio's value.
+    The value associated with 2018-01-01 is the difference between the
+    portfolio's value at 2019-01-01 and 2018-01-01, relative to the value
+    of the portfolio at 2018-01-01.
     """
+    if strat.annual_returns is not None:
+        return strat.annual_returns
+
     returns = total_return(strat)
-    rel_diff = _relative_yearly_diff(returns)
-    if rel_diff:
-        return max(rel_diff) * Decimal("100")  # Adjust for percentage.
+    year_begins = _jan_firsts(returns.index)
+    rel_diffs = [
+        (returns.at[next_year] / returns.at[this_year]) - Decimal("1")
+        for this_year, next_year in zip(year_begins, year_begins[1:])
+    ]
+    return pd.Series(
+        [x * Decimal("100") for x in rel_diffs], index=year_begins[:-1], dtype=object
+    )
+
+
+def best_year(strat: Strategy) -> Decimal:
+    """
+    Returns the highest percentage increase in a portfolio's value between
+    one Jan 1. and the next Jan 1.
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return rel_diff.max()
     else:
         raise InsufficientTimeframe
 
 
-def worst_year(strat) -> Decimal:
-    # Same convention as best_year
-    returns = total_return(strat)
-    rel_diff = _relative_yearly_diff(returns)
-    if rel_diff:
-        return min(rel_diff) * Decimal("100")  # Adjust for percentage.
+def worst_year(strat: Strategy) -> Decimal:
+    """
+    Same convention as best_year, but takes the *lowest* percentage
+    increase (probably negative).
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return rel_diff.min()
+    else:
+        raise InsufficientTimeframe
+
+
+def best_year_no(strat: Strategy) -> int:
+    """
+    Returns the year number (Gregorian calandar) of the best year.
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        # Would use .idxmax(), but pandas hates Decimal.
+        return max(rel_diff.index, key=lambda day: rel_diff.at[day]).year
+    else:
+        raise InsufficientTimeframe
+
+
+def worst_year_no(strat: Strategy) -> int:
+    """
+    Returns the year number (Gregorian calandar) of the worst year.
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return min(rel_diff.index, key=lambda day: rel_diff.at[day]).year
     else:
         raise InsufficientTimeframe
