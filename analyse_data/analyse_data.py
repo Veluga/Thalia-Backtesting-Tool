@@ -134,7 +134,7 @@ def cagr(strat: Strategy) -> float:
     begin = strat.starting_balance
     end = final_balance(strat)
 
-    growth = float(final_balance(strat) / strat.starting_balance)
+    growth = float(end / begin)
     time = strat.dates[-1] - strat.dates[0]
     years = time.total_seconds() / (APPROX_DAY_PER_YEAR * 24 * 60 * 60)
     growth_factor = math.pow(growth, 1.0 / years)
