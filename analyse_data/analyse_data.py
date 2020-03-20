@@ -130,7 +130,6 @@ def final_balance(strat: Strategy) -> Decimal:
 
 # Compound Annual Growth Rate
 def cagr(strat: Strategy) -> float:
-    returns = total_return(strat)
     begin = strat.starting_balance
     end = final_balance(strat)
 
