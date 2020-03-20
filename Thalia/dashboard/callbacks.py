@@ -313,7 +313,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             )
         )
 
-        total_returns, key_metrics = update_backtest_results(
+        strategy, key_metrics = update_backtest_results(
             tickers,
             proportions,
             start_date,
@@ -323,6 +323,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             contribution_dates,
             rebalancing_dates,
         )
+
+        total_returns = anda.total_return(strategy)
 
         fig.add_trace(
             get_trace(
@@ -335,23 +337,38 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
         return_key_metrics += [{"display": "block"}, portfolio_name_args[i]]
         return_key_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
-        return_key_metrics += ["1", "2"]  # TODO Add date for best and worst year here
+        return_key_metrics += [
+            anda.best_year_no(strategy),
+            anda.worst_year_no(strategy),
+        ]
 
-        # TODO add annual returns here
-        annual_figure = go.Figure(
-            data=[
-                go.Bar(
-                    name="SF Zoo", x=["zebras", "gorillas", "monkeys"], y=[20, 14, 23]
-                ),
-            ]
+        annual_figure = get_yearly_differences_graph(
+            portfolio_name_args[i],
+            anda.relative_yearly_returns(strategy),
+            start_date,
+            end_date,
         )
         return_key_metrics.append(annual_figure)
 
-    no_data = [{"display": "none"}, "", "", "", "", "", "", "", None]
+    # We need to return data for the hidden divs
+    no_data = [{"display": "none"}, None, None, None, None, None, None, None, None]
     for i in range(no_portfolios, MAX_PORTFOLIOS):
         return_key_metrics += no_data
 
     return [fig] + return_key_metrics
+
+
+def get_yearly_differences_graph(name, diffs, start_date, end_date):
+    years = list(range(start_date.year, end_date.year + 1))
+    annual_figure = go.Figure(
+        data=[go.Bar(name=name, y=diffs, x=years, marker_color=OFFICIAL_COLOURS[3]),]
+    )
+    annual_figure.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Yearly Difference (%)",
+        font=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
+    )
+    return annual_figure
 
 
 def update_backtest_results(
@@ -392,8 +409,7 @@ def update_backtest_results(
         rebalancing_dates,
     )
     table_data = get_table_data(strategy)
-    returns = anda.total_return(strategy)
-    return returns, table_data
+    return strategy, table_data
 
 
 def get_table_data(strat):
