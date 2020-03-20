@@ -60,7 +60,7 @@ class FdRead:
         return df0
 
     def read_assets(self):
-        """Get records of all financial assets stored in db
+        """Get records of all financial assets stored in db that have associated asset values
 
         Args:
         None
@@ -73,6 +73,7 @@ class FdRead:
         currently saved in db
 
         Notes:
+        Will only return assets that have associated asset values stored in AssetValues table
         If nothing stored will return empty dataframe of same format
         """
         # Optionally move name to seperate config file later
@@ -80,7 +81,7 @@ class FdRead:
         # read data in df
         df0 = pd.read_sql(
             "SELECT * \
-         FROM Asset",
+         FROM Asset WHERE Asset.AssetTicker IN (SELECT AssetTicker FROM AssetValue)",
             conn,
         )
         conn.close()
