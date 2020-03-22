@@ -143,6 +143,7 @@ def filter_tickers(ticker_selected, lazy_portfolio, param_state):
     if param_state is None:
         param_state = []
     if lazy_portfolio is not None:
+        param_state = []
         json_acceptable_string = lazy_portfolio.replace("'", '"')
         lazy_dict = json.loads(json_acceptable_string)
         for asset in lazy_dict.values():
