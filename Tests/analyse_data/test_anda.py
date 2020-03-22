@@ -619,6 +619,28 @@ class TestYearlyReturns(TestCase):
 
 
 class TestDrawdowns(TestCase):
+    def test_degenerate_case(self):
+        returns = pd.Series([], dtype=object)
+        drawdowns = anda.drawdowns(returns)
+        self.assertTrue(drawdowns.equals(pd.Series([], dtype=float)))
+        summary = anda.drawdown_summary(drawdowns)
+        self.assertTrue(
+            summary.equals(
+                pd.DataFrame(
+                    [],
+                    columns=[
+                        "Drawdown",
+                        "Start",
+                        "End",
+                        "Recovery",
+                        "Length",
+                        "Recovery Time",
+                        "Underwater Period",
+                    ],
+                )
+            )
+        )
+
     def test_months_of_year(self):
         returns = pd.Series(
             map(
@@ -657,6 +679,61 @@ class TestDrawdowns(TestCase):
         ]
         for real, expected in zip(drawdowns.array, expected_drawdowns):
             self.assertAlmostEqual(real, expected, delta=0.05)
+
+    def test_summary_table(self):
+        drawdowns = pd.Series(
+            # Made up data.
+            [
+                0.0,
+                -4.86,
+                -3.30,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -17.4,
+                -20.0,
+                -35.0,
+                -62.0,
+                -37.6,
+                -7.4,
+                0.0,
+                0.0,
+            ],
+            index=pd.date_range(date(2005, 1, 1), date(2006, 3, 1), freq="MS"),
+        )
+        summary = anda.drawdown_summary(drawdowns)
+        expectd_summary = pd.DataFrame(
+            [
+                (
+                    -4.86,
+                    date(2005, 2, 1),
+                    date(2005, 2, 1),
+                    date(2005, 3, 1),
+                    timedelta(days=0),
+                    timedelta(days=28 + 31),
+                    timedelta(28 + 31),
+                ),
+                (
+                    -62.0,
+                    date(2005, 8, 1),
+                    date(2005, 11, 1),
+                    date(2006, 2, 1),
+                    timedelta(days=31 + 30 + 31),
+                    timedelta(days=30 + 31 + 31),
+                    timedelta(days=31 + 30 + 31 + 30 + 31 + 31),
+                ),
+            ],
+            columns=[
+                "Drawdown",
+                "Start",
+                "End",
+                "Recovery",
+                "Length",
+                "Recovery Time",
+                "UnderWater Period",
+            ],
+        )
 
 
 if __name__ == "__main__":
