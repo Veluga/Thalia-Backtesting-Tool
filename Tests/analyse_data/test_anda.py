@@ -703,26 +703,26 @@ class TestDrawdowns(TestCase):
             index=pd.date_range(date(2005, 1, 1), date(2006, 3, 1), freq="MS"),
         )
         summary = anda.drawdown_summary(drawdowns)
-        expectd_summary = pd.DataFrame(
+        expected_summary = pd.DataFrame(
             [
-                (
-                    -4.86,
-                    date(2005, 2, 1),
-                    date(2005, 2, 1),
-                    date(2005, 3, 1),
-                    timedelta(days=0),
-                    timedelta(days=28 + 31),
-                    timedelta(28 + 31),
-                ),
-                (
+                [
                     -62.0,
-                    date(2005, 8, 1),
-                    date(2005, 11, 1),
-                    date(2006, 2, 1),
+                    pd.to_datetime(date(2005, 8, 1)),
+                    pd.to_datetime(date(2005, 11, 1)),
+                    pd.to_datetime(date(2006, 2, 1)),
                     timedelta(days=31 + 30 + 31),
                     timedelta(days=30 + 31 + 31),
                     timedelta(days=31 + 30 + 31 + 30 + 31 + 31),
-                ),
+                ],
+                [
+                    -4.86,
+                    pd.to_datetime(date(2005, 2, 1)),
+                    pd.to_datetime(date(2005, 2, 1)),
+                    pd.to_datetime(date(2005, 4, 1)),
+                    timedelta(days=0),
+                    timedelta(days=28 + 31),
+                    timedelta(28 + 31),
+                ],
             ],
             columns=[
                 "Drawdown",
@@ -731,9 +731,11 @@ class TestDrawdowns(TestCase):
                 "Recovery",
                 "Length",
                 "Recovery Time",
-                "UnderWater Period",
+                "Underwater Period",
             ],
         )
+
+        self.assertTrue(summary.equals(expected_summary))
 
 
 if __name__ == "__main__":
