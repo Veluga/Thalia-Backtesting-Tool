@@ -152,7 +152,8 @@ def _risk_adjusted_returns(
     """
     # TODO Risk free rate of return is assumed to be 0 for now
     return [
-        (returns[i] / returns[i - 1]) - Decimal(1.000) for i in range(1, returns.size)
+        (returns.iat[i] / returns.iat[i - 1]) - Decimal(1.000)
+        for i in range(1, returns.size)
     ]
 
 
