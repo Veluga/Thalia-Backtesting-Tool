@@ -267,3 +267,21 @@ def worst_year_no(strat: Strategy) -> int:
         return min(rel_diff.index, key=lambda day: rel_diff.at[day]).year
     else:
         raise InsufficientTimeframe
+
+
+def drawdowns(balance: pd.Series) -> pd.Series:
+    """
+    balance is a timeseries - like something obtained from total_return.
+    But it need not be daily - it can have any index - eg monthly.
+
+    Returns a timeseries of drawdowns, represented as a nonpositive
+    floating-pointer percentage. It has the same index as balance.
+    """
+    ret = pd.Series(0.0, index=balance.index)
+    last_peak = Decimal("-Infinity")
+    for day in balance.index:
+        balance_today = balance.at[day]
+        last_peak = max(balance_today, last_peak)
+        diff = balance_today - last_peak
+        ret.at[day] = 100.0 * float(diff / last_peak)
+    return ret
