@@ -172,7 +172,6 @@ def rebalancing_dates(id):
     )
 
 
-
 def lazy_portfolios(id):
     return (
         html.Div(
@@ -208,7 +207,7 @@ def options(id):
                         className="column is-11 has-text-left",
                     ),
                     html.Div(
-                        lazy_portfolios(id), className="column is-1 has-text-right"
+                        lazy_portfolios(id), className="column is-2 has-text-right"
                     ),
                     html.Div(contribution_amount(id), className="column is-12"),
                     html.Div(contribution_dates(id), className="column is-12"),
