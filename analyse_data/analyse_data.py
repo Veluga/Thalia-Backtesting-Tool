@@ -336,7 +336,7 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
         recovery_time = recovery - end
         underwater_period = recovery - start
         drawdown = period.at[end]
-        return (
+        return [
             drawdown,
             start,
             end,
@@ -344,10 +344,12 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
             length,
             recovery_time,
             underwater_period,
-        )
+        ]
 
+    rows = [make_row(p) for p in periods]
+    rows.sort(key=lambda p: p[0])
     df = pd.DataFrame(
-        (make_row(p) for p in periods),
+        rows,
         columns=[
             "Drawdown",
             "Start",
@@ -358,5 +360,4 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
             "Underwater Period",
         ],
     )
-    df.sort_values(by=["Drawdown", "Start"], inplace=True, ignore_index=True)
     return df
