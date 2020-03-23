@@ -9,7 +9,6 @@ import os
 import sqlite3
 
 
-
 def test_fd_manager_fd_list(db_controller):
     assert (
         "__seeded_test_db__" in FdMultiController.fd_list()
@@ -43,26 +42,25 @@ def test_fd_manager_fd_remove(db_controller):
         "__empty_test_db__"
     ], "error checking removed database removed from register"
 
+
 def test_fd_manager_fd_register(db_controller):
-    #test faliure, file not there
-    path = FdMultiController._path_generator('RaNdOmGibBeRiSh')
+    # test faliure, file not there
+    path = FdMultiController._path_generator("RaNdOmGibBeRiSh")
     with pytest.raises(Exception) as e:
-        FdMultiController.fd_register('RaNdOmGibBeRiSh')
-    expWarn = 'No file found at: ' + path
+        FdMultiController.fd_register("RaNdOmGibBeRiSh")
+    expWarn = "No file found at: " + path
     assert expWarn in str(e.value)
     # test sucess
     # Warning: If schema checks implemented as per TODO, rewrite this
     conn = sqlite3.connect(path)
     # reregister existing db and check no duplicate added
-    FdMultiController.fd_register('RaNdOmGibBeRiSh')
-    FdMultiController.fd_register('RaNdOmGibBeRiSh')
+    FdMultiController.fd_register("RaNdOmGibBeRiSh")
+    FdMultiController.fd_register("RaNdOmGibBeRiSh")
 
-    assert FdMultiController.fd_list().count('RaNdOmGibBeRiSh') == 1
-    
-    FdMultiController.fd_remove('RaNdOmGibBeRiSh')
-    assert 'RaNdOmGibBeRiSh' not in FdMultiController.fd_list()
+    assert FdMultiController.fd_list().count("RaNdOmGibBeRiSh") == 1
 
-
+    FdMultiController.fd_remove("RaNdOmGibBeRiSh")
+    assert "RaNdOmGibBeRiSh" not in FdMultiController.fd_list()
 
 
 def test_fd_manager_fd_connect(db_controller):

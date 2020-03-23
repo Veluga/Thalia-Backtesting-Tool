@@ -11,7 +11,7 @@ After a brief overview of the project and the project plan, this section will fo
 
 One of the first decision we have made this term was to completely recreate our prototype of Thalia. Firstly, this radical move was the consequence of a new implementation decision (for more detail see \ref{Web Framework}). Secondly, as prototypes are meant to be disposable and are designed only to answer key questions about the system \cite{pragmaticprog}, the proof of concept served its purpose, giving us a chance to refine the structure and the quality of the code.
 
-Despite the risks posed by using an Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
+Despite the risks posed by using a Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
 
 
 
@@ -34,7 +34,7 @@ We will discuss other technologies used in more detail after the discussion on p
 
 Early in the inception phase of development we have decided that our goal was not to have fixed responsibilities in our team, allowing everybody to work on each component of the system. This decision has also eased the code review process, as we had no status differences to distort the error-correcting mechanism \cite{statusdifference}. Furthermore, since no team member was the sole developer of a system component, this allowed us to direct comments at the code and not the author \cite{howtoreview}. For these reasons we have decided to follow the Egalitarian Team structure, and make use of the flexibility offered by it.
 
-Our workflow was centered around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were sometimes given by the team on the weekly meetings, but occasionally they were chosen by the member proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks.
+Our workflow was centred around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were sometimes given by the team on the weekly meetings, but occasionally they were chosen by the member proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks.
 
 A typical ticket in our project was an encapsulation of a user story, as it consisted of a title, a one liner, value, acceptance criteria, and sub tasks. In the first half of development we also used effort-oriented metrics, called story points to measure the amount of work but we decided to abandon this aspect. An example of a ticket can be seen on \figurename{\ref{Ticket}}.
 
@@ -121,17 +121,17 @@ The business logic module sits at the very core of our application. We require i
 Research into developing this module was initiated by listing our requirements for its desired behaviour. We identified that it should support:
 
 \begin{itemize}
-	\item Specification of a portfolio as a set of pandas dataframes, the common data exchange format in our application
-	\item Calculation of a portfolio's return over time
-	\item Regular contributions to mimick saving
-	\item Rebalancing strategies to reestablish the desired weighting of a portfolio
-	\item Calculation of key metrics, including the Sharpe and Sortino Ratio, Max Drawdown, Best and Worst Year
-	\item Collecting and reinvesting dividends for equities
+    \item Specification of a portfolio as a set of pandas dataframes, the common data exchange format in our application
+    \item Calculation of a portfolio's return over time
+    \item Regular contributions to mimic saving
+    \item Rebalancing strategies to reestablish the desired weighting of a portfolio
+    \item Calculation of key metrics, including the Sharpe and Sortino Ratio, Max Drawdown, Best and Worst Year
+    \item Collecting and reinvesting dividends for equities
 \end{itemize}
 
-Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aformentioned tasks.
+Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aforementioned tasks.
 
-The result of this effort is "Anda" (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into indivual functions.
+The result of this effort is `Anda` (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into individual functions.
 This approach has allowed us to tailor the entire business logic module exactly to our needs without having to produce complicated wrapper code for existing backtesting libraries.
 
 \subsubsection{Database \& Finda}
@@ -144,7 +144,7 @@ Another major technology decision was the choice of appropriate database managem
 \item \textbf{Support:} Ideally the DBMS should be cross platform, as this would allow us to defer commitment to a specific deployment platform until we are ready to start the CD process. 
 \item \textbf{License and pricing:} The DBMS should be free to use and have a non-restrictive license.
 PERFORMANCE: The DBMS should be able to handle a high volume of concurrent reads to fulfil user requests. The data will be updated daily, meaning efficient write operations are a lower priority.
-\item \textbf{Usability:} As our team lacks experience in this field, a suitable DBMS should be relatively simple to learn. Ideally team members should be able to learn the basics in a single weekly sprint.
+\item \textbf{Usability:} As our team lacks experience in this field, a suitable DBMS should be relatively simple to learn. Ideally, team members should be able to learn the basics in a single weekly sprint.
 \item \textbf{Security:} The DBMS should have a mature code base and be relatively secure, as access to financial data is a key component of our business model. Later it will likely also store data that is not available through public APIs, meaning potential data breaches could expose us to legal liability. \cite{dataprotectionGov}
 \item \textbf{Type:} Since the project constraints specify we use SQL queries, only relational DBMS supporting a version of SQL are appropriate.
 
@@ -155,14 +155,34 @@ MySQL, PostgreSQL, SQLite and MariaDB were subject to in depth comparison based 
 It is user-friendly and easy to deploy, allowing us to start continuous deployment faster.
 It has a small footprint and offers good performance. \cite{dbPerfComparison}
 Portable serverless design aids with development and testing.
-All team members have experience working with SQLite from previous term. This helps to reduce overhead of knowledge transfer.
+All team members have experience working with SQLite from previous term. This helps to reduce the overhead of knowledge transfer.
 
-The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \cite{frameworkDataMigration} \cite{understandingDataMigration}. To preempt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
+The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high-quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well-documented \cite{frameworkDataMigration} \cite{understandingDataMigration}. To pre-empt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
 
 
 
-\subsubsection{Harvester}
+\subsubsection{Data Harvester}
 \label{Harvester}
+The Data Harvester role is to provide the application with the data it requires in order to allow the users to construct their investment portfolios. The choices we have made had to fulfil all our requirements while keeping in mind our financial and time-related limitations.
+
+\textbf{Chosing the  APIs\newline}
+We started our quest for data by trying to find APIs that could call for the main financial assets used when making an investment portfolio \cite{best-stock-api}.
+We have seen that there were several APIs that could be used. After a quick look at them, we have seen that there were two types of APIs. There were those that had FOREX \cite{forex} data and those designed for Stock Market Data \cite{stock_market}. Those two APIs that we considered for FOREX data were Fixerio and Nomics. For stock market data we have considered yfinance, Alpha Vantage and Quandl.\newline
+
+
+\textbf{FOREX API\newline}
+Between nomics \cite{nomics-python} and fixerio \cite{fixerio} we have chosen nomics for the simple fact that nomics had unlimited calls for free, besides, nomics also has cryptocurrencies data. However, Fixerio is a more robust API with a larger user base and more data, that we would have used if could have afforded the investment. In the scenario where we would have had money to spend we would have used fixerio for currencies and nomics for cryptocurrencies. However, in our case we have no money so we used nomics for both currencies and cryptocurrencies. To compare the two options we have used the documentation provided by each API . \newline
+
+\textbf{Stock Market Data\newline}
+Out of yfinance \cite{yfinance}, Alpha Vantage \cite{alphavantage}and Quandl \cite{quandl} we have chosen yfinance because it offered the most data and API calls for free, compared to the other two. If we had money to spend we would have used Alpha Vantage because of the larger number of available assets and the high number of requests per minute. As for Quandl we found it to be expensive and not centred on the type of data we need. We have made our choice based on the API specification given in the documentation of each API.\newline
+
+\textbf{Standard Data Format\newline}
+While looking for solutions that would help with solving the data format and the maintenance problem we have found pandas\_datareader \cite{pandas_datareader}. It is a wrapper for the biggest financial APIs. We saw that it included all of the Stock Market Data APIs named above and more. 
+In addition, it standardizes the calling procedure for all APIs it includes and it returns the same format no matter the API you are calling. This is the only product that does this on the market so no compassion with other product can be done. In the case where we would have not used it we would have produced code that would have archived the same result. In conclusion, using pandas\_datareader has saved us some valuable man-hours.\newline
+    
+\textbf{Update the database \& Redundancy \& Data Interpolation\newline}   
+For these requirements, we have seen that no already existing systems can do what we want. As a result, we had to write our system.
+In the building of the system, we have used python as a programming language. This decision has been made because the APIs chosen have been built in python. Writing the system in a different language while the APIs are in python would have created additional problems without any benefits.  To manipulate the data we have used the pandas library. The persistent data required by the update mechanism is stored in CSV \cite{csv_iso} format because of the readability and the ease of use when using pandas.
 
 \subsection{Integration and Deployment}
 \label{Coding Standards}
@@ -250,8 +270,8 @@ With the help of these steps and CircleCI we managed to ensure that the code wri
 An overview over the literature covering reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
 
 \begin{itemize}
-	\item Price - since we have severe budget constraints, we were looking for a cheap hosting solution
-	\item CircleCI support - The target host should be supported by CircleCI natively to ease development of a continuous deployment (CD) pipeline
+    \item Price - since we have severe budget constraints, we were looking for a cheap hosting solution
+    \item CircleCI support - The target host should be supported by CircleCI natively to ease development of a continuous deployment (CD) pipeline
 \end{itemize}
 
 The upfront cost of buying physical servers ruled it out as an option for us. Thus, we turned our attention to using a solution that involved deployment to a virtual machine in the Cloud. Many providers for such a service exist, including Amazon Web Services \cite{AWS} and Microsoft Azure \cite{Azure}. While these would provide us with extensive control over the hosting process, their use involves a lot of complexity that seemed unnecessary for the intial rollout of a simple application such as Thalia.
@@ -261,10 +281,10 @@ Due to native CircleCI support and a free tier service, we ended up choosing Her
 The benefits of using continuous deployment have been well established for multiple years and involve "the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity" \cite{CDBenefits}. Using Heroku in combination with CircleCI, our CD pipeline involves the following simple steps:
 
 \begin{enumerate}
-	\item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
-	\item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
-	\item If this step is successful, the master branch is pushed to a remote repository recognized by Heroku via git.
-	\item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
+    \item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
+    \item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
+    \item If this step is successful, the master branch is pushed to a remote repository recognized by Heroku via git.
+    \item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
 \end{enumerate}
 
 Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state. The full CI/CD workflow is captured by the flowchart on \figurename{\ref{CI_CD}}.
