@@ -200,6 +200,36 @@ class TestTotalReturn(TestCase):
         self.assertEqual(roi[self.end], Decimal("320.40"))
         
 
+class TestCagr(TestCase):
+    def setUp(self):
+        self.starting_balance = Decimal("10000")
+        self.contribution_dates = set()
+        self.contribution_amount = None
+        self.rebalancing_dates = set()
+
+        self.msft_vals = read_asset("/test_data/MSFT.csv")
+
+    def test_cagr(self):
+        start_date = date(1986, 12, 31)
+        end_date = date(2019, 12, 31)
+
+        msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
+
+        assets = [anda.Asset("MSFT", Decimal("1.00"), msft_vals)]
+
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates,
+        )
+
+        self.assertAlmostEqual(anda.cagr(strategy), 23.0, delta=0.5)
+
+
 class TestSharpeRatio(TestCase):
     def setUp(self):
         self.starting_balance = Decimal("10000")
@@ -432,8 +462,8 @@ class TestBestWorstYear(TestCase):
         b = anda.best_year(strategy)
         w = anda.worst_year(strategy)
 
-        self.assertAlmostEqual(b, Decimal("120"), delta=2)
-        self.assertAlmostEqual(w, Decimal("-63"), delta=2)
+        self.assertAlmostEqual(b, Decimal("122"), delta=Decimal("0.5"))
+        self.assertAlmostEqual(w, Decimal("-63"), delta=Decimal("0.5"))
 
     def test_short_time(self):
         start_date = date(1989, 1, 4)
@@ -459,6 +489,9 @@ class TestBestWorstYear(TestCase):
 
         self.assertRaises(anda.InsufficientTimeframe, lambda: anda.best_year(strategy))
         self.assertRaises(anda.InsufficientTimeframe, lambda: anda.worst_year(strategy))
+        self.assertRaises(anda.InsufficientTimeframe, lambda: anda.best_year_no(strategy))
+        self.assertRaises(anda.InsufficientTimeframe, lambda: anda.worst_year_no(strategy))
+
 
 
 class TestDividends(TestCase):
@@ -528,6 +561,52 @@ class TestDividends(TestCase):
             anda.total_return(strategy)[end_date], Decimal("9856511.60"), delta=1
         )
 
+
+class TestYearlyReturns(TestCase):
+    def setUp(self):
+        self.starting_balance = Decimal("10000")
+        self.contribution_dates = set()
+        self.contribution_amount = None
+        self.rebalancing_dates = set()
+
+        self.msft_vals = read_asset("/test_data/MSFT.csv")
+        self.msft_dividends = read_dividends("/test_data/MSFT_dividends.csv")
+
+    
+    def test_msft(self):
+        start_date = date(1986, 3, 13)
+        end_date = date(2019, 1, 1)
+        msft_vals = self.msft_vals.reindex(pd.date_range(start_date, end_date)).ffill()
+        msft_dividends = self.msft_dividends.reindex(
+            pd.date_range(start_date, end_date)
+        ).dropna()
+        
+        assets = [anda.Asset("MSFT", Decimal("1.0"), msft_vals, msft_dividends)]
+        
+        strategy = anda.Strategy(
+            start_date,
+            end_date,
+            self.starting_balance,
+            assets,
+            self.contribution_dates,
+            self.contribution_amount,
+            self.rebalancing_dates
+        )
+        annual_returns = anda.relative_yearly_returns(strategy)
+        expected = [
+        #   (year, change)
+            (1987, Decimal("125")),
+            (1988, Decimal("-2")),
+            (2000, Decimal("-63")),
+            (2001, Decimal("53")),
+            (2002, Decimal("-22")),
+            (2003, Decimal("7")),
+            (2017, Decimal("41")),
+            (2018, Decimal("21")),
+        ]
+        for year, change in expected:
+            self.assertAlmostEqual(annual_returns.at[date(year, 1, 1)], change, delta=Decimal("0.5"))
+        
 
 if __name__ == "__main__":
     unittest.main()
