@@ -38,10 +38,10 @@ Usability requirements were particularly hard to assess. This was due to their s
 \item The product must be easily usable for users who already have some ﬁnancial investment experience.\\
 \textit{Since Thalia’s design and features are based on feedback from finance students and enthusiasts interviewed in the first semester, we can infer that someone of similar experience would likely be familiar with most of Thalia's terminology, features and charts.}
 \item The basic backtesting interface needs to look familiar to people already experienced with it. \\
-\textit{The design of our interface closely follows that of competing software, so it is safe to say that a user with moderate experience using this type of tool would have no trouble finding their way around.}
+\textit{The design of our interface closely follows that of our major competitor (Portfolio Visualizer), so it is safe to say that a user with moderate experience using it or other backtesting tools would have no trouble finding their way around.}
 
 \item The product must have detailed instructions on how to use its advertised functions.\\
-\textit{A link to an `About` section featuring instructions on how to use Thalia is featured in the taskbar on Thalia’s landing page. Additional material is also available in the user manual [cite appendix].} 
+\textit{A link to an `About` section featuring instructions on how to use Thalia is featured in the taskbar on Thalia’s landing page. Additional material is also available in the user manual \ref{UserManual}.}
 \item All major functions must be visible from the initial landing page.\\
 \textit{All pages are accessible through the taskbar at the top of Thalia’s landing page.}
 \item Must work in both desktop and mobile browsers.\\
@@ -66,12 +66,11 @@ Usability requirements were particularly hard to assess. This was due to their s
 \end{itemize}
 
 \subsubsection{Performance}
-Performance and load times of Thalia's web page hosted on our cloud hosting provider were tested with the use of Google Lighthouse, a tool for evaluating web page quality.
+Performance and load times of Thalia's web page hosted on our cloud hosting provider were tested with the use of Google Lighthouse\cite{GoogleLighthouse}, a tool for evaluating web page quality.
 
 \begin{itemize}
 \item The website should load within 3 seconds on mobile.\\
 \textit{Although Google Lighthouse estimated Thalia’s `time to interactive` (time needed for all interactive elements of the website to become accessible to the user) to be above the 3-second threshold, all other features of the page were loaded in this time. Additionally, Thalia scored well overall in performance.}
-
 
 
 \begin{figure}[H]
@@ -130,11 +129,11 @@ Proper evaluation of the fulfilment of legal requirements would require consulti
 \item All user testing must be done with ethical approval from the University.\\
 \textit{We were advised by the course coordinator that user testing is not necessary for this stage of our project. Additionally, we were advised that as long as no personal information is published, user testing could proceed without such approval. Therefore this is a false requirement.}
 
-\item UI must display a clear legal disclaimer about the service not providing ﬁnancial advice.\\
-\textit{A disclaimer is clearly displayed on Thalia’s website. The disclaimer is based on disclaimers found in the terms of service of competing software \cite{portfolioVisualizerToS} and should, therefore, require little modification after review by a legal professional.}
+\item UI must display a clear legal disclaimer about the service not providing financial advice.\\
+\textit{A disclaimer is clearly displayed on Thalia’s website. Since our tool doesn't propose a specific course of action to our users, it is likely it would constitute at most financial guidance and not financial advice\cite{FinAdvice}. In addition, our disclaimer is based on disclaimers found in the terms of service of competing software \cite{portfolioVisualizerToS} and should, therefore, require little modification after review by a legal professional.}
 
 \item All third-party code should allow for commercial use without requiring source disclosure (e.g. no GPL-3).\\
-\textit{With the use of the Pip package manager, we were able to confirm that the majority of third-party code does not require us to disclose our source code. The remaining package was identified to be nomics-python, which is used to access the Nomics API and is distributed under the MIT license.}
+\textit{With the use of the Pip package manager, we were able to confirm that the majority of third-party code does not require us to disclose our source code. The remaining package was identified to be nomics-python, which is used to access the Nomics API and is distributed under the MIT license, meaning it also allows commercial use without source code disclosure.}
 
 
 
