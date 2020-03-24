@@ -1,0 +1,14 @@
+digraph "classes_thalia" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{FeedbackForm|+description : String\l+submit : SubmitField\l+title :  String\l|}", shape="record"];
+"1" [label="{LoginForm|+password :  String\l+remember_me : Boolean\l+submit : SubmitField\l+username : String\l|}", shape="record"];
+"2" [label="{RegistrationForm|+confirm_password :  String\l+password : String\l+submit : SubmitField\l+username :  String\l|}", shape="record"];
+"3" [label="{views|\l|+index()\l+about()\l+issues()\l+login()\l+find_next(backup)\l+validate_credentials(user, password)\l+logout()\l+register()\l+save_user(username, password)\l+save_user(username, password)\l}", shape="record"];
+"4" [label="{User|+id : Integer\l+password_hash : String\l+username :String\l|+check_password(password)\l+set_password(password)\l}", shape="record"];
+"5" [label="{Callbacks|\l|+register_callbacks(dashapp)}", shape="record"]
+"3" -> "1" [arrowhead="normal", arrowtail="none", style="solid"];
+"3" -> "0" [arrowhead="normal", arrowtail="none", style="solid"];
+"3" -> "2" [arrowhead="normal", arrowtail="none", style="solid"];
+"3" -> "4" [arrowhead="normal", arrowtail="none", style="solid"];
+}
