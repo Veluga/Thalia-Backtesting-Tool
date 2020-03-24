@@ -1,4 +1,5 @@
 import json
+import hashlib
 from analyse_data.analyse_data import Strategy, Asset
 from ..extensions import db
 from datetime import datetime
@@ -9,8 +10,17 @@ class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     strategy = db.Column(db.JSON(), nullable=False)
     shared = db.Column(db.Boolean(), nullable=False)
+    uuid = db.Column(db.String(), nullable=True)
     name = db.Column(db.String(), nullable=False)
     owner = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    def __init__(self):
+        self.shared = False
+
+    def gen_uuid(self):
+        if not self.id:
+            raise ValueError # ID must not be none
+        self.uuid = hashlib.sha256(str(self.id).encode('utf-8')).hexdigest()
 
     def __repr__(self):
         return "<Portfolio {} {}>".format(self.id, self.strategy)
