@@ -13,7 +13,7 @@ We have chosen pandas dataframes \cite{pandas} as the common data format for bot
 Before discussing any specific component and architectural layer in depth, it is worth revisiting our original architecture \cite{TR}.
 \begin{figure}[H]
     \caption{Original Thalia System Architecture \cite{TR}}
-	\includegraphics[width=\textwidth]{04Design/04Pictures/architecture_layer_diagram.png}
+    \includegraphics[width=\textwidth]{04Design/04Pictures/architecture_layer_diagram.png}
 \end{figure}
 The above schematic illustrates how we modified a typical Three Layer architecture [citation needed] to include a Data Collection Layer. Subsequent discussion will refer to this layer as the `Data Harvester`. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. The decision to isolate this system component has been made in order to increase security by limiting the acess of the Thalia web service to the financial data database to read-only and to allow for independent scaling of the Data Harvester and our web service \cite{TR}.
 
@@ -65,13 +65,208 @@ def total_return(strat) -> pd.Series:
 \end{lstlisting}
 will calculate a series of total return values ordered by date within the date range specified in the passed Strategy instance.
 
-Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it ``provides support for fast correctly-rounded decimal floating point arithmetic`` \cite{PyDecimal}. As rounding errors and imprecision are unaccaptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
+Another important design decision has been the choice of data type to represent money, for example for price data. For this, we have chosen the Decimal type from the Python Standard Library decimal module, since it ``provides support for fast correctly-rounded decimal floating point arithmetic`` \cite{PyDecimal}. As rounding errors and imprecision are unacceptable for our application, using the Decimal type will allow us to reliably compute figures for prices, risk metrics, etc.
 
 Finally, we have chosen NumPy \cite{walt2011numpy} for performing numerical calculations as this allows for highly optimized computation through the use of vectorized operations.
 
 \subsection{Data Harvester Structure}
+<<<<<<< HEAD
+<<<<<<< HEAD
+The role of Data Harvester is collecting live data from multiple source  refining it in a format that makes it usable by Anda and easily storable  by our in house DBMS system Finda. In addition to this a mechanism for changing the data collected and adapting to the market demands has to exist. Another requirement relates to the limitations that imposed by the APIs used. The first design decision made in order to accomplish the above was the creation of the updating mechanism.
+=======
+All financial backtesting applications rely on having accurate data to work with. We required a system that can aggregate the data from multiple APIs and that would keep our database updated with live data.
+The requirements for such a system were:
+\begin{itemize}
+\item \textbf{Standard data format:} To be able to store the data into a database with Finda and have the financial analysis done by Anda, the Harvester needs to parse all the data received through the APIs to a standard format without losing numerical accuracy or granularity.
+\item \textbf{Update the database:} The database has to be updated regularly to contain live data.
+\item \textbf{Data Interpolation:} Some financial assets require interpolation to account for the days without any transactions.
+\item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can still retrieve live data even if an API fails.
+\item \textbf{Maintenance:} The financial world is in a continuous change. Because of this, it is important to make sure that we can add and delete assets as time goes on.
+\end{itemize}
 
+>>>>>>> 70b56c1384f00ce5b8280fa604681471136a2ed0
+
+
+\subsubsection{Continuous Updating Mechanism}
+The Updating is comprised of 3 components:
+\begin{itemize}
+    \item \textbf{The update procedure} made out of a series of methods. The procedure starts by looking at what APIs are available to be called. Each API has an update list that contains the tickers of the financial assets that we wish to get data on and the last and earliest record we have on that asset. If it is the first time when asking for data on a specific asset then we ask for all data available between 1970/1/1 up until the last financial day available. If the number of allowed calls for an API is greater then the number of assets to be updated then all assets can be updated in a daily run. However, if it is not possible to update all assets in one update run then will update the rest of the assets in the following run so that we can get as close as we can to live data. In order to have a better view of this a flow chart of how the 
+    \item \textbf{A run\_updates script} that starts an update round. It contains the configuration with the API names, the location of the access key (if it exists) and the number of calls to be done for each API. 
+    \item \textbf{An initialiser} module that is based on the persistent data folder that contains the asset classes and the assets in the form of CSV files. The initialiser gets a configuration similar to that given to the run\_updates script. Based on the asset classes, the assets and the APIs given, the initialiser creates a update\_list for each API.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \caption{Data Harvester Update round\cite{TR}}
+    \includegraphics[width=0.7\textwidth]{04Design/04Pictures/update_mechanism_flow_chart.png}
+\end{figure}
+
+To know more about how the updating mechanism works consult the logs section in Maintenance design.
+
+
+\subsubsection{API Handler}
+For each API, the API Handler has a call method and a method that formats the data so that it fits our data model. Also, there is an api\_selector method that makes the right API call based on what asset class is requested and a data frame format checker that does a final check before sending the data to the updating mechanism. 
+
+
+\begin{figure}[H]
+    \centering
+    \caption{API Handler Flow Chart\cite{TR}}
+    \includegraphics[width=0.47\textwidth]{04Design/04Pictures/api_handler_v3.png}
+\end{figure}
+
+
+
+\subsubsection{Standardization of Data}
+All data written to the database has to be in the following format:
+\begin{lstlisting}[language=Python, caption= Pandas Data Frame Format , label=lst:Development_env]
+
+Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>,
+          AHigh<Decimal.decimal>, ALow<Decimal.decimal>,
+          IsInterpolated<Integer>] 
+          
+Index: [AssetTicker<String>, ADate <datetime.date>]
+\end{lstlisting}
+
+The data standardization is being done as soon as the data frame has been received from the API by a method specific to each API. All APIs implemented need to have a method that takes the data frame received and modifies is so that it abides by our standard. To further reinforce our standard we have also added a format checker in the APIs Handler. It can be used to verify any newly added API or to catch any data frame modifications done by the API owners before they get written in our database.  A flow chart with this behaviour is displayed in Figure 3 of this section. 
+
+\subsubsection{Interpolation}
+Our business logic library requires continuous data in order to be able to perform the numerical analysis. In order to transform real life data that includes weekends and bank holidays into a continuous data sets we have used interpolation. The type of interpolation used is nearest neighbour. To be more precises, the algorithm designed goes over the data in pairs of adjacent dates, if there are any missing days then the older nearest neighbour is duplicated over the missing days. In addition to this the duplicated rows are flagged as interpolated in the database. Here is a example of how it would look like:
+\textbf{\newline Pre-Interpolation: }
+\begin{center}
+ \begin{tabular}{||c c c c c c c c||} 
+ \hline
+ Index & ADate & AHigh & ALow & AOpen &A Close&AssetTicker&IsInterpolated\\ [0.5ex] 
+ \hline\hline
+ 3&2000-11-16&126.86&126.89&126.86&87.36&VFIAX&0 \\ 
+ \hline
+ 4&2000-11-17&126.44&126.44&126.44&87.07&VFIAX&0\\
+ \hline
+ 5&2000-11-20&124.12&124.15&124.15&85.47&VFIAX&0\\ 
+ \hline
+ 6&2000-11-21&124.55&124.45&124.55&85.78&VFIAX&0\\
+ \hline
+\end{tabular}
+\end{center}
+
+\textbf{\newline Post-Interpolation: }
+\begin{center}
+ \begin{tabular}{||c c c c c c c c||} 
+ \hline
+ Index & ADate & AHigh & ALow & AOpen &A Close&AssetTicker&IsInterpolated\\ [0.5ex] 
+ \hline\hline
+ 3&2000-11-16&126.86&126.89&126.86&87.36&VFIAX&0 \\ 
+ \hline
+ 4&2000-11-17&126.44&126.44&126.44&87.07&VFIAX&0\\
+ \hline
+ 5&2000-11-18&126.44&126.44&126.44&87.07&VFIAX&1
+ \\
+ \hline
+ 6&2000-11-19&126.44&126.44&126.44&87.07&VFIAX&1 \\
+ \hline
+7&2000-11-20&124.12&124.15&124.15&85.47&VFIAX&0\\ 
+\hline
+8&2000-11-21&124.55&124.45&124.55&85.78&VFIAX&0\\
+ \hline
+\end{tabular}
+\end{center}
+
+
+
+\subsubsection{Maintenance Design}
+\textbf{Things to keep in mind.\newline}
+All the financial assets that the Data Harvester will retrieve data for are stored in a folder that contains a CSV file for each financial asset class where the asset class name is the name of each CSV file. Each row in of a CSV file will contain the ticker, the last and earliest record and the full name of the financial asset. If there is no data on the asset in the database then the last and earliest records are left empty so that the Data Harvester will pull all available information on the first update of that asset.\newline
+
+\textbf{Logs\newline}
+An extensive logging mechanism that logs information from all running parts of the Data Harvester has been implemented. Consult the logs before and after making any modifications. All successful updating sessions have the following information:
+\begin{enumerate}
+    \item Date and time of when an update has started.
+    \item The name of the API currently being updated and how many calls are going to be made.
+    \item For each API call: 
+        \begin{itemize}
+        \item The asset class name, asset ticker and time range for the API call.
+        \item The type of data frame retrieved.  Is $<$class 'pandas.core.frame.DataFrame'$>$ if the API returned that the call worked.
+        \item The time range in the data frame retrieved. The newest date always is the date of the last financial day for that asset.
+        \item The shape of the data frame before the interpolation.
+        \item The shape after the interpolation. For those assets that are traded every day no new rows appear after the interpolation.
+        \item A message that we started writing the data frame to the database.
+    \end{itemize}
+    \item A message that the requested number of API calls has been done.
+    \item Repeat logs from point 2 if there are other APIs to be used or log when the update has finished if all APIs have been used.
+    
+\end{enumerate}
+
+
+
+\textbf{Maintenance of the Assets:}
+\begin{itemize}
+    \item \textbf{Add/remove an asset class:} Create a new CSV file with the name of the asset class as a filename within the asset classes folder and add the columns in the following form:\newline
+    \begin{lstlisting}
+    Ticker,Last_Update,Earliest_Record,Name
+    EOF
+    \end{lstlisting}
+    It is important to remember to add the new asset class in the list of supported asset classes of the API that supports it.\newline
+    To remove an asset class, delete the respective CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
+    \item \textbf{Add/remove an asset : } Go into the asset class CSV file that contains the asset and add the required details under the correct columns.
+    At the end of the CSV asset class file add a line containing the ticker and name of the asset.\newline
+    Example:
+    \begin{lstlisting}
+    Ticker,Last_Update,Earliest_Record,Name
+    ...................
+    SPY,,,S&P 500
+    EOF    
+    \end{lstlisting}
+    To delete an asset, you simply have to remove the row that contains it.
+    
+    \item \textbf{Re-add an asset:} First check in the database for the last and earliest records. Then introduce a new row that contains them.
+\end{itemize}
+
+\textbf{Maintenance of the APIs:}
+
+\begin{itemize}
+    \item \textbf{Adding a new API: \newline}
+        The difficulty of adding a new API greatly varies between a 15 minutes task and an hours-long process. It all depends on how easy the data provider wants to make it for others to access the data. As a general rule, the organisation that have great financial incentives have an easier API integration process. On the other end, the governmental organisation or the NGOs that provide free data can have a lengthy implementation process.
+        
+        Here are the steps required when adding a new API. 
+        \begin{enumerate}
+            \item Clearly outline the reason why you are adding the API. Is it for adding new assets that were not available before? Replacing an older API? Adding redundancy for a more reliable service?
+            In any of those cases, the appropriate adding and removing of assets and asset classes is required.
+            \item Add a wrapper to the API call so that it works with the updating mechanism. The updating mechanism passes an asset ticker, an asset class name and a time range for the dates it is requesting data. In return, it expects a data frame with data from 1970-1-1 in the case of old assets or the first available data for newer ones. In the case that the API has no data on the ticker then the update mechanism expects single value 1. The call wrapper should have a name of the form $<$api\_name$>$\_call. 
+            \item Create a method that formats the data frame retrieved by the API. Use the format checker method from the API Handler class to verify if your formatting is correct. 
+        \end{enumerate}
+    
+    \item \textbf{The API changes over time: }
+    While it is hard to predict what will change we know that if any changes happen with the APIs then it will be seen from the logs. 
+    \begin{itemize}
+        \item \textbf{Format changes:} If the format of the data retrieved changes then the format checker combined with the API logs will be able to tell what is the exact new format and what has to be changed and what the maintainer has to do to fix the problem.
+        \item \textbf{Network Errors:}  Depending on the error number appropriate action should be taken. The network errors are HTTP specific. 
+        \item \textbf{Empty data frame:} It is easy to see if the data frame retrieved is of the right size by looking at the logs. In this case, there is likely a problem with the API and extra work is required to find a solution.
+        \item \textbf{Malformed data:} This is hard to verify and unlikely to happen.  If an API and it is returning malformed data for all assets then it should be stopped to do any further updates. If an API is working right but it gets bad data for an asset then that asset should be removed. Depending on the combination of assets and API one can check for malformed data by implementing cross-checks with multiple APIs for the same assets.
+        \item \textbf{APIs are throwing errors:} Verify the latest documentation and do the required modifications to the calling methods. There is a good chance that our code is using an outdated version of the API.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Security}
+To identify possible vulnerabilities, we have created a scenario where an attacker is trying to disrupt our flow of data or worse, gain control of our updating process. During this phase, we have identified three security concerns that will be listed below. It has to be mentioned that any vulnerabilities coming from the codebase itself will be discussed in the coding practices part.\newline
+
+\textbf{Security concerns}
+\begin{enumerate}
+    \item \textbf{API calls:} The data received from an API can be intercepted and modified.
+    \item \textbf{API keys:} The keys used by each API have to be stored safely.
+    \item \textbf{Rogue API:} An API can send a malicious package instead of the data we are expecting.
+\end{enumerate}
+
+\textbf{Solutions}
+\begin{enumerate}
+    \item \textbf{API calls:} Depending on the API settings we will use either an IPSec policy or a VPN connection. The details of this will be discussed with the financial data provider.
+    \item \textbf{API keys:} We will salt and then hash the API keys with SHA512 before storing it. The number of financial data APIs on the market is low enough to allow us to use SHA512 without having to worry about computation time.
+    \item \textbf{Rogue API:} We have added several checks that make sure that the data we retrieve from the APIs are what we expect it to be. If an API sends malformed data then a critical error will be displayed and logs of what did the API sent will be saved for inspection. 
+\end{enumerate}
+
+
+=======
+\label{Data Harvester}
 % TBD - stable release of harvester required
+>>>>>>> master
 
 \subsection{Database Structure}
 \label{DB Structure}
@@ -86,7 +281,6 @@ The decision was made early on to horizontally partition the data store by Thali
 \item Although the security of both types of data is important to our business model, protecting user’s private information is the highest priority. The financial data is accessed by the data harvester, a separate program gathering data from many sources on the web and introducing additional security risks. Data segregation is helps limit the scope of a potential data breach \cite{ciscoSeg}.
 \item The two types of data serve two separate purposes. The modules responsible for managing each are also decoupled. Thus, separation helps to enforce the principle of least concern.
 \item A large corpus of guides and examples on how to manage user accounts is available online. Extending any of these to include financial data might be difficult, and risks leading to bad design.
-
 \end{itemize}
 
 The separation of dissimilar collections of data is a practice widely adopted in industry. Criteria for assessing when this approach is appropriate have also been documented. \cite{dataSegImp} Based on the decision to use SQLite as our DBMS and to maximize the portability and security of the financial data, we decided to implement this decision by using two seperate databases.

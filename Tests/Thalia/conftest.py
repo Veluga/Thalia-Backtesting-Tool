@@ -1,6 +1,7 @@
 import os
 import tempfile
 
+import pandas as pd
 import pytest
 
 from Thalia import create_app
@@ -11,11 +12,49 @@ NAME = "test_default"
 PW = "test_mypw"
 
 
+class MockFdConnection:
+    def __init__(self, *args, **kwargs):
+        self.read = MockFdReader()
+
+
+class MockFdReader:
+    def __init__(self):
+        pass
+
+    def read_assets(self):
+        return pd.DataFrame({"Name": []})
+
+    def read_asset_values(self, *args, **kwargs):
+        cols = ["ADate", "AssetTicker", "AOpen", "AClose", "ALow", "AHigh"]
+        data = [
+            [pd.Timestamp(2020, 1, 1,), "RCK", "2", "3", "2", "3"],
+            [pd.Timestamp(2000, 3, 9), "RCK", "4", "6", "4", "6"],
+        ]
+        df = pd.DataFrame(data=data, columns=cols)
+        # return df.set_index(["ADate", "AssetTicker"])
+        return df
+
+    def read_asset_div_payout(self, *args, **kwargs):
+        return pd.DataFrame({"Name": []})
+
+
+@pytest.fixture(autouse=True)
+def mock_finda(monkeypatch):
+    import Finda
+    from Thalia.dashboard import util
+
+    monkeypatch.setattr(
+        Finda.fd_manager.FdMultiController, "fd_connect", lambda *_: MockFdConnection()
+    )
+    monkeypatch.setattr(util, "findb", MockFdConnection())
+
+
 @pytest.fixture
 def app():
     """
     replaces the Thalia.__init__-file for the tests
     """
+
     db_fd, db_path = tempfile.mkstemp()
 
     app = create_app(
