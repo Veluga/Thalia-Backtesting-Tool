@@ -43,6 +43,7 @@ def test_storing_retrieving_portfolio(client):
 
     # Retrieve portfolio and associated strategy
     stored_portfolio = portfolio.Portfolio.query.first()
+    stored_portfolio.gen_uuid()
     retrieved_strat = stored_portfolio.get_strategy()
 
     assert retrieved_strat.dates[0] == strat.dates[0], "Matching start date"
@@ -51,3 +52,4 @@ def test_storing_retrieving_portfolio(client):
         retrieved_strat.starting_balance == strat.starting_balance
     ), "Matching starting_balance"
     assert retrieved_strat.assets == strat.assets
+    assert stored_portfolio.uuid != None
