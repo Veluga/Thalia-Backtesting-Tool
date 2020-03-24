@@ -258,12 +258,12 @@ def best_year_no(strat: Strategy) -> int:
         raise InsufficientTimeframe
 
 
-def convert_currency(currency_pair: pd.DataFrame, usd_vals: pd.Series) -> pd.Series:
+def convert_usd(exchange_rate: pd.DataFrame, usd_vals: pd.Series) -> pd.Series:
     """
     usd_vals -  Series indexed by non-continuous subset of dates from currency_pair index; decimal values
     """
     return pd.Series(
-        [val * currency_pair.at[idx, "Close"] for idx, val in usd_vals.iteritems()],
+        [val * exchange_rate.at[idx, "Close"] for idx, val in usd_vals.iteritems()],
         usd_vals.index,
     )
 

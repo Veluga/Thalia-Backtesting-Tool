@@ -595,7 +595,7 @@ class TestCurrencyConversion(TestCase):
 
     def test_currency_conversion_single_value(self):
         self.assertAlmostEqual(
-            anda.convert_currency(
+            anda.convert_usd(
                 self.forex_vals, pd.Series([Decimal("100.0")], [self.start_date]),
             ).at[self.start_date],
             Decimal(13047.9996).quantize(anda.PENNY),
@@ -608,7 +608,7 @@ class TestCurrencyConversion(TestCase):
                 self.forex_vals.at[idx, "Close"] * val
                 for idx, val in self.usd_vals.iteritems()
             ],
-            list(anda.convert_currency(self.forex_vals, self.usd_vals).values),
+            list(anda.convert_usd(self.forex_vals, self.usd_vals).values),
         )
 
 
