@@ -1,9 +1,10 @@
 from Thalia.extensions import db
 from Thalia.models import portfolio, user
 import pytest
-from analyse_data.analyse_data import Strategy
+from analyse_data.analyse_data import Strategy, Asset
 from datetime import date
-
+from decimal import Decimal
+import pandas as pd
 import sqlalchemy
 
 
@@ -17,14 +18,18 @@ def test_storing_retrieving_portfolio(client):
 
     # Dummy strategy
     strat = Strategy(
-        date(2019, 1, 1),
-        date(2020, 1, 1),
+        date(2019, 2, 1),
+        date(2019, 12, 1),
         10000,
         [],
         [date(2019, 6, 1)],
         1000,
         [date(2019, 9, 1)],
     )
+    strat.assets = [
+        Asset("MSFT", Decimal("0.245"), pd.DataFrame()),
+        Asset("AAPL", Decimal("0.755"), pd.DataFrame()),
+    ]
 
     # Write test portfolio to DB
     porto = portfolio.Portfolio()
@@ -45,3 +50,4 @@ def test_storing_retrieving_portfolio(client):
     assert (
         retrieved_strat.starting_balance == strat.starting_balance
     ), "Matching starting_balance"
+    assert retrieved_strat.assets == strat.assets

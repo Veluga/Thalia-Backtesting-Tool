@@ -1,7 +1,8 @@
-from analyse_data.analyse_data import Strategy
-from ..extensions import db
 import json
+from analyse_data.analyse_data import Strategy, Asset
+from ..extensions import db
 from datetime import datetime
+from decimal import Decimal
 
 
 class Portfolio(db.Model):
@@ -18,11 +19,14 @@ class Portfolio(db.Model):
         for asset in strat.assets:
             asset.values = None
             asset.dividends = None
+            asset.weight = float(asset.weight)  # JSON can not serialize Decimal
 
         self.strategy = json.dumps(
             {
                 "starting_balance": strat.starting_balance,
-                "assets": strat.assets,
+                "assets": [
+                    vars(asset) for asset in strat.assets
+                ],  # JSON can not serialize Asset
                 "start_date": str(strat.dates[0]),
                 "end_date": str(strat.dates[-1]),
             }
@@ -31,7 +35,7 @@ class Portfolio(db.Model):
     def get_strategy(self):
         stripped_strat = json.loads(self.strategy)
 
-        return Strategy(
+        strat = Strategy(
             datetime.strptime(stripped_strat["start_date"], "%Y-%m-%d %H:%M:%S"),
             datetime.strptime(stripped_strat["end_date"], "%Y-%m-%d %H:%M:%S"),
             stripped_strat["starting_balance"],
@@ -40,3 +44,8 @@ class Portfolio(db.Model):
             None,
             [],
         )
+        strat.assets = [
+            Asset(a["ticker"], Decimal(a["weight"]), None, None)
+            for a in stripped_strat["assets"]
+        ]
+        return strat
