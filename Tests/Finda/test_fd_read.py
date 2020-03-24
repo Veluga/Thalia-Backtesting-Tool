@@ -23,6 +23,8 @@ def test_fd_read_read_asset_classes(db_controller):
 
 
 def test_fd_read_read_assets(db_controller):
+    # after updating functionality no longer expects assets with
+    # no stored values to be returned (in this case empty asset)
     dfT = pd.DataFrame(
         [
             {"AssetClassName": "CRYPTO", "AssetTicker": "RCK", "Name": "Rock"},
@@ -62,17 +64,17 @@ def test_fd_read_read_assets_div_payout(db_controller):
         [
             {
                 "AssetTicker": "RCK",
-                "PDate": dt.date(day=2, month=1, year=2020),
+                "PDate": pd.Timestamp(day=2, month=1, year=2020),
                 "Payout": dec.Decimal("12.5"),
             },
             {
                 "AssetTicker": "RCK",
-                "PDate": dt.date(day=1, month=1, year=2020),
+                "PDate": pd.Timestamp(day=1, month=1, year=2020),
                 "Payout": dec.Decimal("11.5"),
             },
             {
                 "AssetTicker": "BRY",
-                "PDate": dt.date(day=12, month=12, year=2020),
+                "PDate": pd.Timestamp(day=12, month=12, year=2020),
                 "Payout": dec.Decimal("13.13"),
             },
         ]

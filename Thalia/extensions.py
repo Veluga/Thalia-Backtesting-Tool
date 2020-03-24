@@ -1,6 +1,5 @@
 """
-a convention to initialize extension in a seperate file?
-dunno
+setting up and accessing flask extensions
 """
 from flask_login import LoginManager
 from flask_migrate import Migrate
