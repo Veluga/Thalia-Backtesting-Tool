@@ -29,35 +29,34 @@ def annual_returns(id):
     )
 
 
+def portfolio_name(id):
+    return html.Div(
+        html.Div(id=f"box-Portfolio Name-{id}", className="level-item title"),
+        className="level",
+    )
+
+
+def level_items(id, name1, name2, units=""):
+    return html.Div(
+        [box_item(name1, id, unit=units), box_item(name2, id, unit=units),],
+        className="level",
+    )
+
+
 def metrics_box(id, visibility, size):
     return html.Div(
         [
             html.Div(
                 [
-                    html.Div(
-                        html.Div(
-                            id=f"box-Portfolio Name-{id}", className="level-item title"
-                        ),
-                        className="level",
-                    ),
+                    portfolio_name(id),
                     html.Hr(),
-                    html.Div(
-                        [
-                            box_item("Initial Investment", id, unit=""),
-                            box_item("End Balance", id, unit=""),
-                        ],
-                        className="level",
-                    ),
-                    html.Div(
-                        [box_item("Best Year", id), box_item("Worst Year", id),],
-                        className="level",
-                    ),
-                    html.Div(
-                        [
-                            box_item("Difference in Best Year", id, unit="%"),
-                            box_item("Difference in Worst Year", id, unit="%"),
-                        ],
-                        className="level",
+                    level_items(id, "Initial Investment", "End Balance"),
+                    level_items(id, "Best Year", "Worst Year"),
+                    level_items(
+                        id,
+                        "Difference in Best Year",
+                        "Difference in Worst Year",
+                        units="%",
                     ),
                 ],
                 className="box",

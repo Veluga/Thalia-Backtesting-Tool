@@ -2,7 +2,6 @@ from Thalia.dashboard.callbacks import dashboard
 from Thalia.dashboard.config import MAX_PORTFOLIOS, NO_TABS
 import pytest
 from dash.exceptions import PreventUpdate
-import plotly.graph_objects as go
 
 import datetime
 
@@ -51,7 +50,9 @@ def test_validate_dates():
         frequency="None",
     )
     assert not frequency
-    # TODO test nonempty
+
+    start_date = datetime.date(2000, 1, 1)
+    assert len(dashboard.validate_dates(start_date, datetime.datetime.now(), "BM"))
 
 
 def test_validate_amount():
@@ -66,6 +67,14 @@ def test_hidden_divs_data():
     no_portfolios = 4
     no_hidden_components = 11
     assert len(dashboard.hidden_divs_data(no_portfolios)) == no_hidden_components
+
+
+def test_format_date():
+    date = datetime.date(2000, 1, 1)
+    returned = dashboard.format_date("2000-01-01")
+    assert returned.year == date.year
+    assert returned.month == date.month
+    assert returned.day == date.day
 
 
 def test_update_dashboard_prevents_update():

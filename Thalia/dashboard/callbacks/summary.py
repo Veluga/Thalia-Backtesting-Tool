@@ -44,6 +44,8 @@ def get_yearly_differences_graph(name, diffs, start_date, end_date):
 def get_pie_charts(tickers, proportions):
     """
     Returns Pie charts, and visibility for their divs
+    Input: List of Ticker Names and List of corresponding Proportions
+    Output: Go.Figure object
     """
     fig = go.Figure(data=[go.Pie(labels=tickers, values=proportions)])
     fig.update_traces(hoverinfo="label", marker=dict(colors=OFFICIAL_COLOURS))

@@ -73,7 +73,9 @@ def register_update_dashboard(dashapp):
 
 
 def register_tab_switch(dashapp):
-    """ Callback for switching and enabling tabs """
+    """
+    On backtest submission: enable all tabs and switch the active tab to the summary page.
+    """
     dashapp.callback(
         [
             Output("tabs", "value"),
