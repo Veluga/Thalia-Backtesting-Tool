@@ -6,3 +6,4 @@ OFFICIAL_COLOURS = [
     "#f23d3d",
     "#feedd0",
 ]
+NO_TABS = 6

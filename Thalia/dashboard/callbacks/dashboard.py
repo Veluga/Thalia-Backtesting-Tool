@@ -6,7 +6,7 @@ from decimal import Decimal
 from datetime import datetime
 
 from analyse_data import analyse_data as anda
-from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS
+from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
 from ..strategy import get_strategy, get_table_data
 
@@ -97,15 +97,28 @@ def tab_switch(n_clicks, *args):
     if n_clicks is None or None in args:
         raise PreventUpdate
 
-    return "summary", False, False, False, False, False
+    return ["summary"] + [False] * (NO_TABS - 1)
 
 
-def get_args(args, offset):
+def retrieve_args(args):
+    def get_args(args, offset):
+        """
+        Returns offset-th element of arguments
+        Needed to work around dynamic Dash elements
+        """
+        return [list(args)[i * 5 + offset] for i in range(MAX_PORTFOLIOS)]
+
     """
-    Returns offset-th element of arguments
-    Needed to work around dynamic Dash elements
+    For Regression Testing Parameter changes to Update_dashboard,
+    Returns a Dictionary of parameters
     """
-    return [list(args)[i * 5 + offset] for i in range(MAX_PORTFOLIOS)]
+    args_dict = {}
+    args_dict["Portfolio Names"] = get_args(args, offset=0)
+    args_dict["Contribution Amounts"] = get_args(args, offset=1)
+    args_dict["Contribution Frequencies"] = get_args(args, offset=2)
+    args_dict["Rebalancing Frequencies"] = get_args(args, offset=3)
+    args_dict["Ticker Tables"] = get_args(args, offset=4)
+    return args_dict
 
 
 def get_no_portfolios(args):
@@ -113,7 +126,9 @@ def get_no_portfolios(args):
     Return how many protfolios the user has sent on input,
     based on the first empty argument
     """
-    if None in args:
+    if not args:
+        return 0
+    elif None in args:
         return args.index(None)
     else:
         return MAX_PORTFOLIOS
@@ -157,9 +172,21 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
 def hidden_divs_data(no_portfolios):
     """
     As Dash does not allow dynamically registered callbacks, we need to return values for the hidden divs,
-    ie for the number of portfolios left empty 
+    ie for the number of portfolios left empty
+    Corresponds to:
+        - Box Visibility
+        - Portfolio Name
+        - Initial Balance
+        - End Balance
+        - Best Year %
+        - Worst Year %
+        - Best Year
+        - Worst Year
+        - Annual Differences Graph
+        - Pie Chart
+        - Pie Chart Visibility
     """
-    no_data = [
+    empty_divs = [
         {"display": "none"},
         None,
         None,
@@ -172,10 +199,7 @@ def hidden_divs_data(no_portfolios):
         None,
         {"display": "none"},
     ]
-    to_return = []
-    for i in range(no_portfolios, MAX_PORTFOLIOS):
-        to_return += no_data
-    return to_return
+    return empty_divs * (MAX_PORTFOLIOS - no_portfolios)
 
 
 def get_figure(xaxis_title, yaxis_title):
@@ -209,20 +233,16 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     - Box of Key Metrics per Portfolio
     - Yearly Differences Graph per Portfolio
     - Pie Charts of Asset Allocations per Portfolio
-    - Table of Key Metrics
+    - SOON: Table of Key Metrics
     """
 
     if n_clicks is None:
         raise PreventUpdate
 
     # Retrieve arguments, as they are combined for Dash
-    portfolio_name_args = get_args(args, offset=0)
-    contribution_amount_args = get_args(args, offset=1)
-    contribution_frequency_args = get_args(args, offset=2)
-    rebalancing_frequency_args = get_args(args, offset=3)
-    table_data_args = get_args(args, offset=4)
+    args = retrieve_args(args)
 
-    no_portfolios = get_no_portfolios(table_data_args)
+    no_portfolios = get_no_portfolios(args["Ticker Tables"])
 
     # Prevent update if no portfolios were given
     values = (start_date, end_date, input_money)
@@ -236,18 +256,19 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     end_date = format_date(end_date)
 
     for i in range(no_portfolios):
+        portfolio_name = args["Portfolio Names"][i]
         contribution_dates = validate_dates(
-            start_date, end_date, contribution_frequency_args[i]
+            start_date, end_date, args["Contribution Frequencies"][i]
         )
-        contribution_amount = validate_amount(contribution_amount_args[i])
+        contribution_amount = validate_amount(args["Contribution Amounts"][i])
         rebalancing_dates = validate_dates(
-            start_date, end_date, rebalancing_frequency_args[i]
+            start_date, end_date, args["Rebalancing Frequencies"][i]
         )
 
         tickers, proportions = zip(
             *(
                 (tkr["AssetTicker"], Decimal(tkr["Allocation"]))
-                for tkr in table_data_args[i]
+                for tkr in args["Ticker Tables"][i]
             )
         )
 
@@ -270,7 +291,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             get_trace(
                 total_returns.index,
                 total_returns.tolist(),
-                name=str(portfolio_name_args[i]),
+                name=str(portfolio_name),
                 color=OFFICIAL_COLOURS[i],
             )
         )
@@ -279,11 +300,11 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         to_return.append({"display": "block"})
 
         # Box of Metrics
-        to_return += get_box_of_metrics(portfolio_name_args[i], strategy, table_data)
+        to_return += get_box_of_metrics(portfolio_name, strategy, table_data)
 
         # Yearly Differences Graph
         annual_figure = get_yearly_differences_graph(
-            portfolio_name_args[i],
+            portfolio_name,
             anda.relative_yearly_returns(strategy),
             strategy.dates[0],
             strategy.dates[-1],
