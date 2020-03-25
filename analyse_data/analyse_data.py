@@ -258,6 +258,16 @@ def best_year_no(strat: Strategy) -> int:
         raise InsufficientTimeframe
 
 
+def convert_usd(exchange_rate: pd.DataFrame, usd_vals: pd.Series) -> pd.Series:
+    """
+    usd_vals -  Series indexed by non-continuous subset of dates from currency_pair index; decimal values
+    """
+    return pd.Series(
+        [val * exchange_rate.at[idx, "Close"] for idx, val in usd_vals.iteritems()],
+        usd_vals.index,
+    )
+
+
 def worst_year_no(strat: Strategy) -> int:
     """
     Returns the year number (Gregorian calandar) of the worst year.
