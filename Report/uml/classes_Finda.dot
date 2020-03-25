@@ -1,0 +1,9 @@
+digraph "classes_Finda" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{FdConnection|+read :FdRead\l+remove : FdRemove\l+write : FdWrite\l|}", shape="record"];
+"1" [label="{FdMultiController|\l|+fd_connect(db_name, permissions_string)\l+fd_create(db_name)\l+fd_list()\l+fd_register(db_name)\l+fd_remove(db_name)\l-path_generator(f_name)\l-add_name(db_name)\l}", shape="record"];
+"2" [label="{FdRead|+db_address : String\l|+read_asset_classes()\l+read_asset_values(asset_tickers, startDate, endDate)\l+read_assets()\l+read_assets_div_payout(asset_tickers)\l+read_assets_in_class(asset_class)\l}", shape="record"];
+"3" [label="{FdRemove|+db_address : String\l|+deleteAssetClasses(assetclassname)\l+deleteAssets(ticker)\l+deleteValues(ticker, date)\l+delete_div_payouts(ticker)\l}", shape="record"];
+"4" [label="{FdWrite|+db_address : String\l|+t_check_df_format(df, names)\l+t_insert_df(recordsDF, tableName)\l+write_asset_classes(asset_classes)\l+write_asset_values(values)\l+write_assets(assets)\l+write_dividend_payouts(payouts)\l-check_df_format(df, names)\l-insert_df(recordsDF, tableName)\l}", shape="record"];
+}
