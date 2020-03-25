@@ -8,7 +8,7 @@ import multiprocessing
 from datetime import timedelta, datetime
 from decimal import Decimal
 
-USER_DATA_DIR = "Thalia/dashboard/user-data/"
+USER_DATA_DIR = os.path.join(os.path.dirname(__file__), "user-data/")
 
 
 def store(encoded, timeout=timedelta(minutes=30)):
@@ -19,8 +19,7 @@ def store(encoded, timeout=timedelta(minutes=30)):
     The data will only be valid for a short time (~30 minutes), so
     retrieval may fail.
     Raises a ValueError if the data is not valid utf-8. (maybe?)
-    """
-    """
+
     The caller should treat the handle as an opaque type, but if you
     need to modify this code it is a tuple of (str, datetime)
     representing the filepath ("user-data/<uuid>.csv") and last-accessible moment.
@@ -30,7 +29,7 @@ def store(encoded, timeout=timedelta(minutes=30)):
     """
     decoded_bytes = base64.b64decode(encoded)
     identifier = uuid.uuid4()
-    filepath = USER_DATA_DIR + str(identifier) + ".csv"
+    filepath = os.path.join(USER_DATA_DIR, str(identifier) + ".csv")
     end_time = datetime.now() + timeout
 
     with open(filepath, "w") as out_file:
@@ -66,7 +65,10 @@ def wait_and_delete(filepath, delay_sec):
     assert "~" not in filepath
     assert "//" not in filepath
     time.sleep(delay_sec)
-    os.remove(filepath)
+    try:
+        os.remove(filepath)
+    except Exception:
+        pass
 
 
 def parse_csv(data_file) -> pd.DataFrame:
