@@ -204,7 +204,7 @@ def options(id):
                                 "padding-bottom": "0.5cm",
                             },
                         ),
-                        className="column is-11 has-text-left",
+                        className="column is-10 has-text-left",
                     ),
                     html.Div(
                         lazy_portfolios(id), className="column is-2 has-text-right"
