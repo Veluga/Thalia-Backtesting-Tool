@@ -2,6 +2,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 import dash_table
 from datetime import datetime as dt
+from . import lazy_portfolio
 from .. import util
 
 
@@ -172,17 +173,15 @@ def rebalancing_dates(id):
 
 
 def lazy_portfolios(id):
-    return dcc.Dropdown(
-        id=f"lazy-portfolios-{id}",
-        placeholder="Lazy",
-        className="has-text-left",
-        options=[  # Business month END
-            {"label": "None", "value": "None"},
-            {"label": "Lazy 1", "value": "Lazy 1"},
-            {"label": "Lazy 2", "value": "Lazy 2"},
-            {"label": "Lazy 3", "value": "Lazy 3"},
-            {"label": "Lazy 4", "value": "Lazy 4"},
-        ],
+    return (
+        html.Div(
+            dcc.Dropdown(
+                id=f"lazy-portfolios-{id}",
+                placeholder="Lazy portfolio",
+                className="has-text-left",
+                options=lazy_portfolio.lazy_portfolio_options,
+            ),
+        ),
     )
 
 
@@ -202,7 +201,7 @@ def portfolio_name(id):
             },
             id=f"portfolio-name-{id}",
         ),
-        className="column is-11 has-text-left",
+        className="column is-10 has-text-left",
     )
 
 
@@ -213,7 +212,7 @@ def options(id, visibility):
                 [
                     portfolio_name(id),
                     html.Div(
-                        lazy_portfolios(id), className="column is-1 has-text-right"
+                        lazy_portfolios(id), className="column is-2 has-text-right"
                     ),
                     html.Div(contribution_amount(id), className="column is-12"),
                     html.Div(contribution_dates(id), className="column is-12"),
