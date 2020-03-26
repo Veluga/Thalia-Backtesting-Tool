@@ -1,5 +1,6 @@
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+import json
 
 from ..config import MAX_PORTFOLIOS
 
@@ -14,7 +15,10 @@ def register_table_callbacks(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
             Output(f"memory-table-{i}", "data"),
-            [Input(f"memory-ticker-{i}", "value")],
+            [
+                Input(f"memory-ticker-{i}", "value"),
+                Input(f"lazy-portfolios-{i}", "value"),
+            ],
             [State(f"memory-table-{i}", "data")],
         )(filter_tickers)
 
@@ -29,17 +33,31 @@ def register_add_portfolio(dashapp):
     )(add_portfolio)
 
 
-def filter_tickers(ticker_selected, param_state):
+def filter_tickers(ticker_selected, lazy_portfolio, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
-    if ticker_selected is None:
+
+    if (ticker_selected or lazy_portfolio) is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
-    asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
-    if all(asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state):
-        param_state.append(asset)
+    if lazy_portfolio is not None:
+        param_state = []
+        json_acceptable_string = lazy_portfolio.replace("'", '"')
+        lazy_dict = json.loads(json_acceptable_string)
+        for asset in lazy_dict.values():
+            if all(
+                asset["AssetTicker"] != existing["AssetTicker"]
+                for existing in param_state
+            ):
+                param_state.append(asset)
+    else:
+        asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+        if all(
+            asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
+        ):
+            param_state.append(asset)
 
     return param_state
 
