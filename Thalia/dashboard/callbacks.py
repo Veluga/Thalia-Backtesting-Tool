@@ -325,3 +325,25 @@ def get_assets(tickers, proportions, start_date, end_date):
         only_market_data.index = only_market_data["ADate"]
         assets.append(anda.Asset(tick, prop, only_market_data))
     return assets
+
+
+def check_overfitting(strat):
+    """
+    Checks and returns wether strategy is overfitted
+    (By comparing to simulation results on rest of available date range)
+    """
+    threshold = 0.7
+    assets_data_all = get_assets(
+        [a.ticker for a in strat.assets], [a.weight for a in strat.assets], None, None
+    )
+    new_strat = anda.Strategy(
+        max(asset.values.index[0] for asset in assets_data_all),
+        min(asset.values.index[-1] for asset in assets_data_all),
+        strat.starting_balance,
+        assets_data_all,
+        [],
+        0,
+        [],
+    )
+    return (anda.sortino_ratio(strat, None) > anda.sortino_ratio(new_strat, None) * Decimal(1.0 + threshold)) and (
+        anda.sharpe_ratio(strat, None) > anda.sharpe_ratio(new_strat, None) * Decimal(1.0 + threshold))

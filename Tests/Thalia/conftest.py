@@ -7,6 +7,7 @@ import pytest
 from Thalia import create_app
 from Thalia.extensions import db
 from Thalia.models.user import User
+from decimal import Decimal
 
 NAME = "test_default"
 PW = "test_mypw"
@@ -27,10 +28,36 @@ class MockFdReader:
     def read_asset_values(self, *args, **kwargs):
         cols = ["ADate", "AssetTicker", "AOpen", "AClose", "ALow", "AHigh"]
         data = [
-            [pd.Timestamp(2020, 1, 1,), "RCK", "2", "3", "2", "3"],
+            [pd.Timestamp(2020, 1, 1,), "RCK", "2", "2", "2", "2"],
             [pd.Timestamp(2000, 3, 9), "RCK", "4", "6", "4", "6"],
+            [pd.Timestamp(2000, 3, 9), "OVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 10), "OVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 11), "OVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 12), "OVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 13), "OVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 14), "OVF", "10", "10", "10", "10"],
+            [pd.Timestamp(2000, 3, 15), "OVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 16), "OVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 17), "OVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 18), "OVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 9), "NOVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 10), "NOVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 11), "NOVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 12), "NOVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 13), "NOVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 14), "NOVF", "4", "9", "9", "9"],
+            [pd.Timestamp(2000, 3, 15), "NOVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 16), "NOVF", "4", "4", "4", "4"],
+            [pd.Timestamp(2000, 3, 17), "NOVF", "3", "3", "3", "3"],
+            [pd.Timestamp(2000, 3, 18), "NOVF", "4", "4", "4", "4"],
         ]
+        # Note OVF data has 1 large increase to simulate overfitting on
         df = pd.DataFrame(data=data, columns=cols)
+        # fix types for anda input
+        df['AOpen'] = df['AOpen'].map(float)
+        df['AClose'] = df['AClose'].map(float)
+        df['ALow'] = df['ALow'].map(float)
+        df['AHigh'] = df['AHigh'].map(float)
         # return df.set_index(["ADate", "AssetTicker"])
         return df
 
