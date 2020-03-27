@@ -16,7 +16,7 @@ def store(encoded, timeout=timedelta(minutes=30)):
     """
     Takes the base64 representation of a user's custom uploaded data and
     stores it in a file. Returns a handle that can be passed to
-    `retrieve_user_asset` to get the data back.
+    `retrieve` to get the data back.
     The data will only be valid for a short time (~30 minutes), so
     retrieval may fail.
     Raises a ValueError if the data is not valid utf-8. (maybe?)
@@ -48,7 +48,7 @@ def store(encoded, timeout=timedelta(minutes=30)):
 
 def retrieve(handle):
     """
-    Takes a handle returned by store_user_asset and returns dataframe
+    Takes a handle returned by store and returns dataframe
     that can be passed to anda.
     If the file doesn't exist, or has timed out, raises FileNotFoundError.
     If the data is invalid, carries the exception upward from parser.
