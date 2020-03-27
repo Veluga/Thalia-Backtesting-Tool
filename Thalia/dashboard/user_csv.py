@@ -9,6 +9,7 @@ from datetime import timedelta, datetime
 from decimal import Decimal
 
 USER_DATA_DIR = os.path.join(os.path.dirname(__file__), "user-data/")
+TIME_FMT = "%Y-%m-%d %H:%M:%S"
 
 
 def store(encoded, timeout=timedelta(minutes=30)):
@@ -42,7 +43,7 @@ def store(encoded, timeout=timedelta(minutes=30)):
     )
     deleter.start()
 
-    return (filepath, end_time)
+    return (filepath, end_time.strftime(TIME_FMT))
 
 
 def retrieve(handle):
@@ -53,6 +54,7 @@ def retrieve(handle):
     If the data is invalid, carries the exception upward from parser.
     """
     filepath, last_moment = handle
+    last_moment = datetime.strptime(last_moment, TIME_FMT)
     if last_moment <= datetime.now():
         raise FileNotFoundError(f"{filepath} has timed out.")
     return parse_csv(filepath)
