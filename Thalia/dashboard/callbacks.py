@@ -8,7 +8,7 @@ from . import util
 from datetime import datetime
 
 from analyse_data import analyse_data as anda
-
+from Thalia.config import OVERFITTING_THRESH
 
 MAX_PORTFOLIOS = 5
 
@@ -332,7 +332,7 @@ def check_overfitting(strat):
     Checks and returns wether strategy is overfitted
     (By comparing to simulation results on rest of available date range)
     """
-    threshold = 0.7
+    threshold = OVERFITTING_THRESH
     assets_data_all = get_assets(
         [a.ticker for a in strat.assets], [a.weight for a in strat.assets], None, None
     )
@@ -345,5 +345,10 @@ def check_overfitting(strat):
         0,
         [],
     )
-    return (anda.sortino_ratio(strat, None) > anda.sortino_ratio(new_strat, None) * Decimal(1.0 + threshold)) and (
+
+    print(anda.sortino_ratio(strat, None))
+    print(anda.sortino_ratio(new_strat, None))
+    #assert anda.sortino_ratio(new_strat, None) == 0
+
+    return (anda.sortino_ratio(strat, None) > anda.sortino_ratio(new_strat, None) * Decimal(1.0 + threshold)) or (
         anda.sharpe_ratio(strat, None) > anda.sharpe_ratio(new_strat, None) * Decimal(1.0 + threshold))

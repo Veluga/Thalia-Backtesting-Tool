@@ -14,3 +14,6 @@ class Config:
     # secret key used to fight agains CSRF attacks:
     # http://en.wikipedia.org/wiki/Cross-site_request_forgery
     SECRET_KEY = os.environ.get("SECRET_KEY", DEFAULT_DEV_KEY)
+
+# Threashold for performance difference considered indicative of overfitting
+OVERFITTING_THRESH = 0.5

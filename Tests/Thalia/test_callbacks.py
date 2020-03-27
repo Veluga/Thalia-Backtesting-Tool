@@ -4,6 +4,7 @@ from dash.exceptions import PreventUpdate
 import plotly.graph_objects as go
 import pandas as pd
 from analyse_data import analyse_data as anda
+from config import Config
 
 def test_filter_tickers():
     tickers = "RCK"
@@ -18,9 +19,12 @@ def test_update_dashboard_prevents_update():
         pytest.fail("update_dashboard should not run on startup")
 
 def test_check_overfitting(mock_finda):
+    # make sure overfitting threshold is something reasonable to somethign reasonable
+    Config.OVERFITTING_THRESH = 0.7
     # create strategy
-    start_date = pd.Timestamp(2000, 3, 12)
-    end_date = pd.Timestamp(2000, 3, 16)
+    start_date = pd.Timestamp(2000, 3, 13)
+    end_date = pd.Timestamp(2000, 3, 15)
+    # Will trigger for any positive threshold (T = -1.7)
     asset_data = callbacks.get_assets(['OVF'], [1.0], start_date, end_date)
     strategy = anda.Strategy(
         start_date,
@@ -32,7 +36,7 @@ def test_check_overfitting(mock_finda):
         [],
     )
     assert callbacks.check_overfitting(strategy)
-    '''
+    # Will not triger for any reasonable threashold
     asset_data = callbacks.get_assets(['NOVF'], [1.0], start_date, end_date)
     strategy = anda.Strategy(
         start_date,
@@ -44,4 +48,17 @@ def test_check_overfitting(mock_finda):
         [],
     )
     assert not callbacks.check_overfitting(strategy)
-    '''
+    #All values, should never triger since performance should be the same
+    start_date = pd.Timestamp(2000, 3, 9)
+    end_date = pd.Timestamp(2000, 3, 18)
+    asset_data = callbacks.get_assets(['NOVF'], [1.0], start_date, end_date)
+    strategy = anda.Strategy(
+        start_date,
+        end_date,
+        1,
+        asset_data,
+        [],
+        0,
+        [],
+    )
+    assert not callbacks.check_overfitting(strategy)
