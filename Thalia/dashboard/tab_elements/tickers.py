@@ -108,7 +108,7 @@ def initial_amount_of_money():
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
-                value=1000
+                value=1000,
             ),
             html.Div(id="output-money"),
         ]

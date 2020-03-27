@@ -54,10 +54,10 @@ class MockFdReader:
         # Note OVF data has 1 large increase to simulate overfitting on
         df = pd.DataFrame(data=data, columns=cols)
         # fix types for anda input
-        df['AOpen'] = df['AOpen'].map(float)
-        df['AClose'] = df['AClose'].map(float)
-        df['ALow'] = df['ALow'].map(float)
-        df['AHigh'] = df['AHigh'].map(float)
+        df["AOpen"] = df["AOpen"].map(float)
+        df["AClose"] = df["AClose"].map(float)
+        df["ALow"] = df["ALow"].map(float)
+        df["AHigh"] = df["AHigh"].map(float)
         # return df.set_index(["ADate", "AssetTicker"])
         return df
 
