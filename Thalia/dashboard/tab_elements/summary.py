@@ -50,7 +50,7 @@ def metrics_box(id, visibility, size):
                 [
                     portfolio_name(id),
                     html.Hr(),
-                    level_items(id, "Initial Investment", "End Balance"),
+                    level_items(id, "Initial Investment", "End Balance", units="$"),
                     level_items(id, "Best Year", "Worst Year"),
                     level_items(
                         id,
