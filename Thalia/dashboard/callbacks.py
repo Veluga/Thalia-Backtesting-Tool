@@ -5,8 +5,9 @@ from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from .tab_elements.tickers import options
 from . import util
+from . import user_csv
 from datetime import datetime
-
+import sys
 from analyse_data import analyse_data as anda
 
 
@@ -35,7 +36,10 @@ def register_table_callbacks(dashapp):
         # callback for updating the ticker table
         dashapp.callback(
             Output(f"memory-table-{i}", "data"),
-            [Input(f"memory-ticker-{i}", "value")],
+            [
+                Input(f"memory-ticker-{i}", "value"),
+                Input(f"output-data-upload-{i}", "children"),
+            ],
             [State(f"memory-table-{i}", "data")],
         )(filter_tickers)
 
@@ -86,6 +90,15 @@ def register_remove_portfolio_button(dashapp):
     )(remove_button)
 
 
+def register_user_data(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"output-data-upload-{i}", "children"),
+            [Input(f"upload-data-{i}", "contents")],
+            [State(f"upload-data-{i}", "filename")],
+        )(update_output)
+
+
 def register_callbacks(dashapp):
     """
     Works as essentially react component routing.
@@ -112,6 +125,21 @@ def register_callbacks(dashapp):
     # Register removing the button at 5 portfolios
     register_remove_portfolio_button(dashapp)
 
+    register_user_data(dashapp)
+
+
+def update_output(list_of_contents, list_of_names):
+    if list_of_contents is not None:
+        children = [user_data(c, n) for c, n in zip(list_of_contents, list_of_names)]
+        return children
+
+
+def user_data(contents, filename):
+    content_type, content_string = contents.split(",")
+    handle = user_csv.store(content_string)
+    # ud.user_data_dict.update({str(handle): "custom1"})
+    return handle
+
 
 def remove_button(n_clicks, param_state):
     if n_clicks is None:
@@ -129,18 +157,28 @@ def print_output(start_date, end_date):
     return display_date
 
 
-def filter_tickers(ticker_selected, param_state):
+def filter_tickers(ticker_selected, user_supplied_csv, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
-    if ticker_selected is None:
+    # user_supplied_csv = ", ".join(map(str, list))
+    # g = str(user_supplied_csv).strip("][").split(", ")
+    # user_supplied_csv = ["".join(c for c in user_supplied_csv[0] if c != "'")]
+    # user_supplied_csv = [x.strip('"') for x in g[0].split(",")]
+    if (ticker_selected or user_supplied_csv) is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
-    asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+    if ticker_selected is None:
+        # print(ud.user_data_dict, file=sys.stdout)
+        asset = {
+            "AssetTicker": user_supplied_csv,
+            "Allocation": "0",
+        }
+    else:
+        asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
     if all(asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state):
         param_state.append(asset)
-
     return param_state
 
 
@@ -233,13 +271,22 @@ def update_backtest_results(
     # TODO: add error handling for ticker not found
     weights = [p for p in proportions if p is not None]
     normalise(weights)
+    print(tickers)
+    for ticker in tickers:
+        print(ticker, file=sys.stdout)
+        # if filter(lambda x: "csv" in x, ticker[0]):
+        if any("csv" in mystring for mystring in ticker[0]):
+            assets = user_csv.retrieve(ticker[0])
+            real_start_date = assets.index[0]
+            real_end_date = assets.index[-1]
+            assets_data = []
+            assets_data.append(anda.Asset(ticker[0], weights, assets))
+        else:
+            assets_data = get_assets(tickers, weights, start_date, end_date)
+            real_start_date = max(asset.values.index[0] for asset in assets_data)
+            real_end_date = min(asset.values.index[-1] for asset in assets_data)
 
-    assets_data = get_assets(tickers, weights, start_date, end_date)
-
-    real_start_date = max(asset.values.index[0] for asset in assets_data)
-    real_end_date = min(asset.values.index[-1] for asset in assets_data)
-
-    print(real_end_date - real_start_date)
+    # print(real_end_date - real_start_date)
 
     if real_end_date < real_start_date:
         # raise Error

@@ -108,7 +108,7 @@ def initial_amount_of_money():
                 placeholder="Insert Initial amount of $",
                 type="number",
                 className="input",
-                value=1000
+                value=1000,
             ),
             html.Div(id="output-money"),
         ]
@@ -214,6 +214,7 @@ def options(id):
                     html.Div(contribution_dates(id), className="column is-12"),
                     html.Div(rebalancing_dates(id), className="column is-12"),
                     html.Div(ticker_selector(id), className="column is-12"),
+                    html.Div(upload_data(id), className="column is-12"),
                 ],
                 className="columns is-multiline",
             )
@@ -246,6 +247,30 @@ def add_portfolio_button():
                 "background-color": "transparent",
             },
         )
+    )
+
+
+def upload_data(id):
+    return html.Div(
+        [
+            dcc.Upload(
+                id=f"upload-data-{id}",
+                children=html.Div(["Drag and Drop or ", html.A("Select Files")]),
+                style={
+                    "width": "100%",
+                    "height": "60px",
+                    "lineHeight": "60px",
+                    "borderWidth": "1px",
+                    "borderStyle": "dashed",
+                    "borderRadius": "5px",
+                    "textAlign": "center",
+                    "margin": "10px",
+                },
+                # Allow multiple files to be uploaded
+                multiple=True,
+            ),
+            html.Div(id=f"output-data-upload-{id}"),
+        ]
     )
 
 

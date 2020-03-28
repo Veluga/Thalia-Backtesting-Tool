@@ -9,6 +9,7 @@ from datetime import timedelta, datetime
 from decimal import Decimal
 
 USER_DATA_DIR = os.path.join(os.path.dirname(__file__), "user-data/")
+TIME_FMT = "%Y-%m-%d %H:%M:%S"
 
 
 def store(encoded, timeout=timedelta(minutes=30)):
@@ -19,7 +20,6 @@ def store(encoded, timeout=timedelta(minutes=30)):
     The data will only be valid for a short time (~30 minutes), so
     retrieval may fail.
     Raises a ValueError if the data is not valid utf-8. (maybe?)
-
     The caller should treat the handle as an opaque type, but if you
     need to modify this code it is a tuple of (str, datetime)
     representing the filepath ("user-data/<uuid>.csv") and last-accessible moment.
@@ -42,7 +42,7 @@ def store(encoded, timeout=timedelta(minutes=30)):
     )
     deleter.start()
 
-    return (filepath, end_time)
+    return (filepath, end_time.strftime(TIME_FMT))
 
 
 def retrieve(handle):
@@ -53,6 +53,10 @@ def retrieve(handle):
     If the data is invalid, carries the exception upward from parser.
     """
     filepath, last_moment = handle
+
+    last_moment = datetime.strptime(
+        "".join(c for c in last_moment if c != "'"), TIME_FMT
+    )
     if last_moment <= datetime.now():
         raise FileNotFoundError(f"{filepath} has timed out.")
     return parse_csv(filepath)
@@ -85,9 +89,9 @@ def parse_csv(data_file) -> pd.DataFrame:
             "High": Decimal,
             "Low": Decimal,
             "Close": Decimal,
-        }
+        },
     )
-    df.index = pd.to_datetime(df.index, format="%d/%m/%Y")
+    df.index = pd.to_datetime(df.index, format="%d-%m-%y")
     new_index = pd.date_range(df.index[0], df.index[-1], freq="D")
     df = df.reindex(new_index).ffill()
     return df
