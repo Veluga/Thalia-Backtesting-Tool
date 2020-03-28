@@ -57,6 +57,7 @@ def retrieve(handle):
     last_moment = datetime.strptime(
         "".join(c for c in last_moment if c != "'"), TIME_FMT
     )
+
     if last_moment <= datetime.now():
         raise FileNotFoundError(f"{filepath} has timed out.")
     return parse_csv(filepath)
