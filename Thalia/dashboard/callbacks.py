@@ -5,8 +5,8 @@ from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from .tab_elements.tickers import options
 from . import util
+from . import user_csv
 from datetime import datetime
-
 from analyse_data import analyse_data as anda
 
 
@@ -35,7 +35,10 @@ def register_table_callbacks(dashapp):
         # callback for updating the ticker table
         dashapp.callback(
             Output(f"memory-table-{i}", "data"),
-            [Input(f"memory-ticker-{i}", "value")],
+            [
+                Input(f"memory-ticker-{i}", "value"),
+                Input(f"output-data-upload-{i}", "children"),
+            ],
             [State(f"memory-table-{i}", "data")],
         )(filter_tickers)
 
@@ -86,6 +89,15 @@ def register_remove_portfolio_button(dashapp):
     )(remove_button)
 
 
+def register_user_data(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"output-data-upload-{i}", "children"),
+            [Input(f"upload-data-{i}", "contents")],
+            [State(f"upload-data-{i}", "filename")],
+        )(update_output)
+
+
 def register_callbacks(dashapp):
     """
     Works as essentially react component routing.
@@ -112,6 +124,22 @@ def register_callbacks(dashapp):
     # Register removing the button at 5 portfolios
     register_remove_portfolio_button(dashapp)
 
+    register_user_data(dashapp)
+
+
+def update_output(list_of_contents, list_of_names):
+    if list_of_contents is not None:
+        children = [user_data(c, n) for c, n in zip(list_of_contents, list_of_names)]
+        assert len(children) == 1
+        return children[0]
+
+
+def user_data(contents, filename):
+    content_type, content_string = contents.split(",")
+    handle = user_csv.store(content_string)
+    # ud.user_data_dict.update({str(handle): "custom1"})
+    return [filename, handle]
+
 
 def remove_button(n_clicks, param_state):
     if n_clicks is None:
@@ -129,18 +157,29 @@ def print_output(start_date, end_date):
     return display_date
 
 
-def filter_tickers(ticker_selected, param_state):
+def filter_tickers(ticker_selected, user_supplied_csv, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
-    if ticker_selected is None:
+    if (ticker_selected or user_supplied_csv) is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
-    asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+    if ticker_selected is None:
+        filename = user_supplied_csv[0]
+        handle = user_supplied_csv[1]
+        asset = {
+            "AssetTicker": filename,
+            "Handle": handle,
+            "Allocation": "0",
+        }
+    else:
+        asset = {
+            "AssetTicker": ticker_selected,
+            "Allocation": "0",
+        }
     if all(asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state):
         param_state.append(asset)
-
     return param_state
 
 
@@ -201,16 +240,20 @@ def update_dashboard(
     format_string = "%Y-%m-%d"
     start_date = datetime.strptime(start_date, format_string)
     end_date = datetime.strptime(end_date, format_string)
-    tickers, proportions = zip(
-        *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in table_data)
+    tickers, proportions, handles = zip(
+        *(
+            (tkr["AssetTicker"], Decimal(tkr["Allocation"]), tkr.get("Handle"))
+            for tkr in table_data
+        )
     )
 
     return update_backtest_results(
         tickers,
         proportions,
+        handles,
         start_date,
         end_date,
-        input_money,
+        Decimal(input_money),
         contribution_amount,
         contribution_dates,
         rebalancing_dates,
@@ -220,6 +263,7 @@ def update_dashboard(
 def update_backtest_results(
     tickers,
     proportions,
+    handles,
     start_date,
     end_date,
     input_money,
@@ -233,14 +277,26 @@ def update_backtest_results(
     # TODO: add error handling for ticker not found
     weights = [p for p in proportions if p is not None]
     normalise(weights)
+    # Separate user-supplied data from Thalia-known data.
+    user_assets = []
+    thalia_tickers = []
+    thalia_weights = []
+    for ticker, weight, handle in zip(tickers, weights, handles):
+        if handle is None:
+            thalia_tickers.append(ticker)
+            thalia_weights.append(weight)
+        else:
+            user_assets.append((ticker, weight, handle))
 
-    assets_data = get_assets(tickers, weights, start_date, end_date)
+    thalia_data = get_assets(thalia_tickers, thalia_weights, start_date, end_date)
+    user_supplied_data = [
+        anda.Asset(ticker, weight, user_csv.retrieve(handle))
+        for ticker, weight, handle in user_assets
+    ]
+    all_asset_data = user_supplied_data + thalia_data
 
-    real_start_date = max(asset.values.index[0] for asset in assets_data)
-    real_end_date = min(asset.values.index[-1] for asset in assets_data)
-
-    print(real_end_date - real_start_date)
-
+    real_start_date = max(asset.values.index[0] for asset in all_asset_data)
+    real_end_date = min(asset.values.index[-1] for asset in all_asset_data)
     if real_end_date < real_start_date:
         # raise Error
         return None, None
@@ -249,7 +305,7 @@ def update_backtest_results(
         real_start_date,
         real_end_date,
         input_money,
-        assets_data,
+        all_asset_data,
         contribution_dates,
         contribution_amount,
         rebalancing_dates,

@@ -20,7 +20,6 @@ def store(encoded, timeout=timedelta(minutes=30)):
     The data will only be valid for a short time (~30 minutes), so
     retrieval may fail.
     Raises a ValueError if the data is not valid utf-8. (maybe?)
-
     The caller should treat the handle as an opaque type, but if you
     need to modify this code it is a tuple of (str, datetime)
     representing the filepath ("user-data/<uuid>.csv") and last-accessible moment.
@@ -54,7 +53,11 @@ def retrieve(handle):
     If the data is invalid, carries the exception upward from parser.
     """
     filepath, last_moment = handle
-    last_moment = datetime.strptime(last_moment, TIME_FMT)
+
+    last_moment = datetime.strptime(
+        "".join(c for c in last_moment if c != "'"), TIME_FMT
+    )
+
     if last_moment <= datetime.now():
         raise FileNotFoundError(f"{filepath} has timed out.")
     return parse_csv(filepath)
@@ -87,9 +90,9 @@ def parse_csv(data_file) -> pd.DataFrame:
             "High": Decimal,
             "Low": Decimal,
             "Close": Decimal,
-        }
+        },
     )
-    df.index = pd.to_datetime(df.index, format="%d/%m/%Y")
+    df.index = pd.to_datetime(df.index, format="%d-%m-%y")
     new_index = pd.date_range(df.index[0], df.index[-1], freq="D")
     df = df.reindex(new_index).ffill()
     return df
