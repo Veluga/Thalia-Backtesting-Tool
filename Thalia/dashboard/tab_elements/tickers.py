@@ -44,7 +44,14 @@ def ticker_table(id):
                             "type": "numeric",
                             "editable": True,
                         },
+                        {
+                            "name": "Handle",
+                            "id": "Handle",
+                            "type": "any",
+                            "visible": False,
+                        },
                     ],
+                    hidden_columns=["Handle"],
                     row_deletable=True,
                     style_data_conditional=[
                         {

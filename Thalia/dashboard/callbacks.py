@@ -7,7 +7,6 @@ from .tab_elements.tickers import options
 from . import util
 from . import user_csv
 from datetime import datetime
-import sys
 from analyse_data import analyse_data as anda
 
 
@@ -131,14 +130,15 @@ def register_callbacks(dashapp):
 def update_output(list_of_contents, list_of_names):
     if list_of_contents is not None:
         children = [user_data(c, n) for c, n in zip(list_of_contents, list_of_names)]
-        return children
+        assert len(children) == 1
+        return children[0]
 
 
 def user_data(contents, filename):
     content_type, content_string = contents.split(",")
     handle = user_csv.store(content_string)
     # ud.user_data_dict.update({str(handle): "custom1"})
-    return handle
+    return [filename, handle]
 
 
 def remove_button(n_clicks, param_state):
@@ -161,22 +161,23 @@ def filter_tickers(ticker_selected, user_supplied_csv, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
-    # user_supplied_csv = ", ".join(map(str, list))
-    # g = str(user_supplied_csv).strip("][").split(", ")
-    # user_supplied_csv = ["".join(c for c in user_supplied_csv[0] if c != "'")]
-    # user_supplied_csv = [x.strip('"') for x in g[0].split(",")]
     if (ticker_selected or user_supplied_csv) is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
     if ticker_selected is None:
-        # print(ud.user_data_dict, file=sys.stdout)
+        filename = user_supplied_csv[0]
+        handle = user_supplied_csv[1]
         asset = {
-            "AssetTicker": user_supplied_csv,
+            "AssetTicker": filename,
+            "Handle": handle,
             "Allocation": "0",
         }
     else:
-        asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+        asset = {
+            "AssetTicker": ticker_selected,
+            "Allocation": "0",
+        }
     if all(asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state):
         param_state.append(asset)
     return param_state
@@ -239,16 +240,20 @@ def update_dashboard(
     format_string = "%Y-%m-%d"
     start_date = datetime.strptime(start_date, format_string)
     end_date = datetime.strptime(end_date, format_string)
-    tickers, proportions = zip(
-        *((tkr["AssetTicker"], Decimal(tkr["Allocation"])) for tkr in table_data)
+    tickers, proportions, handles = zip(
+        *(
+            (tkr["AssetTicker"], Decimal(tkr["Allocation"]), tkr.get("Handle"))
+            for tkr in table_data
+        )
     )
 
     return update_backtest_results(
         tickers,
         proportions,
+        handles,
         start_date,
         end_date,
-        input_money,
+        Decimal(input_money),
         contribution_amount,
         contribution_dates,
         rebalancing_dates,
@@ -258,6 +263,7 @@ def update_dashboard(
 def update_backtest_results(
     tickers,
     proportions,
+    handles,
     start_date,
     end_date,
     input_money,
@@ -271,23 +277,26 @@ def update_backtest_results(
     # TODO: add error handling for ticker not found
     weights = [p for p in proportions if p is not None]
     normalise(weights)
-    print(tickers)
-    for ticker in tickers:
-        print(ticker, file=sys.stdout)
-        # if filter(lambda x: "csv" in x, ticker[0]):
-        if any("csv" in mystring for mystring in ticker[0]):
-            assets = user_csv.retrieve(ticker[0])
-            real_start_date = assets.index[0]
-            real_end_date = assets.index[-1]
-            assets_data = []
-            assets_data.append(anda.Asset(ticker[0], weights, assets))
+    # Separate user-supplied data from Thalia-known data.
+    user_assets = []
+    thalia_tickers = []
+    thalia_weights = []
+    for ticker, weight, handle in zip(tickers, weights, handles):
+        if handle is None:
+            thalia_tickers.append(ticker)
+            thalia_weights.append(weight)
         else:
-            assets_data = get_assets(tickers, weights, start_date, end_date)
-            real_start_date = max(asset.values.index[0] for asset in assets_data)
-            real_end_date = min(asset.values.index[-1] for asset in assets_data)
+            user_assets.append((ticker, weight, handle))
 
-    # print(real_end_date - real_start_date)
+    thalia_data = get_assets(thalia_tickers, thalia_weights, start_date, end_date)
+    user_supplied_data = [
+        anda.Asset(ticker, weight, user_csv.retrieve(handle))
+        for ticker, weight, handle in user_assets
+    ]
+    all_asset_data = user_supplied_data + thalia_data
 
+    real_start_date = max(asset.values.index[0] for asset in all_asset_data)
+    real_end_date = min(asset.values.index[-1] for asset in all_asset_data)
     if real_end_date < real_start_date:
         # raise Error
         return None, None
@@ -296,7 +305,7 @@ def update_backtest_results(
         real_start_date,
         real_end_date,
         input_money,
-        assets_data,
+        all_asset_data,
         contribution_dates,
         contribution_amount,
         rebalancing_dates,
