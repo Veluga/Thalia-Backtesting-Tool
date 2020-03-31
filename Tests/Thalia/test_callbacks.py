@@ -5,10 +5,10 @@ import plotly.graph_objects as go
 
 
 def test_filter_tickers():
-    tickers = "RCK"
+    ticker = "RCK – Rock"
     lazy_portfolio = None
     param_state = []
-    new_store = callbacks.filter_tickers(tickers, lazy_portfolio, param_state)
+    new_store = callbacks.filter_tickers(ticker, lazy_portfolio, param_state)
     assert new_store, "RCK"
 
 
