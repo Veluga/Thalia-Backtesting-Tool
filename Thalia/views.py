@@ -21,6 +21,11 @@ def about():
     return render_template("about.html", title="About Page")
 
 
+@server_bp.route("/us/")
+def us():
+    return render_template("us.html", title="About Us")
+
+
 @server_bp.route("/issues/")
 def issues():
     # TODO
