@@ -4,7 +4,8 @@ from Thalia.findb_conn import findb
 def get_asset_names():
     assets = findb.read.read_assets()
     names = assets["Name"].tolist()
-    return names
+    tickers = assets.index.tolist()
+    return zip(tickers, names)
 
 
 def get_data(tickers, start_date, end_date):
