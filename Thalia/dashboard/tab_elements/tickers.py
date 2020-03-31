@@ -53,6 +53,7 @@ def ticker_table(id):
                     ],
                     hidden_columns=["Handle"],
                     row_deletable=True,
+                    css=[{"selector": ".show-hide", "rule": "display: none"}],
                     style_data_conditional=[
                         {
                             "if": {"row_index": "odd"},
