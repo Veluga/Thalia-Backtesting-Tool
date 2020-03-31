@@ -201,7 +201,7 @@ The design of the Dashboard was done according to the wireframes we have provide
 
 As we can see, we managed to encapture the overall look as we envisioned with only minor changes. The data is significantly better distributed by the use of tabs, giving a less cluttered UI. Additionally, we have decided not to implement the aside menu, partly because it was unnecessary, but mostly because it suggests that the backtest results can be changed on the go. This, as we have realised, was not feasible, due to expensive calculations in the Business Logic Layer.
 
-One change we had to make was the use of the Dash table instead of the approach visible on \figurename{\ref{wireframe}}. The benefits of this change as previously discussed. In addition, we have also decided to discard the sliders as a way of changing asset allocations.
+One change we had to make was the use of the Dash table instead of the approach visible on \figurename{\ref{wireframe}}. The benefits of this change have been illustrated further above. In addition, we have also decided to discard the sliders as a way of changing asset allocations.
 
 For portfolio comparison, we also had to enable inputting multiple strategies. As seen on \figurename{\ref{wireframe}}, this is something we have not accounted for when planning the design. The implementation of this feature led to a full refactor of the UI code, as it came with an excessive amount of code due to the arguments presented in \ref{dash_limitations}. Fortunately, this issue was addressed relatively early and resulted in the current design. 
 
