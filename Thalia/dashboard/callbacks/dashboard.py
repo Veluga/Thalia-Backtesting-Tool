@@ -54,6 +54,8 @@ def register_update_dashboard(dashapp):
             Output(f"metrics-box-{i}", "style"),
             # Box data
             Output(f"box-Portfolio Name-{i}", "children"),
+            Output(f"box-Start Date-{i}", "children"),
+            Output(f"box-End Date-{i}", "children"),
             Output(f"box-Initial Investment-{i}", "children"),
             Output(f"box-End Balance-{i}", "children"),
             Output(f"box-Difference in Best Year-{i}", "children"),
@@ -155,7 +157,9 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     """
     Returns portfolio name, Initial Balance, Final Balance, Best Year, Worst Year, and values in Best Year, Worst Year
     """
-    box_metrics = [portfolio_name]
+    start_date = strategy_object.dates[0].strftime("%Y-%m-%d")
+    end_date = strategy_object.dates[-1].strftime("%Y-%m-%d")
+    box_metrics = [portfolio_name, start_date, end_date]
     box_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
     box_metrics += [
         anda.best_year_no(strategy_object),
@@ -171,6 +175,8 @@ def hidden_divs_data(no_portfolios):
     Corresponds to:
         - Box Visibility
         - Portfolio Name
+        - Start Date
+        - End Date
         - Initial Balance
         - End Balance
         - Best Year %
@@ -183,6 +189,8 @@ def hidden_divs_data(no_portfolios):
     """
     empty_divs = [
         {"display": "none"},
+        None,
+        None,
         None,
         None,
         None,
@@ -303,7 +311,6 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             anda.relative_yearly_returns(strategy),
             strategy.dates[0],
             strategy.dates[-1],
-            portfolio_no=i,
         )
         to_return.append(annual_figure)
 

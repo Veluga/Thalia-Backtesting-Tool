@@ -60,7 +60,7 @@ def test_hidden_divs_data():
     assert not dashboard.hidden_divs_data(no_portfolios)
 
     no_portfolios = 4
-    no_hidden_components = 11
+    no_hidden_components = 13
     assert len(dashboard.hidden_divs_data(no_portfolios)) == no_hidden_components
 
 
