@@ -68,8 +68,8 @@ def register_update_dashboard(dashapp):
             Output(f"annual-returns-{i}", "figure"),
             # Pie Chart
             Output(f"pie-{i}", "figure"),
-            Output(f"return-table-{i}", "children"),
             Output(f"graph-box-pie-{i}", "style"),
+            Output(f"return-table-{i}", "children"),
         ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -317,7 +317,6 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             strategy.dates[-1],
         )
         to_return.append(annual_figure)
-        print(annual_figure, file=sys.stdout)
 
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
@@ -330,7 +329,6 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             strategy.dates[-1],
         )
         to_return.append(returns_table)
-        print(returns_table, file=sys.stdout)
 
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)

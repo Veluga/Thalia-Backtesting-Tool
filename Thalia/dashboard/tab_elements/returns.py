@@ -18,10 +18,10 @@ def returns_table(id):
         [
             html.P("Annual Returns", className="panel-heading"),
             dcc.Loading(
-                html.Div(html.Div(id=f"return-table-{id}"),), className="panel-block",
+                html.Div(html.Div(id=f"return-table-{id}"),), className="section",
             ),
         ],
-        className="box",
+        className="column is-4 is-offset-4",
     )
 
 

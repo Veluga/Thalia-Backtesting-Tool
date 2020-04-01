@@ -28,11 +28,16 @@ def register_print_dates(dashapp):
 
 
 def update_table(name, diffs, start_date, end_date):
-    test_diffs = pd.DataFrame(diffs)
-    columns = [{"name": "metric", "id": "metric"}, {"name": "value", "id": "value"}]
-    # data = (test_diffs.to_dict("rows"),)
-    # columns = []
-    data = [{"metric": "DUDVN", "value": " ege"}]
+    years = list(range(start_date.year, end_date.year + 1))
+    columns = [
+        {"name": "Year", "id": "Year"},
+        {"name": "Inflation", "id": "Inflation"},
+        {"name": "PortfolioReturn", "id": "PortfolioReturn"},
+        {"name": "PortfolioBalance", "id": "PortfolioBalance"},
+    ]
+    data = []
+    for year, diff in zip(years, diffs):
+        data.append({"Year": year, "PortfolioReturn": round(diff, 2)})
     annual_figure = dash_table.DataTable(data=data, columns=columns)
 
     return annual_figure
