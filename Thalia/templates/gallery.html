@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="section">
+    <div id="gallery-ancestor" class="tile is-ancestor">
+        {% for porto in portfolios %}
+        <div onclick="window.location = '/dashboard/?id={{porto.id}}'" class="tile is-parent is-4">
+            <article class="tile is-child box">
+                <p class="title">{{porto.name}}</p>
+                {% for asset in porto.strat.assets %}
+                <p class="subtitle" style="text-align:left;">
+                    {{asset.ticker}}
+                    <span style="float:right;">
+                        {{asset.weight * 100 }}%
+                    </span>
+                </p>
+                {% endfor %}
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 import json
 import hashlib
-from analyse_data.analyse_data import Strategy, Asset
+from analyse_data.analyse_data import Strategy, Asset, PENNY
 from ..extensions import db
 from datetime import datetime
 from decimal import Decimal
@@ -19,8 +19,8 @@ class Portfolio(db.Model):
 
     def gen_uuid(self):
         if not self.id:
-            raise ValueError # ID must not be none
-        self.uuid = hashlib.sha256(str(self.id).encode('utf-8')).hexdigest()
+            raise ValueError  # ID must not be none
+        self.uuid = hashlib.sha256(str(self.id).encode("utf-8")).hexdigest()
 
     def __repr__(self):
         return "<Portfolio {} {}>".format(self.id, self.strategy)
@@ -55,7 +55,7 @@ class Portfolio(db.Model):
             [],
         )
         strat.assets = [
-            Asset(a["ticker"], Decimal(a["weight"]), None, None)
+            Asset(a["ticker"], Decimal(a["weight"]).quantize(PENNY), None, None,)
             for a in stripped_strat["assets"]
         ]
         return strat
