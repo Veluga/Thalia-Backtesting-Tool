@@ -187,20 +187,23 @@ def lazy_portfolios(id):
 
 def portfolio_name(id):
     return html.Div(
-        dcc.Input(
-            placeholder=f"Portfolio {id}",
-            type="text",
-            value=f"Portfolio {id}",
-            style={
-                "border-width": "0px",
-                "color": "#363636",
-                "font-size": "2rem",
-                "font-weight": "600",
-                "line-height": "1.125",
-                "padding-bottom": "0.5cm",
-            },
-            id=f"portfolio-name-{id}",
-        ),
+        [
+            html.I(className="fas fa-edit fa-2x"),
+            dcc.Input(
+                placeholder=f"Portfolio {id}",
+                type="text",
+                value=f"Portfolio {id}",
+                style={
+                    "border-width": "0px",
+                    "color": "#363636",
+                    "font-size": "2rem",
+                    "font-weight": "600",
+                    "line-height": "1.125",
+                    "padding-bottom": "0.5cm",
+                },
+                id=f"portfolio-name-{id}",
+            ),
+        ],
         className="column is-10 has-text-left",
     )
 
