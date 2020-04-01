@@ -25,17 +25,21 @@ def print_dates(n_clicks, start_date, end_date):
     if n_clicks is None:
         raise PreventUpdate
 
-    return f"{start_date} - {end_date}"
+    return f"Selected interval: {start_date} - {end_date}"
 
 
-def get_yearly_differences_graph(name, diffs, start_date, end_date):
+def get_yearly_differences_graph(name, diffs, start_date, end_date, portfolio_no):
     years = list(range(start_date.year, end_date.year + 1))
     annual_figure = go.Figure(
-        data=[go.Bar(name=name, y=diffs, x=years, marker_color=OFFICIAL_COLOURS[3]),]
+        data=[
+            go.Bar(
+                name=name, y=diffs, x=years, marker_color=OFFICIAL_COLOURS[portfolio_no]
+            ),
+        ]
     )
     annual_figure.update_layout(
         xaxis_title="Time",
-        yaxis_title="Yearly Difference (%)",
+        yaxis_title="Yearly Differences (%)",
         font=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
     )
     return annual_figure

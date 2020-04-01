@@ -303,6 +303,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             anda.relative_yearly_returns(strategy),
             strategy.dates[0],
             strategy.dates[-1],
+            portfolio_no=i,
         )
         to_return.append(annual_figure)
 
