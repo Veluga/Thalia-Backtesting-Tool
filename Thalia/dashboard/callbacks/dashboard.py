@@ -8,6 +8,7 @@ from datetime import datetime
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
+from .drawdowns import get_drawdowns_tables
 from ..strategy import get_strategy, get_table_data
 
 
@@ -67,6 +68,9 @@ def register_update_dashboard(dashapp):
             # Pie Chart
             Output(f"pie-{i}", "figure"),
             Output(f"graph-box-pie-{i}", "style"),
+            # Drawdowns Table
+            Output(f"drawdowns-table-{i}", "data"),
+            Output(f"drawdowns-table-{i}", "style"),
         ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -186,6 +190,8 @@ def hidden_divs_data(no_portfolios):
         - Annual Differences Graph
         - Pie Chart
         - Pie Chart Visibility
+        - Drawdowns Table Data
+        - Drawdowns Table Visibility
     """
     empty_divs = [
         {"display": "none"},
@@ -199,6 +205,8 @@ def hidden_divs_data(no_portfolios):
         None,
         None,
         None,
+        None,
+        {"display": "none"},
         None,
         {"display": "none"},
     ]
@@ -316,6 +324,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
+
+        to_return += get_drawdowns_tables(total_returns)
 
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
