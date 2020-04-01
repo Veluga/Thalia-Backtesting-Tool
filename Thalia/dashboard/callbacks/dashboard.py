@@ -285,7 +285,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         main_graph.add_trace(
             get_trace(
                 total_returns.index,
-                total_returns.tolist(),
+                total_returns,
                 name=str(portfolio_name),
                 color=OFFICIAL_COLOURS[i],
             )
