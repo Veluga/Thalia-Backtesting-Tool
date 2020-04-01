@@ -5,6 +5,8 @@ from decimal import Decimal, InvalidOperation
 from datetime import date
 from dataclasses import dataclass
 from typing import List
+import humanize
+
 
 PENNY = Decimal("0.01")
 
@@ -346,15 +348,15 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
         length = end - start
         recovery_time = recovery - end
         underwater_period = recovery - start
-        drawdown = period.at[end]
+        drawdown = round(period.at[end], 2)
         return [
             drawdown,
-            start,
-            end,
-            recovery,
-            length,
-            recovery_time,
-            underwater_period,
+            start.strftime("%Y-%m-%d"),
+            end.strftime("%Y-%m-%d"),
+            recovery.strftime("%Y-%m-%d"),
+            humanize.naturaldelta(length),
+            humanize.naturaldelta(recovery_time),
+            humanize.naturaldelta(underwater_period),
         ]
 
     rows = [make_row(p) for p in periods]

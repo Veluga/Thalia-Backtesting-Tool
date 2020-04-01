@@ -5,6 +5,8 @@ from .tab_elements.assets import asset_contributions_table
 from .tab_elements.summary import summary_dashboard
 from .tab_elements.tickers import options_wrapper
 from .tab_elements.metrics import table
+from .tab_elements.drawdowns import drawdowns_dashboard
+
 
 tabs_styles = {"height": "44px"}
 tab_style = {
@@ -109,22 +111,7 @@ def returns():
 def drawdowns():
     return dcc.Tab(
         label="Drawdowns",
-        children=[
-            title("Drawdowns"),
-            dcc.Graph(
-                figure={
-                    "data": [
-                        {"x": [1, 2, 3], "y": [2, 4, 3], "type": "bar", "name": "SF"},
-                        {
-                            "x": [1, 2, 3],
-                            "y": [5, 4, 3],
-                            "type": "bar",
-                            "name": "Montréal",
-                        },
-                    ]
-                }
-            ),
-        ],
+        children=[title("Drawdowns"), drawdowns_dashboard(),],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
