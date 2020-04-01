@@ -6,8 +6,9 @@ import plotly.graph_objects as go
 
 def test_filter_tickers():
     tickers = "RCK"
+    lazy_portfolio = None
     param_state = []
-    new_store = callbacks.filter_tickers(tickers, param_state)
+    new_store = callbacks.filter_tickers(tickers, lazy_portfolio, param_state)
     assert new_store, "RCK"
 
 

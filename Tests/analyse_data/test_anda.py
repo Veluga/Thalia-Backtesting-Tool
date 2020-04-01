@@ -2,6 +2,7 @@ import unittest
 import pandas as pd
 import sys
 import os
+import random
 
 from unittest import TestCase
 from datetime import date, timedelta
@@ -462,6 +463,8 @@ class TestBestWorstYear(TestCase):
         b = anda.best_year(strategy)
         w = anda.worst_year(strategy)
 
+        self.assertAlmostEqual(b, Decimal("120"), delta=2)
+        self.assertAlmostEqual(w, Decimal("-63"), delta=2)
         self.assertAlmostEqual(b, Decimal("122"), delta=Decimal("0.5"))
         self.assertAlmostEqual(w, Decimal("-63"), delta=Decimal("0.5"))
 
@@ -568,6 +571,44 @@ class TestDividends(TestCase):
         )
         self.assertAlmostEqual(
             anda.total_return(strategy)[end_date], Decimal("9856511.60"), delta=1
+        )
+
+
+class TestCurrencyConversion(TestCase):
+    def gen_random_usd_vals(self, start_date, end_date):
+        cur_date = start_date
+        dates, usd_vals = [], []
+        while cur_date < end_date:
+            dates.append(cur_date)
+            usd_vals.append(Decimal(random.random() * 1000000).quantize(anda.PENNY))
+            cur_date += timedelta(days=random.randint(1, 1000))
+        return pd.Series(usd_vals, dates)
+
+    def setUp(self):
+        self.start_date = date(1998, 1, 1)
+        self.end_date = date(2020, 1, 1)
+        self.forex_vals = read_asset("/test_data/USDJPY.csv")
+        self.forex_vals = self.forex_vals.reindex(
+            pd.date_range(self.start_date, self.end_date)
+        ).ffill()
+        self.usd_vals = self.gen_random_usd_vals(self.start_date, self.end_date)
+
+    def test_currency_conversion_single_value(self):
+        self.assertAlmostEqual(
+            anda.convert_usd(
+                self.forex_vals, pd.Series([Decimal("100.0")], [self.start_date]),
+            ).at[self.start_date],
+            Decimal(13047.9996).quantize(anda.PENNY),
+            1,
+        )
+
+    def test_currency_conversion_series(self):
+        self.assertListEqual(
+            [
+                self.forex_vals.at[idx, "Close"] * val
+                for idx, val in self.usd_vals.iteritems()
+            ],
+            list(anda.convert_usd(self.forex_vals, self.usd_vals).values),
         )
 
 
