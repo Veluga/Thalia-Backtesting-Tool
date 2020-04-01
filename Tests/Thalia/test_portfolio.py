@@ -5,6 +5,7 @@ from analyse_data.analyse_data import Strategy, Asset
 from datetime import date
 from decimal import Decimal
 import pandas as pd
+import numpy
 import sqlalchemy
 
 
@@ -51,5 +52,10 @@ def test_storing_retrieving_portfolio(client):
     assert (
         retrieved_strat.starting_balance == strat.starting_balance
     ), "Matching starting_balance"
-    assert retrieved_strat.assets == strat.assets
+    for i in range(len(retrieved_strat.assets)):
+        assert (
+            strat.assets[i].weight - 0.01
+            <= retrieved_strat.assets[i].weight
+            <= strat.assets[i].weight + 0.01
+        )
     assert stored_portfolio.uuid != None
