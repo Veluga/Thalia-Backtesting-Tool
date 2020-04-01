@@ -55,11 +55,6 @@ def test_validate_dates():
     assert len(dashboard.validate_dates(start_date, datetime.datetime.now(), "BM"))
 
 
-def test_validate_amount():
-    assert dashboard.validate_amount(None) == 0
-    assert dashboard.validate_amount(100) == 100
-
-
 def test_hidden_divs_data():
     no_portfolios = MAX_PORTFOLIOS
     assert not dashboard.hidden_divs_data(no_portfolios)
@@ -70,11 +65,10 @@ def test_hidden_divs_data():
 
 
 def test_format_date():
-    date = datetime.date(2000, 1, 1)
     returned = dashboard.format_date("2000-01-01")
-    assert returned.year == date.year
-    assert returned.month == date.month
-    assert returned.day == date.day
+    assert returned.year == 2000
+    assert returned.month == 1
+    assert returned.day == 1
 
 
 def test_update_dashboard_prevents_update():

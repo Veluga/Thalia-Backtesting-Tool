@@ -146,13 +146,6 @@ def validate_dates(start_date, end_date, frequency):
         return set()
 
 
-def validate_amount(amount):
-    if amount is None:
-        return 0
-    else:
-        return amount
-
-
 def format_date(date):
     format_string = "%Y-%m-%d"
     return datetime.strptime(date, format_string)
@@ -262,7 +255,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         contribution_dates = validate_dates(
             start_date, end_date, args["Contribution Frequencies"][i]
         )
-        contribution_amount = validate_amount(args["Contribution Amounts"][i])
+        contribution_amount = args["Contribution Amounts"][i] or 0
         rebalancing_dates = validate_dates(
             start_date, end_date, args["Rebalancing Frequencies"][i]
         )
