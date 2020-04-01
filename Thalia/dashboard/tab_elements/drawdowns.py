@@ -5,7 +5,7 @@ import dash_table
 
 def drawdowns_table(id):
     columns = [
-        {"name": "Drawdown", "id": "Drawdown"},
+        {"name": "Drawdown (%)", "id": "Drawdown (%)"},
         {"name": "Start", "id": "Start"},
         {"name": "End", "id": "End"},
         {"name": "Recovery", "id": "Recovery"},
@@ -13,6 +13,7 @@ def drawdowns_table(id):
         {"name": "Recovery Time", "id": "Recovery Time"},
         {"name": "Underwater Period", "id": "Underwater Period"},
     ]
+
     table = dash_table.DataTable(
         id=f"drawdowns-table-{id}",
         columns=columns,
@@ -25,7 +26,19 @@ def drawdowns_table(id):
         style_header={"backgroundColor": "rgb(230, 230, 230)", "fontWeight": "bold"},
         style_table={"overflowX": "scroll"},
     )
-    return html.Div(table, className="column is-12")
+    return html.Div(
+        [
+            html.Div(
+                html.Div(
+                    id=f"drawdowns-portfolio-name-{id}", className="level-item title"
+                ),
+                className="level",
+            ),
+            table,
+        ],
+        className="column is-12",
+        id=f"drawdowns-table-col-{id}",
+    )
 
 
 def drawdowns_dashboard():

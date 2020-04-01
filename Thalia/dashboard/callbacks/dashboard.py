@@ -37,7 +37,10 @@ def register_update_dashboard(dashapp):
     ]
 
     # Portfolio Growth Graph
-    outputs = [Output(f"main-graph", "figure")]
+    outputs = [
+        Output("main-graph", "figure"),
+        Output("drawdowns-graph", "figure"),
+    ]
     for i in range(1, MAX_PORTFOLIOS + 1):
 
         # Portfolio specific data
@@ -69,8 +72,9 @@ def register_update_dashboard(dashapp):
             Output(f"pie-{i}", "figure"),
             Output(f"graph-box-pie-{i}", "style"),
             # Drawdowns Table
+            Output(f"drawdowns-portfolio-name-{i}", "children"),
             Output(f"drawdowns-table-{i}", "data"),
-            Output(f"drawdowns-table-{i}", "style"),
+            Output(f"drawdowns-table-col-{i}", "style"),
         ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -190,6 +194,7 @@ def hidden_divs_data(no_portfolios):
         - Annual Differences Graph
         - Pie Chart
         - Pie Chart Visibility
+        - Drawdowns Table Name
         - Drawdowns Table Data
         - Drawdowns Table Visibility
     """
@@ -207,6 +212,7 @@ def hidden_divs_data(no_portfolios):
         None,
         None,
         {"display": "none"},
+        None,
         None,
         {"display": "none"},
     ]
@@ -261,6 +267,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         raise PreventUpdate
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
+    drawdowns_graph = get_figure(xaxis_title="Time", yaxis_title="Drawdown (%)")
     to_return = []
 
     start_date = format_date(start_date)
@@ -325,9 +332,21 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
 
-        to_return += get_drawdowns_tables(total_returns)
+        # Drawdowns Table
+        drawdowns = anda.drawdowns(total_returns)
+        to_return += get_drawdowns_tables(portfolio_name, drawdowns)
+
+        # Add trace to Drawdowns Graph
+        drawdowns_graph.add_trace(
+            get_trace(
+                drawdowns.index,
+                drawdowns,
+                name=str(portfolio_name),
+                color=OFFICIAL_COLOURS[i],
+            )
+        )
 
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
 
-    return [main_graph] + to_return
+    return [main_graph, drawdowns_graph] + to_return

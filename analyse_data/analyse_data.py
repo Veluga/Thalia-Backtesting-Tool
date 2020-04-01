@@ -329,13 +329,13 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
     Input: the return value of drawdowns().
     
     Output: a dataframe with columns:
-        Drawdown: float (negative percentage)
-        Start: datetime
-        End: datetime
-        Recovery: datetime
-        Length: timedelta
-        Recovery Time: timedelta
-        Underwater Period: timedelta
+        Drawdown: float (negative percentage) rounded to 2 places
+        Start: datetime in %Y-%m-%d
+        End: datetime in %Y-%m-%d
+        Recovery: datetime in %Y-%m-%d
+        Length: timedelta humanized
+        Recovery Time: timedelta humanized
+        Underwater Period: timedelta humanized
     sorted ascending by Drawdown (most severe first), sorting by Start
     to break ties.
     """
@@ -364,7 +364,7 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
     df = pd.DataFrame(
         rows,
         columns=[
-            "Drawdown",
+            "Drawdown (%)",
             "Start",
             "End",
             "Recovery",
