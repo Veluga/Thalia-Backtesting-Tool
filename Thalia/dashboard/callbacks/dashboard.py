@@ -8,6 +8,8 @@ from datetime import datetime
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
+from .returns import update_table
+import sys
 from ..strategy import get_strategy, get_table_data
 
 
@@ -66,6 +68,7 @@ def register_update_dashboard(dashapp):
             Output(f"annual-returns-{i}", "figure"),
             # Pie Chart
             Output(f"pie-{i}", "figure"),
+            Output(f"return-table-{i}", "children"),
             Output(f"graph-box-pie-{i}", "style"),
         ]
 
@@ -200,6 +203,7 @@ def hidden_divs_data(no_portfolios):
         None,
         None,
         None,
+        None,
         {"display": "none"},
     ]
     return empty_divs * (MAX_PORTFOLIOS - no_portfolios)
@@ -313,9 +317,20 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             strategy.dates[-1],
         )
         to_return.append(annual_figure)
+        print(annual_figure, file=sys.stdout)
 
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
+
+        # returns tab
+        returns_table = update_table(
+            portfolio_name,
+            anda.relative_yearly_returns(strategy),
+            strategy.dates[0],
+            strategy.dates[-1],
+        )
+        to_return.append(returns_table)
+        print(returns_table, file=sys.stdout)
 
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
