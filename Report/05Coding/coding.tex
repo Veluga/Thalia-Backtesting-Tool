@@ -110,15 +110,56 @@ http://ddi-dev.com/blog/programming/django-vs-flask-which-better-your-web-app/
 https://coderseye.com/django-vs-flask
 \fi
 
-\subsubsection{GUI}
-
-\label{GUI}
-
 For the main framework we chose flask, a Python-based micro web framework. Flask provides functionality for building web applications, such as managing HTTP requests, using the `requests` library, and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}.We used the `render-template()` library to process and parse the HTML templates, for all the pages, except for the dashboard, which is described below. We used some of flask's extensions such as Flask-Login, which provides user session management for Flask \cite{flask-login}. To handle web forms we used the `flask-wtf` extension, that is a wrapper around the `WTForms` package \cite{wtforms-documentation}. 
 
-We decided to use `Dash` as our framework for building our web application. Since Dash is a pure Python framework and one team member was already familiar with it, it was our clear option for building our application. Dash is basically a wrapper for `React` components \cite{react}, therefore we could create the dashboard with just Python, which the entire team is familiar with, rather than learn Javascript. Dash is very good for applications that require data visualisation, modelling, analysis \cite{dash} which is precisely what is needed for our portfolio backtesting software. Dash allows to create reactive single page apps, meaning that with the use of tables, drop-down menus, etc. the app is updated instantly. This is done with the use of `callbacks`, which whenever an input changes, the AJAX call gets made, and the output value is updated automatically. \cite{callbacks}. With the use of the `Dash HTML components` library there is no need to write HTML for the dashboard, since the layout can be composed using Python, that generates HTML content. Dash uses the Flask web framework, which makes it fairly simple to embed a Dash app at a specific route of an existing Flask app \cite{flask-dash}, the framework also handles most of the communications between the front-end and back-end.
+\subsubsection{GUI}
+\label{GUI}
 
-The User-Interface is made with the use of `Bulma`, which is an open-source CSS framework \cite{bulma}. Bulma is ideal for creating responsive elements, it automatically adapts the website to different screen sizes \cite{responsiveness_2020}. It is also compatible with various web browsers. Another advantage of Bulma is that we could create a very modern looking website fairly simply as the framework is doing a lot of styling for us. Bulma provides already prestyled elements, components, such as the navigation bar or alerts for the users. It is fairly simple to learn in comparison to `Bootstrap`, as Bulma has easy to learn syntax, it has simple readable class names like `.button` and has a very straightforward modifiers system, for example `.is-primary`. There are no javascript elements, only CSS, which makes it adaptable to frameworks such as Dash, which we also used and is described above.
+Dash is great for applications that require data visualisation, modelling, analysis \cite{dash} which is precisely what is needed for our portfolio backtesting software. It allows us to create reactive single-page apps, meaning that with the use of tables, drop-down menus, etc. the app is updated instantly. This is done with the use of `callbacks`, which whenever an input changes, the AJAX call gets made, and the output value is updated automatically \cite{callbacks}.
+
+A typical callback, and an example from our application is as follows:
+
+\begin{lstlisting}[language=Python, caption=setup.py - Development environment, label=lst:callback_example]
+def register_add_portfolio_button(dashapp):
+    dashapp.callback(
+        Output("portfolios-container", "children"),
+        [Input("add-portfolio-btn", "n_clicks")],
+        [State("portfolios-container", "children")],
+    )(add_portfolio)
+\end{lstlisting}
+
+In this code snippet we register a listener to the button with the unique id: `add-portfolio-btn`, and its property: `n\_clicks`, or number of clicks. Whenever the input property changes, the corresponding function gets called automatically. This also happens upon launching the dash page, therefore it is common to start the called function by catering to this case, and raising a `PreventUpdate` exception if the input parameter is `None`. An example can be seen in \cite{prevent_update}.
+
+The called function then receives the input properties as parameters. Furthermore, we can add any number of parameters as `State` objects as done above. When the function finishes, it needs to return the same number of values, as it is specified in the callback. Mismatching the number of return values results in a runtime error. Whereas mismatching the input parameters yields a different function signature, and so the callback is not registered to the desired function, doing so does not raise any errors. 
+
+Fortunately, Dash offers great developer tools \cite{dash_dev_tools}, such as the `Callback Graph` visible on \figurename{\ref{callback_graph}}, which can be accessed by running the application in debug mode and activating the Dev tools. This graph came in handy often, especially due to the arguments presented in \ref{dash_limitations}.
+
+ \begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.6]{05Coding/05Pictures/callback_graph.png}
+   \caption{Callback Graph on Thalia}
+   \label{callback_graph}
+\end{figure}
+
+
+\subsubsection*{Limitations}
+\label{dash_limitations}
+
+Although Dash is fairly intuitive and great for one-page applications, it struggles when it comes to dynamically created components. To be more precise, all callbacks need to be registered before runtime. For example, in our application the user is able to enter multiple portfolios via the `Add Portfolio` button. Doing so creates new input fields for the portfolio which all need to be registered. 
+
+As this problem persisted with other components as well, we needed to find some solutions. Many approaches have been suggested by the Dash Community, some even by the developer team \cite{dash_workaround}. At the end, we have decided to use the most stable approach and generate all the components beforehand and hide them. This means that the relevant function now also has the responsibility of returning the visibility of the required Div. Note that this is a highly requested feature in the Dash community, and is likely to be added soon, but for now, we needed to resort to workarounds.
+
+Furthermore, the data we show in the dashboard is greatly centered around the strategy object discussed in \ref{BL Structure}. At the beginning of every backtesting process a new strategy object is initialised, which is a time-costly task. As this object holds most of the information our result pages require, many functions would need to access the same object. 
+
+One solution would be to have a callback for initialising the object, and then share it with all others. Although there exist ways to do so \cite{dash_share}, we were not satisfied with any of the approaches listed. Consequently, we decided to go forward with the original approach that Dash favours, and combine more outputs in one function. Even though this introduced more complexity to our code, it made the application faster overall.
+
+\subsubsection*{Layout}
+
+The layout of the application, as discussed in \ref{GUI}, has been created with the use of the `Dash HTML components` library. Consequently, there was no need to write HTML for the dashboard, since the layout was composed using Python, which generates HTML content. Dash uses the Flask web framework, which makes it fairly simple to embed a Dash app at a specific route of an existing Flask app \cite{flask-dash}, the framework also handles most of the communications between the front-end and back-end.
+
+The User-Interface was made with the use of `Bulma`, which is an open-source CSS framework \cite{bulma}. Bulma is ideal for creating responsive elements, it automatically adapts the website to different screen sizes \cite{responsiveness_2020}. It is also compatible with various web browsers. Another advantage of Bulma is that we could create a very modern-looking website fairly simply as the framework is doing a lot of styling for us.
+
+It also provides already pre-styled elements, components, such as the navigation bar or alerts for the users. It is fairly simple to learn in comparison to `Bootstrap`, as Bulma has easy to learn syntax, it has simple readable class names like `.button` and has a very straightforward modifiers system, for example,  `.is-primary`. There are no JavaScript elements, only CSS, which makes it adaptable to frameworks such as Dash, which we also used and are described above.
 
 
 \subsubsection{Business Logic}
@@ -173,22 +214,22 @@ The main drawbacks of using SQLite, namely scalability and performance are not a
 \label{Harvester}
 The Data Harvester role is to provide the application with the data it requires in order to allow the users to construct their investment portfolios. The choices we have made had to fulfil all our requirements while keeping in mind our financial and time-related limitations.
 
-\textbf{Chosing the  APIs\newline}
+\subsubsection*{Chosing the  APIs}
 We started our quest for data by trying to find APIs that could call for the main financial assets used when making an investment portfolio \cite{best-stock-api}.
 We have seen that there were several APIs that could be used. After a quick look at them, we have seen that there were two types of APIs. There were those that had FOREX \cite{forex} data and those designed for Stock Market Data \cite{stock_market}. Those two APIs that we considered for FOREX data were Fixerio and Nomics. For stock market data we have considered yfinance, Alpha Vantage and Quandl.\newline
 
 
-\textbf{FOREX API\newline}
+\subsubsection*{FOREX API}
 Between nomics \cite{nomics-python} and fixerio \cite{fixerio} we have chosen nomics for the simple fact that nomics had unlimited calls for free, besides, nomics also has cryptocurrencies data. However, Fixerio is a more robust API with a larger user base and more data, that we would have used if could have afforded the investment. In the scenario where we would have had money to spend we would have used fixerio for currencies and nomics for cryptocurrencies. However, in our case we have no money so we used nomics for both currencies and cryptocurrencies. To compare the two options we have used the documentation provided by each API . \newline
 
-\textbf{Stock Market Data\newline}
+\subsubsection*{Stock Market Data}
 Out of yfinance \cite{yfinance}, Alpha Vantage \cite{alphavantage}and Quandl \cite{quandl} we have chosen yfinance because it offered the most data and API calls for free, compared to the other two. If we had money to spend we would have used Alpha Vantage because of the larger number of available assets and the high number of requests per minute. As for Quandl we found it to be expensive and not centred on the type of data we need. We have made our choice based on the API specification given in the documentation of each API.\newline
 
-\textbf{Standard Data Format\newline}
+\subsubsection*{Standard Data Format}
 While looking for solutions that would help with solving the data format and the maintenance problem we have found pandas\_datareader \cite{pandas_datareader}. It is a wrapper for the biggest financial APIs. We saw that it included all of the Stock Market Data APIs named above and more. 
 In addition, it standardizes the calling procedure for all APIs it includes and it returns the same format no matter the API you are calling. This is the only product that does this on the market so no compassion with other product can be done. In the case where we would have not used it we would have produced code that would have archived the same result. In conclusion, using pandas\_datareader has saved us some valuable man-hours.\newline
     
-\textbf{Update the database \& Redundancy \& Data Interpolation\newline}   
+\subsubsection*{Update the database \& Redundancy \& Data Interpolation}   
 For these requirements, we have seen that no already existing systems can do what we want. As a result, we had to write our system.
 In the building of the system, we have used python as a programming language. This decision has been made because the APIs chosen have been built in python. Writing the system in a different language while the APIs are in python would have created additional problems without any benefits.  To manipulate the data we have used the pandas library. The persistent data required by the update mechanism is stored in CSV \cite{csv_iso} format because of the readability and the ease of use when using pandas.
 
