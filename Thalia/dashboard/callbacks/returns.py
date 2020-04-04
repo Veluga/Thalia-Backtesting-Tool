@@ -33,20 +33,50 @@ def get_data(name, diff, start_date, end_date):
     years = list(range(start_date.year + 1, end_date.year))
     diffs.append(diff)
     names.append(str(name))
-    # print(return_tab, file=sys.stdout)
     return [diffs, names, years]
+
+
+def portfolios_figure(return_tab, no_portfolios):
+    data_table = {}
+    for i in range(0, no_portfolios):
+        i = return_tab[i]
+        name = i[1]
+        diffs = i[0][0]
+
+        data_table.update(
+            {f"{str(name[0])}  returns": diffs.astype(float).round(2),}
+        )
+
+    df = pd.DataFrame(data_table).reset_index()
+
+    df["index"] = df["index"].dt.strftime("%Y")
+    print(df.columns, file=sys.stdout)
+    annual_figure = go.Figure(
+        data=[
+            go.Bar(
+                name="name",
+                y=df[df.columns[i]],
+                x=df[df.columns[0]],
+                marker_color=OFFICIAL_COLOURS[i],
+            )
+            for i in range(1, len(df.columns))
+        ]
+    )
+    annual_figure.update_layout(
+        xaxis_title="Time",
+        yaxis_title="Yearly Differences (%)",
+        font=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
+    )
+    return annual_figure
 
 
 def update_table(return_tab, no_portfolios, input_money):
     data_table = {}
-    lata = []
     for i in range(0, no_portfolios):
-        money = input_money
         i = return_tab[i]
         name = i[1]
         diffs = i[0][0]
-        years = i[2]
-        lata.extend(years)
+
         data_table.update(
             {
                 f"{str(name[0])}  returns": diffs.astype(float).round(2),

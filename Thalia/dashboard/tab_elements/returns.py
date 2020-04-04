@@ -17,7 +17,18 @@ def returns_table(id):
     return html.Div(
         [
             html.P("Annual Returns", className="panel-heading"),
-            dcc.Loading(html.Div(html.Div(id=f"return-table"),), className="section",),
+            dcc.Loading(
+                html.Div(
+                    [
+                        html.Div(id=f"return-table"),
+                        dcc.Graph(
+                            id=f"annual-returns-portfolios",
+                            style={"width": "200%", "height": "400px"},
+                        ),
+                    ]
+                ),
+                className="section",
+            ),
         ],
         className="column is-4 is-offset-4",
     )

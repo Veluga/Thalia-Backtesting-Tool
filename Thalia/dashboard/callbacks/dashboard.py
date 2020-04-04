@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from datetime import datetime
-from .returns import update_table, get_data
+from .returns import update_table, get_data, portfolios_figure
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
@@ -40,6 +40,7 @@ def register_update_dashboard(dashapp):
     outputs = [
         Output(f"main-graph", "figure"),
         Output(f"return-table", "children"),
+        Output(f"annual-returns-portfolios", "figure"),
     ]
     for i in range(1, MAX_PORTFOLIOS + 1):
 
@@ -332,5 +333,6 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
     returns_table = update_table(my_data, no_portfolios, input_money)
+    annual_returns = portfolios_figure(my_data, no_portfolios)
 
-    return [main_graph] + [returns_table] + to_return
+    return [main_graph] + [returns_table] + [annual_returns] + to_return
