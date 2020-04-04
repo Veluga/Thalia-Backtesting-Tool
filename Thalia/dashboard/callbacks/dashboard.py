@@ -4,13 +4,12 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from datetime import datetime
-
+from .returns import update_table, get_data
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
-from .returns import update_table
-import sys
 from ..strategy import get_strategy, get_table_data
+import sys
 
 
 def register_dashboard(dashapp):
@@ -38,7 +37,10 @@ def register_update_dashboard(dashapp):
     ]
 
     # Portfolio Growth Graph
-    outputs = [Output(f"main-graph", "figure")]
+    outputs = [
+        Output(f"main-graph", "figure"),
+        Output(f"return-table", "children"),
+    ]
     for i in range(1, MAX_PORTFOLIOS + 1):
 
         # Portfolio specific data
@@ -69,7 +71,6 @@ def register_update_dashboard(dashapp):
             # Pie Chart
             Output(f"pie-{i}", "figure"),
             Output(f"graph-box-pie-{i}", "style"),
-            Output(f"return-table-{i}", "children"),
         ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -203,7 +204,6 @@ def hidden_divs_data(no_portfolios):
         None,
         None,
         None,
-        None,
         {"display": "none"},
     ]
     return empty_divs * (MAX_PORTFOLIOS - no_portfolios)
@@ -226,14 +226,12 @@ def get_trace(x, y, name, color):
 def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     """
     Based on selected tickers and assets update the whole dashapp.
-
     *args is for all the specific portfolio data, which involves:
     - Portfolio Name
     - Contribution Amount
     - Contribution Frequency
     - Rebalancing Frequency
     - Table of Tickers
-
     The function updates:
     - The Main Portfolio Graph
     - Visibility for Portfolio Data
@@ -258,6 +256,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     to_return = []
+    my_data = []
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
@@ -317,20 +316,21 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             strategy.dates[-1],
         )
         to_return.append(annual_figure)
+        my_data.append(
+            get_data(
+                portfolio_name,
+                anda.relative_yearly_returns(strategy),
+                strategy.dates[0],
+                strategy.dates[-1],
+            )
+        )
 
+        # to_return.append(returns_table)
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
 
-        # returns tab
-        returns_table = update_table(
-            portfolio_name,
-            anda.relative_yearly_returns(strategy),
-            strategy.dates[0],
-            strategy.dates[-1],
-        )
-        to_return.append(returns_table)
-
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
+    returns_table = update_table(my_data, no_portfolios, input_money)
 
-    return [main_graph] + to_return
+    return [main_graph] + [returns_table] + to_return

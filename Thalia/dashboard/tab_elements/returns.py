@@ -17,13 +17,11 @@ def returns_table(id):
     return html.Div(
         [
             html.P("Annual Returns", className="panel-heading"),
-            dcc.Loading(
-                html.Div(html.Div(id=f"return-table-{id}"),), className="section",
-            ),
+            dcc.Loading(html.Div(html.Div(id=f"return-table"),), className="section",),
         ],
         className="column is-4 is-offset-4",
     )
 
 
 def returns_dashboard():
-    return html.Div([returns_table(id=1), dates_container()])
+    return html.Div([dates_container(), returns_table(id=1)])
