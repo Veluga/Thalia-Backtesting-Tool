@@ -110,14 +110,14 @@ http://ddi-dev.com/blog/programming/django-vs-flask-which-better-your-web-app/
 https://coderseye.com/django-vs-flask
 \fi
 
-For the main framework we chose flask, a Python-based micro web framework. Flask provides functionality for building web applications, such as managing HTTP requests, using the `requests` library, and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}.We used the `render-template()` library to process and parse the HTML templates, for all the pages, except for the dashboard, which is described below. We used some of flask's extensions such as Flask-Login, which provides user session management for Flask \cite{flask-login}. To handle web forms we used the `flask-wtf` extension, that is a wrapper around the `WTForms` package \cite{wtforms-documentation}. 
+For the main framework we chose Flask, a Python-based micro web framework. Flask provides functionality for building web applications, such as managing HTTP requests, using the `requests` library, and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}.We used the `render-template()` library to process and parse the HTML templates, for all the pages, except for the dashboard, which is described below. We used some of Flask's extensions such as Flask-Login, which provides user session management for Flask \cite{flask-login}. To handle web forms we used the `flask-wtf` extension, which is a wrapper around the `WTForms` package \cite{wtforms-documentation}. 
 
 \subsubsection{GUI}
 \label{GUI}
 
-Dash is great for applications that require data visualisation, modelling, analysis \cite{dash} which is precisely what is needed for our portfolio backtesting software. It allows us to create reactive single-page apps, meaning that with the use of tables, drop-down menus, etc. the app is updated instantly. This is done with the use of `callbacks`, which whenever an input changes, the AJAX call gets made, and the output value is updated automatically \cite{callbacks}.
+Dash is great for applications that require data visualisation, modelling, or analysis \cite{dash}, which is precisely what is needed for our portfolio backtesting software. It allows us to create reactive single-page apps, meaning that with the use of tables, drop-down menus, etc., the app is updated instantly. This is done with the use of `callbacks`, which whenever an input changes, make an AJAX request whose output value is updated automatically \cite{callbacks}.
 
-A typical callback, and an example from our application is as follows:
+A typical callback using an example from our application can be seen below:
 
 \begin{lstlisting}[language=Python, caption=setup.py - Development environment, label=lst:callback_example]
 def register_add_portfolio_button(dashapp):
@@ -128,9 +128,9 @@ def register_add_portfolio_button(dashapp):
     )(add_portfolio)
 \end{lstlisting}
 
-In this code snippet we register a listener to the button with the unique id: `add-portfolio-btn`, and its property: `n\_clicks`, or number of clicks. Whenever the input property changes, the corresponding function gets called automatically. This also happens upon launching the dash page, therefore it is common to start the called function by catering to this case, and raising a `PreventUpdate` exception if the input parameter is `None`. An example can be seen in \cite{prevent_update}.
+In this code snippet, we register a listener to the button with the unique id: `add-portfolio-btn`, and its property `n\_clicks`, or number of clicks. Whenever the input property changes, the corresponding function gets called automatically. This also happens upon launching the Dash page, therefore it is common to start the called function by catering to this case, and raising a `PreventUpdate` exception if the input parameter is `None`. An example can be seen in \cite{prevent_update}.
 
-The called function then receives the input properties as parameters. Furthermore, we can add any number of parameters as `State` objects as done above. When the function finishes, it needs to return the same number of values, as it is specified in the callback. Mismatching the number of return values results in a runtime error. Whereas mismatching the input parameters yields a different function signature, and so the callback is not registered to the desired function, doing so does not raise any errors. 
+The called function then receives the input properties as parameters. Furthermore, we can add any number of parameters as `State` objects, as has been done above. When the function finishes, it needs to return the same number of values as is specified in the callback. Mismatching the number of return values results in a runtime error. Whereas mismatching the input parameters yields a different function signature, and so the callback is not registered to the desired function, doing so does not raise any errors. 
 
 Fortunately, Dash offers great developer tools \cite{dash_dev_tools}, such as the `Callback Graph` visible on \figurename{\ref{callback_graph}}, which can be accessed by running the application in debug mode and activating the Dev tools. This graph came in handy often, especially due to the arguments presented in \ref{dash_limitations}.
 
@@ -155,11 +155,11 @@ One solution would be to have a callback for initialising the object, and then s
 
 \subsubsection*{Layout}
 
-The layout of the application, as discussed in \ref{GUI}, has been created with the use of the `Dash HTML components` library. Consequently, there was no need to write HTML for the dashboard, since the layout was composed using Python, which generates HTML content. Dash uses the Flask web framework, which makes it fairly simple to embed a Dash app at a specific route of an existing Flask app \cite{flask-dash}, the framework also handles most of the communications between the front-end and back-end.
+The layout of the application, as discussed in \ref{GUI}, has been created with the use of the `Dash HTML components` library. Consequently, there was no need to write HTML for the dashboard, since the layout was composed using Python, which generates HTML content. Dash uses the Flask web framework, which makes it fairly simple to embed a Dash app at a specific route of an existing Flask app \cite{flask-dash}. The framework also handles most of the communications between the front-end and back-end.
 
-The User-Interface was made with the use of `Bulma`, which is an open-source CSS framework \cite{bulma}. Bulma is ideal for creating responsive elements, it automatically adapts the website to different screen sizes \cite{responsiveness_2020}. It is also compatible with various web browsers. Another advantage of Bulma is that we could create a very modern-looking website fairly simply as the framework is doing a lot of styling for us.
+The User-Interface was made with the use of `Bulma`, which is an open-source CSS framework \cite{bulma}. Bulma is ideal for creating responsive elements as it automatically adapts the website to different screen sizes \cite{responsiveness_2020}. It is also compatible with various web browsers. Another advantage of Bulma is that we could create a very modern-looking website fairly simply as the framework is doing a lot of styling for us.
 
-It also provides already pre-styled elements, components, such as the navigation bar or alerts for the users. It is fairly simple to learn in comparison to `Bootstrap`, as Bulma has easy to learn syntax, it has simple readable class names like `.button` and has a very straightforward modifiers system, for example,  `.is-primary`. There are no JavaScript elements, only CSS, which makes it adaptable to frameworks such as Dash, which we also used and are described above.
+It also provides pre-styled elements, components, such as the navigation bar or alerts for the users. It is fairly simple to learn in comparison to `Bootstrap`, as Bulma has easy to learn syntax, it has simple readable class names like `.button` and has a very straightforward modifiers system, for example,  `.is-primary`. There are no JavaScript elements, only CSS, which makes it adaptable to frameworks such as Dash.
 
 
 \subsubsection{Business Logic}
@@ -346,4 +346,3 @@ Our deployment process is thus fully automized and immune to failing tests, as i
 \end{figure}
 
 \end{document}
-
