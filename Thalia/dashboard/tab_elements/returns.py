@@ -18,21 +18,32 @@ def returns_table(id):
         [
             html.P("Annual Returns", className="panel-heading"),
             dcc.Loading(
-                html.Div(
-                    [
-                        html.Div(id=f"return-table"),
-                        dcc.Graph(
-                            id=f"annual-returns-portfolios",
-                            style={"width": "200%", "height": "400px"},
-                        ),
-                    ]
-                ),
-                className="section",
+                html.Div([html.Div(id=f"return-table")]), className="panel-block",
             ),
         ],
-        className="column is-4 is-offset-4",
+        className="box",
+    )
+
+
+def returns_graph(id):
+
+    return html.Div(
+        [
+            html.P("Annual Returns", className="panel-heading"),
+            dcc.Loading(
+                html.Div(
+                    dcc.Graph(
+                        id=f"annual-returns-portfolios",
+                        style={"width": "100%", "height": "500px"},
+                    ),
+                    className="panel-block",
+                ),
+                # className="section",
+            ),
+        ],
+        className="box",
     )
 
 
 def returns_dashboard():
-    return html.Div([dates_container(), returns_table(id=1)])
+    return html.Div([dates_container(), returns_graph(id=1), returns_table(id=1)])

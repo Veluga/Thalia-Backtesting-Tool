@@ -4,12 +4,11 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from datetime import datetime
-from .returns import update_table, get_data, portfolios_figure
+from .returns import update_table, portfolios_figure
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
 from ..strategy import get_strategy, get_table_data
-import sys
 
 
 def register_dashboard(dashapp):
@@ -257,7 +256,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     to_return = []
-    my_data = []
+    returns_tab_data = []
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
@@ -316,14 +315,10 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             strategy.dates[0],
             strategy.dates[-1],
         )
+
         to_return.append(annual_figure)
-        my_data.append(
-            get_data(
-                portfolio_name,
-                anda.relative_yearly_returns(strategy),
-                strategy.dates[0],
-                strategy.dates[-1],
-            )
+        returns_tab_data.append(
+            [anda.relative_yearly_returns(strategy), portfolio_name, total_returns],
         )
 
         # to_return.append(returns_table)
@@ -332,7 +327,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
-    returns_table = update_table(my_data, no_portfolios, input_money)
-    annual_returns = portfolios_figure(my_data, no_portfolios)
+    # Returns tab
+    returns_table = update_table(returns_tab_data, no_portfolios)
+    annual_returns = portfolios_figure(returns_tab_data, no_portfolios)
 
     return [main_graph] + [returns_table] + [annual_returns] + to_return

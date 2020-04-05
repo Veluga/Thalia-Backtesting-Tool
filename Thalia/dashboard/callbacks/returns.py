@@ -3,11 +3,8 @@ from dash.exceptions import PreventUpdate
 import plotly.graph_objects as go
 from ..config import MAX_PORTFOLIOS
 from ..config import OFFICIAL_COLOURS
-import dash_html_components as html
-import decimal
 import pandas as pd
 import dash_table
-import sys
 
 
 def register_return_tab(dashapp):
@@ -27,34 +24,30 @@ def register_print_dates(dashapp):
     )(print_dates)
 
 
-def get_data(name, diff, start_date, end_date):
-    names = []
-    diffs = []
-    years = list(range(start_date.year + 1, end_date.year))
-    diffs.append(diff)
-    names.append(str(name))
-    return [diffs, names, years]
-
-
 def portfolios_figure(return_tab, no_portfolios):
+    """
+    Function that outputs the annual returns graph
+    for all portfolios
+    """
     data_table = {}
+    names = []
     for i in range(0, no_portfolios):
         i = return_tab[i]
         name = i[1]
-        diffs = i[0][0]
+        names.append(name)
+        diffs = i[0]
 
         data_table.update(
-            {f"{str(name[0])}  returns": diffs.astype(float).round(2),}
+            {f"{str(name)}  returns": diffs.astype(float).round(2),}
         )
 
     df = pd.DataFrame(data_table).reset_index()
 
     df["index"] = df["index"].dt.strftime("%Y")
-    print(df.columns, file=sys.stdout)
     annual_figure = go.Figure(
         data=[
             go.Bar(
-                name="name",
+                name=names[i - 1],
                 y=df[df.columns[i]],
                 x=df[df.columns[0]],
                 marker_color=OFFICIAL_COLOURS[i],
@@ -70,32 +63,50 @@ def portfolios_figure(return_tab, no_portfolios):
     return annual_figure
 
 
-def update_table(return_tab, no_portfolios, input_money):
+def update_table(return_tab, no_portfolios):
+    """
+    function that outputs a table with
+    data for all portfolios
+    """
     data_table = {}
     for i in range(0, no_portfolios):
         i = return_tab[i]
         name = i[1]
-        diffs = i[0][0]
+        diffs = i[0]
+        total_returns = i[2]
 
         data_table.update(
             {
-                f"{str(name[0])}  returns": diffs.astype(float).round(2),
-                f"{str(name[0])} balance": (input_money + input_money * diffs)
-                .astype(float)
-                .round(2),
+                f"{str(name)}  returns %": diffs.astype(float).round(2),
+                f"{str(name)} balance": (
+                    total_returns[
+                        (total_returns.index.day == 1)
+                        & (total_returns.index.month == 1)
+                    ]
+                ),
             }
         )
 
     df = pd.DataFrame(data_table).reset_index()
-    df.rename(columns={"index": "date"})
+    df.rename({df.columns[0]: "Date"})
+    df.index.names = ["date"]
     df["index"] = df["index"].dt.strftime("%Y")
     columns = [{"name": i, "id": i} for i in df.columns]
 
     data = df.to_dict("rows")
 
-    annual_figure = dash_table.DataTable(data=data, columns=columns)
+    annual_table = dash_table.DataTable(
+        data=data,
+        columns=columns,
+        style_cell={"textAlign": "right", "border": "1px black"},
+        style_as_list_view=True,
+        style_data_conditional=[
+            {"if": {"row_index": "odd"}, "backgroundColor": "rgb(248, 248, 248)"}
+        ],
+        style_header={"backgroundColor": "rgb(230, 230, 230)", "fontWeight": "bold"},
+    )
 
-    return annual_figure
+    return annual_table
 
 
 def print_dates(n_clicks, start_date, end_date):
