@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
+from json import dump
 
 from .extensions import db
 from .forms import LoginForm, RegistrationForm, FeedbackForm
@@ -21,11 +22,16 @@ def about():
     return render_template("about.html", title="About Page")
 
 
-@server_bp.route("/issues/")
-def issues():
-    # TODO
+@server_bp.route("/contact/", methods=['GET','POST'])
+def contact():
     form = FeedbackForm()
-    return render_template("issues.html", title="Report Issues", form=form)
+    if form.validate_on_submit():
+        # dump to feedback.csv
+        with open('feedback.csv','a') as file:
+            file.write('{},{},{}\n'.format(form.email.data, 
+                                         form.title.data, 
+                                         form.contents.data))
+    return render_template("contact.html", title="Contact Us", form=form)
 
 
 @server_bp.route("/login/", methods=["GET", "POST"])
