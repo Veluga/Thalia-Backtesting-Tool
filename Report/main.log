@@ -1,0 +1,2149 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.6)  5 APR 2020 19:34
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/pentium/report_branch/Thalia/Report/main.tex
+(/home/pentium/report_branch/Thalia/Report/main.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (/home/pentium/report_branch/Thalia/Report/preamble.sty
+Package: preamble 
+ (/usr/share/texlive/texmf-dist/tex/latex/tocbibind/tocbibind.sty
+Package: tocbibind 2010/10/13 v1.5k extra ToC listings
+Package tocbibind Info: The document has section divisions on input line 50.
+
+
+Package tocbibind Note: Using section or other style headings.
+
+) (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2018/02/14 3.18 The Babel package
+ (/usr/share/texlive/texmf-dist/tex/generic/babel/switch.def
+File: switch.def 2018/02/14 3.18 Babel switching mechanism
+) (/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2017/06/06 v3.3r English support from the babel system
+ (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2018/02/14 3.18 Babel common definitions
+\babel@savecnt=\count87
+\U@D=\dimen103
+ (/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def)
+\bbl@dirlevel=\count88
+)
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+)) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+ (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+Now handling font encoding OML ...
+... no UTF-8 mapping file for font encoding OML
+Now handling font encoding T1 ...
+... processing UTF-8 mapping file for font encoding T1
+ (/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.dfu
+File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00AD (decimal 173)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C4 (decimal 196)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00C7 (decimal 199)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CB (decimal 203)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00CE (decimal 206)
+   defining Unicode char U+00CF (decimal 207)
+   defining Unicode char U+00D0 (decimal 208)
+   defining Unicode char U+00D1 (decimal 209)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D6 (decimal 214)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DB (decimal 219)
+   defining Unicode char U+00DC (decimal 220)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00DE (decimal 222)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E4 (decimal 228)
+   defining Unicode char U+00E5 (decimal 229)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00E7 (decimal 231)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EB (decimal 235)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F0 (decimal 240)
+   defining Unicode char U+00F1 (decimal 241)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F6 (decimal 246)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FB (decimal 251)
+   defining Unicode char U+00FC (decimal 252)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+00FE (decimal 254)
+   defining Unicode char U+00FF (decimal 255)
+   defining Unicode char U+0100 (decimal 256)
+   defining Unicode char U+0101 (decimal 257)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0104 (decimal 260)
+   defining Unicode char U+0105 (decimal 261)
+   defining Unicode char U+0106 (decimal 262)
+   defining Unicode char U+0107 (decimal 263)
+   defining Unicode char U+0108 (decimal 264)
+   defining Unicode char U+0109 (decimal 265)
+   defining Unicode char U+010A (decimal 266)
+   defining Unicode char U+010B (decimal 267)
+   defining Unicode char U+010C (decimal 268)
+   defining Unicode char U+010D (decimal 269)
+   defining Unicode char U+010E (decimal 270)
+   defining Unicode char U+010F (decimal 271)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0112 (decimal 274)
+   defining Unicode char U+0113 (decimal 275)
+   defining Unicode char U+0114 (decimal 276)
+   defining Unicode char U+0115 (decimal 277)
+   defining Unicode char U+0116 (decimal 278)
+   defining Unicode char U+0117 (decimal 279)
+   defining Unicode char U+0118 (decimal 280)
+   defining Unicode char U+0119 (decimal 281)
+   defining Unicode char U+011A (decimal 282)
+   defining Unicode char U+011B (decimal 283)
+   defining Unicode char U+011C (decimal 284)
+   defining Unicode char U+011D (decimal 285)
+   defining Unicode char U+011E (decimal 286)
+   defining Unicode char U+011F (decimal 287)
+   defining Unicode char U+0120 (decimal 288)
+   defining Unicode char U+0121 (decimal 289)
+   defining Unicode char U+0122 (decimal 290)
+   defining Unicode char U+0123 (decimal 291)
+   defining Unicode char U+0124 (decimal 292)
+   defining Unicode char U+0125 (decimal 293)
+   defining Unicode char U+0128 (decimal 296)
+   defining Unicode char U+0129 (decimal 297)
+   defining Unicode char U+012A (decimal 298)
+   defining Unicode char U+012B (decimal 299)
+   defining Unicode char U+012C (decimal 300)
+   defining Unicode char U+012D (decimal 301)
+   defining Unicode char U+012E (decimal 302)
+   defining Unicode char U+012F (decimal 303)
+   defining Unicode char U+0130 (decimal 304)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0132 (decimal 306)
+   defining Unicode char U+0133 (decimal 307)
+   defining Unicode char U+0134 (decimal 308)
+   defining Unicode char U+0135 (decimal 309)
+   defining Unicode char U+0136 (decimal 310)
+   defining Unicode char U+0137 (decimal 311)
+   defining Unicode char U+0139 (decimal 313)
+   defining Unicode char U+013A (decimal 314)
+   defining Unicode char U+013B (decimal 315)
+   defining Unicode char U+013C (decimal 316)
+   defining Unicode char U+013D (decimal 317)
+   defining Unicode char U+013E (decimal 318)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0143 (decimal 323)
+   defining Unicode char U+0144 (decimal 324)
+   defining Unicode char U+0145 (decimal 325)
+   defining Unicode char U+0146 (decimal 326)
+   defining Unicode char U+0147 (decimal 327)
+   defining Unicode char U+0148 (decimal 328)
+   defining Unicode char U+014A (decimal 330)
+   defining Unicode char U+014B (decimal 331)
+   defining Unicode char U+014C (decimal 332)
+   defining Unicode char U+014D (decimal 333)
+   defining Unicode char U+014E (decimal 334)
+   defining Unicode char U+014F (decimal 335)
+   defining Unicode char U+0150 (decimal 336)
+   defining Unicode char U+0151 (decimal 337)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0154 (decimal 340)
+   defining Unicode char U+0155 (decimal 341)
+   defining Unicode char U+0156 (decimal 342)
+   defining Unicode char U+0157 (decimal 343)
+   defining Unicode char U+0158 (decimal 344)
+   defining Unicode char U+0159 (decimal 345)
+   defining Unicode char U+015A (decimal 346)
+   defining Unicode char U+015B (decimal 347)
+   defining Unicode char U+015C (decimal 348)
+   defining Unicode char U+015D (decimal 349)
+   defining Unicode char U+015E (decimal 350)
+   defining Unicode char U+015F (decimal 351)
+   defining Unicode char U+0160 (decimal 352)
+   defining Unicode char U+0161 (decimal 353)
+   defining Unicode char U+0162 (decimal 354)
+   defining Unicode char U+0163 (decimal 355)
+   defining Unicode char U+0164 (decimal 356)
+   defining Unicode char U+0165 (decimal 357)
+   defining Unicode char U+0168 (decimal 360)
+   defining Unicode char U+0169 (decimal 361)
+   defining Unicode char U+016A (decimal 362)
+   defining Unicode char U+016B (decimal 363)
+   defining Unicode char U+016C (decimal 364)
+   defining Unicode char U+016D (decimal 365)
+   defining Unicode char U+016E (decimal 366)
+   defining Unicode char U+016F (decimal 367)
+   defining Unicode char U+0170 (decimal 368)
+   defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0172 (decimal 370)
+   defining Unicode char U+0173 (decimal 371)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0178 (decimal 376)
+   defining Unicode char U+0179 (decimal 377)
+   defining Unicode char U+017A (decimal 378)
+   defining Unicode char U+017B (decimal 379)
+   defining Unicode char U+017C (decimal 380)
+   defining Unicode char U+017D (decimal 381)
+   defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+01CD (decimal 461)
+   defining Unicode char U+01CE (decimal 462)
+   defining Unicode char U+01CF (decimal 463)
+   defining Unicode char U+01D0 (decimal 464)
+   defining Unicode char U+01D1 (decimal 465)
+   defining Unicode char U+01D2 (decimal 466)
+   defining Unicode char U+01D3 (decimal 467)
+   defining Unicode char U+01D4 (decimal 468)
+   defining Unicode char U+01E2 (decimal 482)
+   defining Unicode char U+01E3 (decimal 483)
+   defining Unicode char U+01E6 (decimal 486)
+   defining Unicode char U+01E7 (decimal 487)
+   defining Unicode char U+01E8 (decimal 488)
+   defining Unicode char U+01E9 (decimal 489)
+   defining Unicode char U+01EA (decimal 490)
+   defining Unicode char U+01EB (decimal 491)
+   defining Unicode char U+01F0 (decimal 496)
+   defining Unicode char U+01F4 (decimal 500)
+   defining Unicode char U+01F5 (decimal 501)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
+   defining Unicode char U+0232 (decimal 562)
+   defining Unicode char U+0233 (decimal 563)
+   defining Unicode char U+1E02 (decimal 7682)
+   defining Unicode char U+1E03 (decimal 7683)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2010 (decimal 8208)
+   defining Unicode char U+2011 (decimal 8209)
+   defining Unicode char U+2012 (decimal 8210)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2015 (decimal 8213)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+   defining Unicode char U+1E20 (decimal 7712)
+   defining Unicode char U+1E21 (decimal 7713)
+)
+Now handling font encoding OT1 ...
+... processing UTF-8 mapping file for font encoding OT1
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ot1enc.dfu
+File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AD (decimal 173)
+   defining Unicode char U+00B8 (decimal 184)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+)
+Now handling font encoding OMS ...
+... processing UTF-8 mapping file for font encoding OMS
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omsenc.dfu
+File: omsenc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+)
+Now handling font encoding OMX ...
+... no UTF-8 mapping file for font encoding OMX
+Now handling font encoding U ...
+... no UTF-8 mapping file for font encoding U
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+02C6 (decimal 710)
+   defining Unicode char U+02DC (decimal 732)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2026 (decimal 8230)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2423 (decimal 9251)
+)) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+) (/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+ (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen104
+\extrarowheight=\dimen105
+\NC@list=\toks16
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+\everycr=\toks17
+\minrowclearance=\skip45
+)
+\rownum=\count89
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks18
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+) (/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count90
+\Gm@cntv=\count91
+\c@Gm@tempcnt=\count92
+\Gm@bindingoffset=\dimen106
+\Gm@wd@mp=\dimen107
+\Gm@odd@mp=\dimen108
+\Gm@even@mp=\dimen109
+\Gm@layoutwidth=\dimen110
+\Gm@layoutheight=\dimen111
+\Gm@layouthoffset=\dimen112
+\Gm@layoutvoffset=\dimen113
+\Gm@dimlist=\toks19
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2016/02/03 v2.11 `tabularx' package (DPC)
+\TX@col@width=\dimen114
+\TX@old@table=\dimen115
+\TX@old@col=\dimen116
+\TX@target=\dimen117
+\TX@delta=\dimen118
+\TX@cols=\count93
+\TX@ftn=\toks20
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+)
+\Gin@req@height=\dimen119
+\Gin@req@width=\dimen120
+) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count94
+\float@exts=\toks21
+\float@box=\box26
+\@float@everytoks=\toks22
+\@floatcapt=\box27
+) (/usr/share/texlive/texmf-dist/tex/latex/paralist/paralist.sty
+Package: paralist 2017/01/22 v2.7 Extended list environments
+\pltopsep=\skip46
+\plpartopsep=\skip47
+\plitemsep=\skip48
+\plparsep=\skip49
+\pl@lab=\toks23
+) (/usr/share/texlive/texmf-dist/tex/latex/datetime/datetime.sty
+Package: datetime 2015/03/20 v2.60 Date Time Package
+ (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count95
+) (/usr/share/texlive/texmf-dist/tex/latex/fmtcount/fmtcount.sty
+Package: fmtcount 2017/12/24 v3.05
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+ (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks24
+\XKV@tempa@toks=\toks25
+)
+\XKV@depth=\count96
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)) (/usr/share/texlive/texmf-dist/tex/latex/fmtcount/fcprefix.sty
+Package: fcprefix 2012/09/28
+ (/usr/share/texlive/texmf-dist/tex/latex/fmtcount/fcnumparser.sty
+Package: fcnumparser 2017/06/15
+\fc@digit@counter=\count97
+)) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks26
+\ex@=\dimen121
+)
+\c@padzeroesN=\count98
+\fc@tmpcatcode=\count99
+ (/usr/share/texlive/texmf-dist/tex/latex/fmtcount/fc-english.def
+File: fc-english.def 2016/01/12
+)
+\@DT@modctr=\count100
+\@ordinalctr=\count101
+\@orgargctr=\count102
+\@strctr=\count103
+\@tmpstrctr=\count104
+\@DT@loopN=\count105
+\@DT@X=\count106
+) (/usr/share/texlive/texmf-dist/tex/latex/datetime/datetime-defaults.sty
+Package: datetime-defaults 2013/09/10
+)
+\@day=\count107
+\@month=\count108
+\@year=\count109
+\c@HOUR=\count110
+\c@HOURXII=\count111
+\c@MINUTE=\count112
+\c@TOHOUR=\count113
+\c@TOMINUTE=\count114
+\c@SECOND=\count115
+\currenthour=\count116
+\currentminute=\count117
+\currentsecond=\count118
+Package datetime Info: No datetime.cfg file found, using default settings on input line 308.
+\@dtctr=\count119
+\dayofyear=\count120
+\dayofweek=\count121
+LaTeX Info: Redefining \today on input line 736.
+\dt@a=\toks27
+\dt@b=\toks28
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/afterpage.sty
+Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
+\AP@output=\toks29
+\AP@partial=\box28
+\AP@footins=\box29
+) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count122
+\lst@gtempboxa=\box30
+\lst@token=\toks30
+\lst@length=\count123
+\lst@currlwidth=\dimen122
+\lst@column=\count124
+\lst@pos=\count125
+\lst@lostspace=\dimen123
+\lst@width=\dimen124
+\lst@newlines=\count126
+\lst@lineno=\count127
+\lst@maxwidth=\dimen125
+ (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count128
+\lst@skipnumbers=\count129
+\lst@framebox=\box31
+) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+) (/usr/share/texlive/texmf-dist/tex/latex/dirtytalk/dirtytalk.sty
+Package: dirtytalk 2010/11/21 A package making "quoting" easier
+ (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+\c@dirtytalk@qdepth=\count130
+) (/usr/share/texlive/texmf-dist/tex/latex/import/import.sty
+Package: import 2009/03/23  v 5.1
+) (/usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.sty
+Package: subfiles 2012/05/23 Federico Garcia
+ (/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks31
+\verbatim@line=\toks32
+\verbatim@in@stream=\read1
+)) (/home/pentium/report_branch/Thalia/Report/main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count131
+\scratchdimen=\dimen126
+\scratchbox=\box32
+\nofMPsegments=\count132
+\nofMParguments=\count133
+\everyMPshowfont=\toks33
+\MPscratchCnt=\count134
+\MPscratchDim=\dimen127
+\MPnumerator=\count135
+\makeMPintoPDFobject=\count136
+\everyMPtoPDFconversion=\toks34
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+ (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+)) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+ (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=0.0pt
+* \headheight=0.0pt
+* \headsep=0.0pt
+* \topskip=10.0pt
+* \footskip=18.06749pt
+* \marginparwidth=0.0pt
+* \marginparsep=0.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\c@lstlisting=\count137
+\GPT@outputbox=\box33
+<Pictures/small_logo.png, id=1, 544.0325pt x 509.905pt>
+File: Pictures/small_logo.png Graphic file (type png)
+<use Pictures/small_logo.png>
+Package pdftex.def Info: Pictures/small_logo.png  used on input line 53.
+(pdftex.def)             Requested size: 187.89914pt x 176.11192pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 59.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 59.
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} </home/pentium/report_branch/Thalia/Report/Pictures/small_logo.png>] [1]
+No file main.toc.
+\tf@toc=\write3
+\openout3 = `main.toc'.
+
+[2] (/home/pentium/report_branch/Thalia/Report/01Introduction/introduction.tex
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+LaTeX Warning: Citation `WP' on page 3 undefined on input line 11.
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 17.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 17.
+
+
+LaTeX Warning: Citation `TR' on page 3 undefined on input line 26.
+
+
+LaTeX Warning: Citation `TR' on page 3 undefined on input line 26.
+
+
+LaTeX Warning: Citation `TR' on page 3 undefined on input line 28.
+
+
+LaTeX Warning: Citation `TR' on page 3 undefined on input line 30.
+
+
+LaTeX Warning: Citation `DeveloperSalary' on page 3 undefined on input line 36.
+
+[3
+
+
+]) (/home/pentium/report_branch/Thalia/Report/02Background/background.tex [4]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+LaTeX Warning: Citation `listofbacktesters' on page 5 undefined on input line 7.
+
+
+LaTeX Warning: Citation `Fidelity' on page 5 undefined on input line 7.
+
+
+LaTeX Warning: Citation `MetaTrader' on page 5 undefined on input line 7.
+
+
+LaTeX Warning: Citation `NinjaTrader' on page 5 undefined on input line 7.
+
+
+LaTeX Warning: Citation `portfoliovis' on page 5 undefined on input line 12.
+
+<02Background/02Pictures/portfolio_visualizer_input_1.png, id=29, 402.75468pt x 220.57407pt>
+File: 02Background/02Pictures/portfolio_visualizer_input_1.png Graphic file (type png)
+<use 02Background/02Pictures/portfolio_visualizer_input_1.png>
+Package pdftex.def Info: 02Background/02Pictures/portfolio_visualizer_input_1.png  used on input line 18.
+(pdftex.def)             Requested size: 322.20418pt x 176.45947pt.
+[5
+
+
+ </home/pentium/report_branch/Thalia/Report/02Background/02Pictures/portfolio_visualizer_input_1.png>]
+
+LaTeX Warning: Citation `etfreplay' on page 6 undefined on input line 59.
+
+<02Background/02Pictures/etfreplay.png, id=33, 319.1925pt x 355.3275pt>
+File: 02Background/02Pictures/etfreplay.png Graphic file (type png)
+<use 02Background/02Pictures/etfreplay.png>
+Package pdftex.def Info: 02Background/02Pictures/etfreplay.png  used on input line 63.
+(pdftex.def)             Requested size: 223.43321pt x 248.72754pt.
+[6]
+
+LaTeX Warning: Citation `backtestcurvo' on page 7 undefined on input line 71.
+
+
+LaTeX Warning: Citation `WP' on page 7 undefined on input line 75.
+
+
+LaTeX Warning: Citation `stockbacktest' on page 7 undefined on input line 75.
+
+<02Background/02Pictures/stockbacktest.png, id=38, 585.68813pt x 100.12407pt>
+File: 02Background/02Pictures/stockbacktest.png Graphic file (type png)
+<use 02Background/02Pictures/stockbacktest.png>
+Package pdftex.def Info: 02Background/02Pictures/stockbacktest.png  used on input line 79.
+(pdftex.def)             Requested size: 409.97888pt x 70.08635pt.
+[7 </home/pentium/report_branch/Thalia/Report/02Background/02Pictures/etfreplay.png> </home/pentium/report_branch/Thalia/Report/02Background/02Pictures/stockbacktest.png>]) (/home/pentium/report_branch/Thalia/Report/03Branding/branding.tex [8]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
+
+ []
+
+
+LaTeX Warning: Citation `how_to_color_palette' on page 9 undefined on input line 17.
+
+
+LaTeX Warning: Citation `pantone' on page 9 undefined on input line 17.
+
+
+LaTeX Warning: Citation `TR' on page 9 undefined on input line 23.
+
+
+LaTeX Warning: File `03Branding/03Pictures/colors_schemes.png' not found on input line 24.
+
+
+/home/pentium/report_branch/Thalia/Report/03Branding/branding.tex:24: Package pdftex.def Error: File `03Branding/03Pictures/colors_schemes.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.24 ...{03Branding/03Pictures/colors_schemes.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[9
+
+
+]) (/home/pentium/report_branch/Thalia/Report/04Requirements/requirements.tex [10]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+LaTeX Warning: Citation `FURPS' on page 11 undefined on input line 7.
+
+
+LaTeX Warning: Citation `TR' on page 11 undefined on input line 7.
+
+
+Underfull \hbox (badness 1014) in paragraph at lines 28--28
+[]|\OT1/cmr/m/n/10 Allocate fixed amoun-t/pro-por-tions of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--57
+
+ []
+
+[11
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 77--79
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--102
+
+ []
+
+[12]
+Underfull \hbox (badness 1082) in paragraph at lines 118--118
+\OT1/cmr/m/n/10 come, Cur-ren-cies, Com-modi-ties, and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--120
+
+ []
+
+
+LaTeX Warning: Citation `FURPS_drawbacks' on page 13 undefined on input line 122.
+
+[13]
+
+LaTeX Warning: Citation `gracefullDeg' on page 14 undefined on input line 148.
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 192--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--207
+
+ []
+
+
+LaTeX Warning: Citation `drljaca_latinovic_2018' on page 15 undefined on input line 226.
+
+[15]
+
+LaTeX Warning: File `03Requirements/03Pictures/cash_flow_forecast.png' not found on input line 248.
+
+
+/home/pentium/report_branch/Thalia/Report/04Requirements/requirements.tex:248: Package pdftex.def Error: File `03Requirements/03Pictures/cash_flow_forecast.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.248 ...ements/03Pictures/cash_flow_forecast.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[16]
+
+LaTeX Warning: Citation `startup_profitability' on page 17 undefined on input line 260.
+
+
+LaTeX Warning: Citation `fca_guidance_advice' on page 17 undefined on input line 265.
+
+[17]
+
+LaTeX Warning: Reference `Data Harvester' on page 18 undefined on input line 271.
+
+
+LaTeX Warning: Citation `WP' on page 18 undefined on input line 275.
+
+) (/home/pentium/report_branch/Thalia/Report/05Design/design.tex [18]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+LaTeX Warning: Citation `pandas' on page 19 undefined on input line 9.
+
+
+LaTeX Warning: Citation `mckinney2011pandas' on page 19 undefined on input line 9.
+
+
+LaTeX Warning: Reference `BL Structure' on page 19 undefined on input line 9.
+
+
+LaTeX Warning: Citation `pandas' on page 19 undefined on input line 9.
+
+
+LaTeX Warning: Citation `TR' on page 19 undefined on input line 13.
+
+
+LaTeX Warning: Citation `TR' on page 19 undefined on input line 15.
+
+
+LaTeX Warning: File `04Design/04Pictures/architecture_layer_diagram.png' not found on input line 16.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:16: Package pdftex.def Error: File `04Design/04Pictures/architecture_layer_diagram.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.16 ...04Pictures/architecture_layer_diagram.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[19
+
+
+]
+
+LaTeX Warning: Citation `TR' on page 20 undefined on input line 18.
+
+
+LaTeX Warning: Reference `DB Structure' on page 20 undefined on input line 20.
+
+
+LaTeX Warning: Citation `html5' on page 20 undefined on input line 24.
+
+
+LaTeX Warning: Citation `bulma' on page 20 undefined on input line 24.
+
+
+LaTeX Warning: Citation `dash' on page 20 undefined on input line 24.
+
+[20]
+
+LaTeX Warning: Reference `Branding' on page 21 undefined on input line 28.
+
+
+LaTeX Warning: Reference `thalia_navbar' on page 21 undefined on input line 32.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/navbar.png' not found on input line 36.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:36: Package pdftex.def Error: File `08Appendices/081User/081Pictures/navbar.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.36 ...Appendices/081User/081Pictures/navbar.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[21]
+
+LaTeX Warning: Reference `thalia_navbar_hamburger' on page 22 undefined on input line 41.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/navbar_hamburger.png' not found on input line 45.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:45: Package pdftex.def Error: File `08Appendices/081User/081Pictures/navbar_hamburger.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.45 .../081User/081Pictures/navbar_hamburger.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[22]
+
+LaTeX Warning: Reference `user_manual' on page 23 undefined on input line 54.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/homepage.png' not found on input line 58.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:58: Package pdftex.def Error: File `08Appendices/081User/081Pictures/homepage.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.58 ...pendices/081User/081Pictures/homepage.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[23]
+
+LaTeX Warning: Citation `js' on page 24 undefined on input line 63.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/homepage_bottom.png' not found on input line 67.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:67: Package pdftex.def Error: File `08Appendices/081User/081Pictures/homepage_bottom.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...s/081User/081Pictures/homepage_bottom.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[24]
+
+LaTeX Warning: Reference `thalia_navbar' on page 25 undefined on input line 74.
+
+
+LaTeX Warning: Reference `thalia_navbar_hamburger' on page 25 undefined on input line 74.
+
+[25]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/login.png' not found on input line 95.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:95: Package pdftex.def Error: File `08Appendices/081User/081Pictures/login.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.95 ...8Appendices/081User/081Pictures/login.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Citation `dash_layout' on page 26 undefined on input line 104.
+
+[26] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)
+
+LaTeX Warning: Reference `user_manual' on page 27 undefined on input line 140.
+
+
+LaTeX Warning: Reference `thalia_table' on page 27 undefined on input line 142.
+
+
+LaTeX Warning: Reference `dash_limitations' on page 27 undefined on input line 142.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/table.png' not found on input line 146.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:146: Package pdftex.def Error: File `08Appendices/081User/081Pictures/table.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.146 ...Appendices/081User/081Pictures/table.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[27]
+
+LaTeX Warning: Citation `dash_table' on page 28 undefined on input line 151.
+
+
+LaTeX Warning: Reference `GUI' on page 28 undefined on input line 151.
+
+
+LaTeX Warning: Reference `dash_limitations' on page 28 undefined on input line 153.
+
+
+LaTeX Warning: Reference `dash_limitations' on page 28 undefined on input line 155.
+
+[28]
+
+LaTeX Warning: Citation `dashboard_design1' on page 29 undefined on input line 161.
+
+
+LaTeX Warning: Citation `dashboard_design2' on page 29 undefined on input line 161.
+
+
+LaTeX Warning: Reference `dashboard' on page 29 undefined on input line 163.
+
+
+LaTeX Warning: File `04Design/04Pictures/dashboard.png' not found on input line 167.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:167: Package pdftex.def Error: File `04Design/04Pictures/dashboard.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.167 ...width]{04Design/04Pictures/dashboard.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[29]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/dash_funcionalities.png' not found on input line 177.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:177: Package pdftex.def Error: File `08Appendices/081User/081Pictures/dash_funcionalities.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.177 ...User/081Pictures/dash_funcionalities.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[30]
+
+LaTeX Warning: Reference `portfolio_growth' on page 31 undefined on input line 182.
+
+
+LaTeX Warning: Reference `dash_functionalities' on page 31 undefined on input line 182.
+
+
+LaTeX Warning: File `04Design/04Pictures/portfolio_growth.png' not found on input line 186.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:186: Package pdftex.def Error: File `04Design/04Pictures/portfolio_growth.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.186 ...04Design/04Pictures/portfolio_growth.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[31]
+
+LaTeX Warning: Citation `TR' on page 32 undefined on input line 193.
+
+
+LaTeX Warning: Reference `wireframe' on page 32 undefined on input line 193.
+
+
+LaTeX Warning: File `04Design/04Pictures/wireframe.png' not found on input line 197.
+
+
+/home/pentium/report_branch/Thalia/Report/05Design/design.tex:197: Package pdftex.def Error: File `04Design/04Pictures/wireframe.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.197 ...width]{04Design/04Pictures/wireframe.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[32]
+
+LaTeX Warning: Reference `wireframe' on page 33 undefined on input line 204.
+
+
+LaTeX Warning: Reference `wireframe' on page 33 undefined on input line 206.
+
+
+LaTeX Warning: Reference `dash_limitations' on page 33 undefined on input line 206.
+
+[33]
+
+LaTeX Warning: Citation `PyDecimal' on page 34 undefined on input line 250.
+
+
+LaTeX Warning: Citation `walt2011numpy' on page 34 undefined on input line 252.
+
+[34]
+
+LaTeX Warning: Citation `ciscoSeg' on page 35 undefined on input line 268.
+
+
+LaTeX Warning: Citation `dataSegImp' on page 35 undefined on input line 274.
+
+
+LaTeX Warning: Citation `designPatterns' on page 35 undefined on input line 286.
+
+) (/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex [35]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+LaTeX Warning: Reference `Web Framework' on page 36 undefined on input line 12.
+
+
+LaTeX Warning: Citation `pragmaticprog' on page 36 undefined on input line 12.
+
+
+LaTeX Warning: Citation `TR' on page 36 undefined on input line 14.
+
+
+LaTeX Warning: Reference `BL' on page 36 undefined on input line 28.
+
+
+LaTeX Warning: Citation `languagescomparison' on page 36 undefined on input line 28.
+
+
+LaTeX Warning: Citation `statusdifference' on page 36 undefined on input line 35.
+
+
+LaTeX Warning: Citation `howtoreview' on page 36 undefined on input line 35.
+
+
+LaTeX Warning: Reference `Ticket' on page 36 undefined on input line 39.
+
+
+LaTeX Warning: File `05Coding/05Pictures/ticket.png' not found on input line 43.
+
+
+/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex:43: Package pdftex.def Error: File `05Coding/05Pictures/ticket.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.43 ...scale=0.7]{05Coding/05Pictures/ticket.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[36
+
+
+]
+
+LaTeX Warning: File `05Coding/05Pictures/contributions.jpg' not found on input line 54.
+
+
+/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex:54: Package pdftex.def Error: File `05Coding/05Pictures/contributions.jpg' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.54 ...th]{05Coding/05Pictures/contributions.jpg}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[37]
+
+LaTeX Warning: Citation `pairprogramming' on page 38 undefined on input line 61.
+
+
+LaTeX Warning: Citation `physicalscrum' on page 38 undefined on input line 68.
+
+
+LaTeX Warning: Reference `Scrum' on page 38 undefined on input line 68.
+
+
+LaTeX Warning: File `05Coding/05Pictures/scrumboard.png' not found on input line 72.
+
+
+/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex:72: Package pdftex.def Error: File `05Coding/05Pictures/scrumboard.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.72 ...width]{05Coding/05Pictures/scrumboard.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[38]
+
+LaTeX Warning: Reference `Coding Standards' on page 39 undefined on input line 77.
+
+
+LaTeX Warning: Reference `Coding Standards' on page 39 undefined on input line 79.
+
+[39]
+
+LaTeX Warning: Citation `smyth_2018' on page 40 undefined on input line 113.
+
+
+LaTeX Warning: Citation `templates_2010' on page 40 undefined on input line 113.
+
+
+LaTeX Warning: Citation `flask-login' on page 40 undefined on input line 113.
+
+
+LaTeX Warning: Citation `wtforms-documentation' on page 40 undefined on input line 113.
+
+
+LaTeX Warning: Citation `dash' on page 40 undefined on input line 118.
+
+
+LaTeX Warning: Citation `callbacks' on page 40 undefined on input line 118.
+
+
+LaTeX Warning: Citation `prevent_update' on page 40 undefined on input line 131.
+
+[40]
+
+LaTeX Warning: Citation `dash_dev_tools' on page 41 undefined on input line 135.
+
+
+LaTeX Warning: Reference `callback_graph' on page 41 undefined on input line 135.
+
+
+LaTeX Warning: Reference `dash_limitations' on page 41 undefined on input line 135.
+
+
+LaTeX Warning: File `05Coding/05Pictures/callback_graph.png' not found on input line 139.
+
+
+/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex:139: Package pdftex.def Error: File `05Coding/05Pictures/callback_graph.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.139 ...]{05Coding/05Pictures/callback_graph.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Citation `dash_workaround' on page 41 undefined on input line 150.
+
+
+LaTeX Warning: Reference `BL Structure' on page 41 undefined on input line 152.
+
+
+LaTeX Warning: Citation `dash_share' on page 41 undefined on input line 154.
+
+
+LaTeX Warning: Reference `GUI' on page 41 undefined on input line 158.
+
+
+LaTeX Warning: Citation `flask-dash' on page 41 undefined on input line 158.
+
+
+LaTeX Warning: Citation `bulma' on page 41 undefined on input line 160.
+
+
+LaTeX Warning: Citation `responsiveness_2020' on page 41 undefined on input line 160.
+
+
+LaTeX Warning: Reference `GUI' on page 41 undefined on input line 168.
+
+[41]
+
+LaTeX Warning: Citation `PyAlgoTrade' on page 42 undefined on input line 181.
+
+
+LaTeX Warning: Citation `bt' on page 42 undefined on input line 181.
+
+
+LaTeX Warning: Citation `dataprotectionGov' on page 42 undefined on input line 197.
+
+
+LaTeX Warning: Citation `dbPerfComparison' on page 42 undefined on input line 202.
+
+
+LaTeX Warning: Citation `dbmsMarketShare' on page 42 undefined on input line 202.
+
+
+LaTeX Warning: Citation `dbPerfComparison' on page 42 undefined on input line 205.
+
+[42]
+
+LaTeX Warning: Citation `frameworkDataMigration' on page 43 undefined on input line 209.
+
+
+LaTeX Warning: Citation `understandingDataMigration' on page 43 undefined on input line 209.
+
+
+LaTeX Warning: Citation `best-stock-api' on page 43 undefined on input line 218.
+
+
+LaTeX Warning: Citation `forex' on page 43 undefined on input line 219.
+
+
+LaTeX Warning: Citation `stock_market' on page 43 undefined on input line 219.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 218--220
+
+ []
+
+
+LaTeX Warning: Citation `nomics-python' on page 43 undefined on input line 223.
+
+
+LaTeX Warning: Citation `fixerio' on page 43 undefined on input line 223.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--224
+
+ []
+
+
+LaTeX Warning: Citation `yfinance' on page 43 undefined on input line 226.
+
+
+LaTeX Warning: Citation `alphavantage' on page 43 undefined on input line 226.
+
+
+LaTeX Warning: Citation `quandl' on page 43 undefined on input line 226.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 226--227
+
+ []
+
+
+LaTeX Warning: Citation `pandas_datareader' on page 43 undefined on input line 229.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 229--231
+
+ []
+
+[43]
+
+LaTeX Warning: Citation `csv_iso' on page 44 undefined on input line 234.
+
+
+LaTeX Warning: Citation `DevOps' on page 44 undefined on input line 239.
+
+
+LaTeX Warning: Citation `flake8' on page 44 undefined on input line 274.
+
+
+LaTeX Warning: Citation `black' on page 44 undefined on input line 276.
+
+
+LaTeX Warning: Citation `githooks' on page 44 undefined on input line 276.
+
+[44]
+
+LaTeX Warning: Citation `CI_1' on page 45 undefined on input line 281.
+
+
+LaTeX Warning: Citation `CI_2' on page 45 undefined on input line 281.
+
+
+LaTeX Warning: Reference `Testing' on page 45 undefined on input line 281.
+
+
+LaTeX Warning: Citation `Docker' on page 45 undefined on input line 283.
+
+
+LaTeX Warning: Citation `DockerImages' on page 45 undefined on input line 283.
+
+
+LaTeX Warning: Citation `CircleCI' on page 45 undefined on input line 285.
+
+
+LaTeX Warning: Reference `cache_CI' on page 45 undefined on input line 289.
+
+
+LaTeX Warning: Reference `Continuous Deployment' on page 45 undefined on input line 295.
+
+
+LaTeX Warning: File `05Coding/05Pictures/cache_CI.png' not found on input line 300.
+
+
+/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex:300: Package pdftex.def Error: File `05Coding/05Pictures/cache_CI.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.300 ...twidth]{05Coding/05Pictures/cache_CI.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[45]
+
+LaTeX Warning: File `05Coding/05Pictures/circleCI.png' not found on input line 309.
+
+
+/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex:309: Package pdftex.def Error: File `05Coding/05Pictures/circleCI.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.309 ...le=0.6]{05Coding/05Pictures/circleCI.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[46]
+
+LaTeX Warning: Citation `ConnollyFundamentals' on page 47 undefined on input line 319.
+
+
+LaTeX Warning: Citation `AWS' on page 47 undefined on input line 326.
+
+
+LaTeX Warning: Citation `Azure' on page 47 undefined on input line 326.
+
+
+LaTeX Warning: Citation `Heroku' on page 47 undefined on input line 328.
+
+
+LaTeX Warning: Citation `CDBenefits' on page 47 undefined on input line 330.
+
+
+LaTeX Warning: Reference `Continuous Integration' on page 47 undefined on input line 334.
+
+
+LaTeX Warning: Citation `Gunicorn' on page 47 undefined on input line 336.
+
+
+LaTeX Warning: Reference `CI_CD' on page 47 undefined on input line 339.
+
+
+LaTeX Warning: File `05Coding/05Pictures/CI_CD.png' not found on input line 343.
+
+
+/home/pentium/report_branch/Thalia/Report/06Coding/coding.tex:343: Package pdftex.def Error: File `05Coding/05Pictures/CI_CD.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.343 ...scale=0.6]{05Coding/05Pictures/CI_CD.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+) (/home/pentium/report_branch/Thalia/Report/07Testing/testing.tex [47]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+LaTeX Warning: Citation `coverageGood' on page 48 undefined on input line 11.
+
+
+LaTeX Warning: Citation `pytest' on page 48 undefined on input line 11.
+
+
+LaTeX Warning: File `06Testing/06Pictures/testingSuiteStructure.png' not found on input line 17.
+
+
+/home/pentium/report_branch/Thalia/Report/07Testing/testing.tex:17: Package pdftex.def Error: File `06Testing/06Pictures/testingSuiteStructure.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.17 ...ting/06Pictures/testingSuiteStructure.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[48
+
+
+]
+
+LaTeX Warning: File `06Testing/06Pictures/harversterLogEx.png' not found on input line 43.
+
+
+/home/pentium/report_branch/Thalia/Report/07Testing/testing.tex:43: Package pdftex.def Error: File `06Testing/06Pictures/harversterLogEx.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.43 ...{06Testing/06Pictures/harversterLogEx.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `06Testing/06Pictures/failedTest.png' not found on input line 65.
+
+
+/home/pentium/report_branch/Thalia/Report/07Testing/testing.tex:65: Package pdftex.def Error: File `06Testing/06Pictures/failedTest.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.65 ...=0.3]{06Testing/06Pictures/failedTest.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Citation `mock' on page 49 undefined on input line 71.
+
+
+LaTeX Warning: Citation `selenium' on page 49 undefined on input line 74.
+
+[49]
+
+LaTeX Warning: Citation `coverage' on page 50 undefined on input line 77.
+
+
+LaTeX Warning: Citation `bcIsVolatile' on page 50 undefined on input line 97.
+
+[50]
+
+LaTeX Warning: Citation `liveData' on page 51 undefined on input line 118.
+
+
+LaTeX Warning: Citation `TDD' on page 51 undefined on input line 132.
+
+) (/home/pentium/report_branch/Thalia/Report/08Conclusions/conclusion.tex [51]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+) (/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex [52
+
+
+]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+
+LaTeX Warning: Citation `userTestingGood' on page 53 undefined on input line 11.
+
+
+LaTeX Warning: Citation `releaseOnDemand' on page 53 undefined on input line 11.
+
+
+LaTeX Warning: Reference `Roadmap' on page 53 undefined on input line 16.
+
+
+LaTeX Warning: File `05Coding/05Pictures/initial_roadmap.jpg' not found on input line 20.
+
+
+/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex:20: Package pdftex.def Error: File `05Coding/05Pictures/initial_roadmap.jpg' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.20 ...]{05Coding/05Pictures/initial_roadmap.jpg}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[53
+
+
+] [54]
+
+/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex:38: Package inputenc Error: Unicode char ﬁ (U+FB01)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.38 ...usable for users who already have some ﬁ
+                                                  nancial investment experie...
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `UserManual' on page 55 undefined on input line 44.
+
+
+LaTeX Warning: Citation `amazonSLA' on page 55 undefined on input line 58.
+
+[55]
+
+LaTeX Warning: Citation `GoogleLighthouse' on page 56 undefined on input line 69.
+
+
+LaTeX Warning: File `07Evaluation/07Pictures/performanceLighthouse.png' not found on input line 78.
+
+
+/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex:78: Package pdftex.def Error: File `07Evaluation/07Pictures/performanceLighthouse.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.78 ...tion/07Pictures/performanceLighthouse.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Reference `MaintenanceManual' on page 56 undefined on input line 94.
+
+
+LaTeX Warning: Reference `UserManual' on page 56 undefined on input line 100.
+
+
+LaTeX Warning: Citation `nomicsAPISpec' on page 56 undefined on input line 121.
+
+[56]
+
+LaTeX Warning: Citation `FinAdvice' on page 57 undefined on input line 152.
+
+
+LaTeX Warning: Citation `portfolioVisualizerToS' on page 57 undefined on input line 152.
+
+
+LaTeX Warning: File `07Evaluation/07Pictures/licensingPip.png' not found on input line 161.
+
+
+/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex:161: Package pdftex.def Error: File `07Evaluation/07Pictures/licensingPip.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.161 ...07Evaluation/07Pictures/licensingPip.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[57]
+
+LaTeX Warning: Citation `guideToGDPR' on page 58 undefined on input line 169.
+
+
+/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex:170: Package inputenc Error: Unicode char ﬁ (U+FB01)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.170 ...ovided services should not constitute ﬁ
+                                                  nancial advice under UK la...
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex:170: Package inputenc Error: Unicode char ﬁ (U+FB01)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.170 ...nder UK law to avoid being subject to ﬁ
+                                                  nancial advice legislation...
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex:181: Package inputenc Error: Unicode char ﬀ (U+FB00)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.181 \item UI should scale to accommodate diﬀ
+                                                erent screen sizes and aspec...
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Citation `govUKAccessability' on page 58 undefined on input line 187.
+
+) (/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex [58]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:9: Undefined control sequence.
+l.9 ...cessible in a web browser via the url: \url
+                                                  {http://ec2-54-211-238-18....
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/thalia_domain.png' not found on input line 13.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:13: Package pdftex.def Error: File `08Appendices/081User/081Pictures/thalia_domain.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.13 ...ces/081User/081Pictures/thalia_domain.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Reference `thalia_navbar' on page 59 undefined on input line 18.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/navbar.png' not found on input line 22.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:22: Package pdftex.def Error: File `08Appendices/081User/081Pictures/navbar.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 ...Appendices/081User/081Pictures/navbar.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[59
+
+
+]
+
+LaTeX Warning: Reference `thalia_navbar_hamburger' on page 60 undefined on input line 27.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/navbar_hamburger.png' not found on input line 31.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:31: Package pdftex.def Error: File `08Appendices/081User/081Pictures/navbar_hamburger.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.31 .../081User/081Pictures/navbar_hamburger.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[60]
+
+LaTeX Warning: Reference `thalia_home' on page 61 undefined on input line 40.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/homepage.png' not found on input line 44.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:44: Package pdftex.def Error: File `08Appendices/081User/081Pictures/homepage.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.44 ...pendices/081User/081Pictures/homepage.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[61]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/homepage_bottom.png' not found on input line 56.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:56: Package pdftex.def Error: File `08Appendices/081User/081Pictures/homepage_bottom.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.56 ...s/081User/081Pictures/homepage_bottom.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[62]
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:63: Undefined control sequence.
+l.63 ...e problem domain, and is available at \url
+                                                  {http://ec2-54-211-238-18....
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/about.png' not found on input line 70.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:70: Package pdftex.def Error: File `08Appendices/081User/081Pictures/about.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.70 ...8Appendices/081User/081Pictures/about.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[63]
+
+LaTeX Warning: Reference `thalia_navbar' on page 64 undefined on input line 79.
+
+
+LaTeX Warning: Reference `thalia_navbar_hamburger' on page 64 undefined on input line 79.
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:79: Undefined control sequence.
+l.79 ...ition, they are directly available at \url
+                                                  {http://ec2-54-211-238-18....
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:79: Undefined control sequence.
+l.79 ...8.compute-1.amazonaws.com/login/} and \url
+                                                  {http://ec2-54-211-238-18....
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (13.01456pt too wide) in paragraph at lines 79--81
+\OT1/cmr/m/n/10 18.compute-1.amazonaws.com/login/ and http://ec2-54-211-238-18.compute-1.amazonaws.com/register/. Both
+ []
+
+[64]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/login.png' not found on input line 100.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:100: Package pdftex.def Error: File `08Appendices/081User/081Pictures/login.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.100 ...Appendices/081User/081Pictures/login.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Reference `thalia_issues' on page 65 undefined on input line 105.
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:110: Undefined control sequence.
+l.110 The Report Issues Page is available at \url
+                                                 {http://ec2-54-211-238-18.c...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[65]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/issues.png' not found on input line 115.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:115: Package pdftex.def Error: File `08Appendices/081User/081Pictures/issues.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.115 ...ppendices/081User/081Pictures/issues.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:124: Undefined control sequence.
+l.124 ...ble only if the user is logged in at \url
+                                                  {http://ec2-54-211-238-18....
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[66]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/disabled_tabs.png' not found on input line 141.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:141: Package pdftex.def Error: File `08Appendices/081User/081Pictures/disabled_tabs.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.141 ...es/081User/081Pictures/disabled_tabs.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[67]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/table.png' not found on input line 173.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:173: Package pdftex.def Error: File `08Appendices/081User/081Pictures/table.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.173 ...Appendices/081User/081Pictures/table.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[68] [69]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/dash_funcionalities.png' not found on input line 191.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:191: Package pdftex.def Error: File `08Appendices/081User/081Pictures/dash_funcionalities.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.191 ...User/081Pictures/dash_funcionalities.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Reference `summary' on page 70 undefined on input line 196.
+
+[70]
+
+LaTeX Warning: File `08Appendices/081User/081Pictures/summary.png' not found on input line 205.
+
+
+/home/pentium/report_branch/Thalia/Report/10Appendices/081User/user.tex:205: Package pdftex.def Error: File `08Appendices/081User/081Pictures/summary.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.205 ...pendices/081User/081Pictures/summary.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+) (/home/pentium/report_branch/Thalia/Report/10Appendices/082Maintenance/maintenance.tex [71]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+) (/home/pentium/report_branch/Thalia/Report/10Appendices/083Glossaries/glossary_domain.tex [72
+
+
+]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+[73
+
+
+]
+Overfull \hbox (1.55127pt too wide) in paragraph at lines 37--41
+[]\OT1/cmr/m/n/10 Technical Anal-y-sis - Tech-ni-cal anal-y-sis is a trad-ing dis-ci-pline em-ployed to eval-u-ate in-vest-ments and iden-
+ []
+
+) (/home/pentium/report_branch/Thalia/Report/10Appendices/083Glossaries/glossary_project.tex [74]
+\openout2 = `preamble.tex.aux'.
+
+
+No file preamble.tex.tex.
+) [75
+
+
+]
+No file main.bbl.
+(/home/pentium/report_branch/Thalia/Report/main.aux (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux) (/home/pentium/report_branch/Thalia/Report/preamble.tex.aux))
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 7153 strings out of 492982
+ 99795 string characters out of 6134896
+ 337781 words of memory out of 5000000
+ 10441 multiletter control sequences out of 15000+600000
+ 8261 words of font info for 30 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 48i,9n,75p,1267b,1441s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmu10.pfb>
+Output written on /home/pentium/report_branch/Thalia/Report/main.pdf (76 pages, 373135 bytes).
+PDF statistics:
+ 305 PDF objects out of 1000 (max. 8388607)
+ 207 compressed objects within 3 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+

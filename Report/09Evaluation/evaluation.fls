@@ -1,0 +1,11 @@
+PWD /home/pentium/report_branch/Thalia/Report/09Evaluation
+INPUT /etc/texmf/web2c/texmf.cnf
+INPUT /usr/share/texmf/web2c/texmf.cnf
+INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
+INPUT /home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex
+OUTPUT /home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.log
+INPUT /usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls
+INPUT /usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls
+INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty

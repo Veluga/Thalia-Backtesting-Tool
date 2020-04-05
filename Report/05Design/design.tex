@@ -13,7 +13,7 @@ We have chosen pandas dataframes \cite{pandas} as the common data format for bot
 Before discussing any specific component and architectural layer in depth, it is worth revisiting our original architecture \cite{TR}.
 \begin{figure}[H]
     \caption{Original Thalia System Architecture \cite{TR}}
-	\includegraphics[width=\textwidth]{04Design/04Pictures/architecture_layer_diagram.png}
+	\includegraphics[width=\textwidth]{05Design/04Pictures/architecture_layer_diagram.png}
 \end{figure}
 The above schematic illustrates how we modified a typical Three Layer architecture [citation needed] to include a Data Collection Layer. Subsequent discussion will refer to this layer as the `Data Harvester`. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. The decision to isolate this system component has been made in order to increase security by limiting the acess of the Thalia web service to the financial data database to read-only and to allow for independent scaling of the Data Harvester and our web service \cite{TR}.
 
@@ -33,7 +33,7 @@ Even though it is possible to navigate between pages by URLs directly, we have d
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/navbar.png}
+   \includegraphics[width=\textwidth]{10Appendices/081User/081Pictures/navbar.png}
    \caption{Thalia Navigation Bar}
    \label{thalia_navbar}
 \end{figure}
@@ -42,7 +42,7 @@ In case Thalia is launched on a mobile phone, the navigation bar becomes a so-ca
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/navbar_hamburger.png}
+   \includegraphics[width=\textwidth]{10Appendices/081User/081Pictures/navbar_hamburger.png}
    \caption{Thalia Navigation Bar - Hamburger}
    \label{thalia_navbar_hamburger}
 \end{figure}
@@ -55,7 +55,7 @@ We shall not discuss every page separately, as they are identical. For a full wa
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/homepage.png}
+   \includegraphics[width=\textwidth]{10Appendices/081User/081Pictures/homepage.png}
    \caption{Thalia Homepage (source: http://ec2-54-211-238-18.compute-1.amazonaws.com/)}
    \label{thalia_home}
 \end{figure}
@@ -64,7 +64,7 @@ As users arrive at the homepage they are greeted with a short description of Tha
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/homepage_bottom.png}
+   \includegraphics[width=\textwidth]{10Appendices/081User/081Pictures/homepage_bottom.png}
    \caption{Thalia Homepage 2 - Top: User not logged in; Bottom: User recognised}
    \label{thalia_home_bottom}
 \end{figure}
@@ -92,7 +92,7 @@ As standard, the registration fails when the user enters different values to the
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/login.png}
+   \includegraphics[width=\textwidth]{10Appendices/081User/081Pictures/login.png}
    \caption{Thalia Log In Page (source: http://ec2-54-211-238-18.compute-1.amazonaws.com/login/)}
    \label{thalia_login}
 \end{figure}
@@ -143,7 +143,7 @@ For the selection of assets we have decided to take an alternative approach visi
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/table.png}
+   \includegraphics[width=\textwidth]{10Appendices/081User/081Pictures/table.png}
    \caption{Thalia Dashboard - Assets Table}
    \label{thalia_table}
 \end{figure}
@@ -164,7 +164,7 @@ Having decided on `What` the user should see we can now focus on the `How`. In o
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{04Design/04Pictures/dashboard.png}
+   \includegraphics[width=\textwidth]{05Design/04Pictures/dashboard.png}
    \caption{The Dashboard}
    \label{dashboard}
 \end{figure}
@@ -174,7 +174,7 @@ Thanks to Dash this and all other graphs are fully interactive. The user may zoo
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/dash_funcionalities.png}
+   \includegraphics[width=\textwidth]{10Appendices/081User/081Pictures/dash_funcionalities.png}
    \caption{Dash Functionalities}
    \label{dash_functionalities}
 \end{figure}
@@ -183,7 +183,7 @@ Showing this in action on the Portfolio Growth Plot can be seen on \figurename{\
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{04Design/04Pictures/portfolio_growth.png}
+   \includegraphics[width=\textwidth]{05Design/04Pictures/portfolio_growth.png}
    \caption{Dash Functionalities - Portfolio Growth}
    \label{portfolio_growth}
 \end{figure}
@@ -194,7 +194,7 @@ The design of the Dashboard was done according to the wireframes we have provide
 
 \begin{figure}[H]
    \centering
-   \includegraphics[width=\textwidth]{04Design/04Pictures/wireframe.png}
+   \includegraphics[width=\textwidth]{05Design/04Pictures/wireframe.png}
    \caption{UI Wireframes}
    \label{wireframe}
 \end{figure}

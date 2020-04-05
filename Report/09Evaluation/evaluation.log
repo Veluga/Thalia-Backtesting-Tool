@@ -1,0 +1,42 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.6)  5 APR 2020 19:42
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex
+(/home/pentium/report_branch/Thalia/Report/09Evaluation/evaluation.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls
+Document Class: subfiles 2012/05/23 Federico Garcia
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks14
+\verbatim@line=\toks15
+\verbatim@in@stream=\read1
+)
+Preamble taken from file `main.tex'
+
+! LaTeX Error: File `main.tex' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: tex)
+
+Enter file name: 
+/usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls:40: Emergency stop.
+<read *> 
+         
+l.40 \input{\preamble@file}
+                           ^^M
+*** (cannot \read from terminal in nonstop modes)
+
+ 
+Here is how much of TeX's memory you used:
+ 51 strings out of 492982
+ 1234 string characters out of 6134896
+ 53919 words of memory out of 5000000
+ 3706 multiletter control sequences out of 15000+600000
+ 3640 words of font info for 14 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 18i,0n,17p,246b,16s stack positions out of 5000i,500n,10000p,200000b,80000s
+/usr/share/texlive/texmf-dist/tex/latex/subfiles/subfiles.cls:40:  ==> Fatal error occurred, no output PDF file produced!
