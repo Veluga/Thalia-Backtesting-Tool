@@ -10,10 +10,20 @@ from .models.user import User
 server_bp = Blueprint("main", __name__)
 
 
-@server_bp.route("/")
+@server_bp.route("/", methods=['GET','POST'])
 def index():
-    # TODO
     form = RegistrationForm()
+    
+    if form.validate_on_submit():
+        if existing_username(form.username.data):
+            error = "already registered"
+            return render_template("register.html", form=form, error=error)
+        elif form.password.data != form.confirm_password.data:
+            error = "passwords do not match"
+            return render_template("register.html", form=form, error=error)
+        else:
+            save_user(form.username.data, form.password.data)
+            return redirect(url_for("main.login"))
     return render_template("index.html", title="Home Page", form=form)
 
 
