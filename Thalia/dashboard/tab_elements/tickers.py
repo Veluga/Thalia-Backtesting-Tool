@@ -185,27 +185,35 @@ def lazy_portfolios(id):
     )
 
 
-def options(id):
+def portfolio_name(id):
+    return html.Div(
+        [
+            html.I(className="fas fa-edit fa-2x"),
+            dcc.Input(
+                placeholder=f"Portfolio {id}",
+                type="text",
+                value=f"Portfolio {id}",
+                style={
+                    "border-width": "0px",
+                    "color": "#363636",
+                    "font-size": "2rem",
+                    "font-weight": "600",
+                    "line-height": "1.125",
+                    "padding-bottom": "0.5cm",
+                },
+                id=f"portfolio-name-{id}",
+            ),
+        ],
+        className="column is-10 has-text-left",
+    )
+
+
+def options(id, visibility):
     return html.Div(
         [
             html.Div(
                 [
-                    html.Div(
-                        dcc.Input(
-                            placeholder=f"Portfolio {id}",
-                            type="text",
-                            value=f"Portfolio {id}",
-                            style={
-                                "border-width": "0px",
-                                "color": "#363636",
-                                "font-size": "2rem",
-                                "font-weight": "600",
-                                "line-height": "1.125",
-                                "padding-bottom": "0.5cm",
-                            },
-                        ),
-                        className="column is-10 has-text-left",
-                    ),
+                    portfolio_name(id),
                     html.Div(
                         lazy_portfolios(id), className="column is-2 has-text-right"
                     ),
@@ -218,6 +226,8 @@ def options(id):
             )
         ],
         className="box",
+        id=f"portfolio-{id}",
+        style={"display": f"{visibility}"},
     )
 
 
@@ -252,10 +262,19 @@ def options_wrapper():
     return html.Div(
         [
             html.Div(
-                [html.Div([select_dates()]), html.Div([initial_amount_of_money()],),],
+                [html.Div(select_dates()), html.Div(initial_amount_of_money())],
                 className="box",
             ),
-            html.Div(children=[options(1),], id="portfolios-container"),
+            html.Div(
+                children=[
+                    options(1, visibility="block"),
+                    options(2, visibility="none"),
+                    options(3, visibility="none"),
+                    options(4, visibility="none"),
+                    options(5, visibility="none"),
+                ],
+                id="portfolios-container",
+            ),
             add_portfolio_button(),
             html.Br(),
             submit_button(),
