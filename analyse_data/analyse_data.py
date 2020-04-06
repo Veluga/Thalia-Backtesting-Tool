@@ -6,6 +6,7 @@ from datetime import date
 from dataclasses import dataclass
 from typing import List
 
+
 PENNY = Decimal("0.01")
 
 
