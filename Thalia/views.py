@@ -10,17 +10,20 @@ from .models.user import User
 server_bp = Blueprint("main", __name__)
 
 
-@server_bp.route("/", methods=['GET','POST'])
+@server_bp.route("/", methods=["GET", "POST"])
 def index():
     form = RegistrationForm()
-    
     if form.validate_on_submit():
         if existing_username(form.username.data):
             error = "already registered"
-            return render_template("register.html", form=form, error=error)
+            return render_template(
+                "index.html", form=form, error=error, scroll="login_failed"
+            )
         elif form.password.data != form.confirm_password.data:
             error = "passwords do not match"
-            return render_template("register.html", form=form, error=error)
+            return render_template(
+                "index.html", form=form, error=error, scroll="login_failed"
+            )
         else:
             save_user(form.username.data, form.password.data)
             return redirect(url_for("main.login"))
@@ -32,15 +35,17 @@ def about():
     return render_template("about.html", title="About Page")
 
 
-@server_bp.route("/contact/", methods=['GET','POST'])
+@server_bp.route("/contact/", methods=["GET", "POST"])
 def contact():
     form = FeedbackForm()
     if form.validate_on_submit():
         # dump to feedback.csv
-        with open('feedback.csv','a') as file:
-            file.write('{},{},{}\n'.format(form.email.data, 
-                                         form.title.data, 
-                                         form.contents.data))
+        with open("feedback.csv", "a") as file:
+            file.write(
+                "{},{},{}\n".format(
+                    form.email.data, form.title.data, form.contents.data
+                )
+            )
     return render_template("contact.html", title="Contact Us", form=form)
 
 

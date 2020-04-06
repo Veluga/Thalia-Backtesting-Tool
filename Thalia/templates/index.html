@@ -93,7 +93,7 @@
           <div class="column is-half ">
             {% if current_user.is_anonymous %}
               <p class="title">
-                <h2 class="title is-3">Still with us?</h2>
+                <h2 class="title is-3 has-text-centered">Still with us?</h2>
               </p>
               <h1 class="subtitle is-4 has-text-weight-light has-text-black has-text-justified">
                 Go ahead and create an account, or log in if you already have one.
@@ -121,6 +121,12 @@
                   <div class="content-wrapper">
                       <div class="columns">
                           <div class="column">
+                            <div id="login_failed">
+                              {% if scroll %}
+                              <script>
+                                  document.location.hash = '#' + '{{ scroll }}';
+                              </script>
+                              {% endif %}
 
                               {% include 'error.html' %}
                               {% include 'register_form.html' %}
