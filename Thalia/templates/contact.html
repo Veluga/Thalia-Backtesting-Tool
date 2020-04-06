@@ -30,14 +30,14 @@
 
             </div>
             <h1 class="subtitle is-4 has-text-weight-light has-text-justified has-text-light">
-              Did you find something we should take a look at, or you just have some general feedback? Remember, we like to listen too. Feel free to report your findings here.
+              Did you find something we should take a look at, or you just some general feedback? Remember, we are here to listen. Feel free to report your complaints and feedback here.
             </h1>
           </div>
           <div class="column is-half">
 
           </div>
           <div class="column">
-              <form role="form" method="post" novalidate>
+            <form role="form" method="POST" novalidate>
 
                   {{ form.hidden_tag() }}
 
@@ -46,16 +46,18 @@
                           &emsp;
                       </div>
                       <div class="column is-12">
-                          {{ form.title(placeholder="Title", class="input is-medium") }}
+                        {{ form.email(placeholder="Email Address",class="input is-medium", rows="1", class="textarea") }}
                       </div>
-
                       <div class="column is-12">
-                          {{ form.description(placeholder="Feedback Description",class="input is-large", rows="10", class="textarea") }}
+                          {{ form.title(placeholder="Title", class="input is-medium", rows="1", class="textarea")}}
+                      </div>
+                      <div class="column is-12">
+                          {{ form.contents(placeholder="Contents",class="input is-large", rows="10", class="textarea") }}
                       </div>
 
                       
-                      <div class="column is-7" style="text-align:left;">
-                        <div class="form-footer has-text-left mt-10">
+                      <div class="column is-12" style="text-align:right;">
+                        <div class="form-footer has-text-right mt-10">
                             <button type="submit" class="button is-primary has-background-inspire4 raised is-clear" >Send Feedback</button>
                         </div>
                       </div>
