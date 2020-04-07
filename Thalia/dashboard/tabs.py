@@ -1,6 +1,11 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
+from .tab_elements.assets import asset_contributions_table
+from .tab_elements.summary import summary_dashboard
+from .tab_elements.tickers import options_wrapper
+from .tab_elements.metrics import table
+
 tabs_styles = {"height": "44px"}
 tab_style = {
     "borderBottom": "1px solid #d6d6d6",
@@ -34,8 +39,6 @@ def title(title):
 
 
 def tickers():
-    from .tab_elements.tickers import options_wrapper
-
     return dcc.Tab(
         label="Ticker Selection",
         children=[title("Select Constraints"), options_wrapper()],
@@ -50,8 +53,6 @@ def tickers():
 
 
 def summary():
-    from .tab_elements.summary import summary_dashboard
-
     return dcc.Tab(
         label="Summary",
         children=[title("Portfolio Summary"), summary_dashboard()],
@@ -65,8 +66,6 @@ def summary():
 
 
 def metrics():
-    from .tab_elements.metrics import table
-
     return dcc.Tab(
         label="Metrics",
         children=[title("Key Metrics"), table([], "table")],
@@ -140,19 +139,7 @@ def assets():
         label="Assets",
         children=[
             title("Assets Breakdown"),
-            dcc.Graph(
-                figure={
-                    "data": [
-                        {"x": [1, 2, 3], "y": [2, 4, 3], "type": "bar", "name": "SF"},
-                        {
-                            "x": [1, 2, 3],
-                            "y": [5, 4, 3],
-                            "type": "bar",
-                            "name": "Montréal",
-                        },
-                    ]
-                }
-            ),
+            [asset_contributions_table(i) for i in range(1, 6)],
         ],
         style=tab_style,
         selected_style=tab_selected_style,
