@@ -30,7 +30,7 @@ def test_check_overfitting(mock_finda):
     asset_data = callbacks.get_assets(["OVF"], [1.0], start_date, end_date)
     strategy = anda.Strategy(start_date, end_date, 1, asset_data, [], 0, [],)
     assert callbacks.check_overfitting(strategy)
-    # Will not triger for any reasonable threashold
+    # Will not trigger for any reasonable threshold
     asset_data = callbacks.get_assets(["NOVF"], [1.0], start_date, end_date)
     strategy = anda.Strategy(start_date, end_date, 1, asset_data, [], 0, [],)
     assert not callbacks.check_overfitting(strategy)
