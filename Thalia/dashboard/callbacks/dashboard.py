@@ -321,7 +321,6 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             [anda.relative_yearly_returns(strategy), portfolio_name, total_returns],
         )
 
-        # to_return.append(returns_table)
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
 

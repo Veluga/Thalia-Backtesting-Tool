@@ -17,9 +17,8 @@ def returns_table(id):
     return html.Div(
         [
             html.P("Annual Returns", className="panel-heading"),
-            dcc.Loading(
-                html.Div([html.Div(id=f"return-table")]), className="panel-block",
-            ),
+            html.Hr(),
+            dcc.Loading(html.Div([html.Div(id=f"return-table")]),),
         ],
         className="box",
     )
@@ -38,7 +37,6 @@ def returns_graph(id):
                     ),
                     className="panel-block",
                 ),
-                # className="section",
             ),
         ],
         className="box",
