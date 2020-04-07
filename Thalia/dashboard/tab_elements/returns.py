@@ -1,7 +1,5 @@
 import dash_html_components as html
 import dash_core_components as dcc
-from .elements import graph_box
-import dash_table
 
 
 def dates_container():

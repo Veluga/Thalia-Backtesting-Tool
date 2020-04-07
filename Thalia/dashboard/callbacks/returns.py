@@ -1,7 +1,6 @@
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import plotly.graph_objects as go
-from ..config import MAX_PORTFOLIOS
 from ..config import OFFICIAL_COLOURS
 import pandas as pd
 import dash_table
