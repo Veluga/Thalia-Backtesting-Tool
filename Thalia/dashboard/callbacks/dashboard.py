@@ -170,7 +170,7 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     start_date = strategy_object.dates[0].strftime("%Y-%m-%d")
     end_date = strategy_object.dates[-1].strftime("%Y-%m-%d")
     box_metrics = [portfolio_name, start_date, end_date]
-    box_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
+    box_metrics += [round(key_metrics[j][portfolio_name], 1) for j in range(4)]
     box_metrics += [
         anda.best_year_no(strategy_object),
         anda.worst_year_no(strategy_object),
