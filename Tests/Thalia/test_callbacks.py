@@ -34,7 +34,7 @@ def test_check_overfitting(mock_finda):
     asset_data = callbacks.get_assets(["NOVF"], [1.0], start_date, end_date)
     strategy = anda.Strategy(start_date, end_date, 1, asset_data, [], 0, [],)
     assert not callbacks.check_overfitting(strategy)
-    # All values, should never triger since performance should be the same
+    # All values, should never trigger since performance should be the same
     start_date = pd.Timestamp(2000, 3, 9)
     end_date = pd.Timestamp(2000, 3, 18)
     asset_data = callbacks.get_assets(["NOVF"], [1.0], start_date, end_date)
