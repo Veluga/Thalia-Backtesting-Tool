@@ -1,0 +1,12 @@
+[Unit]
+Description="Gunicorn application server running Thalia"
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/home/ec2-user/Thalia
+ExecStart=/bin/bash -c "source /home/ec2-user/Thalia/venv/bin/activate; /home/ec2-user/Thalia/venv/bin/gunicorn -b --workers 3 --bind unix:Thalia.sock -m 000 main:server"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
