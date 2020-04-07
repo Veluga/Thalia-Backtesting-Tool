@@ -199,35 +199,6 @@ def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_sta
     return param_state
 
 
-# def filter_tickers(ticker_selected, lazy_portfolio, param_state):
-#     """
-#     Filters the selected tickers from the dropdown menu
-#     """
-
-#     if (ticker_selected or lazy_portfolio) is None:
-#         raise PreventUpdate
-#     if param_state is None:
-#         param_state = []
-#     if lazy_portfolio is not None:
-#         param_state = []
-#         json_acceptable_string = lazy_portfolio.replace("'", '"')
-#         lazy_dict = json.loads(json_acceptable_string)
-#         for asset in lazy_dict.values():
-#             if all(
-#                 asset["AssetTicker"] != existing["AssetTicker"]
-#                 for existing in param_state
-#             ):
-#                 param_state.append(asset)
-#     else:
-#         asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
-#         if all(
-#             asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
-#         ):
-#             param_state.append(asset)
-
-#     return param_state
-
-
 def add_portfolio(n_clicks, param_state):
     if n_clicks is None:
         raise PreventUpdate
