@@ -92,7 +92,7 @@ def parse_csv(data_file) -> pd.DataFrame:
             "Close": Decimal,
         },
     )
-    df.index = pd.to_datetime(df.index, format="%d-%m-%y")
+    df.index = pd.to_datetime(df.index, format="%d/%m/%Y")
     new_index = pd.date_range(df.index[0], df.index[-1], freq="D")
     df = df.reindex(new_index).ffill()
     return df
