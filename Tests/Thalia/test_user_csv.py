@@ -13,9 +13,9 @@ from decimal import Decimal
 def test_user_data():
     csv_data = (
         "Date,Open,High,Low,Close\n"
-        "12/12/1980,0.51,0.50,0.51,0.51\n"
-        "15/12/1980,0.48,0.48,0.48,0.48\n"
-        "16/12/1980,0.45,0.45,0.45,0.45\n"
+        "12-12-1980,0.51,0.50,0.51,0.51\n"
+        "15-12-1980,0.48,0.48,0.48,0.48\n"
+        "16-12-1980,0.45,0.45,0.45,0.45\n"
     )
     encoded = base64.b64encode(csv_data.encode("utf-8"))
     empty = os.listdir(user_csv.USER_DATA_DIR)
