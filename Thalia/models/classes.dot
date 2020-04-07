@@ -1,0 +1,5 @@
+digraph "classes" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{User|id\lpassword_hash\lpassword_hash\lusername\l|check_password(password)\lset_password(password)\l}", shape="record"];
+}
