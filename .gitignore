@@ -21,3 +21,6 @@ coverage_html_report
 Finda/*.db
 htmlcov
 pip-wheel-metadata
+
+# Only empty version of file with CSV column headers should be in github
+feedback.csv
