@@ -21,7 +21,7 @@ def test_update_dashboard_prevents_update():
 
 
 def test_check_overfitting(mock_finda):
-    # make sure overfitting threshold is something reasonable to somethign reasonable
+    # make sure overfitting threshold is something reasonable
     Config.OVERFITTING_THRESH = 0.7
     # create strategy
     start_date = pd.Timestamp(2000, 3, 13)
