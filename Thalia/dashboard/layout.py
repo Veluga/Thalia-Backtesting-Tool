@@ -20,7 +20,7 @@ layout = html.Div(
                         ],
                         id="tabs",
                         value="tickers",
-                    )
+                    ),
                 ],
                 className="column",
             ),
