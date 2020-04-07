@@ -161,3 +161,17 @@ def assets():
         value="assets",
         disabled=True,
     )
+
+def overfitting():
+    from .tab_elements.overfitting import overfitting_dashboard
+
+    return dcc.Tab(
+        label="Overfitting",
+        children=[title("Overfitting"), overfitting_dashboard()],
+        style=tab_style,
+        selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="overfitting",
+        value="overfitting",
+        disabled=True,
+    )

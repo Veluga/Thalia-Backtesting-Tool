@@ -50,6 +50,7 @@ def register_tab_switch(dashapp):
             Output("returns", "disabled"),
             Output("drawdowns", "disabled"),
             Output("assets", "disabled"),
+            Output("overfitting", "disabled")
         ],
         [Input("submit-btn", "n_clicks")],
         [
@@ -86,6 +87,11 @@ def register_remove_portfolio_button(dashapp):
         [State("portfolios-container", "children")],
     )(remove_button)
 
+def register_overfitting_button(dashapp):
+    dashapp.callback(
+        Output("overfitting-btn", "disabled"),
+        [Input("overfitting-btn", "n_clicks")],
+    )(update_overfitting)
 
 def register_callbacks(dashapp):
     """
@@ -113,6 +119,12 @@ def register_callbacks(dashapp):
     # Register removing the button at 5 portfolios
     register_remove_portfolio_button(dashapp)
 
+    # Register check overfitting on overfitting button press
+    register_overfitting_button(dashapp)
+
+
+def update_overfitting(n_clicks, param_state):
+    print('help, I cant hear this')
 
 def remove_button(n_clicks, param_state):
     if n_clicks is None:
@@ -156,7 +168,7 @@ def tab_switch(n_clicks, *args):
     if n_clicks is None or None in args:
         raise PreventUpdate
 
-    return "summary", False, False, False, False, False
+    return "summary", False, False, False, False, False, False
 
 
 def update_dashboard(
