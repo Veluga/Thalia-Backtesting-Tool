@@ -1,4 +1,4 @@
-\documentclass[main.tex]{subfiles}
+documentclass[main.tex]{subfiles}
 \include{preamble.tex}
 
 \begin{document}
@@ -82,7 +82,10 @@ Regardless of the nature of the ticket, the week, or in case of some larger task
 
 Let us now discuss the main technologies used in our project, these can be categorised as follows:
 \subsubsection{Web Framework}
+
 \label{Web Framework}
+For the main framework we chose Flask, a Python-based micro web framework. Flask provides functionality for building web applications, such as managing HTTP requests, using the `requests` library, and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}.We used the `render-template()` library to process and parse the HTML templates, for all the pages, except for the dashboard, which is described below. We used some of Flask's extensions such as Flask-Login, which provides user session management for Flask \cite{flask-login}. To handle web forms we used the `flask-wtf` extension, which is a wrapper around the `WTForms` package \cite{wtforms-documentation}. 
+
 Choosing the right web framework was more controversial than originally planed. The two major options for Python are Django and Flask. Although we decided to use Django for our MVP in the first semester, we had to spend a significant portion of the time available learning the framework, so we had to decide whether we were going to stick with it or learn Flask. In the end, we opted to go with Flask for the following reasons:
 
 \begin{itemize}
@@ -95,7 +98,7 @@ Choosing the right web framework was more controversial than originally planed. 
     \item Our concerns were also confirmed by more experienced web-developers, suggesting simpler alternatives.
 \end{itemize}
 
-As stated this decision has contributed to the opportunity to recreate the basis of our application, and to apply what we have learnt from our prototype.
+More precisely, we believe that using such a powerful framework like Django is unnecessary for developing our application. A lot of Django's features wouldn't be used for our type of project. Since Flask is simpler, the entire team thought it would be better to use it for creating a minimalistic app in a short time period. On top of that Flask provides more flexibility, a simple Flask application can be later changed to add more functionality, make it more complex, whereas with Django it is much more complicated. Additionally Django doesn't make it easy to make changes to the already provided modules. Therefore developers create web applications using built-in features which means that if a developer wants to use a different library for a function that Django already provides, it might be hard to do. With Flask it is much easier to make changes to the libraries, databases. 
 
 \iffalse
 Sources:
@@ -109,8 +112,6 @@ http://ddi-dev.com/blog/programming/django-vs-flask-which-better-your-web-app/
 
 https://coderseye.com/django-vs-flask
 \fi
-
-For the main framework we chose Flask, a Python-based micro web framework. Flask provides functionality for building web applications, such as managing HTTP requests, using the `requests` library, and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}.We used the `render-template()` library to process and parse the HTML templates, for all the pages, except for the dashboard, which is described below. We used some of Flask's extensions such as Flask-Login, which provides user session management for Flask \cite{flask-login}. To handle web forms we used the `flask-wtf` extension, which is a wrapper around the `WTForms` package \cite{wtforms-documentation}. 
 
 \subsubsection{GUI}
 \label{GUI}
@@ -136,8 +137,8 @@ Fortunately, Dash offers great developer tools \cite{dash_dev_tools}, such as th
 
  \begin{figure}[H]
    \centering
-   \includegraphics[scale=0.6]{06Coding/05Pictures/callback_graph.png}
-   \caption{Callback Graph on Thalia}
+   \includegraphics[width=\textwidth]{06Coding/05Pictures/callback_graph.png}
+   \caption{Callback Graph on Thalia - Truncated}
    \label{callback_graph}
 \end{figure}
 

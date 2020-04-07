@@ -3,9 +3,9 @@
 
 \begin{document}
 
-\subsection{Appendix A - User Manual}
+\section{Appendix A - User Manual}
 \label{user_manual}
-\subsubsection{Launching Thalia}
+\subsection{Launching Thalia}
 As Thalia is a web application, it is accessible in a web browser via the url: \url{http://ec2-54-211-238-18.compute-1.amazonaws.com/}.
 
 \begin{figure}[H]
@@ -35,7 +35,7 @@ In case Thalia is launched on a different device, such as mobile or in a smaller
 
 For the rest of this manual we shall assume that the application was launched on a computer, although the layout is identical and intuitive in both cases. 
 
-\subsubsection{Homepage}
+\subsection{Homepage}
 
 By default the user ends up on the homepage, although some other pages are accessible as well given the correct url. The Homepage is visible on \figurename{\ref{thalia_home}}.
 
@@ -58,7 +58,7 @@ Scrolling further down the user may encounter a small register form, or in case 
    \label{thalia_home_bottom}
 \end{figure}
 
-\subsubsection{About Page}
+\subsection{About Page}
 
 The about page of our application is to provide a more detailed description of the problem domain, and is available at \url{http://ec2-54-211-238-18.compute-1.amazonaws.com/about/}.
 The user can arrive at this page either by directly typing in the url, clicking on the learn more option on the Homepage, or by navigating here using the navigation bar.
@@ -72,7 +72,7 @@ Our About Page looks as follows:
    \label{thalia_about}
 \end{figure}
 
-\subsubsection{Log In and Sign Up Pages}
+\subsection{Log In and Sign Up Pages}
 
 TODO if we introduce extra  fields or regex for pw.
 
@@ -105,7 +105,7 @@ As standard, the registration fails when the user enters different values to the
 In case the user is already logged in and attempts to access these pages, he or she gets redirected to the homepage. In addition the navigation bar changes, allowing to log out as visible on \figurename{\ref{thalia_issues}}.
 Opting to log out the user finds themselves at the homepage.
 
-\subsubsection{Report Issues Page}
+\subsection{Report Issues Page}
 
 The Report Issues Page is available at \url{http://ec2-54-211-238-18.compute-1.amazonaws.com/issues/} or via opening the dropdown menu on the navbar and clicking the link. This short form is for users to provide feedback, 
 report possible issues or request features.
@@ -117,9 +117,9 @@ report possible issues or request features.
    \label{thalia_issues}
 \end{figure}
 
-\subsubsection{TODO PAGE}
+\subsection{TODO PAGE}
 
-\subsubsection{Dashboard}
+\subsection{Dashboard}
 
 The Dashboard, our main application, is available only if the user is logged in at \url{http://ec2-54-211-238-18.compute-1.amazonaws.com/dashboard/} or via the link on the navigation bar.
 This web page is divided into tabs, which are:
@@ -145,7 +145,7 @@ This is because the following tabs show only the output of backtesting a or mult
 
 Let us now consider each tab individually. 
 
-\subsubsection*{Ticker Selector}
+\subsection*{Ticker Selector}
 
 Here the user is required to input their backtesting strategy. As Thalia supports testing multiple portfolios at once (up to 5 currently) there are input fields that are 
 portfolio specific and that are not. The latter consists only of:
@@ -182,7 +182,7 @@ In many cases the user may want to compare their portfolio to a benchmark, that 
 
 TODO User uploaded data
 
-\subsubsection*{Summary}
+\subsection*{Summary}
 
 If all required fields are populated, the user is taken to the summary tab. This as well as all other tabs are now unlocked. At this point the user is shown one of the key components of our application, i.e. the portfolio growth graph. Thanks to Dash this, and all other graphs are fully interactive. The user may zoom in on selected areas, hover over desired data points, save plot as image, etc.
 
@@ -208,9 +208,9 @@ The plot seen at the top of\figurename{\ref{summary}} shows the total return of 
 \end{figure}
 
 
-\subsubsection*{Metrics}
-\subsubsection*{Returns}
-\subsubsection*{Drawdowns}
-\subsubsection*{Assets}
+\subsection*{Metrics}
+\subsection*{Returns}
+\subsection*{Drawdowns}
+\subsection*{Assets}
 
 \end{document}
