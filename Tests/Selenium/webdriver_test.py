@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-'''
+"""
 Snippet of code from selenium website, run this while connected to the 
 internet to test wether webdriver is configured proerly
-'''
+"""
 
 
 def test(driver):
@@ -15,7 +15,6 @@ def test(driver):
     elem.send_keys("pycon")
     elem.send_keys(Keys.RETURN)
     assert "No results found." not in driver.page_source
-
 
 
 if __name__ == "__main__":

@@ -2,39 +2,52 @@ from selenium import webdriver
 
 import util
 
-'''
+"""
 Test registering a new/old user on the Thalia website
-'''
+"""
+
 
 def register_test(driver):
     driver.get("http://localhost:5000")
-    driver.implicitly_wait(2) # seconds
+    driver.implicitly_wait(2)  # seconds
     # Make sure we're accesing the correct webpage
-    assert 'Thalia' in driver.title
+    assert "Thalia" in driver.title
 
     # Navigate to sign in form
-    reg_button = driver.find_element_by_xpath('//*[@id="navbarBasicExample"]/div[2]/div/div/a[1]')
+    reg_button = driver.find_element_by_xpath(
+        '//*[@id="navbarBasicExample"]/div[2]/div/div/a[1]'
+    )
     driver.execute_script("arguments[0].click();", reg_button)
 
     # Test redirect
     util.page_wait()
-    assert 'http://localhost:5000/register/' == driver.current_url
+    assert "http://localhost:5000/register/" == driver.current_url
 
-    assert 'already registered' not in driver.page_source
+    assert "already registered" not in driver.page_source
     # Fill in sign in form
-    uname_field = driver.find_element_by_xpath('/html/body/div/section/div/div/div/div[2]/form/div/div[1]/input')
+    uname_field = driver.find_element_by_xpath(
+        "/html/body/div/section/div/div/div/div[2]/form/div/div[1]/input"
+    )
     uname_field.send_keys(util.uname)
-    pwd_field = driver.find_element_by_xpath('/html/body/div/section/div/div/div/div[2]/form/div/div[2]/input')
+    pwd_field = driver.find_element_by_xpath(
+        "/html/body/div/section/div/div/div/div[2]/form/div/div[2]/input"
+    )
     pwd_field.send_keys(util.pwd)
-    confirm_pwd_field = driver.find_element_by_xpath('/html/body/div/section/div/div/div/div[2]/form/div/div[3]/input')
+    confirm_pwd_field = driver.find_element_by_xpath(
+        "/html/body/div/section/div/div/div/div[2]/form/div/div[3]/input"
+    )
     confirm_pwd_field.send_keys(util.pwd)
 
-    submit = driver.find_element_by_xpath('/html/body/div/section/div/div/div/div[2]/form/div/div[4]/div/button')   
+    submit = driver.find_element_by_xpath(
+        "/html/body/div/section/div/div/div/div[2]/form/div/div[4]/div/button"
+    )
     driver.execute_script("arguments[0].click();", submit)
 
     # check user registered and redirected or check user registration failed bc already registered
     util.page_wait()
-    assert ('already registered' in driver.page_source) or ('http://localhost:5000/login/' == driver.current_url)
+    assert ("already registered" in driver.page_source) or (
+        "http://localhost:5000/login/" == driver.current_url
+    )
 
 
 if __name__ == "__main__":
