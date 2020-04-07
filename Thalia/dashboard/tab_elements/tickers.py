@@ -8,6 +8,12 @@ from .. import util
 
 def ticker_dropdown(id):
     tickers = util.get_asset_names()
+
+    options = []
+    for tkr, name in tickers:
+        tkr_name = f"{tkr} – {name}"
+        options.append({"value": tkr_name, "label": tkr_name})
+
     return html.Div(
         html.Div(
             [
@@ -16,7 +22,7 @@ def ticker_dropdown(id):
                     [
                         dcc.Dropdown(
                             id=f"memory-ticker-{id}",
-                            options=[{"value": x, "label": x} for x in tickers],
+                            options=options,
                             multi=False,
                             className="",
                         ),
