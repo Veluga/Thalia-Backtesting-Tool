@@ -1,13 +1,13 @@
 from Thalia.dashboard import callbacks
 import pytest
 from dash.exceptions import PreventUpdate
-import plotly.graph_objects as go
 
 
 def test_filter_tickers():
     tickers = "RCK"
     param_state = []
-    new_store = callbacks.filter_tickers(tickers, param_state)
+    user_supplied_csv = None
+    new_store = callbacks.filter_tickers(tickers, user_supplied_csv, param_state)
     assert new_store, "RCK"
 
 
