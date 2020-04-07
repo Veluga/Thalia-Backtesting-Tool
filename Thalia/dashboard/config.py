@@ -4,6 +4,6 @@ OFFICIAL_COLOURS = [
     "#01434a",
     "#01191c",
     "#f23d3d",
-    "#feedd0",
+    "#d0d42b",
 ]
 NO_TABS = 6

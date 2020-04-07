@@ -11,7 +11,7 @@ def test_print_dates():
         summary.print_dates(n_clicks=None, start_date=None, end_date=None)
         pytest.fail("Print Dates should fail on if button has not been pressed")
 
-    assert summary.print_dates(1, "Start", "End") == "Start - End"
+    assert "Start - End" in summary.print_dates(1, "Start", "End")
 
 
 def test_get_yearly_differences_graph():

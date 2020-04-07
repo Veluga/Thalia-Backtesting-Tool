@@ -58,6 +58,8 @@ def register_update_dashboard(dashapp):
             Output(f"metrics-box-{i}", "style"),
             # Box data
             Output(f"box-Portfolio Name-{i}", "children"),
+            Output(f"box-Start Date-{i}", "children"),
+            Output(f"box-End Date-{i}", "children"),
             Output(f"box-Initial Investment-{i}", "children"),
             Output(f"box-End Balance-{i}", "children"),
             Output(f"box-Difference in Best Year-{i}", "children"),
@@ -156,13 +158,6 @@ def validate_dates(start_date, end_date, frequency):
         return set()
 
 
-def validate_amount(amount):
-    if amount is None:
-        return 0
-    else:
-        return amount
-
-
 def format_date(date):
     format_string = "%Y-%m-%d"
     return datetime.strptime(date, format_string)
@@ -172,8 +167,10 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     """
     Returns portfolio name, Initial Balance, Final Balance, Best Year, Worst Year, and values in Best Year, Worst Year
     """
-    box_metrics = [portfolio_name]
-    box_metrics += [round(key_metrics[j][portfolio_name], 1) for j in range(4)]
+    start_date = strategy_object.dates[0].strftime("%Y-%m-%d")
+    end_date = strategy_object.dates[-1].strftime("%Y-%m-%d")
+    box_metrics = [portfolio_name, start_date, end_date]
+    box_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
     box_metrics += [
         anda.best_year_no(strategy_object),
         anda.worst_year_no(strategy_object),
@@ -188,6 +185,8 @@ def hidden_divs_data(no_portfolios):
     Corresponds to:
         - Box Visibility
         - Portfolio Name
+        - Start Date
+        - End Date
         - Initial Balance
         - End Balance
         - Best Year %
@@ -200,6 +199,8 @@ def hidden_divs_data(no_portfolios):
     """
     empty_divs = [
         {"display": "none"},
+        None,
+        None,
         None,
         None,
         None,
@@ -274,7 +275,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         contribution_dates = validate_dates(
             start_date, end_date, args["Contribution Frequencies"][i]
         )
-        contribution_amount = validate_amount(args["Contribution Amounts"][i])
+        contribution_amount = args["Contribution Amounts"][i] or 0
         rebalancing_dates = validate_dates(
             start_date, end_date, args["Rebalancing Frequencies"][i]
         )
@@ -306,7 +307,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         main_graph.add_trace(
             get_trace(
                 total_returns.index,
-                total_returns.tolist(),
+                total_returns,
                 name=str(portfolio_name),
                 color=OFFICIAL_COLOURS[i],
             )

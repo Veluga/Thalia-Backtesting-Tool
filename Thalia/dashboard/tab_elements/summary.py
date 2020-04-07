@@ -47,18 +47,21 @@ def metrics_box(id, visibility, size):
     return html.Div(
         [
             html.Div(
-                [
-                    portfolio_name(id),
-                    html.Hr(),
-                    level_items(id, "Initial Investment", "End Balance"),
-                    level_items(id, "Best Year", "Worst Year"),
-                    level_items(
-                        id,
-                        "Difference in Best Year",
-                        "Difference in Worst Year",
-                        units="%",
-                    ),
-                ],
+                dcc.Loading(
+                    [
+                        portfolio_name(id),
+                        html.Hr(),
+                        level_items(id, "Start Date", "End Date"),
+                        level_items(id, "Initial Investment", "End Balance", units="$"),
+                        level_items(id, "Best Year", "Worst Year"),
+                        level_items(
+                            id,
+                            "Difference in Best Year",
+                            "Difference in Worst Year",
+                            units="%",
+                        ),
+                    ]
+                ),
                 className="box",
                 style={"background-color": "#efeae2 "},
             ),
