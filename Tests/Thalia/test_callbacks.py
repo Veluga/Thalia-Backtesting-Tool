@@ -5,9 +5,13 @@ from dash.exceptions import PreventUpdate
 
 def test_filter_tickers():
     tickers = "RCK"
+    lazy_portfolio = None
     param_state = []
     user_supplied_csv = None
-    new_store = callbacks.filter_tickers(tickers, user_supplied_csv, param_state)
+    new_store = callbacks.filter_tickers(
+        tickers, user_supplied_csv, lazy_portfolio, param_state
+    )
+
     assert new_store, "RCK"
 
 
