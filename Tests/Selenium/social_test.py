@@ -2,7 +2,7 @@ from selenium import webdriver
 
 import util
 '''
-Test social media links
+Tests for social media links and integrations
 '''
 
 def social_test(driver):
@@ -12,16 +12,16 @@ def social_test(driver):
     # Make sure we're accesing the correct webpage
     assert 'Thalia' in driver.title
 
-    fb_link = driver.find_element_by_xpath('/html/body/footer/div/div[2]/a[2]')
-    driver.execute_script("arguments[0].click();", fb_link)
+    fb_link = driver.find_element_by_class_name('fa-facebook')
+    fb_link.click()
     
     # Test redirect
     util.page_wait()
     assert util.fb_url == driver.current_url
 
     driver.get("http://localhost:5000")
-    twitter_link = driver.find_element_by_xpath('/html/body/footer/div/div[2]/a[1]')
-    driver.execute_script("arguments[0].click();", twitter_link)
+    twitter_link = driver.find_element_by_class_name('fa-twitter')
+    twitter_link.click()
 
     # Test redirect
     util.page_wait()
@@ -29,10 +29,12 @@ def social_test(driver):
 
 
 
+
 if __name__ == "__main__":
     driver = webdriver.Firefox()
     social_test(driver)
     driver.close()
+
     driver = webdriver.Chrome()
     social_test(driver)
     driver.close()

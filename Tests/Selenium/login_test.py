@@ -10,31 +10,56 @@ def login_test(driver):
     driver.get("http://localhost:5000")
     driver.implicitly_wait(2) # seconds
     # Make sure we're accesing the correct webpage
-    assert 'Thalia' in driver.title
-
+    assert "Thalia" in driver.title
+    # Check reg form displayed
+    driver.find_element_by_class_name("registration-form")
     # Navigate to log in form
-    login_button = driver.find_element_by_xpath('/html/body/nav/div[2]/div[2]/div/div/a[2]')
+    login_button = driver.find_element_by_class_name("login-btn")
     driver.execute_script("arguments[0].click();", login_button)
 
     # Test redirect
     util.page_wait()
-    assert 'http://localhost:5000/login/' == driver.current_url
+    assert "http://localhost:5000/login/" == driver.current_url
 
     # Fill in login form
-    uname_field = driver.find_element_by_xpath('/html/body/div/section/div/div/div/div[2]/form/div/div[1]/input')
+    uname_field = driver.find_element_by_id("username")
     uname_field.send_keys(util.uname)
-    pwd_field = driver.find_element_by_xpath('/html/body/div/section/div/div/div/div[2]/form/div/div[2]/input')
+    pwd_field = driver.find_element_by_id("password")
     pwd_field.send_keys(util.pwd)
 
-    submit = driver.find_element_by_xpath('/html/body/div/section/div/div/div/div[2]/form/div/div[4]/div/button')   
+    submit = driver.find_element_by_class_name("signin-btn")
     driver.execute_script("arguments[0].click();", submit)
 
     # Check log in sucessfull
     util.page_wait()
-    disabled_login_buttons = driver.find_element_by_xpath('/html/body/nav/div[2]/div[2]/div/div')
+    disabled_login_button = driver.find_element_by_class_name("greeting")
 
-    assert 'http://localhost:5000/' == driver.current_url
-    assert ('Hi ' + util.uname + '!') in  disabled_login_buttons.get_attribute('innerHTML')
+    assert "http://localhost:5000/" == driver.current_url
+    assert ("Hi " + util.uname + "!") in  disabled_login_button.get_attribute("innerHTML")
+
+    # Test twitter feed integration
+    timeline = driver.find_element_by_class_name("twitter-timeline")
+
+
+def logout_test(driver):
+    driver.get("http://localhost:5000")
+    driver.implicitly_wait(2) # seconds
+    # Make sure we're accesing the correct webpage
+    assert "Thalia" in driver.title
+
+    # Test we are logged in
+    disabled_login_button = driver.find_element_by_class_name("greeting")
+    assert ("Hi " + util.uname + "!") in  disabled_login_button.get_attribute("innerHTML")
+
+    # Click logout button
+    logout_button = driver.find_element_by_class_name("logout-btn")
+    driver.execute_script("arguments[0].click();", logout_button)
+
+    # Check we have logged out and been redirected
+    util.page_wait()
+    driver.find_element_by_class_name("login-btn")
+    assert "http://localhost:5000/" == driver.current_url
+    util.page_wait()
 
 
 if __name__ == "__main__":
@@ -42,9 +67,11 @@ if __name__ == "__main__":
     driver = webdriver.Firefox()
     register_test(driver)
     login_test(driver)
+    logout_test(driver)
     driver.close()
 
     driver = webdriver.Chrome()
     register_test(driver)
     login_test(driver)
+    logout_test(driver)
     driver.close()

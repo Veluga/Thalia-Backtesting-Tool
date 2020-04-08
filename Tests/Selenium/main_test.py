@@ -1,13 +1,14 @@
 '''
-Helper script for running selenium tests
+main script for running selenium tests
 '''
 from selenium import webdriver
 
 from register_test import register_test
-from login_test import login_test
+from login_test import login_test, logout_test
 from social_test import social_test
 from navbar_test import navbar_test
 from contact_test import contact_test
+from dashboard_test import dashboard_test
 
 # Chrome
 def run_tests(driver):
@@ -21,6 +22,10 @@ def run_tests(driver):
     register_test(driver)
     print('[4] -- Testing login form.')
     login_test(driver)
+    print('[5] -- Testing dashboard.')
+    dashboard_test(driver)
+    print('[6] -- Testing log out')
+    logout_test(driver)
     print('[-] -- Closing driver.')
     driver.close()
 
