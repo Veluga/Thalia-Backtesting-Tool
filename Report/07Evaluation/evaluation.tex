@@ -87,6 +87,25 @@ Performance and load times of Thalia's web page hosted on our cloud hosting prov
 
 \end{itemize}
 
+\subsubsection{Supportability}
+
+\begin{itemize}
+\item The system should be well documented and easy to maintain.
+\textit{The architecture and design of the system are documented in this report. Additional documentation on the individual modules is also available on the project wiki. Additionally, the team has created a maintenance manual\ref{MaintenanceManual} explaining in detail how to maintain and extend Thalia.}
+
+\item The system should be fault-tolerant and be designed to support graceful degradation.
+\textit{The system has been designed so that faults resulting from bad input and API problems do not crash the website. This means that users not directly affected can continue to run simulations.}
+
+\item Installation and migration between hosting providers should be simple.
+\textit{In an appropriate environment, both Thalia and its dependencies can be installed with a single command. Installation is extensively documented in the user manual\ref{UserManual}. Since CircleCI tests all working versions of Thalia in a Docker container, our application is easy to migrate to any platform that supports Docker.}
+
+\item The system should be internationalized and be easy to extend to support new languages and currencies.
+\textit{The current version of the Anda library supports currency conversion, as such adding new currencies is supported by our architecture. Versions of Thalia's website and dashboard in different languages can easily be implemented by hiring a translator. This is however outside the scope of our project witch is merely an high quality industrial prototype.}
+
+\end{itemize}
+
+
+
 \subsubsection{Implementation}
 \begin{itemize}
 
@@ -116,7 +135,7 @@ Performance and load times of Thalia's web page hosted on our cloud hosting prov
 \subsection{Packaging}
 \begin{itemize}
 \item The product needs to work inside a Linux container (e.g. Docker).\\
-\textit{Our CircleCI process’ tests are all run in a Docker container. This means that throughout development all working versions of Thalia have been tested and are therefore proved to be working inside one.}
+\textit{As previously mentioned, our CircleCI process’ tests are all run in a Docker container. This means that throughout development all working versions of Thalia have been tested and are therefore proved to be working inside one.}
 \item All dependencies need to be installable with a single command.\\
 \textit{Dependencies necessary for deployment are installed automatically when Thalia is installed with Pip. Testing and extra dependencies can be installed additionally, but are not necessary for running Thalia.}
 \end{itemize}

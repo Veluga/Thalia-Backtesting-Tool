@@ -11,7 +11,7 @@ def create_app(test_config={}):
     # load the test config if passed in otherwise nothing happens
     server.config.update(test_config)
 
-    register_asset_db(server.config['THALIA_DB_CONN'])
+    register_asset_db(server.config["THALIA_DB_CONN"])
     register_dashapps(server)
     register_extensions(server)
     register_blueprints(server)
@@ -21,7 +21,7 @@ def create_app(test_config={}):
 
 def register_dashapps(app):
     from .dashboard.layout import layout
-    from .dashboard.callbacks import register_callbacks
+    from .dashboard.callbacks.callbacks import register_callbacks
 
     # Meta tags for viewport responsiveness
     meta_viewport = {
