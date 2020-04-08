@@ -2,14 +2,15 @@ from selenium import webdriver
 
 import util
 
-'''
-Test logging in as default user 'asdf' on Thalia websie
-'''
+"""
+Test logging in as default user 'asdf' on Thalia website
+"""
+
 
 def login_test(driver):
     driver.get("http://localhost:5000")
-    driver.implicitly_wait(2) # seconds
-    # Make sure we're accesing the correct webpage
+    driver.implicitly_wait(2)  # seconds
+    # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
     # Check reg form displayed
     driver.find_element_by_class_name("registration-form")
@@ -30,26 +31,30 @@ def login_test(driver):
     submit = driver.find_element_by_class_name("signin-btn")
     driver.execute_script("arguments[0].click();", submit)
 
-    # Check log in sucessfull
+    # Check log in successfull
     util.page_wait()
     disabled_login_button = driver.find_element_by_class_name("greeting")
 
     assert "http://localhost:5000/" == driver.current_url
-    assert ("Hi " + util.uname + "!") in  disabled_login_button.get_attribute("innerHTML")
+    assert ("Hi " + util.uname + "!") in disabled_login_button.get_attribute(
+        "innerHTML"
+    )
 
     # Test twitter feed integration
-    timeline = driver.find_element_by_class_name("twitter-timeline")
+    driver.find_element_by_class_name("twitter-timeline")
 
 
 def logout_test(driver):
     driver.get("http://localhost:5000")
-    driver.implicitly_wait(2) # seconds
-    # Make sure we're accesing the correct webpage
+    driver.implicitly_wait(2)  # seconds
+    # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
 
     # Test we are logged in
     disabled_login_button = driver.find_element_by_class_name("greeting")
-    assert ("Hi " + util.uname + "!") in  disabled_login_button.get_attribute("innerHTML")
+    assert ("Hi " + util.uname + "!") in disabled_login_button.get_attribute(
+        "innerHTML"
+    )
 
     # Click logout button
     logout_button = driver.find_element_by_class_name("logout-btn")
@@ -64,6 +69,7 @@ def logout_test(driver):
 
 if __name__ == "__main__":
     from register_test import register_test
+
     driver = webdriver.Firefox()
     register_test(driver)
     login_test(driver)

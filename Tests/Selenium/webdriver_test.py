@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-'''
-Snippet of code from selenium website, run this while connected to the 
-internet to test wether webdriver is configured proerly
-'''
+"""
+Snippet of code from selenium website, run this while connected to the
+internet to test wether webdriver is configured properly
+"""
 
 
 def test(driver):
@@ -17,9 +17,9 @@ def test(driver):
     assert "No results found." not in driver.page_source
 
 
-
 if __name__ == "__main__":
-    # Test chrome and firefox drivers, webdrivers must be installed on systm path for this to work
+    # Test chrome and firefox drivers,
+    # webdrivers must be installed on system path for this to work
     driver = webdriver.Chrome()
     test(driver)
     driver.close()

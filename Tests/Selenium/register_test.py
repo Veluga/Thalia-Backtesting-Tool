@@ -2,14 +2,15 @@ from selenium import webdriver
 
 import util
 
-'''
+"""
 Test registering a new/old user on the Thalia website
-'''
+"""
+
 
 def register_test(driver):
     driver.get("http://localhost:5000")
-    driver.implicitly_wait(2) # seconds
-    # Make sure we're accesing the correct webpage
+    driver.implicitly_wait(2)  # seconds
+    # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
 
     # Navigate to sign in form
@@ -32,9 +33,11 @@ def register_test(driver):
     submit = driver.find_element_by_class_name("submit-btn")
     driver.execute_script("arguments[0].click();", submit)
 
-    # check user registered and redirected or check user registration failed bc already registered
+    # check user registered and redirected already registered
     util.page_wait()
-    assert ("already registered" in driver.page_source) or ("http://localhost:5000/login/" == driver.current_url)
+    assert ("already registered" in driver.page_source) or (
+        "http://localhost:5000/login/" == driver.current_url
+    )
 
 
 if __name__ == "__main__":

@@ -3,15 +3,17 @@ import pandas as pd
 import numpy as np
 
 import util
-'''
+
+"""
 Test social media links
-'''
+"""
+
 
 def contact_test(driver):
     driver.get("http://localhost:5000/contact/")
-    driver.implicitly_wait(2) # seconds
-    # Make sure we're accesing the correct webpage
-    assert 'Thalia' in driver.title
+    driver.implicitly_wait(2)  # seconds
+    # Make sure we're accessing the correct webpage
+    assert "Thalia" in driver.title
     util.page_wait()
 
     email_field = driver.find_element_by_id("email")
@@ -28,9 +30,10 @@ def contact_test(driver):
 
     # Check message was recorded
     util.page_wait()
-    df0 = pd.read_csv('../../feedback.csv')
-    submitted = np.array([util.email,util.title,util.contents])
+    df0 = pd.read_csv("../../feedback.csv")
+    submitted = np.array([util.email, util.title, util.contents])
     assert (df0 == submitted).all(1).any()
+
 
 if __name__ == "__main__":
     driver = webdriver.Firefox()
@@ -39,4 +42,3 @@ if __name__ == "__main__":
     driver = webdriver.Chrome()
     contact_test(driver)
     driver.close()
-
