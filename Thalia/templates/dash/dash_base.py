@@ -38,7 +38,7 @@ base_html = """
             About
             </a>
             <a href="/gallery/" class="navbar-item">
-            Gallery
+            My Portfolios
             </a>
             <a href="/dashboard/" class="navbar-item">
             Dashboard

@@ -43,9 +43,7 @@ def gallery():
         for p in Portfolio.query.filter_by(owner=current_user.id)
     ]
 
-    return render_template(
-        "gallery.html", title="Portfolio Gallery", portfolios=portfolios
-    )
+    return render_template("gallery.html", title="My Portfolios", portfolios=portfolios)
 
 
 @server_bp.route("/login/", methods=["GET", "POST"])
