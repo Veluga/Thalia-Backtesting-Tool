@@ -15,7 +15,7 @@
     {% else %}
     <div id="gallery-ancestor" class="tile is-ancestor">
         {% for porto in portfolios %}
-        <div onclick="window.location = '/dashboard/?id={{porto.id}}'" class="tile is-parent is-4">
+        <div onclick="window.location = '{{ url_for('/dashboard/') }}?id={{porto.id}}'" class="tile is-parent is-4">
             <article class="tile is-child box">
                 <p class="title">{{porto.name}}</p>
                 {% for asset in porto.strat.assets %}
