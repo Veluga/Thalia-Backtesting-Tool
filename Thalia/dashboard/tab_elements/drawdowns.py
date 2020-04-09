@@ -5,7 +5,7 @@ import dash_table
 
 def drawdowns_table(id):
     columns = [
-        {"name": "Drawdown (%)", "id": "Drawdown (%)"},
+        {"name": "Drawdown (%)", "id": "Drawdown"},
         {"name": "Start", "id": "Start"},
         {"name": "End", "id": "End"},
         {"name": "Recovery", "id": "Recovery"},
