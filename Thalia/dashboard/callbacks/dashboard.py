@@ -7,9 +7,10 @@ from datetime import datetime
 
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
+from ..strategy import get_strategy
 from .summary import get_pie_charts, get_yearly_differences_graph
+from .metrics import get_table_data, combine_cols
 from .drawdowns import get_drawdowns_tables
-from ..strategy import get_strategy, get_table_data
 
 
 def register_dashboard(dashapp):
@@ -76,6 +77,12 @@ def register_update_dashboard(dashapp):
             Output(f"drawdowns-table-{i}", "data"),
             Output(f"drawdowns-table-col-{i}", "style"),
         ]
+
+    outputs += [
+        # Metrics Table
+        Output("key_metrics_table", "columns"),
+        Output("key_metrics_table", "data"),
+    ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
         update_dashboard
@@ -168,7 +175,7 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     start_date = strategy_object.dates[0].strftime("%d/%m/%Y")
     end_date = strategy_object.dates[-1].strftime("%d/%m/%Y")
     box_metrics = [portfolio_name, start_date, end_date]
-    box_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
+    box_metrics += [round(key_metrics[j][portfolio_name], 1) for j in range(4)]
     box_metrics += [
         anda.best_year_no(strategy_object),
         anda.worst_year_no(strategy_object),
@@ -269,6 +276,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     drawdowns_graph = get_figure(xaxis_title="Time", yaxis_title="Drawdown (%)")
     to_return = []
+    table_data = []
+    table_cols = [{"name": "Metric", "id": "Metric"}]
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
@@ -302,7 +311,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         )
 
         total_returns = anda.total_return(strategy)
-        table_data = get_table_data(strategy, total_returns)
+        metrics = get_table_data(strategy, total_returns, portfolio_name)
+        table_data = combine_cols(table_data, metrics)
+        table_cols.append({"name": portfolio_name, "id": portfolio_name})
 
         # Add Portfolio Trace to Main Graph
         main_graph.add_trace(
@@ -349,4 +360,4 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
 
-    return [main_graph, drawdowns_graph] + to_return
+    return [main_graph, drawdowns_graph] + to_return + [table_cols, table_data]

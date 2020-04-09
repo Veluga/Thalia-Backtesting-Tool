@@ -70,7 +70,7 @@ def summary():
 def metrics():
     return dcc.Tab(
         label="Metrics",
-        children=[title("Key Metrics"), table([], "table")],
+        children=[title("Key Metrics"), dcc.Loading(table([], "key_metrics_table"))],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
