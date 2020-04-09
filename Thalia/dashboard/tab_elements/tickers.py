@@ -272,9 +272,18 @@ def upload_data(id):
         [
             dcc.Upload(
                 id=f"upload-data-{id}",
-                children=html.Div(["Drag and Drop or ", html.A("Select Files")]),
+                children=html.Div(
+                    [
+                        "Drag and Drop or ",
+                        html.A("Select Files"),
+                        html.Abbr(
+                            "\uFE56",
+                            title="please provide CSV files with this date format: %d/%m/%Y",
+                        ),
+                    ]
+                ),
                 style={
-                    "width": "100%",
+                    "width": "20%",
                     "height": "60px",
                     "lineHeight": "60px",
                     "borderWidth": "1px",
@@ -282,6 +291,7 @@ def upload_data(id):
                     "borderRadius": "5px",
                     "textAlign": "center",
                     "margin": "10px",
+                    "float": "right",
                 },
                 # Allow multiple files to be uploaded
                 multiple=True,
