@@ -66,7 +66,6 @@ def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_sta
             ):
                 param_state.append(asset)
     else:
-        asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
         if ticker_selected is None:
             filename = user_supplied_csv[0]
             handle = user_supplied_csv[1]
@@ -76,10 +75,9 @@ def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_sta
                 "Allocation": "0",
             }
         else:
-            asset = {
-                "AssetTicker": ticker_selected,
-                "Allocation": "0",
-            }
+        ticker, name = ticker_selected.split(" – ")
+        asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
+
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
         ):
