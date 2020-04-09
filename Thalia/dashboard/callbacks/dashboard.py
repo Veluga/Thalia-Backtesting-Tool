@@ -9,10 +9,9 @@ from dash.exceptions import PreventUpdate
 from analyse_data import analyse_data as anda
 
 from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
-from ..strategy import get_strategy, get_table_data
+from ..strategy import get_strategy
 from .summary import get_pie_charts, get_yearly_differences_graph
 from .metrics import get_table_data, combine_cols
-
 
 
 def register_dashboard(dashapp):
