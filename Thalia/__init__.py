@@ -44,9 +44,6 @@ def register_dashapps(app):
         external_stylesheets=external_stylesheets,
     )
 
-    
-
-
     with app.app_context():
         dashapp.title = "Backtest dashboard"
         dashapp.index_string = base_html
