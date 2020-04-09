@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+import dash
 from decimal import Decimal
 from .tab_elements.tickers import options
 from . import util
@@ -90,7 +91,8 @@ def register_remove_portfolio_button(dashapp):
 def register_overfitting_button(dashapp):
     dashapp.callback(
         Output("overfitting-btn", "disabled"),
-        [Input("overfitting-btn", "n_clicks")],
+        [Input("overfitting-btn", "n_clicks"),
+         Input("submit-btn", "n_clicks")],
     )(update_overfitting)
 
 def register_callbacks(dashapp):
@@ -123,8 +125,18 @@ def register_callbacks(dashapp):
     register_overfitting_button(dashapp)
 
 
-def update_overfitting(n_clicks, param_state):
-    print('help, I cant hear this')
+def update_overfitting(overfit_btn, submit_btn):
+    ctx = dash.callback_context
+    if not ctx.triggered:
+        raise PreventUpdate
+    else:
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+    if button_id == "overfitting-btn":
+        return True
+    else:
+        return False
+
 
 def remove_button(n_clicks, param_state):
     if n_clicks is None:

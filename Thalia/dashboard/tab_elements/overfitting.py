@@ -5,7 +5,7 @@ def overfitting_button():
     return html.Div(
         html.Button(
             "Check Overfitting",
-            "overfit-btn",
+            id="overfitting-btn",
             className="button is-large is-primary",
             style={"background-color": "#f26a4b"},
         ),
@@ -17,6 +17,7 @@ def overfitting_dashboard():
         [
             overfitting_button(),
             html.Br(),
+            # Css/ Bulma handles making this not ugly
             html.A("Check for possible overfitting in simulation."),
         ],
         className="columns is-multiline",
