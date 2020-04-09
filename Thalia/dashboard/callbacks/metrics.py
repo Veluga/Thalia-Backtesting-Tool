@@ -7,27 +7,27 @@ def get_table_data(strat, total_return, portfolio_name):
     """
     returns = total_return
     table = [
-        {"metric": "Initial Balance", portfolio_name: returns[strat.dates[0]]},
-        {"metric": "End Balance", portfolio_name: returns[strat.dates[-1]]},
+        {"Metric": "Initial Balance", portfolio_name: returns[strat.dates[0]]},
+        {"Metric": "End Balance", portfolio_name: returns[strat.dates[-1]]},
     ]
     try:
         # We can't use append here because we want the table
         # unaltered if anything goes wrong.
         table = table + [
-            {"metric": "Best Year", portfolio_name: round(anda.best_year(strat), 2)},
-            {"metric": "Worst Year", portfolio_name: round(anda.worst_year(strat), 2)},
+            {"Metric": "Best Year", portfolio_name: round(anda.best_year(strat), 2)},
+            {"Metric": "Worst Year", portfolio_name: round(anda.worst_year(strat), 2)},
             {
-                "metric": "Max Drawdown",
+                "Metric": "Max Drawdown",
                 portfolio_name: round(anda.max_drawdown(strat), 2),
             },
         ]
         table = table + [
             {
-                "metric": "Sortino Ratio",
+                "Metric": "Sortino Ratio",
                 portfolio_name: round(anda.sortino_ratio(strat, None), 2),
             },
             {
-                "metric": "Sharpe Ratio",
+                "Metric": "Sharpe Ratio",
                 portfolio_name: round(anda.sharpe_ratio(strat, None), 2),
             },
         ]
@@ -41,10 +41,15 @@ def get_table_data(strat, total_return, portfolio_name):
 
 def combine_cols(table1, table2):
     """
-    Combines two lists of dictionaries with equal lengths
+    Combines two lists of dictionaries
     """
     to_return = []
-    for i in range(len(table1)):
+    length = max(len(table1), len(table2))
+    if not table1:
+        table1 = [{} for _ in range(length)]
+    if not table2:
+        table2 = [{} for _ in range(length)]
+    for i in range(length):
         temp = {**table1[i], **table2[i]}
         to_return.append(temp)
     return to_return

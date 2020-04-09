@@ -264,8 +264,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     to_return = []
-    table_data = [{} for _ in range(7)]
-    table_cols = [{"name": "metric", "id": "metric"}]
+    table_data = []
+    table_cols = [{"name": "Metric", "id": "Metric"}]
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)

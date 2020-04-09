@@ -8,7 +8,7 @@ def table(data, id):
     TODO: evaluate if antipattern? wrong type of abstraction?
     """
     columns = [
-        {"name": "metric", "id": "metric"},
+        {"name": "Metric", "id": "Metric"},
         {"name": "value", "id": "value"},
     ]
     return dash_table.DataTable(
