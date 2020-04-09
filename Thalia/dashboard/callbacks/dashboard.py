@@ -35,9 +35,10 @@ def register_update_dashboard(dashapp):
         State("input-money", "value"),
     ]
 
-    # Portfolio Growth Graph
     outputs = [
+        # Portfolio Growth Graph
         Output(f"main-graph", "figure"),
+        # Returns tab
         Output(f"return-table", "children"),
         Output(f"annual-returns-portfolios", "figure"),
     ]
@@ -317,6 +318,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         )
 
         to_return.append(annual_figure)
+
         returns_tab_data.append(
             [anda.relative_yearly_returns(strategy), portfolio_name, total_returns],
         )
