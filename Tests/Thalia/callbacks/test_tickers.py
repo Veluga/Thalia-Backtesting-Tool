@@ -5,7 +5,7 @@ from Thalia.dashboard.config import MAX_PORTFOLIOS
 
 
 def test_filter_tickers():
-    ticks = "RCK"
+    ticks = "RCK – Rock"
     param_state = []
     new_store = tickers.filter_tickers(ticks, None, param_state)
     assert "RCK" in new_store[0]["AssetTicker"]
