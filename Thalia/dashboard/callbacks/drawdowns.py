@@ -1,4 +1,5 @@
 from analyse_data import analyse_data as anda
+import humanize
 
 
 def get_drawdowns_tables(portoflio_name, drawdowns):
@@ -12,3 +13,20 @@ def get_drawdowns_tables(portoflio_name, drawdowns):
     table_visibility = {"display": "block"}
 
     return [table_name, table_data, table_visibility]
+
+
+def format_summary(drawdowns):
+    drawdowns = drawdowns.head(10)
+    return drawdowns.apply(format_row, axis=1, result_type="broadcast")
+
+
+def format_row(row):
+    return [
+        round(row["Drawdown"], 2),
+        row["Start"].strftime("%d/%m/%Y"),
+        row["End"].strftime("%d/%m/%Y"),
+        row["Recovery"].strftime("%d/%m/%Y"),
+        humanize.naturaldelta(row["Length"]),
+        humanize.naturaldelta(row["Recovery Time"]),
+        humanize.naturaldelta(row["Underwater Period"]),
+    ]
