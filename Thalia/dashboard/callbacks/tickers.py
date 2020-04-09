@@ -75,8 +75,8 @@ def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_sta
                 "Allocation": "0",
             }
         else:
-        ticker, name = ticker_selected.split(" – ")
-        asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
+            ticker, name = ticker_selected.split(" – ")
+            asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
 
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
