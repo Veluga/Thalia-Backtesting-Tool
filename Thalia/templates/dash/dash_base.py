@@ -49,8 +49,8 @@ base_html = """
                 Contact
                 </a>
                 <hr class="navbar-divider">
-                <a href="/issues/" class="navbar-item">
-                Report an issue
+                <a href="/contact/" class="navbar-item">
+                Contact Us
                 </a>
             </div>
             </div>

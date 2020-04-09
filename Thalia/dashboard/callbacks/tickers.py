@@ -53,7 +53,8 @@ def filter_tickers(ticker_selected, lazy_portfolio, param_state):
             ):
                 param_state.append(asset)
     else:
-        asset = {"AssetTicker": ticker_selected, "Allocation": "0"}
+        ticker, name = ticker_selected.split(" – ")
+        asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
         ):
