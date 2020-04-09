@@ -78,8 +78,9 @@ BAC,,,Bank of America Corp
 BAG,,,Barr (AG) 
 BAKK,,,Bakkavor Group 
 BAS,,,BASF SE 
+BEI,,,Beiersdorf AG
 BAX,,,Baxter International Inc. 
-BAYN,,,Bayerische Motoren Werke AG 
+BAYN,,,Bayern AG
 BBGI,,,BBGI Sicav 
 BBOX,,,Tritax Big Box Reit 
 BBY,,,Balfour Beatty 
@@ -100,7 +101,7 @@ BKR,,,Baker Hughes Co
 BLK,,,BlackRock 
 BLL,,,Ball Corp 
 BME,,,B&M European Value Retail 
-BMW,,,Bayerische Motoren Werke AG 
+BMW.DE,,,Bayerische Motoren Werke AG 
 BMY,,,Bristol-Myers Squibb 
 BNKR,,,Bankers Investment Trust 
 BOY,,,Bodycote 
@@ -497,7 +498,6 @@ MOS,,,The Mosaic Company
 MPC,,,Marathon Petroleum 
 MRC,,,Mercantile Inv Tst (The) 
 MRK,,,Merck KGaA 
-MRK,,,Merck & Co. 
 MRO,,,Marathon Oil Corp. 
 MS,,,Morgan Stanley 
 MSCI,,,MSCI Inc 
