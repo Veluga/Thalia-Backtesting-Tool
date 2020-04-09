@@ -45,7 +45,6 @@ def register_dashapps(app):
     )
 
     
-    dashapp.enable_dev_tools()
 
 
     with app.app_context():

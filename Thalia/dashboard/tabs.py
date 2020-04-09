@@ -5,6 +5,7 @@ from .tab_elements.assets import asset_contributions_table
 from .tab_elements.summary import summary_dashboard
 from .tab_elements.tickers import options_wrapper
 from .tab_elements.metrics import table
+from .tab_elements.overfitting import overfitting_test
 
 tabs_styles = {"height": "44px"}
 tab_style = {
@@ -150,11 +151,9 @@ def assets():
     )
 
 def overfitting():
-    from .tab_elements.overfitting import overfitting_dashboard
-
     return dcc.Tab(
         label="Overfitting",
-        children=[title("Overfitting"), overfitting_dashboard()],
+        children=[title("Overfitting"), overfitting_test()],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,

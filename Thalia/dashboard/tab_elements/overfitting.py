@@ -1,5 +1,5 @@
 import dash_html_components as html
-from .elements import box, graph_box
+import dash_core_components as dcc
 
 def overfitting_button():
     return html.Div(
@@ -12,13 +12,12 @@ def overfitting_button():
         className="container has-text-centered",
     )
 
-def overfitting_dashboard():
+def overfitting_test():
     return html.Div(
         [
-            overfitting_button(),
-            html.Br(),
-            # Css/ Bulma handles making this not ugly
-            html.A("Check for possible overfitting in simulation."),
+            html.Div(overfitting_button(), className="columns is-centered "),
+            dcc.Store(id="portfolio-results"),
+            html.Div(dcc.Loading(html.Div(id="overfitting-results", style={"margin":"1rem"})),
+                     className="columns is-centered"),
         ],
-        className="columns is-multiline",
     )
