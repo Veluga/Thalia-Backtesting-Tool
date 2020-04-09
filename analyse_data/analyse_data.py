@@ -351,9 +351,9 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
         drawdown = round(period.at[end], 2)
         return [
             drawdown,
-            start.strftime("%Y-%m-%d"),
-            end.strftime("%Y-%m-%d"),
-            recovery.strftime("%Y-%m-%d"),
+            start.strftime("%d/%m/%Y"),
+            end.strftime("%d/%m/%Y"),
+            recovery.strftime("%d/%m/%Y"),
             humanize.naturaldelta(length),
             humanize.naturaldelta(recovery_time),
             humanize.naturaldelta(underwater_period),

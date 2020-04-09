@@ -24,8 +24,9 @@ def register_print_dates(dashapp):
 def print_dates(n_clicks, start_date, end_date):
     if n_clicks is None:
         raise PreventUpdate
-
-    return f"Selected interval: {start_date} - {end_date}"
+    start = f"{start_date.split('-')[2]}/{start_date.split('-')[1]}/{start_date.split('-')[0]}"
+    end = f"{end_date.split('-')[2]}/{end_date.split('-')[1]}/{end_date.split('-')[0]}"
+    return f"Selected interval: {start} - {end}"
 
 
 def get_yearly_differences_graph(name, diffs, start_date, end_date):

@@ -165,8 +165,8 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     """
     Returns portfolio name, Initial Balance, Final Balance, Best Year, Worst Year, and values in Best Year, Worst Year
     """
-    start_date = strategy_object.dates[0].strftime("%Y-%m-%d")
-    end_date = strategy_object.dates[-1].strftime("%Y-%m-%d")
+    start_date = strategy_object.dates[0].strftime("%d/%m/%Y")
+    end_date = strategy_object.dates[-1].strftime("%d/%m/%Y")
     box_metrics = [portfolio_name, start_date, end_date]
     box_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
     box_metrics += [
