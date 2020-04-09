@@ -111,7 +111,7 @@ def returns():
 def drawdowns():
     return dcc.Tab(
         label="Drawdowns",
-        children=[title("Drawdowns"), drawdowns_dashboard(),],
+        children=[title("Drawdowns"), dcc.Loading(drawdowns_dashboard())],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
