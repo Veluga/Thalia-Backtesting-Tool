@@ -292,7 +292,7 @@ The most promising candidate for this was CircleCI \cite{CircleCI}, which is a c
     \item Clones the branch needed to be merged.
     \item Runs flake8 one last time and saves results.
     \item Runs tests and saves results.
-    \item Deploys the master branch to Heroku, see \ref{Continuous Deployment}
+    \item Deploys the master branch to AWS, see \ref{Continuous Deployment}
 \end{enumerate}
 
  \begin{figure}[H]
@@ -323,17 +323,19 @@ An overview over the literature covering reveals a plethora of different strateg
     \item CircleCI support - The target host should be supported by CircleCI natively to ease development of a continuous deployment (CD) pipeline
 \end{itemize}
 
-The upfront cost of buying physical servers ruled it out as an option for us. Thus, we turned our attention to using a solution that involved deployment to a virtual machine in the Cloud. Many providers for such a service exist, including Amazon Web Services \cite{AWS} and Microsoft Azure \cite{Azure}. While these would provide us with extensive control over the hosting process, their use involves a lot of complexity that seemed unnecessary for the intial rollout of a simple application such as Thalia.
+The upfront cost of buying physical servers ruled it out as an option for us. Thus, we turned our attention to using a solution that involved deployment to a virtual machine in the Cloud.
 
-Due to native CircleCI support and a free tier service, we ended up choosing Heroku \cite{Heroku} as our initial hosting provider. This enables us to host our application for free in the initial stages of development while providing ample opportunity for horizontal and vertical scaling later on, if it is required.
+Due to native CircleCI support and a free-tier service, we initially chose Heroku \cite{Heroku} as our initial hosting provider. This allowed us to host our application for free in the initial stages of development while providing ample opportunity for horizontal and vertical scaling later on, if required.
 
-The benefits of using continuous deployment have been well established for multiple years and involve "the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity" \cite{CDBenefits}. Using Heroku in combination with CircleCI, our CD pipeline involves the following simple steps:
+However, it quickly became apparent that Heroku was not appropriate for our purposes, due to its lack of support for sqlite databases \cite{HerokuSqlite}. Hence, we moved to AWS \cite{AWS}, which is also supported by CircleCI \cite{AWS}.
+
+The benefits of using continuous deployment have been well established for multiple years and involve "the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity" \cite{CDBenefits}. Using AWS in combination with CircleCI, our CD pipeline involves the following simple steps:
 
 \begin{enumerate}
     \item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
     \item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
-    \item If this step is successful, the master branch is pushed to a remote repository recognized by Heroku via git.
-    \item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
+    \item If this step is successful, the master branch is pushed to a remote repository recognized by AWS via git.
+    \item AWS executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
 \end{enumerate}
 
 Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state. The full CI/CD workflow is captured by the flowchart on \figurename{\ref{CI_CD}}.
