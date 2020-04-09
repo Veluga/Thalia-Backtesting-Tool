@@ -5,7 +5,6 @@ from decimal import Decimal, InvalidOperation
 from datetime import date
 from dataclasses import dataclass
 from typing import List
-import humanize
 
 
 PENNY = Decimal("0.01")
@@ -329,13 +328,13 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
     Input: the return value of drawdowns().
     
     Output: a dataframe with columns:
-        Drawdown: float (negative percentage) rounded to 2 places
-        Start: datetime in %Y-%m-%d
-        End: datetime in %Y-%m-%d
-        Recovery: datetime in %Y-%m-%d
-        Length: timedelta humanized
-        Recovery Time: timedelta humanized
-        Underwater Period: timedelta humanized
+        Drawdown: float (negative percentage)
+        Start: datetime
+        End: datetime
+        Recovery: datetime
+        Length: timedelta
+        Recovery Time: timedelta
+        Underwater Period: timedelta
     sorted ascending by Drawdown (most severe first), sorting by Start
     to break ties.
     """
@@ -348,15 +347,15 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
         length = end - start
         recovery_time = recovery - end
         underwater_period = recovery - start
-        drawdown = round(period.at[end], 2)
+        drawdown = period.at[end]
         return [
             drawdown,
-            start.strftime("%d/%m/%Y"),
-            end.strftime("%d/%m/%Y"),
-            recovery.strftime("%d/%m/%Y"),
-            humanize.naturaldelta(length),
-            humanize.naturaldelta(recovery_time),
-            humanize.naturaldelta(underwater_period),
+            start,
+            end,
+            recovery,
+            length,
+            recovery_time,
+            underwater_period,
         ]
 
     rows = [make_row(p) for p in periods]
@@ -364,7 +363,7 @@ def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
     df = pd.DataFrame(
         rows,
         columns=[
-            "Drawdown (%)",
+            "Drawdown",
             "Start",
             "End",
             "Recovery",
