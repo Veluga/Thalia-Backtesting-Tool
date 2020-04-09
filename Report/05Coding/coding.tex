@@ -11,7 +11,7 @@ After a brief overview of the project and the project plan, this section will fo
 
 One of the first decision we have made this term was to completely recreate our prototype of Thalia. Firstly, this radical move was the consequence of a new implementation decision (for more detail see \ref{Web Framework}). Secondly, as prototypes are meant to be disposable and are designed only to answer key questions about the system \cite{pragmaticprog}, the proof of concept served its purpose, giving us a chance to refine the structure and the quality of the code.
 
-Despite the risks posed by using an Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
+Despite the risks posed by using a Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR}, which highlights that our, that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
 
 
 
@@ -34,7 +34,7 @@ We will discuss other technologies used in more detail after the discussion on p
 
 Early in the inception phase of development we have decided that our goal was not to have fixed responsibilities in our team, allowing everybody to work on each component of the system. This decision has also eased the code review process, as we had no status differences to distort the error-correcting mechanism \cite{statusdifference}. Furthermore, since no team member was the sole developer of a system component, this allowed us to direct comments at the code and not the author \cite{howtoreview}. For these reasons we have decided to follow the Egalitarian Team structure, and make use of the flexibility offered by it.
 
-Our workflow was centered around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were sometimes given by the team on the weekly meetings, but occasionally they were chosen by the member proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks.
+Our workflow was centred around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were sometimes given by the team on the weekly meetings, but occasionally they were chosen by the member proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks.
 
 A typical ticket in our project was an encapsulation of a user story, as it consisted of a title, a one liner, value, acceptance criteria, and sub tasks. In the first half of development we also used effort-oriented metrics, called story points to measure the amount of work but we decided to abandon this aspect. An example of a ticket can be seen on \figurename{\ref{Ticket}}.
 
@@ -95,7 +95,7 @@ Choosing the right web framework was more controversial than originally planed. 
     \item Our concerns were also confirmed by more experienced web-developers, suggesting simpler alternatives.
 \end{itemize}
 
-As stated this decision has contributed to the opportunity to recreate the basis of our application, and to apply what we have learnt from our prototype.
+More precisely, we believe that using such a powerful framework like Django is unnecessary for developing our application. A lot of Django's features wouldn't be used for our type of project. Since Flask is simpler, the entire team thought it would be better to use it for creating a minimalistic app in a short time period. On top of that Flask provides more flexibility, a simple Flask application can be later changed to add more functionality, make it more complex, whereas with Django it is much more complicated. Additionally Django doesn't make it easy to make changes to the already provided modules. Therefore developers create web applications using built-in features which means that if a developer wants to use a different library for a function that Django already provides, it might be hard to do. With Flask it is much easier to make changes to the libraries, databases. 
 
 \iffalse
 Sources:
@@ -110,9 +110,58 @@ http://ddi-dev.com/blog/programming/django-vs-flask-which-better-your-web-app/
 https://coderseye.com/django-vs-flask
 \fi
 
-\subsubsection{GUI}
+For the main framework we chose Flask, a Python-based micro web framework. Flask provides functionality for building web applications, such as managing HTTP requests, using the `requests` library, and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}.We used the `render-template()` library to process and parse the HTML templates, for all the pages, except for the dashboard, which is described below. We used some of Flask's extensions such as Flask-Login, which provides user session management for Flask \cite{flask-login}. To handle web forms we used the `flask-wtf` extension, which is a wrapper around the `WTForms` package \cite{wtforms-documentation}. 
 
+\subsubsection{GUI}
 \label{GUI}
+
+Dash is great for applications that require data visualisation, modelling, or analysis \cite{dash}, which is precisely what is needed for our portfolio backtesting software. It allows us to create reactive single-page apps, meaning that with the use of tables, drop-down menus, etc., the app is updated instantly. This is done with the use of `callbacks`, which whenever an input changes, make an AJAX request whose output value is updated automatically \cite{callbacks}.
+
+A typical callback using an example from our application can be seen below:
+
+\begin{lstlisting}[language=Python, caption=setup.py - Development environment, label=lst:callback_example]
+def register_add_portfolio_button(dashapp):
+    dashapp.callback(
+        Output("portfolios-container", "children"),
+        [Input("add-portfolio-btn", "n_clicks")],
+        [State("portfolios-container", "children")],
+    )(add_portfolio)
+\end{lstlisting}
+
+In this code snippet, we register a listener to the button with the unique id: `add-portfolio-btn`, and its property `n\_clicks`, or number of clicks. Whenever the input property changes, the corresponding function gets called automatically. This also happens upon launching the Dash page, therefore it is common to start the called function by catering to this case, and raising a `PreventUpdate` exception if the input parameter is `None`. An example can be seen in \cite{prevent_update}.
+
+The called function then receives the input properties as parameters. Furthermore, we can add any number of parameters as `State` objects, as has been done above. When the function finishes, it needs to return the same number of values as is specified in the callback. Mismatching the number of return values results in a runtime error. Whereas mismatching the input parameters yields a different function signature, and so the callback is not registered to the desired function, doing so does not raise any errors. 
+
+Fortunately, Dash offers great developer tools \cite{dash_dev_tools}, such as the `Callback Graph` visible on \figurename{\ref{callback_graph}}, which can be accessed by running the application in debug mode and activating the Dev tools. This graph came in handy often, especially due to the arguments presented in \ref{dash_limitations}.
+
+ \begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.6]{05Coding/05Pictures/callback_graph.png}
+   \caption{Callback Graph on Thalia}
+   \label{callback_graph}
+\end{figure}
+
+
+\subsubsection*{Limitations}
+\label{dash_limitations}
+
+Although Dash is fairly intuitive and great for one-page applications, it struggles when it comes to dynamically created components. To be more precise, all callbacks need to be registered before runtime. For example, in our application the user is able to enter multiple portfolios via the `Add Portfolio` button. Doing so creates new input fields for the portfolio which all need to be registered. 
+
+As this problem persisted with other components as well, we needed to find some solutions. Many approaches have been suggested by the Dash Community, some even by the developer team \cite{dash_workaround}. At the end, we have decided to use the most stable approach and generate all the components beforehand and hide them. This means that the relevant function now also has the responsibility of returning the visibility of the required Div. Note that this is a highly requested feature in the Dash community, and is likely to be added soon, but for now, we needed to resort to workarounds.
+
+Furthermore, the data we show in the dashboard is greatly centered around the strategy object discussed in \ref{BL Structure}. At the beginning of every backtesting process a new strategy object is initialised, which is a time-costly task. As this object holds most of the information our result pages require, many functions would need to access the same object. 
+
+One solution would be to have a callback for initialising the object, and then share it with all others. Although there exist ways to do so \cite{dash_share}, we were not satisfied with any of the approaches listed. Consequently, we decided to go forward with the original approach that Dash favours, and combine more outputs in one function. Even though this introduced more complexity to our code, it made the application faster overall.
+
+\subsubsection*{Layout}
+
+The layout of the application, as discussed in \ref{GUI}, has been created with the use of the `Dash HTML components` library. Consequently, there was no need to write HTML for the dashboard, since the layout was composed using Python, which generates HTML content. Dash uses the Flask web framework, which makes it fairly simple to embed a Dash app at a specific route of an existing Flask app \cite{flask-dash}. The framework also handles most of the communications between the front-end and back-end.
+
+The User-Interface was made with the use of `Bulma`, which is an open-source CSS framework \cite{bulma}. Bulma is ideal for creating responsive elements as it automatically adapts the website to different screen sizes \cite{responsiveness_2020}. It is also compatible with various web browsers. Another advantage of Bulma is that we could create a very modern-looking website fairly simply as the framework is doing a lot of styling for us.
+
+It also provides pre-styled elements, components, such as the navigation bar or alerts for the users. It is fairly simple to learn in comparison to `Bootstrap`, as Bulma has easy to learn syntax, it has simple readable class names like `.button` and has a very straightforward modifiers system, for example,  `.is-primary`. There are no JavaScript elements, only CSS, which makes it adaptable to frameworks such as Dash.
+
+
 \subsubsection{Business Logic}
 \label{BL}
 
@@ -121,17 +170,17 @@ The business logic module sits at the very core of our application. We require i
 Research into developing this module was initiated by listing our requirements for its desired behaviour. We identified that it should support:
 
 \begin{itemize}
-	\item Specification of a portfolio as a set of pandas dataframes, the common data exchange format in our application
-	\item Calculation of a portfolio's return over time
-	\item Regular contributions to mimick saving
-	\item Rebalancing strategies to reestablish the desired weighting of a portfolio
-	\item Calculation of key metrics, including the Sharpe and Sortino Ratio, Max Drawdown, Best and Worst Year
-	\item Collecting and reinvesting dividends for equities
+    \item Specification of a portfolio as a set of pandas dataframes, the common data exchange format in our application
+    \item Calculation of a portfolio's return over time
+    \item Regular contributions to mimic saving
+    \item Rebalancing strategies to reestablish the desired weighting of a portfolio
+    \item Calculation of key metrics, including the Sharpe and Sortino Ratio, Max Drawdown, Best and Worst Year
+    \item Collecting and reinvesting dividends for equities
 \end{itemize}
 
-Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aformentioned tasks.
+Using these requirements, we struggled to find an open-source library that would handle these tasks for us. While backtesting libraries written in Python are available in abundance (e.g. PyAlgoTrade \cite{PyAlgoTrade} and bt \cite{bt}), each of these was lacking in at least one critical aspect. None of them support specifying a portfolio using absolute or relative weights and instead seem to focus on backtesting trading strategies involving just a single asset while using technical indicators. Thus, we made the decision to develop our own library for handling the aforementioned tasks.
 
-The result of this effort is "Anda" (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into indivual functions.
+The result of this effort is `Anda` (short for analyse data). For each of its functions, Anda takes as input a Strategy object that specifies the entire list of parameters for a backtest, including contribution dates, a list of assets with associated price data, dividends for equities, etc. Calculations are performed on a per-metric basis by separating them into individual functions.
 This approach has allowed us to tailor the entire business logic module exactly to our needs without having to produce complicated wrapper code for existing backtesting libraries.
 
 \subsubsection{Database \& Finda}
@@ -144,7 +193,7 @@ Another major technology decision was the choice of appropriate database managem
 \item \textbf{Support:} Ideally the DBMS should be cross platform, as this would allow us to defer commitment to a specific deployment platform until we are ready to start the CD process. 
 \item \textbf{License and pricing:} The DBMS should be free to use and have a non-restrictive license.
 PERFORMANCE: The DBMS should be able to handle a high volume of concurrent reads to fulfil user requests. The data will be updated daily, meaning efficient write operations are a lower priority.
-\item \textbf{Usability:} As our team lacks experience in this field, a suitable DBMS should be relatively simple to learn. Ideally team members should be able to learn the basics in a single weekly sprint.
+\item \textbf{Usability:} As our team lacks experience in this field, a suitable DBMS should be relatively simple to learn. Ideally, team members should be able to learn the basics in a single weekly sprint.
 \item \textbf{Security:} The DBMS should have a mature code base and be relatively secure, as access to financial data is a key component of our business model. Later it will likely also store data that is not available through public APIs, meaning potential data breaches could expose us to legal liability. \cite{dataprotectionGov}
 \item \textbf{Type:} Since the project constraints specify we use SQL queries, only relational DBMS supporting a version of SQL are appropriate.
 
@@ -155,14 +204,34 @@ MySQL, PostgreSQL, SQLite and MariaDB were subject to in depth comparison based 
 It is user-friendly and easy to deploy, allowing us to start continuous deployment faster.
 It has a small footprint and offers good performance. \cite{dbPerfComparison}
 Portable serverless design aids with development and testing.
-All team members have experience working with SQLite from previous term. This helps to reduce overhead of knowledge transfer.
+All team members have experience working with SQLite from previous term. This helps to reduce the overhead of knowledge transfer.
 
-The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well documented  \cite{frameworkDataMigration} \cite{understandingDataMigration}. To preempt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
+The main drawbacks of using SQLite, namely scalability and performance are not a concern at this stage, as the current version of Thalia is meant to be a high-quality industrial prototype, and as such will not contain the full range of financial data needed for marketability. Should SQLite prove to be inadequate in the future, we would be able to switch to a different DBMS with relatively little trouble, as the process of database migration is exceedingly well-documented \cite{frameworkDataMigration} \cite{understandingDataMigration}. To pre-empt any difficulties that might arise, the decision was made to design the data layer to easily accommodate such a migration.
 
 
 
-\subsubsection{Harvester}
+\subsubsection{Data Harvester}
 \label{Harvester}
+The Data Harvester role is to provide the application with the data it requires in order to allow the users to construct their investment portfolios. The choices we have made had to fulfil all our requirements while keeping in mind our financial and time-related limitations.
+
+\subsubsection*{Chosing the  APIs}
+We started our quest for data by trying to find APIs that could call for the main financial assets used when making an investment portfolio \cite{best-stock-api}.
+We have seen that there were several APIs that could be used. After a quick look at them, we have seen that there were two types of APIs. There were those that had FOREX \cite{forex} data and those designed for Stock Market Data \cite{stock_market}. Those two APIs that we considered for FOREX data were Fixerio and Nomics. For stock market data we have considered yfinance, Alpha Vantage and Quandl.\newline
+
+
+\subsubsection*{FOREX API}
+Between nomics \cite{nomics-python} and fixerio \cite{fixerio} we have chosen nomics for the simple fact that nomics had unlimited calls for free, besides, nomics also has cryptocurrencies data. However, Fixerio is a more robust API with a larger user base and more data, that we would have used if could have afforded the investment. In the scenario where we would have had money to spend we would have used fixerio for currencies and nomics for cryptocurrencies. However, in our case we have no money so we used nomics for both currencies and cryptocurrencies. To compare the two options we have used the documentation provided by each API . \newline
+
+\subsubsection*{Stock Market Data}
+Out of yfinance \cite{yfinance}, Alpha Vantage \cite{alphavantage}and Quandl \cite{quandl} we have chosen yfinance because it offered the most data and API calls for free, compared to the other two. If we had money to spend we would have used Alpha Vantage because of the larger number of available assets and the high number of requests per minute. As for Quandl we found it to be expensive and not centred on the type of data we need. We have made our choice based on the API specification given in the documentation of each API.\newline
+
+\subsubsection*{Standard Data Format}
+While looking for solutions that would help with solving the data format and the maintenance problem we have found pandas\_datareader \cite{pandas_datareader}. It is a wrapper for the biggest financial APIs. We saw that it included all of the Stock Market Data APIs named above and more. 
+In addition, it standardizes the calling procedure for all APIs it includes and it returns the same format no matter the API you are calling. This is the only product that does this on the market so no compassion with other product can be done. In the case where we would have not used it we would have produced code that would have archived the same result. In conclusion, using pandas\_datareader has saved us some valuable man-hours.\newline
+    
+\subsubsection*{Update the database \& Redundancy \& Data Interpolation}   
+For these requirements, we have seen that no already existing systems can do what we want. As a result, we had to write our system.
+In the building of the system, we have used python as a programming language. This decision has been made because the APIs chosen have been built in python. Writing the system in a different language while the APIs are in python would have created additional problems without any benefits.  To manipulate the data we have used the pandas library. The persistent data required by the update mechanism is stored in CSV \cite{csv_iso} format because of the readability and the ease of use when using pandas.
 
 \subsection{Integration and Deployment}
 \label{Coding Standards}
@@ -250,8 +319,8 @@ With the help of these steps and CircleCI we managed to ensure that the code wri
 An overview over the literature covering reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
 
 \begin{itemize}
-	\item Price - since we have severe budget constraints, we were looking for a cheap hosting solution
-	\item CircleCI support - The target host should be supported by CircleCI natively to ease development of a continuous deployment (CD) pipeline
+    \item Price - since we have severe budget constraints, we were looking for a cheap hosting solution
+    \item CircleCI support - The target host should be supported by CircleCI natively to ease development of a continuous deployment (CD) pipeline
 \end{itemize}
 
 The upfront cost of buying physical servers ruled it out as an option for us. Thus, we turned our attention to using a solution that involved deployment to a virtual machine in the Cloud. Many providers for such a service exist, including Amazon Web Services \cite{AWS} and Microsoft Azure \cite{Azure}. While these would provide us with extensive control over the hosting process, their use involves a lot of complexity that seemed unnecessary for the intial rollout of a simple application such as Thalia.
@@ -261,10 +330,10 @@ Due to native CircleCI support and a free tier service, we ended up choosing Her
 The benefits of using continuous deployment have been well established for multiple years and involve "the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity" \cite{CDBenefits}. Using Heroku in combination with CircleCI, our CD pipeline involves the following simple steps:
 
 \begin{enumerate}
-	\item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
-	\item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
-	\item If this step is successful, the master branch is pushed to a remote repository recognized by Heroku via git.
-	\item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
+    \item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
+    \item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
+    \item If this step is successful, the master branch is pushed to a remote repository recognized by Heroku via git.
+    \item Heroku executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
 \end{enumerate}
 
 Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state. The full CI/CD workflow is captured by the flowchart on \figurename{\ref{CI_CD}}.
@@ -277,4 +346,3 @@ Our deployment process is thus fully automized and immune to failing tests, as i
 \end{figure}
 
 \end{document}
-

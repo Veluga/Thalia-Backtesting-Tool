@@ -11,7 +11,8 @@ import helpers
 SEED = "INSERT INTO Asset VALUES  \
       ('RCK','Rock','CRYPTO'),  \
       ('BRY', 'Berry', 'CRYPTO'), \
-      ('GLU', 'Glue', 'PETROLIUM DERIVATIVE');  \
+      ('GLU', 'Glue', 'PETROLIUM DERIVATIVE'),  \
+      ('EMY', 'EmptyAsset', 'CRYPTO');\
     INSERT INTO AssetClass VALUES \
         ('CRYPTO'), \
         ('PETROLIUM DERIVATIVE'), \

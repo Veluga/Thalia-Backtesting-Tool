@@ -6,6 +6,7 @@ from datetime import date
 from dataclasses import dataclass
 from typing import List
 
+
 PENNY = Decimal("0.01")
 
 
@@ -152,7 +153,8 @@ def _risk_adjusted_returns(
     """
     # TODO Risk free rate of return is assumed to be 0 for now
     return [
-        (returns[i] / returns[i - 1]) - Decimal(1.000) for i in range(1, returns.size)
+        (returns.iat[i] / returns.iat[i - 1]) - Decimal(1.000)
+        for i in range(1, returns.size)
     ]
 
 
@@ -180,8 +182,8 @@ def max_drawdown(strat: Strategy) -> Decimal:
     returns = total_return(strat)
     max_seen, max_diff = Decimal(0.0), Decimal(1.0)
     for i in range(returns.size):
-        max_seen = max(max_seen, returns[i])
-        max_diff = min(max_diff, returns[i] / max_seen)
+        max_seen = max(max_seen, returns.iat[i])
+        max_diff = min(max_diff, returns.iat[i] / max_seen)
     return (Decimal(1.0) - max_diff) * Decimal(100.0)
 
 
@@ -258,6 +260,16 @@ def best_year_no(strat: Strategy) -> int:
         raise InsufficientTimeframe
 
 
+def convert_usd(exchange_rate: pd.DataFrame, usd_vals: pd.Series) -> pd.Series:
+    """
+    usd_vals -  Series indexed by non-continuous subset of dates from currency_pair index; decimal values
+    """
+    return pd.Series(
+        [val * exchange_rate.at[idx, "Close"] for idx, val in usd_vals.iteritems()],
+        usd_vals.index,
+    )
+
+
 def worst_year_no(strat: Strategy) -> int:
     """
     Returns the year number (Gregorian calandar) of the worst year.
@@ -267,3 +279,97 @@ def worst_year_no(strat: Strategy) -> int:
         return min(rel_diff.index, key=lambda day: rel_diff.at[day]).year
     else:
         raise InsufficientTimeframe
+
+
+def drawdowns(balance: pd.Series) -> pd.Series:
+    """
+    balance is a timeseries - like something obtained from total_return.
+    But it need not be daily - it can have any index - eg monthly.
+
+    Returns a timeseries of drawdowns, represented as a nonpositive
+    floating-pointer percentage. It has the same index as balance.
+    """
+    ret = pd.Series(0.0, index=balance.index)
+    last_peak = Decimal("-Infinity")
+    for day in balance.index:
+        balance_today = balance.at[day]
+        last_peak = max(balance_today, last_peak)
+        diff = balance_today - last_peak
+        ret.at[day] = 100.0 * float(diff / last_peak)
+    return ret
+
+
+# INTERNAL
+def _drawdown_periods(drawdown: pd.Series) -> List[pd.DataFrame]:
+    """
+    Splits a drawdown timeseries into separate, nonoverlapping periods of
+    drawdown.
+    """
+
+    # This is a very FSM-like approach.
+    ret = []
+    in_drawdown = False
+    for day in drawdown.index:
+        if not in_drawdown:
+            if drawdown.at[day] < 0.0:
+                in_drawdown = True
+                drawdown_start = day
+        else:
+            if drawdown.at[day] == 0.0:
+                in_drawdown = False
+                drawdown_end = day
+                ret.append(drawdown[drawdown_start:drawdown_end])
+    # We ignore any unrecovered drawdown period.
+    return ret
+
+
+def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
+    """
+    Input: the return value of drawdowns().
+    
+    Output: a dataframe with columns:
+        Drawdown: float (negative percentage)
+        Start: datetime
+        End: datetime
+        Recovery: datetime
+        Length: timedelta
+        Recovery Time: timedelta
+        Underwater Period: timedelta
+    sorted ascending by Drawdown (most severe first), sorting by Start
+    to break ties.
+    """
+    periods = _drawdown_periods(drawdown)
+
+    def make_row(period):
+        start = period.index[0]
+        end = period.idxmin()
+        recovery = period.index[-1]
+        length = end - start
+        recovery_time = recovery - end
+        underwater_period = recovery - start
+        drawdown = period.at[end]
+        return [
+            drawdown,
+            start,
+            end,
+            recovery,
+            length,
+            recovery_time,
+            underwater_period,
+        ]
+
+    rows = [make_row(p) for p in periods]
+    rows.sort(key=lambda p: p[0])
+    df = pd.DataFrame(
+        rows,
+        columns=[
+            "Drawdown",
+            "Start",
+            "End",
+            "Recovery",
+            "Length",
+            "Recovery Time",
+            "Underwater Period",
+        ],
+    )
+    return df
