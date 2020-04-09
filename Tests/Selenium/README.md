@@ -1,5 +1,6 @@
 # End to end testing with Selenium
-## Notes on implementation
+
+## Notes on running tests
 
 Due to limitations of architecture and CircleCI, end-to-end tests with Selenium must be run locally. To run tests Thalia must be installed locally and available at localhost:5000. In addition selenium must be configured for use with both the Chrome and Firefox web drivers and have the prototype financial data database installed. 
 
