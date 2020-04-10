@@ -2,10 +2,7 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
 from ..config import MAX_PORTFOLIOS
-
-"""
-Don't review just here for later
-"""
+from ..tab_elements.assets import asset_contributions_table_element
 
 
 def register_assets_tab(dashapp):
@@ -13,31 +10,33 @@ def register_assets_tab(dashapp):
 
 
 def register_asset_contributions_table(dashapp):
+    states = []
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        states += [
+            State(f"memory-table-{i}", "data"),
+            State(f"portfolio-name-{i}", "value"),
+        ]
     dashapp.callback(
-        [
-            Output(f"asset-contributions-{i}", "data")
-            for i in range(1, MAX_PORTFOLIOS + 1)
-        ],
+        Output(f"assets-container", "children"),
         [Input("submit-btn", "n_clicks")],
-        [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
+        states,
     )(asset_contributions_table)
 
 
 def asset_contributions_table(n_clicks, *args):
-    # TODO
     if n_clicks is None:
         raise PreventUpdate
 
-    if None in args:
-        no_portfolios = args.index(None)
+    table_data = args[0::2]
+    portfolio_names = args[1::2]
+    if None in table_data:
+        no_portfolios = table_data.index(None)
     else:
-        no_portfolios = 5
+        no_portfolios = MAX_PORTFOLIOS
 
-    ret = []
-    for i in range(no_portfolios):
-        ret.append(args[i])
-
-    for i in range(no_portfolios, MAX_PORTFOLIOS):
-        ret.append(None)
+    ret = [
+        asset_contributions_table_element(portfolio_names[i], i, table_data[i])
+        for i in range(no_portfolios)
+    ]
 
     return ret

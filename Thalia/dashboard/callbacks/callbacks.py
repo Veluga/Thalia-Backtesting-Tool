@@ -5,7 +5,7 @@ from .dashboard import register_dashboard
 
 
 def register_callbacks(dashapp):
-    # register_assets_tab(dashapp)
+    register_assets_tab(dashapp)
     register_summary_tab(dashapp)
     register_tickers_tab(dashapp)
     register_dashboard(dashapp)
