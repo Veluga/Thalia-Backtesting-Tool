@@ -1,6 +1,8 @@
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import json
+from datetime import datetime
+import sys
 
 from ..config import MAX_PORTFOLIOS
 
@@ -8,6 +10,8 @@ from ..config import MAX_PORTFOLIOS
 def register_tickers_tab(dashapp):
     register_table_callbacks(dashapp)
     register_add_portfolio(dashapp)
+    register_warning_message(dashapp)
+    register_date_warning_message(dashapp)
 
 
 def register_table_callbacks(dashapp):
@@ -31,6 +35,48 @@ def register_add_portfolio(dashapp):
         [Input("add-portfolio-btn", "n_clicks")],
         [State(f"portfolio-{i}", "style") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(add_portfolio)
+
+
+def register_warning_message(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-{i}", "displayed"),
+            [Input("submit-btn", "n_clicks")],
+            [
+                State("my-date-picker-range", "start_date"),
+                State("my-date-picker-range", "end_date"),
+                State("input-money", "value"),
+                State(f"memory-table-{i}", "data"),
+            ],
+        )(warning_message)
+
+
+def register_date_warning_message(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-date-{i}", "displayed"),
+            [Input("submit-btn", "n_clicks")],
+            [
+                State("my-date-picker-range", "start_date"),
+                State("my-date-picker-range", "end_date"),
+            ],
+        )(date_warning_message)
+
+
+def date_warning_message(n_clicks, start_date, end_date):
+    if n_clicks:
+        if (
+            datetime.strptime(end_date, "%Y-%m-%d")
+            - datetime.strptime(start_date, "%Y-%m-%d")
+        ).days < 365:
+            return True
+
+
+def warning_message(n_clicks, start_date, end_date, input_money, table):
+    values = (start_date, end_date, input_money, table)
+    if n_clicks:
+        if None in values:
+            return True
 
 
 def filter_tickers(ticker_selected, lazy_portfolio, param_state):

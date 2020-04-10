@@ -264,6 +264,45 @@ def add_portfolio_button():
     )
 
 
+def warning_message(id):
+    return html.Div(
+        [
+            dcc.ConfirmDialog(
+                id=f"confirm-{id}",
+                message="""Please make sure you have selected a start date, an end date,
+                initial amount and at least one ticker per portfolio!""",
+            ),
+            html.Div(id=f"output-confirm-{id}"),
+        ]
+    )
+
+
+def warning_allocation_message(id):
+    return html.Div(
+        [
+            dcc.ConfirmDialog(
+                id=f"confirm-allocation-{id}",
+                message="""Please make sure that allocation is not zero
+                for any ticker!""",
+            ),
+            html.Div(id=f"output-confirm-allocation-{id}"),
+        ]
+    )
+
+
+def date_warning_message(id):
+    return html.Div(
+        [
+            dcc.ConfirmDialog(
+                id=f"confirm-date-{id}",
+                message="""Please make sure that there is at least one year
+                betwee the start date and the end date""",
+            ),
+            html.Div(id=f"output-confirm-date-{id}"),
+        ]
+    )
+
+
 def options_wrapper():
     return html.Div(
         [
@@ -284,6 +323,9 @@ def options_wrapper():
             add_portfolio_button(),
             html.Br(),
             submit_button(),
+            warning_message(1),
+            date_warning_message(1),
+            warning_allocation_message(1),
         ],
         id="portfolios-main",
     )

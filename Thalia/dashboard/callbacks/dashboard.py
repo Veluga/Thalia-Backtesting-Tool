@@ -1,10 +1,11 @@
 import pandas as pd
 import plotly.graph_objects as go
+from dash import no_update
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from datetime import datetime
-
+import sys
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
@@ -24,6 +25,9 @@ def register_dashboard(dashapp):
 
     # Register tab switch upon submit
     register_tab_switch(dashapp)
+
+    # register error message for allocations
+    register_allocation_warning_message(dashapp)
 
 
 def register_update_dashboard(dashapp):
@@ -74,6 +78,15 @@ def register_update_dashboard(dashapp):
     )
 
 
+def register_allocation_warning_message(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-allocation-{i}", "displayed"),
+            [Input("submit-btn", "n_clicks")],
+            [State(f"memory-table-{i}", "data")],
+        )(allocation_warning_message)
+
+
 def register_tab_switch(dashapp):
     """
     On backtest submission: enable all tabs and switch the active tab to the summary page.
@@ -95,6 +108,13 @@ def register_tab_switch(dashapp):
             State("memory-table-1", "data"),
         ],
     )(tab_switch)
+
+
+def allocation_warning_message(n_clicks, table_data):
+    if n_clicks:
+        for tkr in table_data:
+            if any(int(tkr["Allocation"]) == 0 for tkr in table_data):
+                return True
 
 
 def tab_switch(n_clicks, *args):
@@ -252,6 +272,15 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     if None in values or no_portfolios == 0:
         raise PreventUpdate
 
+    if (
+        datetime.strptime(end_date, "%Y-%m-%d")
+        - datetime.strptime(start_date, "%Y-%m-%d")
+    ).days < 365:
+        raise PreventUpdate
+
+    if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][0]):
+        raise PreventUpdate
+
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     to_return = []
 
@@ -274,6 +303,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
                 for tkr in args["Ticker Tables"][i]
             )
         )
+        if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
+            raise PreventUpdate
 
         strategy = get_strategy(
             tickers,
