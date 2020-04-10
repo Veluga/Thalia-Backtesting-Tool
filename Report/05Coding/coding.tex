@@ -329,7 +329,7 @@ Due to native CircleCI support and a free-tier service, we initially chose Herok
 
 However, it quickly became apparent that Heroku was not appropriate for our purposes, due to its lack of support for sqlite databases \cite{HerokuSqlite}. Hence, we moved to AWS \cite{AWS}, which is also supported by CircleCI \cite{AWS}.
 
-The benefits of using continuous deployment have been well established for multiple years and involve "the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity" \cite{CDBenefits}. Using AWS in combination with CircleCI, our CD pipeline involves the following simple steps:
+The benefits of using continuous deployment have been well established for multiple years and involve ``the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity`` \cite{CDBenefits}. Using AWS in combination with CircleCI, our CD pipeline involves the following simple steps:
 
 \begin{enumerate}
     \item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
