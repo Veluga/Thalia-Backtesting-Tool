@@ -16,7 +16,7 @@ def table_title(portfolio_name, id):
 def table(id, data):
     return dash_table.DataTable(
         id=f"asset-contributions-{id}",
-        style_table={"width": "100%"},
+        style_table={"width": "100%",},
         columns=[
             {"name": "AssetTicker", "id": "AssetTicker", "type": "text"},
             {"name": "Name", "id": "Name", "type": "text"},
@@ -33,17 +33,21 @@ def table(id, data):
     )
 
 
-def asset_contributions_table_element(portfolio_name, id, data):
+def asset_contributions_table_element(
+    portfolio_name, id, data, graph, reverse_layout=False
+):
+    elements = [
+        html.Div(table(id, data), className="column is-7"),
+        graph,
+    ]
+
+    if reverse_layout:
+        elements.reverse()
+
     return html.Div(
         [
             table_title(portfolio_name, id),
-            html.Div(
-                [
-                    html.Div(table(id, data), className="column is-8"),
-                    html.Div(className="column is-4"),
-                ],
-                className="columns",
-            ),
+            html.Div(elements, className="columns is-vcentered",),
         ],
         className="column is-12",
     )
