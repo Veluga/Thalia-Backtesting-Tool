@@ -1,11 +1,9 @@
 import pandas as pd
 import plotly.graph_objects as go
-from dash import no_update
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from datetime import datetime
-import sys
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
@@ -28,6 +26,7 @@ def register_dashboard(dashapp):
 
     # register error message for allocations
     register_allocation_warning_message(dashapp)
+    register_date_warning_message(dashapp)
 
 
 def register_update_dashboard(dashapp):
@@ -78,6 +77,17 @@ def register_update_dashboard(dashapp):
     )
 
 
+def register_date_warning_message(dashapp):
+    dashapp.callback(
+        Output("confirm-date", "displayed"),
+        [Input("submit-btn", "n_clicks")],
+        [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+        ],
+    )(date_warning_message)
+
+
 def register_allocation_warning_message(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
@@ -111,10 +121,22 @@ def register_tab_switch(dashapp):
 
 
 def allocation_warning_message(n_clicks, table_data):
+    if n_clicks is None or table_data is None:
+        raise PreventUpdate
+    for tkr in table_data:
+        if any(int(tkr["Allocation"]) == 0 for tkr in table_data):
+            return True
+
+
+def date_warning_message(n_clicks, start_date, end_date):
+    if n_clicks is None or start_date is None or end_date is None:
+        raise PreventUpdate
     if n_clicks:
-        for tkr in table_data:
-            if any(int(tkr["Allocation"]) == 0 for tkr in table_data):
-                return True
+        if (
+            datetime.strptime(end_date, "%Y-%m-%d")
+            - datetime.strptime(start_date, "%Y-%m-%d")
+        ).days < 365:
+            return True
 
 
 def tab_switch(n_clicks, *args):
@@ -272,21 +294,13 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     if None in values or no_portfolios == 0:
         raise PreventUpdate
 
-    if (
-        datetime.strptime(end_date, "%Y-%m-%d")
-        - datetime.strptime(start_date, "%Y-%m-%d")
-    ).days < 365:
-        raise PreventUpdate
-
-    if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][0]):
-        raise PreventUpdate
-
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     to_return = []
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
-
+    if (end_date - start_date).days < 365:
+        raise PreventUpdate
     for i in range(no_portfolios):
         portfolio_name = args["Portfolio Names"][i]
         contribution_dates = validate_dates(

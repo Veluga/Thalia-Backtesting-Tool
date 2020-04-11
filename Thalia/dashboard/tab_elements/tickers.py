@@ -290,15 +290,15 @@ def warning_allocation_message(id):
     )
 
 
-def date_warning_message(id):
+def date_warning_message():
     return html.Div(
         [
             dcc.ConfirmDialog(
-                id=f"confirm-date-{id}",
+                id=f"confirm-date",
                 message="""Please make sure that there is at least one year
                 betwee the start date and the end date""",
             ),
-            html.Div(id=f"output-confirm-date-{id}"),
+            html.Div(id=f"output-confirm-date"),
         ]
     )
 
@@ -324,8 +324,12 @@ def options_wrapper():
             html.Br(),
             submit_button(),
             warning_message(1),
-            date_warning_message(1),
             warning_allocation_message(1),
+            warning_allocation_message(2),
+            warning_allocation_message(3),
+            warning_allocation_message(4),
+            warning_allocation_message(5),
+            date_warning_message(),
         ],
         id="portfolios-main",
     )
