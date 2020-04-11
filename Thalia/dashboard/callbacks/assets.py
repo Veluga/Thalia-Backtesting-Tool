@@ -5,6 +5,7 @@ from .summary import get_pie_charts
 from ..tab_elements.elements import graph_box
 from ..config import MAX_PORTFOLIOS
 from ..tab_elements.assets import asset_contributions_table_element
+from ...findb_conn import findb
 
 
 def register_assets_tab(dashapp):
@@ -74,4 +75,6 @@ def asset_contributions_table(n_clicks, *args):
 
 
 def get_category(ticker):
-    return "Portofolio"
+    assets = findb.read.read_assets()
+    category = assets["AssetClassName"].loc[assets["Name"] == ticker].values[0]
+    return category.replace("_", " ").title()
