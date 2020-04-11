@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
+from json import dump
 
 from .extensions import db
 from .forms import LoginForm, RegistrationForm, FeedbackForm
@@ -9,10 +10,23 @@ from .models.user import User
 server_bp = Blueprint("main", __name__)
 
 
-@server_bp.route("/")
+@server_bp.route("/", methods=["GET", "POST"])
 def index():
-    # TODO
     form = RegistrationForm()
+    if form.validate_on_submit():
+        if existing_username(form.username.data):
+            error = "already registered"
+            return render_template(
+                "index.html", form=form, error=error, scroll="login_failed"
+            )
+        elif form.password.data != form.confirm_password.data:
+            error = "passwords do not match"
+            return render_template(
+                "index.html", form=form, error=error, scroll="login_failed"
+            )
+        else:
+            save_user(form.username.data, form.password.data)
+            return redirect(url_for("main.login"))
     return render_template("index.html", title="Home Page", form=form)
 
 
@@ -26,11 +40,18 @@ def us():
     return render_template("us.html", title="About Us")
 
 
-@server_bp.route("/issues/")
-def issues():
-    # TODO
+@server_bp.route("/contact/", methods=["GET", "POST"])
+def contact():
     form = FeedbackForm()
-    return render_template("issues.html", title="Report Issues", form=form)
+    if form.validate_on_submit():
+        # dump to feedback.csv
+        with open("feedback.csv", "a") as file:
+            file.write(
+                "{},{},{}\n".format(
+                    form.email.data, form.title.data, form.contents.data
+                )
+            )
+    return render_template("contact.html", title="Contact Us", form=form)
 
 
 @server_bp.route("/login/", methods=["GET", "POST"])
