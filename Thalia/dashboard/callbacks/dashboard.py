@@ -143,14 +143,14 @@ def date_warning_message(n_clicks, start_date, end_date):
 def tab_switch(n_clicks, *args):
     if n_clicks is None or None in args:
         raise PreventUpdate
-
-    if (format_date(args[1]) - format_date(args[0])).days < 365:
-        raise PreventUpdate
-
-    tkrs = args[3]
-    for tkr in tkrs:
-        if int(tkr["Allocation"]) == 0:
+    if len(args) > 1:
+        if (format_date(args[1]) - format_date(args[0])).days < 365:
             raise PreventUpdate
+
+        tkrs = args[3]
+        for tkr in tkrs:
+            if int(tkr["Allocation"]) == 0:
+                raise PreventUpdate
 
     return ["summary"] + [False] * (NO_TABS - 1)
 
