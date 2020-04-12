@@ -10,6 +10,7 @@ from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from ..strategy import get_strategy
 from .summary import get_pie_charts, get_yearly_differences_graph
 from .metrics import get_table_data, combine_cols
+from .drawdowns import get_drawdowns_tables
 
 
 def register_dashboard(dashapp):
@@ -38,8 +39,8 @@ def register_update_dashboard(dashapp):
 
     # Portfolio Growth Graph
     outputs = [
-        # Portfolio Growth Graph
-        Output(f"main-graph", "figure"),
+        Output("main-graph", "figure"),
+        Output("drawdowns-graph", "figure"),
     ]
     for i in range(1, MAX_PORTFOLIOS + 1):
 
@@ -71,6 +72,10 @@ def register_update_dashboard(dashapp):
             # Pie Chart
             Output(f"pie-{i}", "figure"),
             Output(f"graph-box-pie-{i}", "style"),
+            # Drawdowns Table
+            Output(f"drawdowns-portfolio-name-{i}", "children"),
+            Output(f"drawdowns-table-{i}", "data"),
+            Output(f"drawdowns-table-col-{i}", "style"),
         ]
 
     outputs += [
@@ -167,8 +172,8 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     """
     Returns portfolio name, Initial Balance, Final Balance, Best Year, Worst Year, and values in Best Year, Worst Year
     """
-    start_date = strategy_object.dates[0].strftime("%Y-%m-%d")
-    end_date = strategy_object.dates[-1].strftime("%Y-%m-%d")
+    start_date = strategy_object.dates[0].strftime("%d/%m/%Y")
+    end_date = strategy_object.dates[-1].strftime("%d/%m/%Y")
     box_metrics = [portfolio_name, start_date, end_date]
     box_metrics += [round(key_metrics[j][portfolio_name], 1) for j in range(4)]
     box_metrics += [
@@ -196,6 +201,9 @@ def hidden_divs_data(no_portfolios):
         - Annual Differences Graph
         - Pie Chart
         - Pie Chart Visibility
+        - Drawdowns Table Name
+        - Drawdowns Table Data
+        - Drawdowns Table Visibility
     """
     empty_divs = [
         {"display": "none"},
@@ -208,6 +216,9 @@ def hidden_divs_data(no_portfolios):
         None,
         None,
         None,
+        None,
+        None,
+        {"display": "none"},
         None,
         None,
         {"display": "none"},
@@ -263,6 +274,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         raise PreventUpdate
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
+    drawdowns_graph = get_figure(xaxis_title="Time", yaxis_title="Drawdown (%)")
     to_return = []
     table_data = []
     table_cols = [{"name": "Metric", "id": "Metric"}]
@@ -331,7 +343,21 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
 
+        # Drawdowns Table
+        drawdowns = anda.drawdowns(total_returns)
+        to_return += get_drawdowns_tables(portfolio_name, drawdowns)
+
+        # Add trace to Drawdowns Graph
+        drawdowns_graph.add_trace(
+            get_trace(
+                drawdowns.index,
+                drawdowns,
+                name=str(portfolio_name),
+                color=OFFICIAL_COLOURS[i],
+            )
+        )
+
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
 
-    return [main_graph] + to_return + [table_cols, table_data]
+    return [main_graph, drawdowns_graph] + to_return + [table_cols, table_data]
