@@ -1,26 +1,7 @@
-from dash.dependencies import Input, Output, State
-from dash.exceptions import PreventUpdate
 import plotly.graph_objects as go
 from ..config import OFFICIAL_COLOURS
 import pandas as pd
 import dash_table
-
-
-def register_return_tab(dashapp):
-    register_print_dates(dashapp)
-    # register_returns_table(dashapp)
-
-
-def register_print_dates(dashapp):
-    """ Callback for showing dates on summary tab """
-    dashapp.callback(
-        Output("output-date", "children"),
-        [Input("submit-btn", "n_clicks")],
-        [
-            State("my-date-picker-range", "start_date"),
-            State("my-date-picker-range", "end_date"),
-        ],
-    )(print_dates)
 
 
 def portfolios_figure(return_tab, no_portfolios):
@@ -103,10 +84,3 @@ def update_table(return_tab, no_portfolios):
     )
 
     return annual_table
-
-
-def print_dates(n_clicks, start_date, end_date):
-    if n_clicks is None:
-        raise PreventUpdate
-
-    return f"Selected interval: {start_date} - {end_date}"
