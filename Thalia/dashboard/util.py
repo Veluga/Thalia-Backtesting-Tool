@@ -17,3 +17,8 @@ def get_data(tickers, start_date, end_date):
 def get_dividends(tickers):
     dividends = findb.read.read_assets_div_payout(tickers)
     return dividends
+
+
+def get_assets():
+    assets = findb.read.read_assets()
+    return assets
