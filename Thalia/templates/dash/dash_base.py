@@ -37,6 +37,9 @@ base_html = """
             <a href="/about/" class="navbar-item">
             About
             </a>
+            <a href="/gallery/" class="navbar-item">
+            My Portfolios
+            </a>
             <a href="/dashboard/" class="navbar-item">
             Dashboard
             </a>
@@ -49,8 +52,8 @@ base_html = """
                 Contact
                 </a>
                 <hr class="navbar-divider">
-                <a href="/issues/" class="navbar-item">
-                Report an issue
+                <a href="/contact/" class="navbar-item">
+                Contact Us
                 </a>
             </div>
             </div>

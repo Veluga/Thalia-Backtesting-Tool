@@ -6,6 +6,8 @@ from .tab_elements.returns import returns_dashboard
 from .tab_elements.summary import summary_dashboard
 from .tab_elements.tickers import options_wrapper
 from .tab_elements.metrics import table
+from .tab_elements.overfitting import overfitting_test
+from .tab_elements.drawdowns import drawdowns_dashboard
 
 tabs_styles = {"height": "44px"}
 tab_style = {
@@ -69,7 +71,7 @@ def summary():
 def metrics():
     return dcc.Tab(
         label="Metrics",
-        children=[title("Key Metrics"), table([], "table")],
+        children=[title("Key Metrics"), dcc.Loading(table([], "key_metrics_table"))],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
@@ -95,22 +97,7 @@ def returns():
 def drawdowns():
     return dcc.Tab(
         label="Drawdowns",
-        children=[
-            title("Drawdowns"),
-            dcc.Graph(
-                figure={
-                    "data": [
-                        {"x": [1, 2, 3], "y": [2, 4, 3], "type": "bar", "name": "SF"},
-                        {
-                            "x": [1, 2, 3],
-                            "y": [5, 4, 3],
-                            "type": "bar",
-                            "name": "Montréal",
-                        },
-                    ]
-                }
-            ),
-        ],
+        children=[title("Drawdowns"), dcc.Loading(drawdowns_dashboard())],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
@@ -125,12 +112,27 @@ def assets():
         label="Assets",
         children=[
             title("Assets Breakdown"),
-            [asset_contributions_table(i) for i in range(1, 6)],
+            dcc.Loading(
+                html.Div(id="assets-container", className="columns is-multiline")
+            ),
         ],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
         id="assets",
         value="assets",
+        disabled=True,
+    )
+
+
+def overfitting():
+    return dcc.Tab(
+        label="Overfitting",
+        children=[title("Overfitting"), overfitting_test()],
+        style=tab_style,
+        selected_style=tab_selected_style,
+        disabled_style=tab_disabled_style,
+        id="overfitting",
+        value="overfitting",
         disabled=True,
     )
