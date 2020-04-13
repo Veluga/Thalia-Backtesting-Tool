@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+<script rel="script" src="{{ url_for('static', filename='scripts/export-pdf.js') }}"></script>
+
+
+
 <style>
   .is-inspire:after {
     border-color: #f26a4b !important;
@@ -48,7 +53,8 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-
+            <button onclick="exportPDF()"> Export to PDF </button>   	
+	
             <button class="button is-white" disabled></button>
             <a href="/logout/" class="button is-white">
               Log out
