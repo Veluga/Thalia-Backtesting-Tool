@@ -76,5 +76,5 @@ def asset_contributions_table(n_clicks, *args):
 
 def get_category(ticker):
     assets = findb.read.read_assets()
-    category = assets["AssetClassName"].loc[assets["Name"] == ticker].values[0]
+    category = assets[assets.index == ticker]["AssetClassName"].values[0]
     return category.replace("_", " ").title()
