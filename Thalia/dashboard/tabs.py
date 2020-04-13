@@ -1,7 +1,7 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-from .tab_elements.assets import asset_contributions_table
+
 from .tab_elements.returns import returns_dashboard
 from .tab_elements.summary import summary_dashboard
 from .tab_elements.tickers import options_wrapper
