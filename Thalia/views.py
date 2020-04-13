@@ -6,6 +6,7 @@ from json import dump
 from .extensions import db
 from .forms import LoginForm, RegistrationForm, FeedbackForm
 from .models.user import User
+from .models.portfolio import Portfolio
 
 server_bp = Blueprint("main", __name__)
 
@@ -47,6 +48,23 @@ def contact():
                 )
             )
     return render_template("contact.html", title="Contact Us", form=form)
+
+
+@server_bp.route("/gallery/")
+@login_required
+def gallery():
+    """
+    We extract relevant values from the portfolio record into a separate array 
+    as we can not overwrite the strategy attribute of a Portfolio record with a strategy object, 
+    since it is not JSON serializable.
+    An unelegant workaround, but it works.
+    """
+    portfolios = [
+        {"id": p.id, "name": p.name, "strat": p.get_strategy()}
+        for p in Portfolio.query.filter_by(owner=current_user.id)
+    ]
+
+    return render_template("gallery.html", title="My Portfolios", portfolios=portfolios)
 
 
 @server_bp.route("/login/", methods=["GET", "POST"])
