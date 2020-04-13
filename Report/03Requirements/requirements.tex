@@ -119,6 +119,7 @@ Choose assets from Equities, Fixed Income, Currencies, Commodities, and Cryptocu
 }
 
 \subsection{Non-functional Requirements}
+Non-functional requirements were elicited using the FURPS+ model developed by IBM to address the issues of the FURPS model, namely failure to take developer requirements into consideration \cite{FURPS_drawbacks}. The decision to use the FURPS+ model was made based on its wide adoption in the industry as well as the high volume of literature and guides for identifying key requirements available. Using this model, we identified various categories of non-functional requirements based on either user or developer needs. Elicitation of user-focused non-functional requirements was performed based on feedback from our focus group from the first semester, and the capabilities and properties of competing software (e.g. the legal requirements of providing a backtesting service). Although most requirements were identified during requirement elicitation in the first semester, several requirements and categories that we initially missed were added later during development, namely accessibility and supportability requirements.
 
 \begin{enumerate}
    \item Usability:
@@ -140,6 +141,13 @@ Choose assets from Equities, Fixed Income, Currencies, Commodities, and Cryptocu
       \begin{itemize}
      \item The website should load within 3 seconds on mobile [2].
      \item Large portfolios must be supported - up to 300 different assets.
+   \end{itemize}
+    \item Supportability:
+      \begin{itemize}
+	 \item Software should be well documented and easy to maintain.
+	 \item The system should be fault-tolerant and be designed to support graceful degradation \cite{gracefullDeg}.
+	 \item The system should be easy to install and migrate between hosting providers.
+	 \item The system should be internationalized and be easy to extend to support new languages and currencies.
    \end{itemize}
     \item Implementation:
       \begin{itemize}
@@ -175,11 +183,6 @@ Choose assets from Equities, Fixed Income, Currencies, Commodities, and Cryptocu
      \item UI should allow for the use of assistive technologies to accommodate individuals with accessibility issues.
    \end{itemize}
 \end{enumerate}
-
-In the literature, the FURPS+ model has been criticised for disregarding developer consideration  \cite{FURPS_drawbacks}, such as not taking into account portability and maintainability. 
-Furthermore it has been pointed out, that our requirements fail to capture ...
-
-TODO
 
 \subsection{Use Case}
 \newpage
