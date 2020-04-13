@@ -9,7 +9,6 @@ def register_tickers_tab(dashapp):
     register_table_callbacks(dashapp)
     register_add_portfolio(dashapp)
     register_warning_message(dashapp)
-    # register_date_warning_message(dashapp)
 
 
 def register_table_callbacks(dashapp):
