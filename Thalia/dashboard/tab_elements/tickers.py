@@ -281,10 +281,11 @@ def upload_data(id):
                 children=html.Div(
                     [
                         "Drag and Drop or ",
-                        html.A("Select Files"),
+                        html.A("Select Files "),
                         html.Abbr(
-                            "\uFE56",
-                            title="please provide CSV files with this date format: %d/%m/%Y",
+                            title="""please provide CSV files with columns: Date, Open, High, Low, Close
+                            in a format like this: "13/03/1986" DD/MM/YYYY""",
+                            className="fa fa-question-circle",
                         ),
                     ]
                 ),
