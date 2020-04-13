@@ -270,7 +270,7 @@ def warning_message(id):
             dcc.ConfirmDialog(
                 id=f"confirm-{id}",
                 message="""Please make sure you have selected a start date, an end date,
-                initial amount and at least one ticker per portfolio!""",
+                initial amount and at least one ticker for the first portfolio!""",
             ),
             html.Div(id=f"output-confirm-{id}"),
         ]
