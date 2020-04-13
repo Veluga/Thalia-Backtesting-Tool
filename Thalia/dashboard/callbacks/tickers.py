@@ -52,8 +52,7 @@ def register_warning_message(dashapp):
 def warning_message(n_clicks, start_date, end_date, input_money, table):
     values = (start_date, end_date, input_money, table)
     if n_clicks:
-        if None in values:
-            return True
+        return not all(values)
 
 
 def filter_tickers(ticker_selected, lazy_portfolio, param_state):

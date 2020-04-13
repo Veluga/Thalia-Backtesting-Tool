@@ -8,7 +8,6 @@ from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
 from .summary import get_pie_charts, get_yearly_differences_graph
 from ..strategy import get_strategy, get_table_data
-import sys
 
 
 def register_dashboard(dashapp):
@@ -116,41 +115,50 @@ def register_tab_switch(dashapp):
             State("my-date-picker-range", "start_date"),
             State("my-date-picker-range", "end_date"),
             State("input-money", "value"),
-            State("memory-table-1", "data"),
-        ],
+        ]
+        + [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(tab_switch)
 
 
 def allocation_warning_message(n_clicks, table_data):
-    if n_clicks is None or table_data is None:
+    if n_clicks is None or table_data is None or table_data == []:
         raise PreventUpdate
     for tkr in table_data:
         if any(int(tkr["Allocation"]) == 0 for tkr in table_data):
             return True
 
 
+def check_date(start_date, end_date):
+    if (
+        datetime.strptime(end_date, "%Y-%m-%d")
+        - datetime.strptime(start_date, "%Y-%m-%d")
+    ).days < 365:
+        return True
+    else:
+        return False
+
+
 def date_warning_message(n_clicks, start_date, end_date):
     if n_clicks is None or start_date is None or end_date is None:
         raise PreventUpdate
     if n_clicks:
-        if (
-            datetime.strptime(end_date, "%Y-%m-%d")
-            - datetime.strptime(start_date, "%Y-%m-%d")
-        ).days < 365:
+        if check_date(start_date, end_date):
             return True
 
 
 def tab_switch(n_clicks, *args):
-    if n_clicks is None or None in args:
+    if n_clicks is None or not all(args[:4]):
         raise PreventUpdate
+
     if len(args) > 1:
-        if (format_date(args[1]) - format_date(args[0])).days < 365:
+        if check_date(args[0], args[1]):
             raise PreventUpdate
 
-        tkrs = args[3]
+        tkrs = args[3:]
         for tkr in tkrs:
-            if int(tkr["Allocation"]) == 0:
-                raise PreventUpdate
+            if tkr:
+                if int(tkr[0]["Allocation"]) == 0:
+                    raise PreventUpdate
 
     return ["summary"] + [False] * (NO_TABS - 1)
 
@@ -300,16 +308,18 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     # Prevent update if no portfolios were given
     values = (start_date, end_date, input_money)
-    if None in values or no_portfolios == 0:
+    if not all(values) or no_portfolios == 0:
         raise PreventUpdate
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     to_return = []
 
+    if check_date(start_date, end_date):
+        raise PreventUpdate
+
     start_date = format_date(start_date)
     end_date = format_date(end_date)
-    if (end_date - start_date).days < 365:
-        raise PreventUpdate
+
     for i in range(no_portfolios):
         portfolio_name = args["Portfolio Names"][i]
         contribution_dates = validate_dates(
@@ -319,6 +329,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         rebalancing_dates = validate_dates(
             start_date, end_date, args["Rebalancing Frequencies"][i]
         )
+        if args["Ticker Tables"][i] == []:
+            raise PreventUpdate
 
         tickers, proportions = zip(
             *(
@@ -326,6 +338,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
                 for tkr in args["Ticker Tables"][i]
             )
         )
+
         if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
             raise PreventUpdate
 

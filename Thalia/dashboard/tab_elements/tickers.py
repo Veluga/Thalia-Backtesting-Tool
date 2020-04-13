@@ -296,7 +296,7 @@ def date_warning_message():
             dcc.ConfirmDialog(
                 id=f"confirm-date",
                 message="""Please make sure that there is at least one year
-                betwee the start date and the end date""",
+                between the start date and the end date""",
             ),
             html.Div(id=f"output-confirm-date"),
         ]
