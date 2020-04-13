@@ -138,8 +138,7 @@ def date_warning_message(n_clicks, start_date, end_date):
     if n_clicks is None or start_date is None or end_date is None:
         raise PreventUpdate
     if n_clicks:
-        if check_date(start_date, end_date):
-            return True
+        return check_date(start_date, end_date)
 
 
 def tab_switch(n_clicks, *args):
