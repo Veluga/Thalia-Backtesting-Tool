@@ -152,9 +152,8 @@ def tab_switch(n_clicks, *args):
 
         tkrs = args[3:]
         for tkr in tkrs:
-            if tkr:
-                if int(tkr[0]["Allocation"]) == 0:
-                    raise PreventUpdate
+            if tkr and int(tkr[0]["Allocation"]) == 0:
+                raise PreventUpdate
 
     return ["summary"] + [False] * (NO_TABS - 1)
 
