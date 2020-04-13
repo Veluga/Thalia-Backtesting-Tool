@@ -15,7 +15,6 @@ def get_strategy(
     """
     Initializes and returns strategy object
     """
-    # TODO: add error handling for ticker not found
     weights = [p for p in proportions if p is not None]
     normalise(weights)
 
@@ -46,7 +45,7 @@ def normalise(arr):
     but scaling it such that it totals to 1.
     """
     total = sum(arr)
-    for i in range(len(arr)):  # We're mutating so we have to index horribly.
+    for i in range(len(arr)):
         arr[i] /= total
 
 

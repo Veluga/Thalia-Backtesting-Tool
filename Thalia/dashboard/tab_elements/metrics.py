@@ -2,11 +2,6 @@ import dash_table
 
 
 def table(data, id):
-    """
-    exists purely to be called from callbacks
-
-    TODO: evaluate if antipattern? wrong type of abstraction?
-    """
     columns = [
         {"name": "Metric", "id": "Metric"},
         {"name": "value", "id": "value"},

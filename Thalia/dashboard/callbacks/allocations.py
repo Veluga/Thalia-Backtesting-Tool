@@ -5,7 +5,7 @@ import json
 from ..config import MAX_PORTFOLIOS
 
 
-def register_tickers_tab(dashapp):
+def register_allocations_tab(dashapp):
     register_table_callbacks(dashapp)
     register_add_portfolio(dashapp)
 
@@ -35,7 +35,7 @@ def register_add_portfolio(dashapp):
 
 def filter_tickers(ticker_selected, lazy_portfolio, param_state):
     """
-    Filters the selected tickers from the dropdown menu
+    Filters the selected tickers from the dropdown menu.
     """
 
     if (ticker_selected or lazy_portfolio) is None:
@@ -64,6 +64,10 @@ def filter_tickers(ticker_selected, lazy_portfolio, param_state):
 
 
 def add_portfolio(n_clicks, *args):
+    """
+    Makes input fields for another portfolio visible.
+    If the number of portfolios has reached MAX_PORTFOLIOS, no update.
+    """
     if n_clicks is None or n_clicks >= MAX_PORTFOLIOS:
         raise PreventUpdate
 
