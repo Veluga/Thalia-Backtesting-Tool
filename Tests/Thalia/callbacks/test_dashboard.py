@@ -15,7 +15,7 @@ def test_tab_switch():
         dashboard.tab_switch(None)
         pytest.fail("Tab Switch should fail on if button has not been pressed")
 
-    assert dashboard.tab_switch(1, []) == ["summary"] + [False] * (NO_TABS - 1)
+    assert dashboard.tab_switch(1, [None]) == ["summary"] + [False] * (NO_TABS - 1)
 
 
 def test_retrieve_args():
