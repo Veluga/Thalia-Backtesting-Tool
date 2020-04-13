@@ -129,13 +129,10 @@ def allocation_warning_message(n_clicks, table_data):
 
 
 def check_date(start_date, end_date):
-    if (
+    return (
         datetime.strptime(end_date, "%Y-%m-%d")
         - datetime.strptime(start_date, "%Y-%m-%d")
-    ).days < 365:
-        return True
-    else:
-        return False
+    ).days < 365
 
 
 def date_warning_message(n_clicks, start_date, end_date):
