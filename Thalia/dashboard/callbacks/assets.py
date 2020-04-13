@@ -5,14 +5,14 @@ from .summary import get_pie_charts
 from ..tab_elements.elements import graph_box
 from ..config import MAX_PORTFOLIOS
 from ..tab_elements.assets import asset_contributions_table_element
-from ...findb_conn import findb
+from ..util import get_assets
 
 
 def register_assets_tab(dashapp):
-    register_asset_contributions_table(dashapp)
+    register_asset_contributions(dashapp)
 
 
-def register_asset_contributions_table(dashapp):
+def register_asset_contributions(dashapp):
     states = []
     for i in range(1, MAX_PORTFOLIOS + 1):
         states += [
@@ -23,10 +23,19 @@ def register_asset_contributions_table(dashapp):
         Output(f"assets-container", "children"),
         [Input("submit-btn", "n_clicks")],
         states,
-    )(asset_contributions_table)
+    )(asset_contributions)
 
 
-def asset_contributions_table(n_clicks, *args):
+def asset_contributions(n_clicks, *args):
+    """
+    Input:
+    - Submit button clicks
+    - Ticker Table data: even of args
+    - Corresponding Portfolio Name: odd of args
+
+    Output:
+    - Div Children: Portfolio Name, Table of Assets, Pie Chart of Cactegories
+    """
     if n_clicks is None:
         raise PreventUpdate
 
@@ -37,12 +46,13 @@ def asset_contributions_table(n_clicks, *args):
     else:
         no_portfolios = MAX_PORTFOLIOS
 
+    assets = get_assets()
     for i in range(len(table_data)):
         if table_data[i] is not None:
             for j in range(len(table_data[i])):
-                table_data[i][j]["Category"] = get_category(
-                    table_data[i][j]["AssetTicker"]
-                )
+                ticker = table_data[i][j]["AssetTicker"]
+                category = assets[assets.index == ticker]["AssetClassName"].values[0]
+                table_data[i][j]["Category"] = category.replace("_", " ").title()
 
     ret = []
     for i in range(no_portfolios):
@@ -72,9 +82,3 @@ def asset_contributions_table(n_clicks, *args):
         ]
 
     return ret
-
-
-def get_category(ticker):
-    assets = findb.read.read_assets()
-    category = assets[assets.index == ticker]["AssetClassName"].values[0]
-    return category.replace("_", " ").title()
