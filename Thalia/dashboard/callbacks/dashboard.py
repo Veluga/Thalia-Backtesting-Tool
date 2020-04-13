@@ -124,8 +124,7 @@ def allocation_warning_message(n_clicks, table_data):
     if n_clicks is None or not table_data:
         raise PreventUpdate
     for tkr in table_data:
-        if any(int(tkr["Allocation"]) == 0 for tkr in table_data):
-            return True
+        return any(int(tkr["Allocation"]) == 0 for tkr in table_data)
 
 
 def check_date(start_date, end_date):
