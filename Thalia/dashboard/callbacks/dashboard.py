@@ -82,6 +82,8 @@ def register_update_dashboard(dashapp):
         # Metrics Table
         Output("key_metrics_table", "columns"),
         Output("key_metrics_table", "data"),
+        # Store data for overfitting tests
+        Output("portfolio-results", "data"),
     ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -101,6 +103,7 @@ def register_tab_switch(dashapp):
             Output("returns", "disabled"),
             Output("drawdowns", "disabled"),
             Output("assets", "disabled"),
+            Output("overfitting", "disabled")
         ],
         [Input("submit-btn", "n_clicks")],
         [
@@ -282,6 +285,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     start_date = format_date(start_date)
     end_date = format_date(end_date)
 
+    # Parameters to be sent to overfitting test
+    portfolio_params = []
+
     for i in range(no_portfolios):
         portfolio_name = args["Portfolio Names"][i]
         contribution_dates = validate_dates(
@@ -309,11 +315,24 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             contribution_dates,
             rebalancing_dates,
         )
-
+        
         total_returns = anda.total_return(strategy)
         metrics = get_table_data(strategy, total_returns, portfolio_name)
         table_data = combine_cols(table_data, metrics)
         table_cols.append({"name": portfolio_name, "id": portfolio_name})
+
+        # Store portfolio paramaters for overfitting test
+        portfolio_params.append({
+                  'name':portfolio_name,
+                  'tickers':tickers,
+                  'proportions':proportions, 
+                  'input_money':input_money, 
+                  'contribution_amount':contribution_amount, 
+                  'contribution_dates':args["Contribution Frequencies"][i],
+                  'rebalancing_dates':args["Rebalancing Frequencies"][i],
+                  'sharpe':metrics[-1],
+                  'sortino':metrics[-2],
+                 })
 
         # Add Portfolio Trace to Main Graph
         main_graph.add_trace(
@@ -360,4 +379,4 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
 
-    return [main_graph, drawdowns_graph] + to_return + [table_cols, table_data]
+    return [main_graph, drawdowns_graph] + to_return + [table_cols, table_data] + [portfolio_params]
