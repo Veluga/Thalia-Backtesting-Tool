@@ -7,8 +7,10 @@ from datetime import datetime
 
 from analyse_data import analyse_data as anda
 from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
+from ..strategy import get_strategy
 from .summary import get_pie_charts, get_yearly_differences_graph
-from ..strategy import get_strategy, get_table_data
+from .metrics import get_table_data, combine_cols
+from .drawdowns import get_drawdowns_tables
 
 
 def register_dashboard(dashapp):
@@ -36,7 +38,10 @@ def register_update_dashboard(dashapp):
     ]
 
     # Portfolio Growth Graph
-    outputs = [Output(f"main-graph", "figure")]
+    outputs = [
+        Output("main-graph", "figure"),
+        Output("drawdowns-graph", "figure"),
+    ]
     for i in range(1, MAX_PORTFOLIOS + 1):
 
         # Portfolio specific data
@@ -67,7 +72,19 @@ def register_update_dashboard(dashapp):
             # Pie Chart
             Output(f"pie-{i}", "figure"),
             Output(f"graph-box-pie-{i}", "style"),
+            # Drawdowns Table
+            Output(f"drawdowns-portfolio-name-{i}", "children"),
+            Output(f"drawdowns-table-{i}", "data"),
+            Output(f"drawdowns-table-col-{i}", "style"),
         ]
+
+    outputs += [
+        # Metrics Table
+        Output("key_metrics_table", "columns"),
+        Output("key_metrics_table", "data"),
+        # Store data for overfitting tests
+        Output("portfolio-results", "data"),
+    ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
         update_dashboard
@@ -86,6 +103,7 @@ def register_tab_switch(dashapp):
             Output("returns", "disabled"),
             Output("drawdowns", "disabled"),
             Output("assets", "disabled"),
+            Output("overfitting", "disabled")
         ],
         [Input("submit-btn", "n_clicks")],
         [
@@ -157,10 +175,10 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     """
     Returns portfolio name, Initial Balance, Final Balance, Best Year, Worst Year, and values in Best Year, Worst Year
     """
-    start_date = strategy_object.dates[0].strftime("%Y-%m-%d")
-    end_date = strategy_object.dates[-1].strftime("%Y-%m-%d")
+    start_date = strategy_object.dates[0].strftime("%d/%m/%Y")
+    end_date = strategy_object.dates[-1].strftime("%d/%m/%Y")
     box_metrics = [portfolio_name, start_date, end_date]
-    box_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
+    box_metrics += [round(key_metrics[j][portfolio_name], 1) for j in range(4)]
     box_metrics += [
         anda.best_year_no(strategy_object),
         anda.worst_year_no(strategy_object),
@@ -186,6 +204,9 @@ def hidden_divs_data(no_portfolios):
         - Annual Differences Graph
         - Pie Chart
         - Pie Chart Visibility
+        - Drawdowns Table Name
+        - Drawdowns Table Data
+        - Drawdowns Table Visibility
     """
     empty_divs = [
         {"display": "none"},
@@ -198,6 +219,9 @@ def hidden_divs_data(no_portfolios):
         None,
         None,
         None,
+        None,
+        None,
+        {"display": "none"},
         None,
         None,
         {"display": "none"},
@@ -253,10 +277,16 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         raise PreventUpdate
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
+    drawdowns_graph = get_figure(xaxis_title="Time", yaxis_title="Drawdown (%)")
     to_return = []
+    table_data = []
+    table_cols = [{"name": "Metric", "id": "Metric"}]
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
+
+    # Parameters to be sent to overfitting test
+    portfolio_params = []
 
     for i in range(no_portfolios):
         portfolio_name = args["Portfolio Names"][i]
@@ -285,9 +315,24 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             contribution_dates,
             rebalancing_dates,
         )
-
+        
         total_returns = anda.total_return(strategy)
-        table_data = get_table_data(strategy, total_returns)
+        metrics = get_table_data(strategy, total_returns, portfolio_name)
+        table_data = combine_cols(table_data, metrics)
+        table_cols.append({"name": portfolio_name, "id": portfolio_name})
+
+        # Store portfolio paramaters for overfitting test
+        portfolio_params.append({
+                  'name':portfolio_name,
+                  'tickers':tickers,
+                  'proportions':proportions, 
+                  'input_money':input_money, 
+                  'contribution_amount':contribution_amount, 
+                  'contribution_dates':args["Contribution Frequencies"][i],
+                  'rebalancing_dates':args["Rebalancing Frequencies"][i],
+                  'sharpe':metrics[-1],
+                  'sortino':metrics[-2],
+                 })
 
         # Add Portfolio Trace to Main Graph
         main_graph.add_trace(
@@ -317,7 +362,21 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
 
+        # Drawdowns Table
+        drawdowns = anda.drawdowns(total_returns)
+        to_return += get_drawdowns_tables(portfolio_name, drawdowns)
+
+        # Add trace to Drawdowns Graph
+        drawdowns_graph.add_trace(
+            get_trace(
+                drawdowns.index,
+                drawdowns,
+                name=str(portfolio_name),
+                color=OFFICIAL_COLOURS[i],
+            )
+        )
+
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
 
-    return [main_graph] + to_return
+    return [main_graph, drawdowns_graph] + to_return + [table_cols, table_data] + [portfolio_params]

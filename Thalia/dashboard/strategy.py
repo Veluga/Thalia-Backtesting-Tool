@@ -40,35 +40,6 @@ def get_strategy(
     return strategy
 
 
-def get_table_data(strat, total_return):
-    """
-    Return a list of key metrics and their values
-    """
-    returns = total_return
-    table = [
-        {"metric": "Initial Balance", "value": returns[strat.dates[0]]},
-        {"metric": "End Balance", "value": returns[strat.dates[-1]]},
-    ]
-    try:
-        # We can't use append here because we want the table
-        # unaltered if anything goes wrong.
-        table = table + [
-            {"metric": "Best Year", "value": anda.best_year(strat)},
-            {"metric": "Worst Year", "value": anda.worst_year(strat)},
-            {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
-        ]
-        table = table + [
-            {"metric": "Sortino Ratio", "value": anda.sortino_ratio(strat, None)},
-            {"metric": "Sharpe Ratio", "value": anda.sharpe_ratio(strat, None)},
-        ]
-    except anda.InsufficientTimeframe:
-        print("Not enough enough data for best/worst year")
-    except Exception:
-        print("Could not calculate Sharpe/Sortino ratios")
-
-    return table
-
-
 def normalise(arr):
     """
     Changes arr in place, keeping the relative weights the same,

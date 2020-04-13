@@ -77,14 +77,11 @@ class DataBaseConstructor:
             completion = ast_cls + "_tickers.csv"
             path_tickers = os.path.join(path_tickers, completion)
             data_frame = pd.read_csv(path_tickers)
-            all_frames.append(data_frame)
+            
             # add the asset class to the data frame
             data_frame["AssetClassName"] = ast_cls
-
-            # Find the extend names of the tickers
-            # repeat ticker names for the moment
-
-            data_frame["Name"] = data_frame["Ticker"]
+            all_frames.append(data_frame)
+            
             path_tickers = os.path.dirname(path_tickers)
 
         frames = pd.concat(all_frames, ignore_index=True)
