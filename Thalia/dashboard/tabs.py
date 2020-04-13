@@ -1,7 +1,6 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-from .tab_elements.assets import asset_contributions_table
 from .tab_elements.summary import summary_dashboard
 from .tab_elements.tickers import options_wrapper
 from .tab_elements.metrics import table
@@ -126,7 +125,9 @@ def assets():
         label="Assets",
         children=[
             title("Assets Breakdown"),
-            [asset_contributions_table(i) for i in range(1, 6)],
+            dcc.Loading(
+                html.Div(id="assets-container", className="columns is-multiline")
+            ),
         ],
         style=tab_style,
         selected_style=tab_selected_style,
