@@ -121,7 +121,7 @@ def register_tab_switch(dashapp):
 
 
 def allocation_warning_message(n_clicks, table_data):
-    if n_clicks is None or table_data is None or table_data == []:
+    if n_clicks is None or not table_data:
         raise PreventUpdate
     for tkr in table_data:
         if any(int(tkr["Allocation"]) == 0 for tkr in table_data):
