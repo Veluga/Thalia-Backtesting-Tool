@@ -6,7 +6,7 @@ When we first go to the website, we're presented with this decription page of Th
 ​
 Now, if you're not familiar with backtesting or Thalia, there's a small section on the subject, with the _Learn More_  button taking you to the About page.
 ​
-In order to use Thalia, you need an account. It's very simple to create - you just need a username and password. So let's go ahead and create one real quick.
+In order to use Thalia, you need an account. It's very simple to create one - you just need a username and password. So let's go ahead and create one real quick.
 
 [Type in username "ThaliaIsCool" and password "LiveLaugh1nvest?"]
 There are a few limitations on passwords - you to have need at least one letter, number, and special character; and they need to be at least 8 characters long.
