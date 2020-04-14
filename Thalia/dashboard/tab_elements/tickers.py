@@ -276,19 +276,29 @@ def add_portfolio_button():
 def upload_data(id):
     return html.Div(
         [
+          html.Div(
+                [
+                    "Upload your own ticker: ",
+                    html.Abbr(
+                        title=(
+                            "Please provide a CSV following the rules below:\n"
+                            "- The top of the file includes the columns:\n"
+                            "  Date, Open, High, Low, Close\n"
+                            "- Dates should be in the format of DD/MM/YYYY\n"
+                            "- The csv file should have at least 1 year of data\n\n"
+                            "Example of the format below:\n"
+                            "Date,Open,High,Low,Close\n"
+                            "13/03/1986,100,105,99,103\n"
+                            "14/03/1986,103,106,103,103\n"
+                        ),
+                        className="fa fa-question-circle",
+                    ),
+                ],
+                style={"margin": "10px"},
+            ),
             dcc.Upload(
                 id=f"upload-data-{id}",
-                children=html.Div(
-                    [
-                        "Drag and Drop or ",
-                        html.A("Select Files "),
-                        html.Abbr(
-                            title="""please provide CSV files with columns: Date, Open, High, Low, Close
-                            in a format like this: "13/03/1986" DD/MM/YYYY""",
-                            className="fa fa-question-circle",
-                        ),
-                    ]
-                ),
+                children=html.Div(["Drag and Drop or ", html.A("Select Files "),]),
                 style={
                     "width": "20%",
                     "height": "60px",
@@ -297,11 +307,8 @@ def upload_data(id):
                     "borderStyle": "dashed",
                     "borderRadius": "5px",
                     "textAlign": "center",
-                    "margin": "10px",
-                    "float": "right",
-                },
-                # Allow multiple files to be uploaded
-                multiple=True,
+                    "margin-left": "10px",
+                    }
             ),
             html.Div(id=f"output-data-upload-{id}"),
         ]
