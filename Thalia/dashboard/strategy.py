@@ -1,10 +1,12 @@
 from analyse_data import analyse_data as anda
-from . import util
+
+from . import user_csv, util
 
 
 def get_strategy(
     tickers,
     proportions,
+    handles,
     start_date,
     end_date,
     input_money,
@@ -19,10 +21,26 @@ def get_strategy(
     weights = [p for p in proportions if p is not None]
     normalise(weights)
 
-    assets_data = get_assets(tickers, weights, start_date, end_date)
+    # Separate user-supplied data from Thalia-known data.
+    user_assets = []
+    thalia_tickers = []
+    thalia_weights = []
+    for ticker, weight, handle in zip(tickers, weights, handles):
+        if handle is None:
+            thalia_tickers.append(ticker)
+            thalia_weights.append(weight)
+        else:
+            user_assets.append((ticker, weight, handle))
 
-    real_start_date = max(asset.values.index[0] for asset in assets_data)
-    real_end_date = min(asset.values.index[-1] for asset in assets_data)
+    thalia_data = get_assets(thalia_tickers, thalia_weights, start_date, end_date)
+    user_supplied_data = [
+        anda.Asset(ticker, weight, user_csv.retrieve(handle))
+        for ticker, weight, handle in user_assets
+    ]
+    all_asset_data = user_supplied_data + thalia_data
+
+    real_start_date = max(asset.values.index[0] for asset in all_asset_data)
+    real_end_date = min(asset.values.index[-1] for asset in all_asset_data)
 
     if real_end_date < real_start_date:
         # raise Error
@@ -32,7 +50,7 @@ def get_strategy(
         real_start_date,
         real_end_date,
         input_money,
-        assets_data,
+        all_asset_data,
         contribution_dates,
         contribution_amount,
         rebalancing_dates,

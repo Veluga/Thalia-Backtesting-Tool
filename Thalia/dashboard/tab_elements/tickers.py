@@ -4,6 +4,7 @@ import dash_table
 from datetime import datetime as dt
 from . import lazy_portfolio
 from .. import util
+from ..config import MAX_PORTFOLIOS
 
 
 def ticker_dropdown(id):
@@ -51,8 +52,16 @@ def ticker_table(id):
                             "type": "numeric",
                             "editable": True,
                         },
+                        {
+                            "name": "Handle",
+                            "id": "Handle",
+                            "type": "any",
+                            "visible": False,
+                        },
                     ],
+                    hidden_columns=["Handle"],
                     row_deletable=True,
+                    css=[{"selector": ".show-hide", "rule": "display: none"}],
                     style_data_conditional=[
                         {
                             "if": {"row_index": "odd"},
@@ -88,7 +97,6 @@ def ticker_selector(id):
 
 
 def select_dates():
-    # TODO: end date should be today!
     today = dt.now().date()
     return html.Div(
         [
@@ -227,6 +235,7 @@ def options(id, visibility):
                     html.Div(contribution_dates(id), className="column is-12"),
                     html.Div(rebalancing_dates(id), className="column is-12"),
                     html.Div(ticker_selector(id), className="column is-12"),
+                    html.Div(upload_data(id), className="column is-12"),
                 ],
                 className="columns is-multiline",
             )
@@ -264,7 +273,72 @@ def add_portfolio_button():
     )
 
 
+def upload_data(id):
+    return html.Div(
+        [
+            html.Div(
+                [
+                    "Upload your own ticker: ",
+                    html.Abbr(
+                        title=(
+                            "Please provide a CSV following the rules below:\n"
+                            "- The top of the file includes the columns:\n"
+                            "  Date, Open, High, Low, Close\n"
+                            "- Dates should be in the format of DD/MM/YYYY\n"
+                            "- The csv file should have at least 1 year of data\n\n"
+                            "Example of the format below:\n"
+                            "Date,Open,High,Low,Close\n"
+                            "13/03/1986,100,105,99,103\n"
+                            "14/03/1986,103,106,103,103\n"
+                        ),
+                        className="fa fa-question-circle",
+                    ),
+                ],
+                style={"margin": "10px"},
+            ),
+            dcc.Upload(
+                id=f"upload-data-{id}",
+                children=html.Div(["Drag and Drop or ", html.A("Select Files ")]),
+                style={
+                    "width": "20%",
+                    "height": "60px",
+                    "lineHeight": "60px",
+                    "borderWidth": "1px",
+                    "borderStyle": "dashed",
+                    "borderRadius": "5px",
+                    "textAlign": "center",
+                    "margin-left": "10px",
+                },
+                multiple=True,
+            ),
+            html.Div(id=f"output-data-upload-{id}"),
+        ]
+    )
+
+
+def warning_message(id, message):
+    return html.Div(
+        [dcc.ConfirmDialog(id=id, message=message), html.Div(id=f"output-{id}")]
+    )
+
+
 def options_wrapper():
+    missing_params_warning_msg = (
+        "Please make sure you have selected a start date, an "
+        "end date, initial amount and at least one ticker for "
+        "the first portfolio!"
+    )
+    zero_allocation_msg = "Please make sure that allocation is not zero for any ticker!"
+    short_timerange_msg = (
+        "Please make sure that there is at least one year between "
+        "the start date and the end date"
+    )
+
+    allocation_messages = (
+        warning_message(f"confirm-allocation-{i}", zero_allocation_msg)
+        for i in range(1, MAX_PORTFOLIOS + 1)
+    )
+
     return html.Div(
         [
             html.Div(
@@ -284,6 +358,9 @@ def options_wrapper():
             add_portfolio_button(),
             html.Br(),
             submit_button(),
+            warning_message("confirm-1", missing_params_warning_msg),
+            *allocation_messages,
+            warning_message("confirm-date", short_timerange_msg),
         ],
         id="portfolios-main",
     )

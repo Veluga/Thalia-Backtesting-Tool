@@ -17,6 +17,7 @@ layout = html.Div(
                             tabs.returns(),
                             tabs.drawdowns(),
                             tabs.assets(),
+                            tabs.overfitting(),
                         ],
                         id="tabs",
                         value="tickers",
