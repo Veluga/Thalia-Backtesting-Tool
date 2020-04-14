@@ -13,7 +13,7 @@ There are a few limitations on passwords - that is they need to contain at least
 ​Having created an account, we can now go ahead and log in.
 [Log in.]
 
-Now that we're logged in, we can go to the _My Portfolio's_ tab.
+Now that we're logged in, let's take another look on the homepage. As we can see, what previously was a registration form, now shows our latest tweets. Let us now take a look at the _My Portfolio's_ page.
 
 [Place mouse on link.]
 You can see the link in the NavBar right here.
