@@ -7,11 +7,14 @@ from Thalia.dashboard.config import MAX_PORTFOLIOS
 def test_filter_tickers():
     ticks = "RCK – Rock"
     param_state = []
-    new_store = tickers.filter_tickers(ticks, None, param_state)
+    user_supplied_csv = None
+    new_store = tickers.filter_tickers(
+        ticks, user_supplied_csv, None, param_state
+    )
     assert "RCK" in new_store[0]["AssetTicker"]
 
     with pytest.raises(PreventUpdate):
-        tickers.filter_tickers(None, None, param_state)
+        tickers.filter_tickers(None, None, None, param_state)
         pytest.fail("No Update on empty ticker selection")
 
 

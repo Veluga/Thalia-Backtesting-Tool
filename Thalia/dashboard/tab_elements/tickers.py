@@ -52,8 +52,16 @@ def ticker_table(id):
                             "type": "numeric",
                             "editable": True,
                         },
+                        {
+                            "name": "Handle",
+                            "id": "Handle",
+                            "type": "any",
+                            "visible": False,
+                        },
                     ],
+                    hidden_columns=["Handle"],
                     row_deletable=True,
+                    css=[{"selector": ".show-hide", "rule": "display: none"}],
                     style_data_conditional=[
                         {
                             "if": {"row_index": "odd"},
@@ -227,6 +235,7 @@ def options(id, visibility):
                     html.Div(contribution_dates(id), className="column is-12"),
                     html.Div(rebalancing_dates(id), className="column is-12"),
                     html.Div(ticker_selector(id), className="column is-12"),
+                    html.Div(upload_data(id), className="column is-12"),
                 ],
                 className="columns is-multiline",
             )
@@ -261,6 +270,49 @@ def add_portfolio_button():
                 "background-color": "transparent",
             },
         )
+    )
+
+
+def upload_data(id):
+    return html.Div(
+        [
+            html.Div(
+                [
+                    "Upload your own ticker: ",
+                    html.Abbr(
+                        title=(
+                            "Please provide a CSV following the rules below:\n"
+                            "- The top of the file includes the columns:\n"
+                            "  Date, Open, High, Low, Close\n"
+                            "- Dates should be in the format of DD/MM/YYYY\n"
+                            "- The csv file should have at least 1 year of data\n\n"
+                            "Example of the format below:\n"
+                            "Date,Open,High,Low,Close\n"
+                            "13/03/1986,100,105,99,103\n"
+                            "14/03/1986,103,106,103,103\n"
+                        ),
+                        className="fa fa-question-circle",
+                    ),
+                ],
+                style={"margin": "10px"},
+            ),
+            dcc.Upload(
+                id=f"upload-data-{id}",
+                children=html.Div(["Drag and Drop or ", html.A("Select Files ")]),
+                style={
+                    "width": "20%",
+                    "height": "60px",
+                    "lineHeight": "60px",
+                    "borderWidth": "1px",
+                    "borderStyle": "dashed",
+                    "borderRadius": "5px",
+                    "textAlign": "center",
+                    "margin-left": "10px",
+                },
+                multiple=True,
+            ),
+            html.Div(id=f"output-data-upload-{id}"),
+        ]
     )
 
 

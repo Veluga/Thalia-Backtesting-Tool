@@ -1,13 +1,16 @@
-from dash.dependencies import Input, Output, State
-from dash.exceptions import PreventUpdate
 import json
 
+from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
+
+from .. import user_csv
 from ..config import MAX_PORTFOLIOS
 
 
 def register_tickers_tab(dashapp):
     register_table_callbacks(dashapp)
     register_add_portfolio(dashapp)
+    register_user_data(dashapp)
     register_warning_message(dashapp)
 
 
@@ -18,10 +21,20 @@ def register_table_callbacks(dashapp):
             Output(f"memory-table-{i}", "data"),
             [
                 Input(f"memory-ticker-{i}", "value"),
+                Input(f"output-data-upload-{i}", "children"),
                 Input(f"lazy-portfolios-{i}", "value"),
             ],
             [State(f"memory-table-{i}", "data")],
         )(filter_tickers)
+
+
+def register_user_data(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"output-data-upload-{i}", "children"),
+            [Input(f"upload-data-{i}", "contents")],
+            [State(f"upload-data-{i}", "filename")],
+        )(update_output)
 
 
 def register_add_portfolio(dashapp):
@@ -54,12 +67,12 @@ def warning_message(n_clicks, start_date, end_date, input_money, table):
         return not all(values)
 
 
-def filter_tickers(ticker_selected, lazy_portfolio, param_state):
+def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_state):
     """
     Filters the selected tickers from the dropdown menu
     """
 
-    if (ticker_selected or lazy_portfolio) is None:
+    if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
         raise PreventUpdate
     if param_state is None:
         param_state = []
@@ -74,14 +87,37 @@ def filter_tickers(ticker_selected, lazy_portfolio, param_state):
             ):
                 param_state.append(asset)
     else:
-        ticker, name = ticker_selected.split(" – ")
-        asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
+        if ticker_selected is None:
+            filename = user_supplied_csv[0]
+            handle = user_supplied_csv[1]
+            asset = {
+                "AssetTicker": filename,
+                "Handle": handle,
+                "Allocation": "0",
+            }
+        else:
+            ticker, name = ticker_selected.split(" – ")
+            asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
+
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
         ):
             param_state.append(asset)
 
     return param_state
+
+
+def update_output(list_of_contents, list_of_names):
+    if list_of_contents is not None:
+        children = [user_data(c, n) for c, n in zip(list_of_contents, list_of_names)]
+        assert len(children) == 1
+        return children[0]
+
+
+def user_data(contents, filename):
+    content_type, content_string = contents.split(",")
+    handle = user_csv.store(content_string)
+    return [filename, handle]
 
 
 def add_portfolio(n_clicks, *args):

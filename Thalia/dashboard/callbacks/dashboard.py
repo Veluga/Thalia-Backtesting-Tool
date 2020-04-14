@@ -6,7 +6,8 @@ from decimal import Decimal
 from datetime import datetime
 from .returns import update_table, portfolios_figure
 from analyse_data import analyse_data as anda
-from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
+
+from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
 from ..strategy import get_strategy
 from .summary import get_pie_charts, get_yearly_differences_graph
 from .metrics import get_table_data, combine_cols
@@ -360,9 +361,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         if args["Ticker Tables"][i] == []:
             raise PreventUpdate
 
-        tickers, proportions = zip(
+        tickers, proportions, handles = zip(
             *(
-                (tkr["AssetTicker"], Decimal(tkr["Allocation"]))
+                (tkr["AssetTicker"], Decimal(tkr["Allocation"]), tkr.get("Handle"))
                 for tkr in args["Ticker Tables"][i]
             )
         )
@@ -373,9 +374,10 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         strategy = get_strategy(
             tickers,
             proportions,
+            handles,
             start_date,
             end_date,
-            input_money,
+            Decimal(input_money),
             contribution_amount,
             contribution_dates,
             rebalancing_dates,
