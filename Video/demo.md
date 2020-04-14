@@ -68,7 +68,7 @@ If the user wants more details about each one of those he can click on the corre
 For an in-detail look, we will look at each one of the tabs.
 ​
 [shows key metrics]
-The key metrics are presented in the form of a table.
+The key metrics are presented in the form of a table. Here you may easily compare the most important metrics of each portfolio, such as the Sortino Ratio, or Sharpe Ratio. 
 ​
 [show returns]
 The returns tab gives you a quick comparison between the annual returns of each portfolio, both in a table and graph form.
