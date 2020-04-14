@@ -42,6 +42,7 @@ class Initializer:
                     path = os.path.dirname(path)
                     path = os.path.join(path, "tickers/" + ticker_f + "_tickers.csv")
                     get_one_frame = pd.read_csv(path)
+                    
                     get_one_frame["Asset_Class"] = ticker_f
                     frames.append(get_one_frame)
 
