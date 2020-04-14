@@ -9,7 +9,7 @@ Test logging in as default user 'asdf' on Thalia website
 
 def login_test(driver):
     driver.get("http://localhost:5000")
-    driver.implicitly_wait(2)  # seconds
+    driver.implicitly_wait(5)  # seconds
     # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
     # Check reg form displayed
@@ -32,7 +32,7 @@ def login_test(driver):
     driver.execute_script("arguments[0].click();", submit)
 
     # Check log in successfull
-    util.page_wait()
+    driver.implicitly_wait(5)
     disabled_login_button = driver.find_element_by_class_name("greeting")
 
     assert "http://localhost:5000/" == driver.current_url

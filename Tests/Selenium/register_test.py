@@ -9,7 +9,7 @@ Test registering a new/old user on the Thalia website
 
 def register_test(driver):
     driver.get("http://localhost:5000")
-    driver.implicitly_wait(2)  # seconds
+    driver.implicitly_wait(5)  # seconds
     # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
 
