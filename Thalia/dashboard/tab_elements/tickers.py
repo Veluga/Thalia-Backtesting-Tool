@@ -273,7 +273,7 @@ def warning_message(id, message):
 def options_wrapper():
     missing_params_warning_msg = (
         "Please make sure you have selected a start date, an "
-        "end date, initial amount and at least one ticker for"
+        "end date, initial amount and at least one ticker for "
         "the first portfolio!"
     )
     zero_allocation_msg = "Please make sure that allocation is not zero for any ticker!"
