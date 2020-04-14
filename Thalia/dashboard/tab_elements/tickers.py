@@ -218,7 +218,37 @@ def portfolio_name(id):
                 id=f"portfolio-name-{id}",
             ),
         ],
-        className="column is-10 has-text-left",
+        className="column is-7 has-text-left",
+    )
+
+
+def save_portfolio_button(id):
+    return html.Div(
+        [
+            html.Button(
+                "Save portfolio", id=f"save-portfolio-{id}", className="button"
+            ),
+            html.Div(id=f"save-portfolio-success-{id}"),
+        ]
+    )
+
+
+def stored_portfolios_dropdown(id, options):
+    return dcc.Dropdown(
+        id=f"stored-portfolios-{id}",
+        placeholder="Saved portfolios",
+        className="has-text-left",
+        options=options,
+    )
+
+
+def portfolio_management_div(id):
+    return (
+        html.Div(
+            [html.Div(id=f"stored-portfolio-div-{id}"), save_portfolio_button(id)],
+            id=f"portfolio-management-{id}",
+            className="column is-3",
+        )
     )
 
 
@@ -228,6 +258,7 @@ def options(id, visibility):
             html.Div(
                 [
                     portfolio_name(id),
+                    portfolio_management_div(id),
                     html.Div(
                         lazy_portfolios(id), className="column is-2 has-text-right"
                     ),

@@ -52,7 +52,8 @@ class Strategy:
         self.returns = None
         self.returns = total_return(self)
         self.annual_returns = None
-        self.annual_returns = relative_yearly_returns(self)
+        if assets:
+            self.annual_returns = relative_yearly_returns(self)
 
 
 # INTERNAL
@@ -326,7 +327,7 @@ def _drawdown_periods(drawdown: pd.Series) -> List[pd.DataFrame]:
 def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
     """
     Input: the return value of drawdowns().
-    
+
     Output: a dataframe with columns:
         Drawdown: float (negative percentage)
         Start: datetime
