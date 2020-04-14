@@ -4,6 +4,7 @@ import dash_table
 from datetime import datetime as dt
 from . import lazy_portfolio
 from .. import util
+from ..config import MAX_PORTFOLIOS
 
 
 def ticker_dropdown(id):
@@ -88,7 +89,6 @@ def ticker_selector(id):
 
 
 def select_dates():
-    # TODO: end date should be today!
     today = dt.now().date()
     return html.Div(
         [
@@ -264,46 +264,29 @@ def add_portfolio_button():
     )
 
 
-def warning_message(id):
+def warning_message(id, message):
     return html.Div(
-        [
-            dcc.ConfirmDialog(
-                id=f"confirm-{id}",
-                message="""Please make sure you have selected a start date, an end date,
-                initial amount and at least one ticker for the first portfolio!""",
-            ),
-            html.Div(id=f"output-confirm-{id}"),
-        ]
-    )
-
-
-def warning_allocation_message(id):
-    return html.Div(
-        [
-            dcc.ConfirmDialog(
-                id=f"confirm-allocation-{id}",
-                message="""Please make sure that allocation is not zero
-                for any ticker!""",
-            ),
-            html.Div(id=f"output-confirm-allocation-{id}"),
-        ]
-    )
-
-
-def date_warning_message():
-    return html.Div(
-        [
-            dcc.ConfirmDialog(
-                id=f"confirm-date",
-                message="""Please make sure that there is at least one year
-                between the start date and the end date""",
-            ),
-            html.Div(id=f"output-confirm-date"),
-        ]
+        [dcc.ConfirmDialog(id=id, message=message), html.Div(id=f"output-{id}")]
     )
 
 
 def options_wrapper():
+    missing_params_warning_msg = (
+        "Please make sure you have selected a start date, an "
+        "end date, initial amount and at least one ticker for"
+        "the first portfolio!"
+    )
+    zero_allocation_msg = "Please make sure that allocation is not zero for any ticker!"
+    short_timerange_msg = (
+        "Please make sure that there is at least one year between "
+        "the start date and the end date"
+    )
+
+    allocation_messages = (
+        warning_message(f"confirm-allocation-{i}", zero_allocation_msg)
+        for i in range(1, MAX_PORTFOLIOS + 1)
+    )
+
     return html.Div(
         [
             html.Div(
@@ -323,13 +306,9 @@ def options_wrapper():
             add_portfolio_button(),
             html.Br(),
             submit_button(),
-            warning_message(1),
-            warning_allocation_message(1),
-            warning_allocation_message(2),
-            warning_allocation_message(3),
-            warning_allocation_message(4),
-            warning_allocation_message(5),
-            date_warning_message(),
+            warning_message("confirm-1", missing_params_warning_msg),
+            *allocation_messages,
+            warning_message("confirm-date", short_timerange_msg),
         ],
         id="portfolios-main",
     )
