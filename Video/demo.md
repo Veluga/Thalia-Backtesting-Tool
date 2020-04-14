@@ -69,7 +69,7 @@ We'll be taking a look at each of these.​
 
 [Key metrics]
 
-The key metrics are presented in the form of a table.
+The key metrics are presented in the form of a table. Here you can compare the most important metrics of each portfolio, such as the Sortino Ratio, or Sharpe Ratio.
 ​
 [Returns]
 
