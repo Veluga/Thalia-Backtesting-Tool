@@ -2,6 +2,7 @@
 
 ​
 [Homepage]
+
 When we first go to the website, we're presented with this decription page of Thalia.
 ​
 Now, if you're not familiar with backtesting or Thalia, there's a small section on the subject, with the _Learn More_  button taking you to the About page.
@@ -11,19 +12,23 @@ In order to use Thalia, you need an account. It's very simple to create one - yo
 [Type in username "ThaliaIsCool" and password "LiveLaugh1nvest?"]
 There are a few limitations on passwords - that is they need to contain at least one letter, number, and special character; and they need to be at least 8 characters long.
 ​Having created an account, we can now go ahead and log in.
+
 [Log in.]
 
-Now that we're logged in, let's take another look on the homepage. As we can see, what previously was a registration form, now shows our latest tweets. Let us now take a look at the _My Portfolio's_ page.
+Now that we're logged in, we can go to the _My Portfolio's_ tab.
 
 [Place mouse on link.]
+
 You can see the link in the NavBar right here.
 
 [Click the link.]
+
 This is where you can see and manage all your portfolios. This is a new account, so we don't have any just yet. Let's remedy that by making our first portfolio.
 ​
 To do this, we need to go to the _Dashboard_.
 ​
 [Go to dashboard.]
+
 The first thing we have to do is decide what time period we're interested in. Here, you can see the default is between the 1st of January 1970 and today.
 ​
 The next thing is our _initial investment_. The default here is 1000 dollars. I'm happy with that, so let's go down a little bit.
@@ -50,51 +55,50 @@ You can name your portfolios if you want. Let's call this one "My First Portfoli
 ​
 Quite often we want to compare portfolios against each other. To do this, all we have to do is click this button to add a portfolio and fill in the details.
 ​​
-[adds another lazy portfolio]
-OR
-[Adds a normal portfolio to spend more time]
+[adds another lazy portfolio] OR [Adds a normal portfolio to spend more time]
 
 You can fiddle about with the options here as much as you want, but for now let's actually look at the results of what we've done.
 
 [Click Submit.]
 ​
-After submitting the portfolio or portfolios if more were created the user can go the tabs that have just become available in order to check the backtesting results.​
+[Summary.]
+
+Here, we can see a plot of our returns over time. And there's some other key information here, but if you want more detail on any of this, you can go to the corresponding tab.
 ​
-[present_summary]
-The summary contains a plot with the total returns overtime followed by some key information extracted from the metrics, returns, drawdowns and assets.
-​
-If the user wants more details about each one of those he can click on the corresponding tab in order to see the full details.
-​
-For an in-detail look, we will look at each one of the tabs.
-​
-[shows key metrics]
+We'll be taking a look at each of these.​
+
+[Key metrics]
+
 The key metrics are presented in the form of a table.
 ​
-[show returns]
-The returns tab gives you a quick comparison between the annual returns of each portfolio, both in a table and graph form.
-​
-[show drawdown]
-The drawdowns are displayed as a yearly drawdown plot and drawdown table, which shows us the top drawdowns for each portfolio.
-​
-[show assets]
-And in the end a breakdown of the assets and their categories that make up the portfolios is given.
-​​
-After checking how the portfolio or portfolios performs the user can go back to the allocations tab in order to tweak the settings. To save the results in a more presentable format, we can click on the "Export to PDF" button in order to export the current backtesting results as a PDF.
-​​
-After multiple rounds of tweaking the risk of overfitting can appear.
-​
-​As a result, we have added an overfitting checking mechanism.
-​
-OR
-​
-This is a scenario where the user has tweaked a portfolio in such a way that it makes a huge profit over an extremely specific period of time. This is something that should be avoided and as a consequence, we have added an overfitting checking mechanism.
-​​
-If the user wants to check for overfitting he can simply go to the overfitting tab and click on Check Overfitting.  He then is informed if overfitting was detected in any of his portfolios.
-​
-Now that we have shown a demonstration of our product we will go into the technologies used to create it.
+[Returns]
 
-[ Go to contact us]
-In case the user would like to request any features, or for another reason would like to get in touch with the developer team, they can leave feedback on the Contact Us Page.
+We can look at the annual returns in a graph or a table.
+​
+[Drawdown]
 
-[ Go to about us]
-We also wanted to take pride in our work. So in case you would like to see the team behind Thalia. Simply navigate to the About Us Page, where you can get read up on the proud creators of this project. 
+And the same for drawdowns.
+​
+[Assets]
+
+Finally, we have a breakdown of the assets that make up the portfolios.
+​​
+Now that we have our results, we can save them in a PDF if we want.
+
+[Export to PDF.]
+
+After seeing the backtest results we're free to go back to the allocation tab and tweak the settings to try and improve our portfolio's performance. But if we do this repeatedly we run the risk of overfitting - where you optimise for specific market conditions that might not be applicble in general.
+
+[Overfitting]
+
+If you're concerned about this, go to the _Overfitting_ tab and click on _Check Overfitting_.
+
+[Side-by-side examples of positive and negative results.]
+​
+[Contact Us]
+
+If you'd like to request a feature, or if you have another reason for wanting to get in touch with the developer team, you can leave feedback for us on the _Contact Us_ page.
+
+[About Us]
+
+If you want to learn about the developer team, go to the _About Us_ page, where you can read a bit about the proud creators of _Thalia_.
