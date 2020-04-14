@@ -4,7 +4,7 @@
 [Homepage]
 When we first go to the website, we're presented with this decription page of Thalia.
 ​
-Now, if you're not familiar with backtesting or Thalia, there's a _Learn More_ section if you need it.
+Now, if you're not familiar with backtesting or Thalia, there's a small section on the subject, with the _Learn More_  button taking you to the About page.
 ​
 In order to use Thalia, you need an account. It's very simple to create - you just need a username and password. So let's go ahead and create one real quick.
 
