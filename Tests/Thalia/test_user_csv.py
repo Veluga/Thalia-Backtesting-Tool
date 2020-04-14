@@ -36,3 +36,16 @@ def test_user_data():
     assert expected.equals(retrieved)
     time.sleep(4)
     assert empty == os.listdir(user_csv.USER_DATA_DIR)
+
+
+def test_unformatted_data():
+    bad_data = "vcnxzc\n"
+    encoded = base64.b64encode(bad_data.encode("utf-8"))
+ 
+    empty = os.listdir(user_csv.USER_DATA_DIR)
+
+    with pytest.raises(user_csv.FormattingError):
+        user_csv.store(encoded)
+        pytest.fail("Exception should be raised when storing bad data.")
+    
+    assert empty == os.listdir(user_csv.USER_DATA_DIR), "Don't store bad files."
