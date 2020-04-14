@@ -9,7 +9,7 @@ from .api_class import ApiObject as apic
 
 def reset_update_lists():
 
-    api1 = apic("yfinance", ["bonds", "comodities_future", "index_funds"], 10)
+    api1 = apic("yfinance", ["bonds", "comodities_future", "index_funds","stocks"], 10)
     api2 = apic("nomics", ["crypto", "currency"], 0, True)
 
     initer = int_constructor([api1, api2])

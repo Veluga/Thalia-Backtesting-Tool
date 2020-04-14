@@ -13,10 +13,10 @@ def run_me():
 
     path = os.path.join(path, "apis_access")
 
-    api_calls_api1 = 20
-    api_calls_api2 = 20
+    api_calls_api1 = 50
+    api_calls_api2 = 50
     api1 = apic(
-        "yfinance", ["bonds", "comodities_future", "index_funds"], api_calls_api1
+        "yfinance", ["bonds", "comodities_future", "index_funds","stocks"], api_calls_api1
     )
     api2 = apic("nomics", ["crypto", "currency"], api_calls_api2, path, True)
 

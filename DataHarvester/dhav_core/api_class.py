@@ -30,15 +30,18 @@ class ApiObject:
         """
             Call yfinance trough pandas datareader
         """
+        
         try:
+            pass
             dataframe_retrieved = pdread.DataReader(
                 ticker, start=start_date, end=end_date, data_source="yahoo"
             )
-
-        except pdread._utils.RemoteDataError as err:
+            
+        except (pdread._utils.RemoteDataError,KeyError) as err:
             self.log.error_log(err)
             return 1  # return 1 if fail to get dataframe
 
+       
         return self.yahoo_df_format(dataframe_retrieved,ticker)
 
     
@@ -48,7 +51,6 @@ class ApiObject:
         function that formats the dataframe received from yfinance to 
         a format used by Finda 
         """
-
 
         #to modify the index column we first need to reset the index
         df.reset_index(level=0, inplace=True)
@@ -169,5 +171,5 @@ class ApiObject:
             formated =  self.check_df_format(df)
             if formated == False:
                 self.log.crit(asset_class,ticker,start_date,end_date)
-            
+           
             return df
