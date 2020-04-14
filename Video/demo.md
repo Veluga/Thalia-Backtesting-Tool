@@ -74,7 +74,7 @@ The key metrics are presented in the form of a table.
 The returns tab gives you a quick comparison between the annual returns of each portfolio, both in a table and graph form.
 ​
 [show drawdown]
-The drawdowns are displayed as a yearly drawdown plot and drawdown table.
+The drawdowns are displayed as a yearly drawdown plot and drawdown table, which shows us the top drawdowns for each portfolio.
 ​
 [show assets]
 And in the end a breakdown of the assets and their categories that make up the portfolios is given.
