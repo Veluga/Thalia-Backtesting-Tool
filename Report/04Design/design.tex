@@ -3,6 +3,7 @@
 \begin{document}
 
 \section{Design}
+\label{Design}
 
 \subsection{General Design Decisions}
 We have chosen pandas dataframes \cite{pandas} as the common data format for both data exchange and any calculations. Pandas provides us with data structures ``that cohere with the rest of the scientific Python stack`` \cite{mckinney2011pandas}, such as NumPy, which we are using to calculate historical returns and risk metrics (\ref{BL Structure}). Additionally, it is supported natively by many third party APIs and can even be used to read data from SQL databases. For additional information, please consult the official pandas documentation \cite{pandas}.
