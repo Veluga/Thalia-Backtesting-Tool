@@ -16,9 +16,9 @@ def table_title(portfolio_name, id):
 def table(id, data):
     return dash_table.DataTable(
         id=f"asset-contributions-{id}",
-        style_table={"width": "100%",},
+        style_table={"width": "100%"},
         columns=[
-            {"name": "AssetTicker", "id": "AssetTicker", "type": "text"},
+            {"name": "Ticker", "id": "AssetTicker", "type": "text"},
             {"name": "Name", "id": "Name", "type": "text"},
             {"name": "Category", "id": "Category", "type": "text"},
             {"name": "Allocation", "id": "Allocation", "type": "numeric"},
