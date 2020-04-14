@@ -2,48 +2,61 @@
 
 ​
 [Homepage]
-When first entering our website the user is presented with a description page of Thalia.
+When we first go to the website, we're presented with this decription page of Thalia.
 ​
-In the case where the user is not familiar with backtesting or Thalia, a  Learn More section has been created.
+Now, if you're not familiar with backtesting or Thalia, there's a _Learn More_ section if you need it.
 ​
-In order to use Thalia, a user needs to first Register on our platform. First, the user has to input his email address and then his password that has to be at least eight characters long with at least on one letter, one number and a special character.
-​
-[Logged In]
-After the user logs in he can go to the My Portfolios tab in the navigation bar at the top of the screen. There he can check his saved portfolios if he had previously created them.
-​
-In order to create his first portfolio, the user will have to go to the Dashboard.
-​
-[dashboard]
-On this page he can construct a portfolio and check the backtesting of it.
-​
-In order to create a portfolio, the user has to set the dates that he is interested in. The default date values are 1/1/1970 and the current date.
-​
-Then the user inserts the Initial investment. The default value is of 1000$.
-​
-The next essential step is that of selecting the financial assets and the allocation percentages.
-​
-Here is an example of how to add two assets to the portfolio and then delete them.
-​
-[adds assets]
+In order to use Thalia, you need an account. It's very simple to create - you just need a username and password. So let's go ahead and create one real quick.
 
-[deletes assets]
+[Type in username "ThaliaIsCool" and password "LiveLaugh1nvest?"]
+There are a few limitations on passwords - you to have need at least one letter, number, and special character; and they need to be at least 8 characters long.
 ​
-The user can modify the contribution amount,  the contribution frequency or the rebalancing frequency.
-[do some modifications]
+[Log in.]
+
+Now that we're logged in, we can go to the _My Portfolio's_ tab.
+
+[Place mouse on link.]
+You can see the link in the NavBar right here.
+
+[Click the link.]
+This is where you can see and manage all your portfolios. This is a new account, so we don't have any just yet. Let's remedy that by making our first portfolio.
 ​
-If the user wishes to use of the well known investing portfolios he can click on the lazy portfolios drop-down and chose one of them if he does so the assets of the well-known portfolio will be added.
+To do this, we need to go to the _Dashboard_.
 ​
-[click on a lazy portfolio]
+[Go to dashboard.]
+The first thing we have to do is decide what time period we're interested in. Here, you can see the default is between the 1st of January 1970 and today.
 ​
-If the user wants to change the name of a portfolio he can do so by clicking on the name of the portfolio and typing the desired name.
+The next thing is our _initial investment_. The default here is 1000 dollars. I'm happy with that, so let's go down a little bit.
+
+You can see that the thing below is contribution and rebalancing. We're going to ignore that for just a moment and focus on the more essential part - selecting assets and allocating funds to them.
+​​
+Let's just pick two assets here, and give 50% to each of them.
+
+[Pick two TBD assets and type 50 next to them in the allocation table.]
+
+Now these numbers here don't need to add up to 100, like percentages. So if I change this 50 to a 30 nothing bad will happen - I'll just have a different allocation. But personally I like percentages, so let's change it back.
 ​
-In the most likely case where the user wants to compare different portfolios, he can click on add portfolio and fill in the details of the new portfolio.
+Coming back up for a moment, if I have an income and want to use it to invest more into my portfolio as time goes on, we can model that here with _contribution_. So let's say I want to put an extra 100 dollars worth into my portfolio every month, I just type 100 here and select _monthy_ here.
+​
+Over time, it's possible that these assets will go up and down in value differently, so this nice 50-50 split might not stay 50-50 for long. Now, if you've decided that you don't want that, and you'll buy and sell regularly to keep the portfolio at its initial balance, you can model that by selecting a _rebalancing_ frequency.
+
+That's all that goes into _creating_ a portfolio, so let's clear this out and show off lazy portfolios.
+
+[Delete assets from the allocation table. Click on a lazy portfolio.]
+​
+You can name your portfolios if you want. Let's call this one "My First Portfolio".
+
+[Rename portfolio.]
+​
+Quite often we want to compare portfolios against each other. To do this, all we have to do is click this button to add a portfolio and fill in the details.
 ​​
 [adds another lazy portfolio]
 OR
 [Adds a normal portfolio to spend more time]
-​
-When the user finishes setting the options of his portfolio or portfolios he can then click on the submit button to run the backtesting.​
+
+You can fiddle about with the options here as much as you want, but for now let's actually look at the results of what we've done.
+
+[Click Submit.]
 ​
 After submitting the portfolio or portfolios if more were created the user can go the tabs that have just become available in order to check the backtesting results.​
 ​
