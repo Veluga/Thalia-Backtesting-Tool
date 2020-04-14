@@ -92,3 +92,9 @@ This is a scenario where the user has tweaked a portfolio in such a way that it 
 If the user wants to check for overfitting he can simply go to the overfitting tab and click on Check Overfitting.  He then is informed if overfitting was detected in any of his portfolios.
 ​
 Now that we have shown a demonstration of our product we will go into the technologies used to create it.
+
+[ Go to contact us]
+In case the user would like to request any features, or for another reason would like to get in touch with the developer team, they can leave feedback on the Contact Us Page.
+
+[ Go to about us]
+We also wanted to take pride in our work. So in case you would like to see the team behind Thalia. Simply navigate to the About Us Page, where you can get read up on the proud creators of this project. 
