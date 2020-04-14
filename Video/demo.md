@@ -77,7 +77,7 @@ The returns tab gives you a quick comparison between the annual returns of each 
 The drawdowns are displayed as a yearly drawdown plot and drawdown table.
 ​
 [show assets]
-And in the end a breakdown of the assets that make up the portfolios is given.
+And in the end a breakdown of the assets and their categories that make up the portfolios is given.
 ​​
 After checking how the portfolio or portfolios performs the user can go back to the ticker selection tab in order to tweak the settings. In addition to this he can click on the "Export to PDF" button in order to export the current backtesting results as a PDF.
 ​​
