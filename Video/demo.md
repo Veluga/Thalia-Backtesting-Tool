@@ -10,7 +10,7 @@ In order to use Thalia, you need an account. It's very simple to create one - yo
 
 [Type in username "ThaliaIsCool" and password "LiveLaugh1nvest?"]
 There are a few limitations on passwords - that is they need to contain at least one letter, number, and special character; and they need to be at least 8 characters long.
-​
+​Having created an account, we can now go ahead and log in.
 [Log in.]
 
 Now that we're logged in, we can go to the _My Portfolio's_ tab.
