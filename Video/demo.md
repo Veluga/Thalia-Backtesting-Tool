@@ -79,7 +79,7 @@ The drawdowns are displayed as a yearly drawdown plot and drawdown table, which 
 [show assets]
 And in the end a breakdown of the assets and their categories that make up the portfolios is given.
 ​​
-After checking how the portfolio or portfolios performs the user can go back to the ticker selection tab in order to tweak the settings. In addition to this he can click on the "Export to PDF" button in order to export the current backtesting results as a PDF.
+After checking how the portfolio or portfolios performs the user can go back to the allocations tab in order to tweak the settings. To save the results in a more presentable format, we can click on the "Export to PDF" button in order to export the current backtesting results as a PDF.
 ​​
 After multiple rounds of tweaking the risk of overfitting can appear.
 ​
