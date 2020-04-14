@@ -4,16 +4,16 @@
 [Homepage]
 When we first go to the website, we're presented with this decription page of Thalia.
 ​
-Now, if you're not familiar with backtesting or Thalia, there's a _Learn More_ section if you need it.
+Now, if you're not familiar with backtesting or Thalia, there's a small section on the subject, with the _Learn More_  button taking you to the About page.
 ​
-In order to use Thalia, you need an account. It's very simple to create - you just need a username and password. So let's go ahead and create one real quick.
+In order to use Thalia, you need an account. It's very simple to create one - you just need a username and password. So let's go ahead and create one real quick.
 
 [Type in username "ThaliaIsCool" and password "LiveLaugh1nvest?"]
-There are a few limitations on passwords - you to have need at least one letter, number, and special character; and they need to be at least 8 characters long.
-​
+There are a few limitations on passwords - that is they need to contain at least one letter, number, and special character; and they need to be at least 8 characters long.
+​Having created an account, we can now go ahead and log in.
 [Log in.]
 
-Now that we're logged in, we can go to the _My Portfolio's_ tab.
+Now that we're logged in, let's take another look on the homepage. As we can see, what previously was a registration form, now shows our latest tweets. Let us now take a look at the _My Portfolio's_ page.
 
 [Place mouse on link.]
 You can see the link in the NavBar right here.
@@ -92,3 +92,9 @@ This is a scenario where the user has tweaked a portfolio in such a way that it 
 If the user wants to check for overfitting he can simply go to the overfitting tab and click on Check Overfitting.  He then is informed if overfitting was detected in any of his portfolios.
 ​
 Now that we have shown a demonstration of our product we will go into the technologies used to create it.
+
+[ Go to contact us]
+In case the user would like to request any features, or for another reason would like to get in touch with the developer team, they can leave feedback on the Contact Us Page.
+
+[ Go to about us]
+We also wanted to take pride in our work. So in case you would like to see the team behind Thalia. Simply navigate to the About Us Page, where you can get read up on the proud creators of this project. 
