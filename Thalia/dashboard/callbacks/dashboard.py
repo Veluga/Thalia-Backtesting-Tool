@@ -28,6 +28,10 @@ def register_dashboard(dashapp):
     # Register tab switch upon submit
     register_tab_switch(dashapp)
 
+    # register error message for allocations
+    register_allocation_warning_message(dashapp)
+    register_date_warning_message(dashapp)
+
 
 def register_update_dashboard(dashapp):
     """ Main callback, instantiates strategy object """
@@ -96,6 +100,26 @@ def register_update_dashboard(dashapp):
     )
 
 
+def register_date_warning_message(dashapp):
+    dashapp.callback(
+        Output("confirm-date", "displayed"),
+        [Input("submit-btn", "n_clicks")],
+        [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+        ],
+    )(date_warning_message)
+
+
+def register_allocation_warning_message(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-allocation-{i}", "displayed"),
+            [Input("submit-btn", "n_clicks")],
+            [State(f"memory-table-{i}", "data")],
+        )(allocation_warning_message)
+
+
 def register_tab_switch(dashapp):
     """
     On backtest submission: enable all tabs and switch the active tab to the summary page.
@@ -115,14 +139,44 @@ def register_tab_switch(dashapp):
             State("my-date-picker-range", "start_date"),
             State("my-date-picker-range", "end_date"),
             State("input-money", "value"),
-            State("memory-table-1", "data"),
-        ],
+        ]
+        + [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(tab_switch)
 
 
-def tab_switch(n_clicks, *args):
-    if n_clicks is None or None in args:
+def allocation_warning_message(n_clicks, table_data):
+    if n_clicks is None or not table_data:
         raise PreventUpdate
+    for tkr in table_data:
+        return any(int(tkr["Allocation"]) == 0 for tkr in table_data)
+
+
+def check_date(start_date, end_date):
+    return (
+        datetime.strptime(end_date, "%Y-%m-%d")
+        - datetime.strptime(start_date, "%Y-%m-%d")
+    ).days < 365
+
+
+def date_warning_message(n_clicks, start_date, end_date):
+    if n_clicks is None or start_date is None or end_date is None:
+        raise PreventUpdate
+    if n_clicks:
+        return check_date(start_date, end_date)
+
+
+def tab_switch(n_clicks, *args):
+    if n_clicks is None or not all(args[:4]):
+        raise PreventUpdate
+
+    if len(args) > 1:
+        if check_date(args[0], args[1]):
+            raise PreventUpdate
+
+        tkrs = args[3:]
+        for tkr in tkrs:
+            if tkr and int(tkr[0]["Allocation"]) == 0:
+                raise PreventUpdate
 
     return ["summary"] + [False] * (NO_TABS - 1)
 
@@ -276,7 +330,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     # Prevent update if no portfolios were given
     values = (start_date, end_date, input_money)
-    if None in values or no_portfolios == 0:
+    if not all(values) or no_portfolios == 0:
         raise PreventUpdate
 
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
@@ -285,6 +339,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     returns_tab_data = []
     table_data = []
     table_cols = [{"name": "Metric", "id": "Metric"}]
+
+    if check_date(start_date, end_date):
+        raise PreventUpdate
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
@@ -301,6 +358,8 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         rebalancing_dates = validate_dates(
             start_date, end_date, args["Rebalancing Frequencies"][i]
         )
+        if args["Ticker Tables"][i] == []:
+            raise PreventUpdate
 
         tickers, proportions, handles = zip(
             *(
@@ -308,6 +367,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
                 for tkr in args["Ticker Tables"][i]
             )
         )
+
+        if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
+            raise PreventUpdate
 
         strategy = get_strategy(
             tickers,

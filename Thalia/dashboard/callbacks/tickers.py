@@ -11,6 +11,7 @@ def register_tickers_tab(dashapp):
     register_table_callbacks(dashapp)
     register_add_portfolio(dashapp)
     register_user_data(dashapp)
+    register_warning_message(dashapp)
 
 
 def register_table_callbacks(dashapp):
@@ -44,6 +45,26 @@ def register_add_portfolio(dashapp):
         [Input("add-portfolio-btn", "n_clicks")],
         [State(f"portfolio-{i}", "style") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(add_portfolio)
+
+
+def register_warning_message(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-{i}", "displayed"),
+            [Input("submit-btn", "n_clicks")],
+            [
+                State("my-date-picker-range", "start_date"),
+                State("my-date-picker-range", "end_date"),
+                State("input-money", "value"),
+                State(f"memory-table-{i}", "data"),
+            ],
+        )(warning_message)
+
+
+def warning_message(n_clicks, start_date, end_date, input_money, table):
+    values = (start_date, end_date, input_money, table)
+    if n_clicks:
+        return not all(values)
 
 
 def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_state):
