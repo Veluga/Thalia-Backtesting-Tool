@@ -29,22 +29,22 @@ Thalia Web consists of 5 pages, which all serve as an introduction to our applic
 
 While Thalia was not meant to be used on smaller devices due to the nature of our application, with the help of Bulma, every component of Thalia Web is responsive. Consequently, the layout of the website changes so that it fits the browser size perfectly.
 
-Even though it is possible to navigate between pages by URLs directly, we have designed a navigation bar for this purpose. The look of this navigation bar depends on the device of the current user and whether the user has already been logged in or not. By default, an unauthenticated user will see the navigation bar visible on \figurename{\ref{thalia_navbar}}.
+Even though it is possible to navigate between pages by URLs directly, we have designed a navigation bar for this purpose. The look of this navigation bar depends on the device of the current user and whether the user has already been logged in or not. By default, an unauthenticated user will see the navigation bar visible on \figurename{\ref{thalia_navbar_design}}.
 
 \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/navbar.png}
    \caption{Thalia Navigation Bar}
-   \label{thalia_navbar}
+   \label{thalia_navbar_design}
 \end{figure}
 
-In case Thalia is launched on a mobile phone, the navigation bar becomes a so-called "hamburger button" and dropdown menu visible on \figurename{\ref{thalia_navbar_hamburger}}.
+In case Thalia is launched on a mobile phone, the navigation bar becomes a so-called "hamburger button" and dropdown menu visible on \figurename{\ref{thalia_navbar_hamburger_design}}.
 
 \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/navbar_hamburger.png}
    \caption{Thalia Navigation Bar - Hamburger}
-   \label{thalia_navbar_hamburger}
+   \label{thalia_navbar_hamburger_design}
 \end{figure}
 
 For the rest of this section we shall assume that the application was launched on a desktop, although the layout is identical and intuitive in both cases. 
@@ -57,7 +57,7 @@ We shall not discuss every page separately, as they are identical. For a full wa
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/homepage.png}
    \caption{Thalia Homepage (source: http://ec2-54-211-238-18.compute-1.amazonaws.com/)}
-   \label{thalia_home}
+   \label{thalia_home_design}
 \end{figure}
 
 As users arrive at the homepage they are greeted with a short description of Thalia and the process of backtesting. We have designed the homepage such that the navigation bar and the Thalia Logo fills the screen completely. To indicate that the page does not end there, we have added a scroll down button, which with the help of a JavaScript \cite{js} animation takes the user down to the bottom of the page. Here the user may encounter a small register form, or in case the user is logged in, a link to the dashboard, i.e. the main application.
@@ -66,12 +66,12 @@ As users arrive at the homepage they are greeted with a short description of Tha
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/homepage_bottom.png}
    \caption{Thalia Homepage 2 - Top: User not logged in; Bottom: User recognised}
-   \label{thalia_home_bottom}
+   \label{thalia_home_bottom_design}
 \end{figure}
 
 \subsubsection*{Log In and Sign Up Pages}
 
-In case the User is not yet logged in, links for the `Log In` and `Sign Up` pages are visible on the navigation bar as seen on \figurename{\ref{thalia_navbar}} or \figurename{\ref{thalia_navbar_hamburger}}.
+In case the User is not yet logged in, links for the `Log In` and `Sign Up` pages are visible on the navigation bar as seen on \figurename{\ref{thalia_navbar_design}} or \figurename{\ref{thalia_navbar_hamburger_design}}.
 Both of these forms are quite common, with the login requiring:
 
 \begin{itemize}
@@ -94,7 +94,7 @@ As standard, the registration fails when the user enters different values to the
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/login.png}
    \caption{Thalia Log In Page (source: http://ec2-54-211-238-18.compute-1.amazonaws.com/login/)}
-   \label{thalia_login}
+   \label{thalia_login_design}
 \end{figure}
 
 In case the user is already logged in and attempts to access these pages, they will be redirected to the homepage. Additionally, the navigation bar changes, allowing us to log out. Opting so the user finds themselves on the homepage.
@@ -139,13 +139,13 @@ layout = html.Div(
 
 Upon arrival to the Dashboard, only the `Ticker Selection` tab is available to the user. This is where the user is expected to input their investment strategy. Although this process is fairly intuitive and is done by using dropdown menus, input fields and standard date selectors, a more thorough walkthrough can be found in \ref{user_manual}. 
 
-For the selection of assets we have decided to take an alternative approach visible on \figurename{\ref{thalia_table}}. This was done mostly because of the limitations of Dash discussed in \ref{dash_limitations}, but came with its own benefits.
+For the selection of assets we have decided to take an alternative approach visible on \figurename{\ref{thalia_table_design}}. This was done mostly because of the limitations of Dash discussed in \ref{dash_limitations}, but came with its own benefits.
 
 \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/table.png}
    \caption{Thalia Dashboard - Assets Table}
-   \label{thalia_table}
+   \label{thalia_table_design}
 \end{figure}
 
 The official documentation describes the dash table as \say{an interactive table component designed for viewing, editing, and exploring large datasets} \cite{dash_table}. Working with the dash table is also quite simple, as its data can be accessed by addressing the id of the table and then the data component. For a further explanation on registering Dash Components, read \ref{GUI}.
@@ -176,10 +176,10 @@ Thanks to Dash this and all other graphs are fully interactive. The user may zoo
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/dash_funcionalities.png}
    \caption{Dash Functionalities}
-   \label{dash_functionalities}
+   \label{dash_functionalities_design}
 \end{figure}
 
-Showing this in action on the Portfolio Growth Plot can be seen on \figurename{\ref{portfolio_growth}}. In this case, the user is about to enlarge the selected region to inspect the plot closer. Resetting the graph can then be done by one of the buttons visible on \figurename{\ref{dash_functionalities}}.
+Showing this in action on the Portfolio Growth Plot can be seen on \figurename{\ref{portfolio_growth}}. In this case, the user is about to enlarge the selected region to inspect the plot closer. Resetting the graph can then be done by one of the buttons visible on \figurename{\ref{dash_functionalities_design}}.
 
 \begin{figure}[H]
    \centering
@@ -216,7 +216,7 @@ Currently supported metrics include Total Return, Max Drawdown, Best / Worst Yea
 
 For a closer look at how an investment strategy is specified, consider the following class that serves as input to Anda library functionality (e.g. for calculating the Sharpe Ratio [citation needed]):
 
-\begin{lstlisting}[language=Python, caption=setup.py - Development environment, label=lst:Development_env]
+\begin{lstlisting}[language=Python, caption=Strategy Object Specification]
 import pandas as pd
 
 class Strategy:
@@ -242,7 +242,7 @@ Here, Asset is a simple dataclass consisting of a ticker string (e.g. `MSFT` for
 
 As alluded to earlier, functions within the library depend on a Strategy object for their calculations. For example:
 
-\begin{lstlisting}[language=Python, caption=setup.py - Development environment, label=lst:Development_env]
+\begin{lstlisting}[language=Python, caption=Example Function Signature]
 def total_return(strat) -> pd.Series:
 \end{lstlisting}
 will calculate a series of total return values ordered by date within the date range specified in the passed Strategy instance.
