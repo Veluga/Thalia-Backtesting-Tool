@@ -12,10 +12,10 @@ We have chosen pandas dataframes \cite{pandas} as the common data format for bot
 
 Before discussing any specific component and architectural layer in depth, it is worth revisiting our original architecture \cite{TR}.
 \begin{figure}[H]
-    \caption{Original Thalia System Architecture \cite{TR}}
 	\includegraphics[width=\textwidth]{04Design/04Pictures/architecture_layer_diagram.png}
+    \caption{Original Thalia System Architecture \cite{TR}}
 \end{figure}
-The above schematic illustrates how we modified a typical Three Layer architecture [citation needed] to include a Data Collection Layer. Subsequent discussion will refer to this layer as the `Data Harvester`. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. The decision to isolate this system component has been made in order to increase security by limiting the acess of the Thalia web service to the financial data database to read-only and to allow for independent scaling of the Data Harvester and our web service \cite{TR}.
+The above schematic illustrates how we modified a typical Three Layer architecture to include a Data Collection Layer. Subsequent discussion will refer to this layer as the `Data Harvester`. It consists of adapters for third party APIs which offer price data for financial assets. The associated API will be queried according to a configurable interval to allow for live updates to our price data. Additionally, initial seeding of the database with historical price data can also be achieved via the Data Harvester. The decision to isolate this system component has been made in order to increase security by limiting the access of the Thalia web service to the financial data database to read-only and to allow for independent scaling of the Data Harvester and our web service \cite{TR}.
 
 While the architecture of our system has stayed the same, there have been some modifications to individual components. Most notable are the changes to the Database Structure examined in \ref{DB Structure}. The following sections will provide for a discussion of design decisions made on a layer-by-layer basis.
 
@@ -25,7 +25,7 @@ The Graphical User Interface of Thalia consists of two main parts. One is a \emp
 
 \subsubsection{Thalia Web}
 
-Thalia Web consists of 5 pages, which all serve as an introduction to our application. We aimed at creating an authentic and modern looking website that attracts users. This was done by following a consistent style for the whole website, i.e. using the official colours, motto and Thalia logo, discussed in \ref{Branding}.
+Thalia Web consists of 5 pages, which all serve as an introduction to our application. We aimed at creating an authentic and modern looking website that attracts users. This was done by following a consistent style for the whole website, i.e. using the official colours, motto and Thalia logo, as discussed in \ref{Branding}.
 
 While Thalia was not meant to be used on smaller devices due to the nature of our application, with the help of Bulma, every component of Thalia Web is responsive. Consequently, the layout of the website changes so that it fits the browser size perfectly.
 
@@ -38,7 +38,7 @@ Even though it is possible to navigate between pages by URLs directly, we have d
    \label{thalia_navbar_design}
 \end{figure}
 
-In case Thalia is launched on a mobile phone, the navigation bar becomes a so-called "hamburger button" and dropdown menu visible on \figurename{\ref{thalia_navbar_hamburger_design}}.
+In case Thalia is launched on a mobile phone, the navigation bar becomes a so-called `hamburger button` and dropdown menu visible on \figurename{\ref{thalia_navbar_hamburger_design}}.
 
 \begin{figure}[H]
    \centering
@@ -47,31 +47,31 @@ In case Thalia is launched on a mobile phone, the navigation bar becomes a so-ca
    \label{thalia_navbar_hamburger_design}
 \end{figure}
 
-For the rest of this section we shall assume that the application was launched on a desktop, although the layout is identical and intuitive in both cases. 
+For the rest of this section we shall assume that the application was launched on a desktop, although the layout is identical and intuitive in the mobile case. 
 
 \subsubsection*{Homepage}
 
-We shall not discuss every page separately, as they are identical. For a full walkthrough please read \ref{user_manual}. As an example of the design let us look at the homepage where users should arrive by default.
+We shall not discuss every page separately, as they are identical. For a full walkthrough, please refer to  \ref{user_manual}. As an example of our design choices, let us look at the homepage where users should arrive by default.
 
 \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/homepage.png}
-   \caption{Thalia Homepage (source: http://ec2-54-211-238-18.compute-1.amazonaws.com/)}
+   \caption{Thalia Homepage (source: http://thaliabacktest.xyz/)}
    \label{thalia_home_design}
 \end{figure}
 
-As users arrive at the homepage they are greeted with a short description of Thalia and the process of backtesting. We have designed the homepage such that the navigation bar and the Thalia Logo fills the screen completely. To indicate that the page does not end there, we have added a scroll down button, which with the help of a JavaScript \cite{js} animation takes the user down to the bottom of the page. Here the user may encounter a small register form, or in case the user is logged in, a link to the dashboard, i.e. the main application.
+As users arrive on the homepage, they are greeted with a short description of Thalia and the process of backtesting. We have designed the homepage such that the navigation bar and the Thalia Logo fills the screen completely. To indicate that the page does not end there, we have added a scroll down button, which with the help of a JavaScript \cite{js} animation takes the user down to the bottom of the page. Here, the user may encounter a small register form, or in case the user is logged in, a link to the dashboard, i.e. the main application.
 
 \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/homepage_bottom.png}
-   \caption{Thalia Homepage 2 - Top: User not logged in; Bottom: User recognised}
+   \caption{Top: User not logged in; Bottom: User recognised}
    \label{thalia_home_bottom_design}
 \end{figure}
 
 \subsubsection*{Log In and Sign Up Pages}
 
-In case the User is not yet logged in, links for the `Log In` and `Sign Up` pages are visible on the navigation bar as seen on \figurename{\ref{thalia_navbar_design}} or \figurename{\ref{thalia_navbar_hamburger_design}}.
+In case the user is not yet logged in, links for the `Log In` and `Sign Up` pages are visible on the navigation bar as seen on \figurename{\ref{thalia_navbar_design}} or \figurename{\ref{thalia_navbar_hamburger_design}}.
 Both of these forms are quite common, with the login requiring:
 
 \begin{itemize}
@@ -88,22 +88,22 @@ And for signing up, the fields are:
     \item Confirm Password
 \end{itemize}
 
-As standard, the registration fails when the user enters different values to the Password and Confirm Password fields. In this case, the user is prompted to try again.
+As standard, the registration fails when the user enters different values to the `Password` and `Confirm Password` fields. In this case, the user is prompted to try again.
 
 \begin{figure}[H]
    \centering
    \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/login.png}
-   \caption{Thalia Log In Page (source: http://ec2-54-211-238-18.compute-1.amazonaws.com/login/)}
+   \caption{Thalia Log In Page (source: http://thaliabacktest.xyz)}
    \label{thalia_login_design}
 \end{figure}
 
-In case the user is already logged in and attempts to access these pages, they will be redirected to the homepage. Additionally, the navigation bar changes, allowing us to log out. Opting so the user finds themselves on the homepage.
+In case the user is already logged in and attempts to access these pages, they will be redirected to the homepage. Additionally, the navigation bar changes, allowing us to log out.
 
 \subsubsection{The Dashboard}
 
-\say{Dash apps are composed of two parts. The first part is the `layout` of the app and it describes what the application looks like. The second part describes the interactivity of the application [...]} \cite{dash_layout}. Creating the Dashboard with Dash meant using Python classes for all of the visual components of the application. 
+\say{Dash apps are composed of two parts. The first part is the `layout` of the app and it describes what the application looks like. The second part describes the interactivity of the application [...]} \cite{dash_layout}. Creating the Dashboard with Dash meant using Python classes for all of the visual components of the application.
 
-Writing code for the layout was intuitive, but cumbersome, as on top of the HTML-like structure, it also needed to be correctly indented. As such, we needed to rely on refactoring a lot, chopping the layout code into smaller, more manageable components. In our final design, we have decided to divide the Dashboard into tabs, which helped us achieve a more intuitive look and organised codebase. The layout of the dashboard can now be initialised as follows:
+Writing code for the layout was intuitive, but cumbersome, as on top of the HTML-like structure, it also needed to be correctly indented. Consequently, we needed to rely on refactoring a lot, chopping the layout code into smaller, more manageable components. In our final design, we have decided to divide the Dashboard into tabs, which helped us achieve a more intuitive look and organised codebase. The layout of the dashboard can now be initialised as follows:
 
 \begin{lstlisting}[language=Python, caption=layout.py - Example of Dash Code, label=lst:dash_code]
 import dash_core_components as dcc
@@ -137,7 +137,7 @@ layout = html.Div(
 )
 \end{lstlisting}
 
-Upon arrival to the Dashboard, only the `Ticker Selection` tab is available to the user. This is where the user is expected to input their investment strategy. Although this process is fairly intuitive and is done by using dropdown menus, input fields and standard date selectors, a more thorough walkthrough can be found in \ref{user_manual}. 
+Upon arriving at the Dashboard, only the `Ticker Selection` tab is available to the user. This is where the user is expected to input their investment strategy. Although this process is fairly intuitive and done by using dropdown menus, input fields and standard date selectors, a more thorough walkthrough can be found in \ref{user_manual}. 
 
 For the selection of assets we have decided to take an alternative approach visible on \figurename{\ref{thalia_table_design}}. This was done mostly because of the limitations of Dash discussed in \ref{dash_limitations}, but came with its own benefits.
 
@@ -154,11 +154,11 @@ Accessing the data like this also allowed us to fulfill one of our requirements,
 
 To compare investment strategies, the user may add portfolios via the `Add Portfolio` button. Due to the arguments presented in \ref{dash_limitations}, we have decided to set the maximum number of portfolios to 5, compared to letting it be dynamic. In addition, it is possible to select from a set of benchmarks, also known as lazy portfolios. Having selected one, the user will find the table populated with the desired assets and proportions. 
 
-When the user is content with the input, they can start the backtesting by clicking the submit button. If all required fields are populated, the user is taken to the summary tab. This, as well as all other tabs, are now unlocked.
+When the user is content with the input, they can start backtesting by clicking the `Submit` button. If all required fields are populated, the user is taken to the summary tab. This, as well as all other tabs, is now unlocked.
 
 \subsubsection*{Showing the Results}
 
-Many studies have shown that one most important factor when designing a dashboard application is to show the right data using the right visualization tools \cite{dashboard_design1} \cite{dashboard_design2}. In our case, we have already established which metrics and plots are the most important to the users. When the user lands on the summary tab, it is these key metrics that are presented, leaving a more detailed analysis for the relevant tabs. This way the user is not overloaded with information as the results are presented. 
+Many studies have shown that one most important factor when designing a dashboard application is to show the right data using the right visualization tools \cite{dashboard_design1} \cite{dashboard_design2}. In our case, we have already established which metrics and plots are most important to the users. When the user lands on the summary tab, it is these key metrics that are presented, leaving a more detailed analysis for the relevant tabs. This way the user is not overloaded with information as soon as the results are presented. 
 
 Having decided on `What` the user should see we can now focus on the `How`. In our final design, we combine data visualization techniques to make the dashboard look interesting. Key metrics are shown either in a `box`, which is a core building block of a dashboard or in tables. Proportions are visualised using pie charts, whereas relative differences are shown with the help of a bar chart. Some examples can be seen on \figurename{\ref{dashboard}}.
 
@@ -169,8 +169,8 @@ Having decided on `What` the user should see we can now focus on the `How`. In o
    \label{dashboard}
 \end{figure}
 
-Among these charts the user can find one of the key components of our application, the Portfolio Growth Plot. This graph is crucial for our application, as it is a visualisation for two of our main functional requirements, i.e. showing the total returns of a portfolio over time and the comparison of strategies. 
-Thanks to Dash this and all other graphs are fully interactive. The user may zoom in on selected areas, hover over desired data points, save the plot as an image, etc.
+Among these charts, the user can find one of the key components of our application, the Portfolio Growth Plot. This graph is crucial for our application, as it serves as a visualisation for two of our main functional requirements, i.e. showing the total returns of a portfolio over time and the comparison of strategies.
+Thanks to Dash, all graphs are fully interactive. The user may zoom in on selected areas, hover over desired data points, save the plot as an image, etc.
 
 \begin{figure}[H]
    \centering
@@ -179,7 +179,7 @@ Thanks to Dash this and all other graphs are fully interactive. The user may zoo
    \label{dash_functionalities_design}
 \end{figure}
 
-Showing this in action on the Portfolio Growth Plot can be seen on \figurename{\ref{portfolio_growth}}. In this case, the user is about to enlarge the selected region to inspect the plot closer. Resetting the graph can then be done by one of the buttons visible on \figurename{\ref{dash_functionalities_design}}.
+The result of performing one such action on the Portfolio Growth Plot can be seen on \figurename{\ref{portfolio_growth}}. In this case, the user is about to enlarge the selected region to inspect the plot closer. Resetting the graph can then be done by one of the buttons visible on \figurename{\ref{dash_functionalities_design}}.
 
 \begin{figure}[H]
    \centering
@@ -203,18 +203,18 @@ As we can see, we managed to encapture the overall look as we envisioned with on
 
 One change we had to make was the use of the Dash table instead of the approach visible on \figurename{\ref{wireframe}}. The benefits of this change have been illustrated further above. In addition, we have also decided to discard the sliders as a way of changing asset allocations.
 
-For portfolio comparison, we also had to enable inputting multiple strategies. As seen on \figurename{\ref{wireframe}}, this is something we have not accounted for when planning the design. The implementation of this feature led to a full refactor of the UI code, as it came with an excessive amount of code due to the arguments presented in \ref{dash_limitations}. Fortunately, this issue was addressed relatively early and resulted in the current design. 
+For portfolio comparison, we also had to enable inputting multiple strategies. As seen on \figurename{\ref{wireframe}}, this is something we have not accounted for when planning the design. The implementation of this feature led to a full refactoring of the UI code, as it came with an excessive amount of code due to the arguments presented in \ref{dash_limitations}. Fortunately, this issue was addressed relatively early and resulted in the current design. 
 
 \subsection{Business Logic Structure}
 \label{BL Structure}
 
 The responsibility of our business logic can be summarised as follows: Given an investment strategy specification input from a user via the GUI, retrieve relevant financial data from the database to perform calculations for the historical performance and associated risk metrics.
 
-To achieve this, we have developed a library (Anda) that performs the necessary calculations. Anda is decoupled from both the presentation and database layer by relying on external providers for any price data and the specification of a strategy.
-This decision has been made to allow for alternative sources of price data in the future. One of our optional features for future development is allowing users to input their own price data for assets not supported by Thalia. This data could be uploaded, for example, as a CSV file or JSON. Without our current design, i.e. by coupling calculation of performance and metrics to database access, we would have to modify the business logic to support multiple data sources. Given our current implementation, however, we can simply parse the user data into a pandas dataframe in a wrapper around Anda and then call functions within the library as require.
-Currently supported metrics include Total Return, Max Drawdown, Best / Worst Year, and the Sharpe and Sortino Ratios. However, the library is open for extension, hence additional metrics may be added at any point.
+To achieve this, we have developed a library (Anda \ref{project_glossary}) that performs the necessary calculations. Anda is decoupled from both the presentation and database layer by relying on external providers for any price data and the specification of a strategy.
+This decision has been made to allow for alternative sources of price data. One of our features is allowing users to input their own price data for assets not supported by Thalia. This data is uploaded as a CSV file. Without our current design, i.e. by coupling calculation of performance and metrics to database access, we would have to modify the business logic to support multiple data sources. Given our current implementation, however, we can simply parse the user data into a pandas dataframe in a wrapper around Anda and then call functions within the library as required.
+Currently supported metrics include `Total Return`, `Max Drawdown`, `Best / Worst Year`, and the `Sharpe` and `Sortino` Ratios (please refer to \ref{domain_glossary} for definitions). However, the library is open for extension, hence additional metrics may be added at any point.
 
-For a closer look at how an investment strategy is specified, consider the following class that serves as input to Anda library functionality (e.g. for calculating the Sharpe Ratio [citation needed]):
+For a closer look at how an investment strategy is specified, consider the following class that serves as input to Anda library functionality (e.g. for calculating the Sharpe Ratio):
 
 \begin{lstlisting}[language=Python, caption=Strategy Object Specification]
 import pandas as pd
@@ -238,7 +238,7 @@ class Strategy:
         self.rebalancing_dates = rebalancing_dates
 \end{lstlisting}
 
-Here, Asset is a simple dataclass consisting of a ticker string (e.g. `MSFT` for Microsoft), a weight as a share of the portfolio overall (e.g. 0.25), a pandas dataframe holding historical price data ordered by date, and a pandas dataframe for dividends data (if any).
+Here, `Asset` is a simple dataclass consisting of a ticker string (e.g. `MSFT` for Microsoft), a weight as a share of the portfolio overall (e.g. 0.25), a pandas dataframe holding historical price data ordered by date, and a pandas dataframe for dividends data (if any). A 
 
 As alluded to earlier, functions within the library depend on a Strategy object for their calculations. For example:
 

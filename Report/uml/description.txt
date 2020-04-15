@@ -1,2 +1,2 @@
 The UMLs for the business logic library 'Anda' are the only ones that show the attribute type for the methods as well as the return types.
-This is because we believe Anda, requires more detail, since it deals with numeric values such as Decimal or float. 
+This is because we believe Anda, requires more detail, since it deals with numeric values such as Decimal or float.
