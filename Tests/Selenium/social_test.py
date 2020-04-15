@@ -8,7 +8,7 @@ Tests for social media links and integrations
 
 
 def social_test(driver):
-    driver.get("http://localhost:5000")
+    driver.get("http://127.0.0.1:5000")
     driver.implicitly_wait(5)  # seconds
 
     # Make sure we're accessing the correct webpage
@@ -22,7 +22,7 @@ def social_test(driver):
     util.page_wait()
     assert util.fb_url == driver.current_url
 
-    driver.get("http://localhost:5000")
+    driver.get("http://127.0.0.1:5000")
     twitter_link = driver.find_element_by_class_name("twitter-link")
     driver.execute_script("arguments[0].click();", twitter_link)
     # twitter_link.click()

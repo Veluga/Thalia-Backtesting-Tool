@@ -8,7 +8,7 @@ Test logging in as default user 'asdf' on Thalia website
 
 
 def login_test(driver):
-    driver.get("http://localhost:5000")
+    driver.get("http://127.0.0.1:5000")
     driver.implicitly_wait(5)  # seconds
     # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
@@ -20,7 +20,7 @@ def login_test(driver):
 
     # Test redirect
     util.page_wait()
-    assert "http://localhost:5000/login/" == driver.current_url
+    assert "http://127.0.0.1:5000/login/" == driver.current_url
 
     # Fill in login form
     uname_field = driver.find_element_by_id("username")
@@ -34,7 +34,7 @@ def login_test(driver):
     # Check log in successfull
     disabled_login_button = driver.find_element_by_class_name("greeting")
 
-    assert "http://localhost:5000/" == driver.current_url
+    assert "http://127.0.0.1:5000/" == driver.current_url
     assert ("Hi " + util.uname + "!") in disabled_login_button.get_attribute(
         "innerHTML"
     )
@@ -44,7 +44,7 @@ def login_test(driver):
 
 
 def logout_test(driver):
-    driver.get("http://localhost:5000")
+    driver.get("http://127.0.0.1:5000")
     driver.implicitly_wait(2)  # seconds
     # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
@@ -62,7 +62,7 @@ def logout_test(driver):
     # Check we have logged out and been redirected
     util.page_wait()
     driver.find_element_by_class_name("login-btn")
-    assert "http://localhost:5000/" == driver.current_url
+    assert "http://127.0.0.1:5000/" == driver.current_url
     util.page_wait()
 
 

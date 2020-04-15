@@ -20,9 +20,9 @@ def test_navbar_redirect(driver, navbar_item, page):
     # Test about page redirect and page loaded
     util.page_wait()
     if page == "/":
-        assert driver.current_url == "http://localhost:5000/"
+        assert driver.current_url == "http://127.0.0.1:5000/"
     else:
-        assert driver.current_url == ("http://localhost:5000/" + page + "/")
+        assert driver.current_url == ("http://127.0.0.1:5000/" + page + "/")
     # Check page has loaded properly and that navbar is displayed
     driver.find_element_by_id("navbarBasicExample")
     # Check footer with links loaded
@@ -32,7 +32,7 @@ def test_navbar_redirect(driver, navbar_item, page):
 
 
 def navbar_test(driver):
-    driver.get("http://localhost:5000")
+    driver.get("http://127.0.0.1:5000")
     driver.implicitly_wait(5)  # seconds
     # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title

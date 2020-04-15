@@ -10,7 +10,7 @@ Test social media links
 
 
 def contact_test(driver):
-    driver.get("http://localhost:5000/contact/")
+    driver.get("http://127.0.0.1:5000/contact/")
     driver.implicitly_wait(5)  # seconds
     # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title

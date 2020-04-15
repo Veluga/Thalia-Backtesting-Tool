@@ -28,7 +28,7 @@ def tab_selected_test(driver, selected_tab, tabs):
 
 def dashboard_test(driver):
     tabs = ["allocations", "summary", "metrics", "returns", "drawdowns", "assets", "overfitting"]
-    driver.get("http://localhost:5000")
+    driver.get("http://127.0.0.1:5000")
     driver.implicitly_wait(2)  # seconds
 
     # Make sure we're accessing the correct webpage
@@ -40,7 +40,7 @@ def dashboard_test(driver):
     driver.execute_script("arguments[0].click();", navbar_link)
 
     util.page_wait()
-    assert driver.current_url == "http://localhost:5000/dashboard/"
+    assert driver.current_url == "http://127.0.0.1:5000/dashboard/"
     driver.find_element_by_id("navbarBasicExample")
 
     # Check selection tab

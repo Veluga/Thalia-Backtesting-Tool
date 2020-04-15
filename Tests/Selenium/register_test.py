@@ -8,7 +8,7 @@ Test registering a new/old user on the Thalia website
 
 
 def register_test(driver):
-    driver.get("http://localhost:5000")
+    driver.get("http://127.0.0.1:5000")
     driver.implicitly_wait(5)  # seconds
     # Make sure we're accessing the correct webpage
     assert "Thalia" in driver.title
@@ -19,7 +19,7 @@ def register_test(driver):
 
     # Test redirect
     util.page_wait()
-    assert "http://localhost:5000/register/" == driver.current_url
+    assert "http://127.0.0.1:5000/register/" == driver.current_url
     assert "already registered" not in driver.page_source
 
     # Fill in sign in form
@@ -36,7 +36,7 @@ def register_test(driver):
     # check user registered and redirected already registered
     util.page_wait()
     assert ("already registered" in driver.page_source) or (
-        "http://localhost:5000/login/" == driver.current_url
+        "http://127.0.0.1:5000/login/" == driver.current_url
     )
 
 
