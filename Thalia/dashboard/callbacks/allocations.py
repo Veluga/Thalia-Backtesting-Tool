@@ -89,11 +89,7 @@ def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data
         raise PreventUpdate
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
-    tkr_n_allocation = (
-        (f"{tkr['AssetTicker']}|{tkr['Name']}", float(tkr["Allocation"]))
-        for tkr in table_data
-    )
-    store_portfolio(start_date, end_date, input_money, name, tkr_n_allocation)
+    allocations = [tkr["Allocation"] for tkr in table_data]
     return f"Portfolio {name} saved"
 
 
@@ -142,7 +138,9 @@ def add_ticker(
     """
     Filters the selected tickers from the dropdown menu.
     """
-    if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
+    if (
+        ticker_selected or lazy_portfolio or user_supplied_csv or saved_portfolio
+    ) is None:
         raise PreventUpdate
 
     if table_data is None:
@@ -154,9 +152,11 @@ def add_ticker(
         raise PreventUpdate
     else:
         trigger = ctx.triggered[0]["prop_id"].split(".")[0]
+
     if trigger.startswith("stored-portfolios"):
         table_data, portfolio_name = load_stored_portfolio(saved_portfolio)
-    if trigger.startswith("lazy-portfolios"):
+
+    elif trigger.startswith("lazy-portfolios"):
         table_data = []
         json_acceptable_string = lazy_portfolio.replace("'", '"')
         lazy_dict = json.loads(json_acceptable_string)
@@ -166,7 +166,8 @@ def add_ticker(
                 for existing in table_data
             ):
                 table_data.append(asset)
-    if trigger.startswith("output-data-upload"):
+
+    elif trigger.startswith("output-data-upload"):
         filename = user_supplied_csv[0]
         handle = user_supplied_csv[1]
         asset = {
@@ -174,6 +175,7 @@ def add_ticker(
             "Handle": handle,
             "Allocation": "0",
         }
+
     else:
         ticker, name = ticker_selected.split(" – ")
         asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
