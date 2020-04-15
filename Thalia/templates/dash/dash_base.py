@@ -8,6 +8,8 @@ base_html = """
         {%css%}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script src="../static/scripts/export-pdf.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
         <style>
         .is-inspire:after {
             border-color: #f26a4b !important;
@@ -62,7 +64,7 @@ base_html = """
         <div class="navbar-end">
             <div class="navbar-item">
             <div class="buttons">
-
+                <button class="button is-white" onclick="exportPDF()"> Export to PDF </button>
                 <button class="button is-white" disabled></button>
                 <a href="/logout/" class="button is-white">
                 Log out

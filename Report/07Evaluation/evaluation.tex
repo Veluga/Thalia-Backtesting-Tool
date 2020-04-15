@@ -1,5 +1,4 @@
 \documentclass[main.tex]{subfiles}
-\include{preamble.tex}
 
 \begin{document}
 
@@ -41,7 +40,7 @@ Usability requirements were particularly hard to assess. This was due to their s
 \textit{The design of our interface closely follows that of our major competitor (Portfolio Visualizer), so it is safe to say that a user with moderate experience using it or other backtesting tools would have no trouble finding their way around.}
 
 \item The product must have detailed instructions on how to use its advertised functions.\\
-\textit{A link to an `About` section featuring instructions on how to use Thalia is featured in the taskbar on Thalia’s landing page. Additional material is also available in the user manual \ref{UserManual}.}
+\textit{A link to an `About` section featuring instructions on how to use Thalia is featured in the taskbar on Thalia’s landing page. Additional material is also available in the user manual \ref{user_manual}.}
 \item All major functions must be visible from the initial landing page.\\
 \textit{All pages are accessible through the taskbar at the top of Thalia’s landing page.}
 \item Must work in both desktop and mobile browsers.\\
@@ -97,7 +96,7 @@ Performance and load times of Thalia's web page hosted on our cloud hosting prov
 \textit{The system has been designed so that faults resulting from bad input and API problems do not crash the website. This means that users not directly affected can continue to run simulations.}
 
 \item Installation and migration between hosting providers should be simple.
-\textit{In an appropriate environment, both Thalia and its dependencies can be installed with a single command. Installation is extensively documented in the user manual\ref{UserManual}. Since CircleCI tests all working versions of Thalia in a Docker container, our application is easy to migrate to any platform that supports Docker.}
+\textit{In an appropriate environment, both Thalia and its dependencies can be installed with a single command. Installation is extensively documented in the user manual\ref{user_manual}. Since CircleCI tests all working versions of Thalia in a Docker container, our application is easy to migrate to any platform that supports Docker.}
 
 \item The system should be internationalized and be easy to extend to support new languages and currencies.
 \textit{The current version of the Anda library supports currency conversion, as such adding new currencies is supported by our architecture. Versions of Thalia's website and dashboard in different languages can easily be implemented by hiring a translator. This is however outside the scope of our project witch is merely an high quality industrial prototype.}
