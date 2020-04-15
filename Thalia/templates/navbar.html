@@ -17,7 +17,7 @@
             <a href="{{ url_for('main.about') }}" class="navbar-item navbar-about">
         About
       </a> {% if not current_user.is_anonymous %}
-            <a href="{{ url_for('main.gallery') }}" class="navbar-item">
+            <a href="{{ url_for('main.gallery') }}" class="navbar-item navbar-gallery">
         My Portfolios
       </a> {% endif %} {% if not current_user.is_anonymous %}
             <a href="{{ url_for('/dashboard/') }}" class="navbar-item navbar-dashboard">
@@ -28,7 +28,7 @@
           More
         </a>
                 <div class="navbar-dropdown">
-                    <a href="{{ url_for('main.us') }}" class="navbar-item">
+                    <a href="{{ url_for('main.us') }}" class="navbar-item navbar-about-us">
             About Us
           </a>
                     <hr class="navbar-divider">
