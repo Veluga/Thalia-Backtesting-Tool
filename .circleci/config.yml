@@ -41,7 +41,7 @@ jobs:
           command: |
             . venv/bin/activate
             mkdir test-results
-            python -m pytest --junitxml=test-results/junit.xml
+            python -m pytest --junitxml=test-results/junit.xml --ignore=./Tests/Selenium
       - store_test_results:
           path: test-results
 
