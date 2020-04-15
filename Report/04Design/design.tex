@@ -238,7 +238,7 @@ class Strategy:
         self.rebalancing_dates = rebalancing_dates
 \end{lstlisting}
 
-Here, `Asset` is a simple dataclass consisting of a ticker string (e.g. `MSFT` for Microsoft), a weight as a share of the portfolio overall (e.g. 0.25), a pandas dataframe holding historical price data ordered by date, and a pandas dataframe for dividends data (if any). A 
+Here, `Asset` is a simple dataclass consisting of a ticker string (e.g. `MSFT` for Microsoft), a weight as a share of the portfolio overall (e.g. 0.25), a pandas dataframe holding historical price data ordered by date, and a pandas dataframe for dividends data (if any). An overview over the class relationships can be found in \ref{umls}.
 
 As alluded to earlier, functions within the library depend on a Strategy object for their calculations. For example:
 
