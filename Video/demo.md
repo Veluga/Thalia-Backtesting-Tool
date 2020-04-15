@@ -3,6 +3,8 @@
 ​
 [Homepage]
 
+As Thalia is a website, it can be visited on not just home computers but mobiles and tablets, and the layout will adjust to the screensize nicely. For the rest of this demo, we will assume that Thalia was launched on a home computer.
+
 When we first go to the website, we're presented with this decription page of Thalia.
 ​
 Now, if you're not familiar with backtesting or Thalia, there's a small section on the subject, with the _Learn More_  button taking you to the About page.
