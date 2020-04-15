@@ -8,6 +8,7 @@ from dash.exceptions import PreventUpdate
 from .. import user_csv
 from ..config import MAX_PORTFOLIOS
 from ..portfolio_manager import get_portfolios_list, retrieve_portfolio, store_portfolio
+from ..strategy import normalise
 
 
 def register_allocations_tab(dashapp):
@@ -78,18 +79,27 @@ def load_stored_portfolio(portfolio_id):
     assets = []
     for tkr in strat.assets:
         ticker, name = tkr.ticker.split("|")
-        assets.append({"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight})
+        assets.append(
+            {"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight * 100}
+        )
     return assets, porto.name
 
 
 def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data):
     if n_clicks is None:
         raise PreventUpdate
+
     if not table_data or any(int(tkr["Allocation"]) == 0 for tkr in table_data):
         raise PreventUpdate
+
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
+
     allocations = [tkr["Allocation"] for tkr in table_data]
+    normalise(allocations)
+    tickers = (f"{tkr['AssetTicker']}|{tkr['Name']}" for tkr in table_data)
+    store_portfolio(start_date, end_date, input_money, name, zip(tickers, allocations))
+
     return f"Portfolio {name} saved"
 
 
