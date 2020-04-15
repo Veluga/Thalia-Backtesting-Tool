@@ -333,24 +333,24 @@ setup(
 )
 \end{lstlisting}
 
-One of the first decisions we had to make was to choose a standard coding style. This is exactly what `flake8` is for, which we can see amongst the extras in the code snippet above. The original documentation of flake8 defines it as ``[...] a command-line utility for enforcing style consistency across Python projects. By default it includes lint checks provided by the PyFlakes project, PEP-0008 inspired style checks provided by the PyCodeStyle project, and McCabe complexity checking provided by the McCabe project`` \cite{flake8}. However, as many other developers we also decided to redefine the maximum line-length from 79 to 88 as we found this convention a hindrance.
+One of the first decisions we had to make was to choose a standard coding style. This is exactly what `flake8` is for, which we can see amongst the extras in the code snippet above. The original documentation of flake8 defines it as ``[...] a command-line utility for enforcing style consistency across Python projects. By default it includes lint checks provided by the PyFlakes project, PEP-0008 inspired style checks provided by the PyCodeStyle project, and McCabe complexity checking provided by the McCabe project`` \cite{flake8}. However, as many other developers, we also decided to redefine the maximum line-length from 79 to 88 as we found this convention to be a hindrance when writing code.
 
-Another tool used for enforcing uniform style was the black auto-formatter for Python \cite{black}, which formatted the code for us upon every save if enabled, and also when commiting code. This has been achieved by the use of githooks \cite{githooks}, which are programs that are triggered upon certain git actions. For this we needed the pre-commit package for setting up these actions and writing the configuration file. This ensured that both flake8 and black have been run before publishing changes.
+Another tool used for enforcing uniform style was the `black` auto-formatter for Python \cite{black}, which formatted the code for us upon every save (if enabled) and when committing code to GitHub. This has been achieved by the use of githooks \cite{githooks}, which are programs that are triggered upon certain git actions. Setting up these hooks required pre-commit package. This ensured that both flake8 and black were guaranteed to run before publishing changes.
 
 \subsubsection{Continuous Integration}
 \label{Continuous Integration}
 
-Many studies have investigated the positive effects of developing in a continuous integration (CI) environment \cite{CI_1}, \cite{CI_2}. Regardless of the exact implementation, its obvious benefit is that it provides security and uniformity for projects. We already made some steps to achieve a uniform style, but had no means to know whether the code published has been also passed its tests. Note in this section we will only discuss testing as a part of CI and not the testing strategy, for that see the section \ref{Testing}.
+Many studies have investigated the positive effects of developing in a continuous integration (CI) environment (see, for example, \cite{CI_1} and \cite{CI_2}). Regardless of the exact implementation, its obvious benefit is that it provides security and uniformity for projects. We already made some steps to achieve a uniform style, but had no means to know whether the code published has been also passed its tests. Note that, in this section, we will only discuss testing as a part of CI and not the testing strategy (for this, see \ref{Testing}).
 
-Another important part of the DevOps toolchain is the use of containers, which is what Docker helps to achieve \cite{Docker}. Docker helps developers focus on writing code rather than worrying about the system the application will be running on, and also helps to reveal dependency and library issues. As Docker is open source, there are many free to use docker images available online \cite{DockerImages}. When choosing the CI environment, Docker support was one of the main requirements.
+Another important part of the DevOps toolchain is the use of containers, which is what Docker helps to achieve \cite{Docker}. Docker helps developers focus on writing code rather than worrying about the system the application will be running on and also helps to reveal dependency and library issues. As Docker is open source, there are many free to use docker images available online \cite{DockerImages}. When choosing the CI environment, Docker support was one of the main requirements.
 
-The most promising candidate for this was CircleCI \cite{CircleCI}, which is a cloud-based system with first-class Docker support and a free trial. After connecting our GitHub repository to CircleCI, and setting up a configuration, CircleCI now does the following on every pull-request:
+The most promising candidate for this was CircleCI \cite{CircleCI}, which is a cloud-based system with first-class Docker support and a free trial. After connecting our GitHub repository to CircleCI and setting up a configuration, CircleCI now does the following on every pull-request:
 
 \begin{enumerate}
-    \item Sets up a clean container or virtual machine for the code.
-    \item Checks previously cached requirements, for more detail see \figurename{\ref{cache_CI}}.
-    \item Installs the requirements from requirements.txt
-    \item Caches the requirements for faster performance.
+    \item Sets up a clean Docker container or virtual machine for the code.
+    \item Checks previously cached requirements (for more detail see \figurename{\ref{cache_CI}}).
+    \item Installs the requirements from `requirements.txt`
+    \item Caches the requirements for faster future performance.
     \item Clones the branch needed to be merged.
     \item Runs flake8 one last time and saves results.
     \item Runs tests and saves results.
@@ -364,7 +364,7 @@ The most promising candidate for this was CircleCI \cite{CircleCI}, which is a c
    \label{cache_CI}
 \end{figure}
 
-The outcome of these steps is visible on CircleCI, but more importantly also on GitHub, and it refuses to merge if failing test (or no tests) have been found.
+The outcome of these steps is visible on the CircleCI web platform, but - more importantly - also on GitHub. CircleCI will prevent a merge with master if failing tests (or no tests) have been found.
 
  \begin{figure}[H]
    \centering
@@ -373,12 +373,12 @@ The outcome of these steps is visible on CircleCI, but more importantly also on 
    \label{CircleCI}
 \end{figure}
 
-With the help of these steps and CircleCI we managed to ensure that the code written is uniform and of good quality. It significantly reduced the time needed for integrating and code reviewing. The last step was now to deploy the system.
+With these steps, we managed to ensure that the code written is uniform and of good quality. It significantly reduced the time needed for integrating and code reviewing. The last step was now to deploy the system.
 
 \subsubsection{Hosting and Continuous Deployment}
 \label{Continuous Deployment}
 
-An overview over the literature covering reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
+An overview over the literature covering deployment reveals a plethora of different strategies for deploying and hosting web applicaitons \cite{ConnollyFundamentals}. Our decision of how to choose among them involved the following considerations:
 
 \begin{itemize}
     \item Price - since we have severe budget constraints, we were looking for a cheap hosting solution
@@ -389,7 +389,7 @@ The upfront cost of buying physical servers ruled it out as an option for us. Th
 
 Due to native CircleCI support and a free-tier service, we initially chose Heroku \cite{Heroku} as our initial hosting provider. This allowed us to host our application for free in the initial stages of development while providing ample opportunity for horizontal and vertical scaling later on, if required.
 
-However, it quickly became apparent that Heroku was not appropriate for our purposes, due to its lack of support for sqlite databases \cite{HerokuSqlite}. Hence, we moved to AWS \cite{AWS}, which is also supported by CircleCI \cite{AWS}.
+However, it quickly became apparent that Heroku was not appropriate for our purposes, due to its lack of support for sqlite databases \cite{HerokuSqlite}. Hence, we moved to AWS \cite{AWS}, which is also supported by CircleCI \cite{AWSCircleCI}.
 
 The benefits of using continuous deployment have been well established for multiple years and involve ``the ability to get faster feedback, the ability to deploy more often to keep customers satisfied, and improved quality and productivity`` \cite{CDBenefits}. Using AWS in combination with CircleCI, our CD pipeline involves the following simple steps:
 
@@ -397,10 +397,10 @@ The benefits of using continuous deployment have been well established for multi
     \item Upon commits to the master branch on GitHub, CircleCI triggers a workflow.
     \item The workflow first executes the steps listed in \ref{Continuous Integration} to ensure the validity of the current codebase state.
     \item If this step is successful, the master branch is pushed to a remote repository recognized by AWS via git.
-    \item AWS executes the Procfile script stored in the root of our project to start the application using a gunicorn web server \cite{Gunicorn}.
+    \item AWS executes the `Procfile` script stored in the root of our project to start the application using a `gunicorn` web server \cite{Gunicorn}.
 \end{enumerate}
 
-Our deployment process is thus fully automized and immune to failing tests, as it will only complete successfully if the application is in a correct state. The full CI/CD workflow is captured by the flowchart on \figurename{\ref{CI_CD}}.
+Our deployment process is thus fully automated and immune to failing tests, as it will only complete successfully if the application is in a correct state. The full CI/CD workflow is captured by the flowchart on \figurename{\ref{CI_CD}}.
 
  \begin{figure}[H]
    \centering
