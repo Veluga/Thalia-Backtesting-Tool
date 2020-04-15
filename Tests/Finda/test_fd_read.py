@@ -23,6 +23,8 @@ def test_fd_read_read_asset_classes(db_controller):
 
 
 def test_fd_read_read_assets(db_controller):
+    # after updating functionality no longer expects assets with
+    # no stored values to be returned (in this case empty asset)
     dfT = pd.DataFrame(
         [
             {"AssetClassName": "CRYPTO", "AssetTicker": "RCK", "Name": "Rock"},

@@ -1,64 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Thalia</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
-    />
 
-   <script
-      defer
-      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-    ></script>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thalia</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link rel="stylesheet" type="text/css" href="../static/stylesheets/base.css">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
 
-    <style>
-      .has-background-inspire1 {
-        background-color: #01191c !important;
-      }
-      .has-background-inspire2 {
-        background-color: #01434a !important;
-      }
-      .has-background-inspire3 {
-        background-color: #f26a4b !important;
-      }
-      .has-background-inspire4 {
-        background-color: #f23d3d !important;
-      }
-      .has-background-inspire5 {
-        background-color: #feedd0 !important;
-      }
-      .tag {
-        color: #f26a4b !important;
-        background-color: white !important;
-      }
-      .is-inspire:after {
-        border-color: #f26a4b !important;
-      }
-      ul > li {
-        margin-left: 25px;
-      }
-      .has-background-main {
-        background: url(static/images/index/thalia_background.jpg) center /
-          cover;
-      }
-      .has-background-stonks {
-        background: url(static/images/index/stonks.jpg) center / cover;
-      }
-      .columns.is-full {
-        flex: none;
-        width: 100%;
-      }
-      .has-color-inspire {
-        color: #f26a4b !important;
-      }
-    </style>
-  </head>
-  <body>
-    {% include 'navbar.html' %}
-    {% block content %}
-    {% endblock %}
-  </body>
+<body>
+  {% include 'navbar.html' %}
+  {% block content %}
+  {% endblock %}
+  <footer class="footer">
+    <!-- Put social media tags here -->
+    <div class="content has-text-centered">
+      <div>
+        <h1 class="subtitle is-5 has-text-weight-light has-text-black">
+          Or you can reach out to us on social media.
+        </h1>
+      </div>
+      <div>
+        <a href="https://twitter.com/Thalia99627941">
+          <i class="fab fa-twitter fa-2x"></i>
+        </a>
+        <a href="https://www.facebook.com/Thalia-Backtester-101459001526511/">
+          <i class="fab fa-facebook fa-2x"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+
 </html>

@@ -61,11 +61,7 @@ def test_register_prevent_duplicates(client, default_user):
 def test_register_validate_input(client):
     response = client.post(
         "/register",
-        data={
-            "username": "foo",
-            "password": "bar",
-            "confirm_password": "baz2312313"
-        },
+        data={"username": "foo", "password": "bar", "confirm_password": "baz2312313"},
         follow_redirects=True,
     )
     assert b"passwords do not match" in response.data
@@ -117,4 +113,3 @@ def test_dashboard_access(client, default_user, auth):
         assert (
             request.path == "/dashboard/"
         ), "logged in users should have access to dashbaord"
-

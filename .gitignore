@@ -2,6 +2,13 @@
 .DS_STORE
 *.pyc
 venv/*
+# Harvester stuff
+DataHarvester/darhv/*
+DataHarvester/persistent_data/
+DataHarvester/persistent_data/*
+DataHarvester/dhav_core/dh.log
+dh.log
+
 __pycache__.eggs
 *.egg*
 .coverage
@@ -13,6 +20,11 @@ coverage_html_report
 ### VisualStudioCode ###
 .vscode/*
 
+.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
@@ -21,3 +33,6 @@ coverage_html_report
 Finda/*.db
 htmlcov
 pip-wheel-metadata
+
+# Only empty version of file with CSV column headers should be in github
+feedback.csv

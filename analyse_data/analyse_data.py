@@ -6,6 +6,7 @@ from datetime import date
 from dataclasses import dataclass
 from typing import List
 
+
 PENNY = Decimal("0.01")
 
 
@@ -50,6 +51,8 @@ class Strategy:
 
         self.returns = None
         self.returns = total_return(self)
+        self.annual_returns = None
+        self.annual_returns = relative_yearly_returns(self)
 
 
 # INTERNAL
@@ -121,6 +124,24 @@ def total_return(strat) -> pd.Series:
     return ret
 
 
+def final_balance(strat: Strategy) -> Decimal:
+    returns = total_return(strat)
+    return returns.at[strat.dates[len(strat.dates) - 1]]
+
+
+# Compound Annual Growth Rate
+def cagr(strat: Strategy) -> float:
+    begin = strat.starting_balance
+    end = final_balance(strat)
+
+    growth = float(end / begin)
+    time = strat.dates[-1] - strat.dates[0]
+    years = time.total_seconds() / (APPROX_DAY_PER_YEAR * 24 * 60 * 60)
+    growth_factor = math.pow(growth, 1.0 / years)
+
+    return (growth_factor - 1.0) * 100
+
+
 def _risk_adjusted_returns(
     strat: Strategy, risk_free_rate: pd.DataFrame
 ) -> List[Decimal]:
@@ -132,7 +153,8 @@ def _risk_adjusted_returns(
     """
     # TODO Risk free rate of return is assumed to be 0 for now
     return [
-        (returns[i] / returns[i - 1]) - Decimal(1.000) for i in range(1, returns.size)
+        (returns.iat[i] / returns.iat[i - 1]) - Decimal(1.000)
+        for i in range(1, returns.size)
     ]
 
 
@@ -160,39 +182,194 @@ def max_drawdown(strat: Strategy) -> Decimal:
     returns = total_return(strat)
     max_seen, max_diff = Decimal(0.0), Decimal(1.0)
     for i in range(returns.size):
-        max_seen = max(max_seen, returns[i])
-        max_diff = min(max_diff, returns[i] / max_seen)
+        max_seen = max(max_seen, returns.iat[i])
+        max_diff = min(max_diff, returns.iat[i] / max_seen)
     return (Decimal(1.0) - max_diff) * Decimal(100.0)
 
 
-def _relative_yearly_diff(returns: pd.Series) -> List[Decimal]:
-    all_dates = returns.index
-    year_begins = [d for d in all_dates if d.month == d.day == 1]
-    return [
-        returns.at[next_year] / returns.at[this_year] - Decimal("1.0")
-        for (this_year, next_year) in zip(year_begins, year_begins[1:])
+# INTERNAL
+def _jan_firsts(dates: pd.DatetimeIndex) -> pd.DatetimeIndex:
+    """
+    Takes a DatetimeIndex and the largest sub-range of dates that only
+    include the beginnings of each year.
+    """
+    # TODO: find a way to do this efficiently.
+    jan_firsts_list = [d for d in dates if d.month == d.day == 1]
+    if len(jan_firsts_list) == 0:
+        return pd.DatetimeIndex([])
+    begin = jan_firsts_list[0]
+    end = jan_firsts_list[-1]
+    return pd.date_range(begin, end, freq="AS")  # Annual start
+
+
+def relative_yearly_returns(strat: Strategy) -> pd.Series:
+    """
+    Returns a yearly-indexed series of the percentage rise/fall in the
+    portfolio's value.
+    The value associated with 2018-01-01 is the difference between the
+    portfolio's value at 2019-01-01 and 2018-01-01, relative to the value
+    of the portfolio at 2018-01-01.
+    """
+    if strat.annual_returns is not None:
+        return strat.annual_returns
+
+    returns = total_return(strat)
+    year_begins = _jan_firsts(returns.index)
+    rel_diffs = [
+        (returns.at[next_year] / returns.at[this_year]) - Decimal("1")
+        for this_year, next_year in zip(year_begins, year_begins[1:])
     ]
+    return pd.Series(
+        [x * Decimal("100") for x in rel_diffs], index=year_begins[:-1], dtype=object
+    )
 
 
-# TODO: efficiency.
-def best_year(strat) -> Decimal:
+def best_year(strat: Strategy) -> Decimal:
     """
-    Returns the increase (hopefully) in value of the strategy over its
-    best calendar year - beginning and ending on Jan. 1, as a percentage.
+    Returns the highest percentage increase in a portfolio's value between
+    one Jan 1. and the next Jan 1.
     """
-    returns = total_return(strat)
-    rel_diff = _relative_yearly_diff(returns)
-    if rel_diff:
-        return max(rel_diff) * Decimal("100")  # Adjust for percentage.
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return rel_diff.max()
     else:
         raise InsufficientTimeframe
 
 
-def worst_year(strat) -> Decimal:
-    # Same convention as best_year
-    returns = total_return(strat)
-    rel_diff = _relative_yearly_diff(returns)
-    if rel_diff:
-        return min(rel_diff) * Decimal("100")  # Adjust for percentage.
+def worst_year(strat: Strategy) -> Decimal:
+    """
+    Same convention as best_year, but takes the *lowest* percentage
+    increase (probably negative).
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return rel_diff.min()
     else:
         raise InsufficientTimeframe
+
+
+def best_year_no(strat: Strategy) -> int:
+    """
+    Returns the year number (Gregorian calandar) of the best year.
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        # Would use .idxmax(), but pandas hates Decimal.
+        return max(rel_diff.index, key=lambda day: rel_diff.at[day]).year
+    else:
+        raise InsufficientTimeframe
+
+
+def convert_usd(exchange_rate: pd.DataFrame, usd_vals: pd.Series) -> pd.Series:
+    """
+    usd_vals -  Series indexed by non-continuous subset of dates from currency_pair index; decimal values
+    """
+    return pd.Series(
+        [val * exchange_rate.at[idx, "Close"] for idx, val in usd_vals.iteritems()],
+        usd_vals.index,
+    )
+
+
+def worst_year_no(strat: Strategy) -> int:
+    """
+    Returns the year number (Gregorian calandar) of the worst year.
+    """
+    rel_diff = relative_yearly_returns(strat)
+    if len(rel_diff) > 0:
+        return min(rel_diff.index, key=lambda day: rel_diff.at[day]).year
+    else:
+        raise InsufficientTimeframe
+
+
+def drawdowns(balance: pd.Series) -> pd.Series:
+    """
+    balance is a timeseries - like something obtained from total_return.
+    But it need not be daily - it can have any index - eg monthly.
+
+    Returns a timeseries of drawdowns, represented as a nonpositive
+    floating-pointer percentage. It has the same index as balance.
+    """
+    ret = pd.Series(0.0, index=balance.index)
+    last_peak = Decimal("-Infinity")
+    for day in balance.index:
+        balance_today = balance.at[day]
+        last_peak = max(balance_today, last_peak)
+        diff = balance_today - last_peak
+        ret.at[day] = 100.0 * float(diff / last_peak)
+    return ret
+
+
+# INTERNAL
+def _drawdown_periods(drawdown: pd.Series) -> List[pd.DataFrame]:
+    """
+    Splits a drawdown timeseries into separate, nonoverlapping periods of
+    drawdown.
+    """
+
+    # This is a very FSM-like approach.
+    ret = []
+    in_drawdown = False
+    for day in drawdown.index:
+        if not in_drawdown:
+            if drawdown.at[day] < 0.0:
+                in_drawdown = True
+                drawdown_start = day
+        else:
+            if drawdown.at[day] == 0.0:
+                in_drawdown = False
+                drawdown_end = day
+                ret.append(drawdown[drawdown_start:drawdown_end])
+    # We ignore any unrecovered drawdown period.
+    return ret
+
+
+def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
+    """
+    Input: the return value of drawdowns().
+    
+    Output: a dataframe with columns:
+        Drawdown: float (negative percentage)
+        Start: datetime
+        End: datetime
+        Recovery: datetime
+        Length: timedelta
+        Recovery Time: timedelta
+        Underwater Period: timedelta
+    sorted ascending by Drawdown (most severe first), sorting by Start
+    to break ties.
+    """
+    periods = _drawdown_periods(drawdown)
+
+    def make_row(period):
+        start = period.index[0]
+        end = period.idxmin()
+        recovery = period.index[-1]
+        length = end - start
+        recovery_time = recovery - end
+        underwater_period = recovery - start
+        drawdown = period.at[end]
+        return [
+            drawdown,
+            start,
+            end,
+            recovery,
+            length,
+            recovery_time,
+            underwater_period,
+        ]
+
+    rows = [make_row(p) for p in periods]
+    rows.sort(key=lambda p: p[0])
+    df = pd.DataFrame(
+        rows,
+        columns=[
+            "Drawdown",
+            "Start",
+            "End",
+            "Recovery",
+            "Length",
+            "Recovery Time",
+            "Underwater Period",
+        ],
+    )
+    return df
