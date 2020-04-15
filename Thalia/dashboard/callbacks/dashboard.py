@@ -4,30 +4,33 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from decimal import Decimal
 from datetime import datetime
-
+from .returns import update_table, portfolios_figure
 from analyse_data import analyse_data as anda
-from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS, NO_TABS
+
+from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
+from ..strategy import get_strategy
 from .summary import get_pie_charts, get_yearly_differences_graph
-from ..strategy import get_strategy, get_table_data
+from .metrics import get_table_data, combine_cols
+from .drawdowns import get_drawdowns_tables
 
 
 def register_dashboard(dashapp):
-    """
-    Works as essentially react component routing.
-    Whenever changes happen in an Input components chosen attribute
-    function is called with Input and States as values and func
-    returns values are sent to Output components
-    """
-
     # Register sending portfolio data
     register_update_dashboard(dashapp)
 
     # Register tab switch upon submit
     register_tab_switch(dashapp)
 
+    # register error message for allocations
+    register_allocation_warning_message(dashapp)
+    register_date_warning_message(dashapp)
+
 
 def register_update_dashboard(dashapp):
-    """ Main callback, instantiates strategy object """
+    """
+    Main callback, all outputs depend on a single strategy object instantiated here.
+    Returning values instead of html children objects makes the code testable.
+    """
     # Backtest constraints
     states = [
         State("my-date-picker-range", "start_date"),
@@ -35,8 +38,15 @@ def register_update_dashboard(dashapp):
         State("input-money", "value"),
     ]
 
-    # Portfolio Growth Graph
-    outputs = [Output(f"main-graph", "figure")]
+    outputs = [
+        # Portfolio Growth Graph
+        Output(f"main-graph", "figure"),
+        # Returns tab
+        Output(f"return-table", "children"),
+        Output(f"annual-returns-portfolios", "figure"),
+        # Dradwons tab
+        Output("drawdowns-graph", "figure"),
+    ]
     for i in range(1, MAX_PORTFOLIOS + 1):
 
         # Portfolio specific data
@@ -67,11 +77,43 @@ def register_update_dashboard(dashapp):
             # Pie Chart
             Output(f"pie-{i}", "figure"),
             Output(f"graph-box-pie-{i}", "style"),
+            # Drawdowns Table
+            Output(f"drawdowns-portfolio-name-{i}", "children"),
+            Output(f"drawdowns-table-{i}", "data"),
+            Output(f"drawdowns-table-col-{i}", "style"),
         ]
+
+    outputs += [
+        # Metrics Table
+        Output("key_metrics_table", "columns"),
+        Output("key_metrics_table", "data"),
+        # Store data for overfitting tests
+        Output("portfolio-results", "data"),
+    ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
         update_dashboard
     )
+
+
+def register_date_warning_message(dashapp):
+    dashapp.callback(
+        Output("confirm-date", "displayed"),
+        [Input("submit-btn", "n_clicks")],
+        [
+            State("my-date-picker-range", "start_date"),
+            State("my-date-picker-range", "end_date"),
+        ],
+    )(date_warning_message)
+
+
+def register_allocation_warning_message(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-allocation-{i}", "displayed"),
+            [Input("submit-btn", "n_clicks")],
+            [State(f"memory-table-{i}", "data")],
+        )(allocation_warning_message)
 
 
 def register_tab_switch(dashapp):
@@ -86,21 +128,53 @@ def register_tab_switch(dashapp):
             Output("returns", "disabled"),
             Output("drawdowns", "disabled"),
             Output("assets", "disabled"),
+            Output("overfitting", "disabled"),
         ],
         [Input("submit-btn", "n_clicks")],
         [
             State("my-date-picker-range", "start_date"),
             State("my-date-picker-range", "end_date"),
             State("input-money", "value"),
-            State("memory-table-1", "data"),
-        ],
+        ]
+        + [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(tab_switch)
 
 
+def allocation_warning_message(n_clicks, table_data):
+    if n_clicks is None or not table_data:
+        raise PreventUpdate
+    for tkr in table_data:
+        return any(int(tkr["Allocation"]) == 0 for tkr in table_data)
+
+
+def check_date(start_date, end_date):
+    return (
+        datetime.strptime(end_date, "%Y-%m-%d")
+        - datetime.strptime(start_date, "%Y-%m-%d")
+    ).days < 365
+
+
+def date_warning_message(n_clicks, start_date, end_date):
+    if n_clicks is None or start_date is None or end_date is None:
+        raise PreventUpdate
+    if n_clicks:
+        return check_date(start_date, end_date)
+
+
 def tab_switch(n_clicks, *args):
-    if n_clicks is None or None in args:
+    if n_clicks is None or not all(args[:4]):
         raise PreventUpdate
 
+    if len(args) > 1:
+        if check_date(args[0], args[1]):
+            raise PreventUpdate
+
+        tkrs = args[3:]
+        for tkr in tkrs:
+            if tkr and int(tkr[0]["Allocation"]) == 0:
+                raise PreventUpdate
+
+    # Current tab + diasbled = False for all other
     return ["summary"] + [False] * (NO_TABS - 1)
 
 
@@ -155,12 +229,19 @@ def format_date(date):
 
 def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     """
-    Returns portfolio name, Initial Balance, Final Balance, Best Year, Worst Year, and values in Best Year, Worst Year
+    Returns:
+    - Portfolio Name
+    - Initial Balance
+    - Final Balance
+    - Best Year %
+    - Worst Year %
+    - Best Year
+    - Worst Year
     """
-    start_date = strategy_object.dates[0].strftime("%Y-%m-%d")
-    end_date = strategy_object.dates[-1].strftime("%Y-%m-%d")
+    start_date = strategy_object.dates[0].strftime("%d/%m/%Y")
+    end_date = strategy_object.dates[-1].strftime("%d/%m/%Y")
     box_metrics = [portfolio_name, start_date, end_date]
-    box_metrics += [round(key_metrics[j]["value"], 1) for j in range(4)]
+    box_metrics += [round(key_metrics[j][portfolio_name], 1) for j in range(4)]
     box_metrics += [
         anda.best_year_no(strategy_object),
         anda.worst_year_no(strategy_object),
@@ -170,8 +251,10 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
 
 def hidden_divs_data(no_portfolios):
     """
-    As Dash does not allow dynamically registered callbacks, we need to return values for the hidden divs,
+    As Dash does not allow dynamically registered callbacks,
+    we need to return values for the hidden divs,
     ie for the number of portfolios left empty
+
     Corresponds to:
         - Box Visibility
         - Portfolio Name
@@ -186,18 +269,12 @@ def hidden_divs_data(no_portfolios):
         - Annual Differences Graph
         - Pie Chart
         - Pie Chart Visibility
+        - Drawdowns Table Name: None required
+        - Drawdowns Table Data: None required
+        - Drawdowns Table Visibility
     """
-    empty_divs = [
-        {"display": "none"},
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
+    empty_divs = [{"display": "none"}] * 13
+    empty_divs += [
         None,
         None,
         {"display": "none"},
@@ -222,21 +299,23 @@ def get_trace(x, y, name, color):
 def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     """
     Based on selected tickers and assets update the whole dashapp.
-
     *args is for all the specific portfolio data, which involves:
     - Portfolio Name
     - Contribution Amount
     - Contribution Frequency
     - Rebalancing Frequency
     - Table of Tickers
-
     The function updates:
     - The Main Portfolio Graph
+    - Yearly Returns Table
+    - Yearly Returns Graph
+    - Dradwons Graph
     - Visibility for Portfolio Data
     - Box of Key Metrics per Portfolio
     - Yearly Differences Graph per Portfolio
     - Pie Charts of Asset Allocations per Portfolio
-    - SOON: Table of Key Metrics
+    - Table of Key Metrics
+    - Overfitting Data
     """
 
     if n_clicks is None:
@@ -249,11 +328,23 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     # Prevent update if no portfolios were given
     values = (start_date, end_date, input_money)
-    if None in values or no_portfolios == 0:
+    if not all(values) or no_portfolios == 0:
         raise PreventUpdate
 
-    main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
+    # Init
     to_return = []
+    main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
+    drawdowns_graph = get_figure(xaxis_title="Time", yaxis_title="Drawdown (%)")
+    # Yearly Returns parameters
+    returns_tab_data = []
+    # Metrics parameters
+    table_data = []
+    table_cols = [{"name": "Metric", "id": "Metric"}]
+    # Overfitting parameters
+    portfolio_params = []
+
+    if check_date(start_date, end_date):
+        raise PreventUpdate
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
@@ -267,27 +358,50 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         rebalancing_dates = validate_dates(
             start_date, end_date, args["Rebalancing Frequencies"][i]
         )
+        if args["Ticker Tables"][i] == []:
+            raise PreventUpdate
 
-        tickers, proportions = zip(
+        tickers, proportions, handles = zip(
             *(
-                (tkr["AssetTicker"], Decimal(tkr["Allocation"]))
+                (tkr["AssetTicker"], Decimal(tkr["Allocation"]), tkr.get("Handle"))
                 for tkr in args["Ticker Tables"][i]
             )
         )
 
+        if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
+            raise PreventUpdate
+
         strategy = get_strategy(
             tickers,
             proportions,
+            handles,
             start_date,
             end_date,
-            input_money,
+            Decimal(input_money),
             contribution_amount,
             contribution_dates,
             rebalancing_dates,
         )
 
         total_returns = anda.total_return(strategy)
-        table_data = get_table_data(strategy, total_returns)
+        metrics = get_table_data(strategy, total_returns, portfolio_name)
+        table_data = combine_cols(table_data, metrics)
+        table_cols.append({"name": portfolio_name, "id": portfolio_name})
+
+        # Store portfolio paramaters for overfitting test
+        portfolio_params.append(
+            {
+                "name": portfolio_name,
+                "tickers": tickers,
+                "proportions": proportions,
+                "input_money": input_money,
+                "contribution_amount": contribution_amount,
+                "contribution_dates": args["Contribution Frequencies"][i],
+                "rebalancing_dates": args["Rebalancing Frequencies"][i],
+                "sharpe": metrics[-1],
+                "sortino": metrics[-2],
+            }
+        )
 
         # Add Portfolio Trace to Main Graph
         main_graph.add_trace(
@@ -312,12 +426,36 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             strategy.dates[0],
             strategy.dates[-1],
         )
+
         to_return.append(annual_figure)
+
+        returns_tab_data.append(
+            [anda.relative_yearly_returns(strategy), portfolio_name, total_returns],
+        )
 
         # Pie Charts
         to_return += get_pie_charts(tickers, proportions)
 
+        # Drawdowns Table
+        drawdowns = anda.drawdowns(total_returns)
+        to_return += get_drawdowns_tables(portfolio_name, drawdowns)
+
+        # Add trace to Drawdowns Graph
+        drawdowns_graph.add_trace(
+            get_trace(
+                drawdowns.index,
+                drawdowns,
+                name=str(portfolio_name),
+                color=OFFICIAL_COLOURS[i],
+            )
+        )
+
     # Data for the hidden divs
     to_return += hidden_divs_data(no_portfolios)
+    # Returns tab
+    returns_table = update_table(returns_tab_data, no_portfolios)
+    annual_returns = portfolios_figure(returns_tab_data, no_portfolios)
 
-    return [main_graph] + to_return
+    to_return = [main_graph, returns_table, annual_returns, drawdowns_graph] + to_return
+    to_return += [table_cols, table_data, portfolio_params]
+    return to_return

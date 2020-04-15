@@ -3,40 +3,41 @@
     <a class="navbar-item navbar-logo" href="{{ url_for('main.index') }}">
       <img src="/static/images/Logos/large_logo.png" width="128" height="64">
     </a>
-
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a href="{{ url_for('main.index') }}" class="navbar-item navbar-home">
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a href="{{ url_for('main.index') }}" class="navbar-item navbar-home">
         Home
       </a>
-      <a href="{{ url_for('main.about') }}" class="navbar-item navbar-about">
+            <a href="{{ url_for('main.about') }}" class="navbar-item navbar-about">
         About
-      </a>
-    {% if not current_user.is_anonymous %}
-      <a href="{{ url_for('/dashboard/') }}" class="navbar-item navbar-dashboard">
+      </a> {% if not current_user.is_anonymous %}
+            <a href="{{ url_for('main.gallery') }}" class="navbar-item">
+        My Portfolios
+      </a> {% endif %} {% if not current_user.is_anonymous %}
+            <a href="{{ url_for('/dashboard/') }}" class="navbar-item navbar-dashboard">
         Dashboard
-      </a>
-    {% endif %}
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link is-inspire navbar-more">
+      </a> {% endif %}
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link is-inspire">
           More
         </a>
-        <div class="navbar-dropdown">
-          <hr class="navbar-divider">
-          <a href="{{ url_for('main.contact') }}" class="navbar-item navbar-contact">
+                <div class="navbar-dropdown">
+                    <a href="{{ url_for('main.us') }}" class="navbar-item">
+            About Us
+          </a>
+                    <hr class="navbar-divider">
+                    <a href="{{ url_for('main.contact') }}" class="navbar-item navbar-contact">
             Contact us
           </a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
@@ -51,10 +52,10 @@
           <button class="button is-white greeting" disabled> Hi {{ current_user.username }}!</button>
           <a href="{{ url_for('main.logout') }}" class="button is-white logout-btn">
             Log out
-          </a>
-          {% endif %}
+          </a> {% endif %}
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+    </div>
 </nav>

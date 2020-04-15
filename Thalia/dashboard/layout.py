@@ -11,15 +11,16 @@ layout = html.Div(
                 [
                     dcc.Tabs(
                         [
-                            tabs.tickers(),
+                            tabs.allocations(),
                             tabs.summary(),
                             tabs.metrics(),
                             tabs.returns(),
                             tabs.drawdowns(),
                             tabs.assets(),
+                            tabs.overfitting(),
                         ],
                         id="tabs",
-                        value="tickers",
+                        value="allocations",
                     ),
                 ],
                 className="column",

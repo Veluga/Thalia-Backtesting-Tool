@@ -12,6 +12,7 @@ install_requires = [
     "flask-wtf",
     "pandas",
     "dash",
+    "humanize",
 ]
 
 

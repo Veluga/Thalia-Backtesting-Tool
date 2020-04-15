@@ -1,10 +1,12 @@
 from analyse_data import analyse_data as anda
-from . import util
+
+from . import user_csv, util
 
 
 def get_strategy(
     tickers,
     proportions,
+    handles,
     start_date,
     end_date,
     input_money,
@@ -15,14 +17,29 @@ def get_strategy(
     """
     Initializes and returns strategy object
     """
-    # TODO: add error handling for ticker not found
     weights = [p for p in proportions if p is not None]
     normalise(weights)
 
-    assets_data = get_assets(tickers, weights, start_date, end_date)
+    # Separate user-supplied data from Thalia-known data.
+    user_assets = []
+    thalia_tickers = []
+    thalia_weights = []
+    for ticker, weight, handle in zip(tickers, weights, handles):
+        if handle is None:
+            thalia_tickers.append(ticker)
+            thalia_weights.append(weight)
+        else:
+            user_assets.append((ticker, weight, handle))
 
-    real_start_date = max(asset.values.index[0] for asset in assets_data)
-    real_end_date = min(asset.values.index[-1] for asset in assets_data)
+    thalia_data = get_assets(thalia_tickers, thalia_weights, start_date, end_date)
+    user_supplied_data = [
+        anda.Asset(ticker, weight, user_csv.retrieve(handle))
+        for ticker, weight, handle in user_assets
+    ]
+    all_asset_data = user_supplied_data + thalia_data
+
+    real_start_date = max(asset.values.index[0] for asset in all_asset_data)
+    real_end_date = min(asset.values.index[-1] for asset in all_asset_data)
 
     if real_end_date < real_start_date:
         # raise Error
@@ -32,41 +49,12 @@ def get_strategy(
         real_start_date,
         real_end_date,
         input_money,
-        assets_data,
+        all_asset_data,
         contribution_dates,
         contribution_amount,
         rebalancing_dates,
     )
     return strategy
-
-
-def get_table_data(strat, total_return):
-    """
-    Return a list of key metrics and their values
-    """
-    returns = total_return
-    table = [
-        {"metric": "Initial Balance", "value": returns[strat.dates[0]]},
-        {"metric": "End Balance", "value": returns[strat.dates[-1]]},
-    ]
-    try:
-        # We can't use append here because we want the table
-        # unaltered if anything goes wrong.
-        table = table + [
-            {"metric": "Best Year", "value": anda.best_year(strat)},
-            {"metric": "Worst Year", "value": anda.worst_year(strat)},
-            {"metric": "Max Drawdown", "value": anda.max_drawdown(strat)},
-        ]
-        table = table + [
-            {"metric": "Sortino Ratio", "value": anda.sortino_ratio(strat, None)},
-            {"metric": "Sharpe Ratio", "value": anda.sharpe_ratio(strat, None)},
-        ]
-    except anda.InsufficientTimeframe:
-        print("Not enough enough data for best/worst year")
-    except Exception:
-        print("Could not calculate Sharpe/Sortino ratios")
-
-    return table
 
 
 def normalise(arr):
@@ -75,7 +63,7 @@ def normalise(arr):
     but scaling it such that it totals to 1.
     """
     total = sum(arr)
-    for i in range(len(arr)):  # We're mutating so we have to index horribly.
+    for i in range(len(arr)):
         arr[i] /= total
 
 

@@ -1,5 +1,6 @@
 import dash_html_components as html
 import dash_core_components as dcc
+
 from .elements import graph_box
 
 
@@ -38,7 +39,7 @@ def portfolio_name(id):
 
 def level_items(id, name1, name2, units=""):
     return html.Div(
-        [box_item(name1, id, unit=units), box_item(name2, id, unit=units),],
+        [box_item(name1, id, unit=units), box_item(name2, id, unit=units)],
         className="level",
     )
 
@@ -52,7 +53,9 @@ def metrics_box(id, visibility, size):
                         portfolio_name(id),
                         html.Hr(),
                         level_items(id, "Start Date", "End Date"),
-                        level_items(id, "Initial Investment", "End Balance", units="$"),
+                        level_items(
+                            id, "Initial Investment", "Final Balance", units="$"
+                        ),
                         level_items(id, "Best Year", "Worst Year"),
                         level_items(
                             id,
