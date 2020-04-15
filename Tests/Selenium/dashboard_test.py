@@ -27,7 +27,7 @@ def tab_selected_test(driver, selected_tab, tabs):
 
 
 def dashboard_test(driver):
-    tabs = ["tickers", "summary", "metrics", "returns", "drawdowns", "assets"]
+    tabs = ["allocations", "summary", "metrics", "returns", "drawdowns", "assets", "overfitting"]
     driver.get("http://localhost:5000")
     driver.implicitly_wait(2)  # seconds
 
@@ -36,7 +36,7 @@ def dashboard_test(driver):
     util.page_wait()
 
     # Navigate to dashboard and check navbar
-    navbar_link = driver.find_element_by_xpath("/html/body/nav/div[2]/div[1]/a[3]")
+    navbar_link = driver.find_element_by_class_name("navbar-dashboard")
     driver.execute_script("arguments[0].click();", navbar_link)
 
     util.page_wait()
@@ -44,7 +44,7 @@ def dashboard_test(driver):
     driver.find_element_by_id("navbarBasicExample")
 
     # Check selection tab
-    tab_selected_test(driver, "tickers", tabs)
+    tab_selected_test(driver, "allocations", tabs)
 
     input_money = driver.find_element_by_id("input-money")
     util.input_clear(input_money)
