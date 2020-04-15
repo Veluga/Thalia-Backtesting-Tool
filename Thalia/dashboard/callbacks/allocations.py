@@ -1,10 +1,13 @@
 import json
+from datetime import datetime
 
+import dash
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
 from .. import user_csv
 from ..config import MAX_PORTFOLIOS
+from ..portfolio_manager import get_portfolios_list, retrieve_portfolio, store_portfolio
 
 
 def register_allocations_tab(dashapp):
@@ -12,6 +15,9 @@ def register_allocations_tab(dashapp):
     register_add_portfolio(dashapp)
     register_user_data(dashapp)
     register_warning_message(dashapp)
+
+    register_save_portfolio(dashapp)
+    register_list_portfolios(dashapp)
 
 
 def register_table_callbacks(dashapp):
@@ -23,9 +29,80 @@ def register_table_callbacks(dashapp):
                 Input(f"memory-ticker-{i}", "value"),
                 Input(f"output-data-upload-{i}", "children"),
                 Input(f"lazy-portfolios-{i}", "value"),
+                Input(f"stored-portfolios-{i}", "value"),
             ],
             [State(f"memory-table-{i}", "data")],
-        )(filter_tickers)
+        )(add_ticker)
+
+
+def register_load_portfolios(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            [
+                Output(f"memory-table-{i}", "data"),
+                Output(f"portfolio-name-{i}", "value"),
+            ],
+            [Input(f"stored-portfolios-{i}", "value")],
+        )(load_stored_portfolio)
+
+
+def register_save_portfolio(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"save-portfolio-success-{i}", "children"),
+            [Input(f"save-portfolio-{i}", "n_clicks")],
+            [
+                State("my-date-picker-range", "start_date"),
+                State("my-date-picker-range", "end_date"),
+                State("input-money", "value"),
+                State(f"portfolio-name-{i}", "value"),
+                State(f"memory-table-{i}", "data"),
+            ],
+        )(save_portfolio)
+
+
+def register_list_portfolios(dashapp):
+    dashapp.callback(
+        [
+            Output(f"stored-portfolios-{i}", "options")
+            for i in range(1, MAX_PORTFOLIOS + 1)
+        ],
+        [
+            Input(f"save-portfolio-success-{i}", "children")
+            for i in range(1, MAX_PORTFOLIOS + 1)
+        ]
+        + [Input("page-location-url", "href")],
+    )(list_stored_portfolios)
+
+
+def list_stored_portfolios(*_):
+    portfolios = get_portfolios_list()
+    options = [{"label": name, "value": pid} for pid, name in portfolios]
+    return [options] * MAX_PORTFOLIOS
+
+
+def load_stored_portfolio(portfolio_id):
+    porto, strat = retrieve_portfolio(portfolio_id)
+    assets = []
+    for tkr in strat.assets:
+        ticker, name = tkr.split("|")
+        assets.append({"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight})
+    return assets, porto.name
+
+
+def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data):
+    if n_clicks is None:
+        raise PreventUpdate
+    if not table_data or any(int(tkr["Allocation"]) == 0 for tkr in table_data):
+        raise PreventUpdate
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    tkr_n_allocation = (
+        (f"{tkr['AssetTicker']}|{tkr['Name']}", float(tkr["Allocation"]))
+        for tkr in table_data
+    )
+    store_portfolio(start_date, end_date, input_money, name, tkr_n_allocation)
+    return f"Portfolio {name} saved"
 
 
 def register_user_data(dashapp):
@@ -67,25 +144,32 @@ def warning_message(n_clicks, start_date, end_date, input_money, table):
         return not all(values)
 
 
-def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_state):
+def add_ticker(
+    ticker_selected, user_supplied_csv, lazy_portfolio, saved_portfolio, table_data
+):
     """
     Filters the selected tickers from the dropdown menu.
     """
-
-    if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
+    ctx = dash.callback_context
+    if not ctx.triggered:
         raise PreventUpdate
-    if param_state is None:
-        param_state = []
+    else:
+        trigger = ctx.triggered[0]["prop_id"].split(".")[0]
+    if trigger.startswith("stored-portfolios"):
+        table_data, name = load_stored_portfolio(saved_portfolio)
+
+    # if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
+        # raise PreventUpdate
     if lazy_portfolio is not None:
-        param_state = []
+        table_data = []
         json_acceptable_string = lazy_portfolio.replace("'", '"')
         lazy_dict = json.loads(json_acceptable_string)
         for asset in lazy_dict.values():
             if all(
                 asset["AssetTicker"] != existing["AssetTicker"]
-                for existing in param_state
+                for existing in table_data
             ):
-                param_state.append(asset)
+                table_data.append(asset)
     else:
         if ticker_selected is None:
             filename = user_supplied_csv[0]
@@ -100,11 +184,13 @@ def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_sta
             asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
 
         if all(
-            asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
+            asset["AssetTicker"] != existing["AssetTicker"] for existing in table_data
         ):
-            param_state.append(asset)
+            if table_data is None:
+                table_data = []
+            table_data.append(asset)
 
-    return param_state
+    return table_data
 
 
 def update_output(list_of_contents, list_of_names):

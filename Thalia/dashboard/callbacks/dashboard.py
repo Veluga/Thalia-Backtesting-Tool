@@ -10,8 +10,6 @@ from analyse_data import analyse_data as anda
 
 from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
 from ..strategy import get_strategy
-from ..portfolio_manager import store_portfolio, get_portfolios_list
-from ..tab_elements.tickers import stored_portfolios_dropdown
 from .drawdowns import get_drawdowns_tables
 from .metrics import combine_cols, get_table_data
 from .returns import portfolios_figure, update_table
@@ -28,9 +26,6 @@ def register_dashboard(dashapp):
     # register error message for allocations
     register_allocation_warning_message(dashapp)
     register_date_warning_message(dashapp)
-
-    register_save_portfolio(dashapp)
-    register_load_portfolio(dashapp)
 
 
 def register_update_dashboard(dashapp):
@@ -121,56 +116,6 @@ def register_allocation_warning_message(dashapp):
             [Input("submit-btn", "n_clicks")],
             [State(f"memory-table-{i}", "data")],
         )(allocation_warning_message)
-
-
-def register_save_portfolio(dashapp):
-    for i in range(1, MAX_PORTFOLIOS + 1):
-        dashapp.callback(
-            Output(f"save-portfolio-success-{i}", "children"),
-            [Input(f"save-portfolio-{i}", "n_clicks")],
-            [
-                State("my-date-picker-range", "start_date"),
-                State("my-date-picker-range", "end_date"),
-                State("input-money", "value"),
-                State(f"portfolio-name-{i}", "value"),
-                State(f"memory-table-{i}", "data"),
-            ],
-        )(save_portfolio)
-
-
-def register_load_portfolio(dashapp):
-    dashapp.callback(
-        [
-            Output(f"stored-portfolio-div-{i}", "children")
-            for i in range(1, MAX_PORTFOLIOS + 1)
-        ],
-        [
-            Input(f"save-portfolio-success-{i}", "children")
-            for i in range(1, MAX_PORTFOLIOS + 1)
-        ],
-    )(list_stored_portfolios)
-
-
-def list_stored_portfolios(*_):
-    portfolios = get_portfolios_list()
-    options = [{"label": name, "value": pid} for pid, name in portfolios]
-    return [
-        stored_portfolios_dropdown(i, options) for i in range(1, MAX_PORTFOLIOS + 1)
-    ]
-
-
-def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data):
-    if n_clicks is None:
-        raise PreventUpdate
-    print("in function")
-    start_date = datetime.strptime(start_date, "%Y-%m-%d")
-    end_date = datetime.strptime(end_date, "%Y-%m-%d")
-    tkr_allocation = (
-        (tkr["AssetTicker"], float(tkr["Allocation"])) for tkr in table_data
-    )
-    store_portfolio(start_date, end_date, input_money, name, tkr_allocation)
-    print("out function")
-    return f"Portfolio {name} saved"
 
 
 def register_tab_switch(dashapp):

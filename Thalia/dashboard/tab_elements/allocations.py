@@ -234,19 +234,18 @@ def save_portfolio_button(id):
     )
 
 
-def stored_portfolios_dropdown(id, options):
+def stored_portfolios_dropdown(id):
     return dcc.Dropdown(
         id=f"stored-portfolios-{id}",
         placeholder="Saved portfolios",
         className="has-text-left",
-        options=options,
     )
 
 
 def portfolio_management_div(id):
     return (
         html.Div(
-            [html.Div(id=f"stored-portfolio-div-{id}"), save_portfolio_button(id)],
+            [stored_portfolios_dropdown(id), save_portfolio_button(id)],
             id=f"portfolio-management-{id}",
             className="column is-3",
         )

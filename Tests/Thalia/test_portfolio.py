@@ -58,4 +58,4 @@ def test_storing_retrieving_portfolio(client):
             <= retrieved_strat.assets[i].weight
             <= strat.assets[i].weight + 0.01
         )
-    assert stored_portfolio.uuid != None
+    assert stored_portfolio.uuid is not None
