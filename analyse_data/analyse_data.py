@@ -50,10 +50,7 @@ class Strategy:
         self.rebalancing_dates = rebalancing_dates
 
         self.returns = None
-        self.returns = total_return(self)
         self.annual_returns = None
-        if assets:
-            self.annual_returns = relative_yearly_returns(self)
 
 
 # INTERNAL

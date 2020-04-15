@@ -7,7 +7,7 @@ from .. import user_csv
 from ..config import MAX_PORTFOLIOS
 
 
-def register_tickers_tab(dashapp):
+def register_allocations_tab(dashapp):
     register_table_callbacks(dashapp)
     register_add_portfolio(dashapp)
     register_user_data(dashapp)
@@ -69,7 +69,7 @@ def warning_message(n_clicks, start_date, end_date, input_money, table):
 
 def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_state):
     """
-    Filters the selected tickers from the dropdown menu
+    Filters the selected tickers from the dropdown menu.
     """
 
     if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
@@ -121,6 +121,10 @@ def user_data(contents, filename):
 
 
 def add_portfolio(n_clicks, *args):
+    """
+    Makes input fields for another portfolio visible.
+    If the number of portfolios has reached MAX_PORTFOLIOS, no update.
+    """
     if n_clicks is None or n_clicks >= MAX_PORTFOLIOS:
         raise PreventUpdate
 

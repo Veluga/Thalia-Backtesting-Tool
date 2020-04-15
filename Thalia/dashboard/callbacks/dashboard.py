@@ -19,13 +19,6 @@ from .summary import get_pie_charts, get_yearly_differences_graph
 
 
 def register_dashboard(dashapp):
-    """
-    Works as essentially react component routing.
-    Whenever changes happen in an Input components chosen attribute
-    function is called with Input and States as values and func
-    returns values are sent to Output components
-    """
-
     # Register sending portfolio data
     register_update_dashboard(dashapp)
 
@@ -41,7 +34,10 @@ def register_dashboard(dashapp):
 
 
 def register_update_dashboard(dashapp):
-    """ Main callback, instantiates strategy object """
+    """
+    Main callback, all outputs depend on a single strategy object instantiated here.
+    Returning values instead of html children objects makes the code testable.
+    """
     # Backtest constraints
     states = [
         State("my-date-picker-range", "start_date"),
@@ -235,6 +231,7 @@ def tab_switch(n_clicks, *args):
             if tkr and int(tkr[0]["Allocation"]) == 0:
                 raise PreventUpdate
 
+    # Current tab + diasbled = False for all other
     return ["summary"] + [False] * (NO_TABS - 1)
 
 
@@ -289,7 +286,14 @@ def format_date(date):
 
 def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
     """
-    Returns portfolio name, Initial Balance, Final Balance, Best Year, Worst Year, and values in Best Year, Worst Year
+    Returns:
+    - Portfolio Name
+    - Initial Balance
+    - Final Balance
+    - Best Year %
+    - Worst Year %
+    - Best Year
+    - Worst Year
     """
     start_date = strategy_object.dates[0].strftime("%d/%m/%Y")
     end_date = strategy_object.dates[-1].strftime("%d/%m/%Y")
@@ -304,8 +308,10 @@ def get_box_of_metrics(portfolio_name, strategy_object, key_metrics):
 
 def hidden_divs_data(no_portfolios):
     """
-    As Dash does not allow dynamically registered callbacks, we need to return values for the hidden divs,
+    As Dash does not allow dynamically registered callbacks,
+    we need to return values for the hidden divs,
     ie for the number of portfolios left empty
+
     Corresponds to:
         - Box Visibility
         - Portfolio Name
@@ -320,24 +326,12 @@ def hidden_divs_data(no_portfolios):
         - Annual Differences Graph
         - Pie Chart
         - Pie Chart Visibility
-        - Drawdowns Table Name
-        - Drawdowns Table Data
+        - Drawdowns Table Name: None required
+        - Drawdowns Table Data: None required
         - Drawdowns Table Visibility
     """
-    empty_divs = [
-        {"display": "none"},
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        {"display": "none"},
+    empty_divs = [{"display": "none"}] * 13
+    empty_divs += [
         None,
         None,
         {"display": "none"},
@@ -370,11 +364,15 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     - Table of Tickers
     The function updates:
     - The Main Portfolio Graph
+    - Yearly Returns Table
+    - Yearly Returns Graph
+    - Dradwons Graph
     - Visibility for Portfolio Data
     - Box of Key Metrics per Portfolio
     - Yearly Differences Graph per Portfolio
     - Pie Charts of Asset Allocations per Portfolio
-    - SOON: Table of Key Metrics
+    - Table of Key Metrics
+    - Overfitting Data
     """
 
     if n_clicks is None:
@@ -390,21 +388,23 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
     if not all(values) or no_portfolios == 0:
         raise PreventUpdate
 
+    # Init
+    to_return = []
     main_graph = get_figure(xaxis_title="Time", yaxis_title="Total Returns")
     drawdowns_graph = get_figure(xaxis_title="Time", yaxis_title="Drawdown (%)")
-    to_return = []
+    # Yearly Returns parameters
     returns_tab_data = []
+    # Metrics parameters
     table_data = []
     table_cols = [{"name": "Metric", "id": "Metric"}]
+    # Overfitting parameters
+    portfolio_params = []
 
     if check_date(start_date, end_date):
         raise PreventUpdate
 
     start_date = format_date(start_date)
     end_date = format_date(end_date)
-
-    # Parameters to be sent to overfitting test
-    portfolio_params = []
 
     for i in range(no_portfolios):
         portfolio_name = args["Portfolio Names"][i]

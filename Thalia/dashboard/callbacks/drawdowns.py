@@ -1,5 +1,6 @@
-from analyse_data import analyse_data as anda
 import humanize
+
+from analyse_data import analyse_data as anda
 
 
 def get_drawdowns_tables(portoflio_name, drawdowns):

@@ -1,16 +1,12 @@
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+import dash_html_components as html
 import dash
 from decimal import Decimal
-from .dashboard import validate_dates
-from ..strategy import get_assets
 
 from analyse_data import analyse_data as anda
-
-from config import Config
-from ..util import get_data
-
-import dash_html_components as html
+from .dashboard import validate_dates
+from ..strategy import get_assets
 
 
 def register_overfitting_tab(dashapp):
@@ -74,7 +70,9 @@ def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     (By comparing to simulation results on rest of available date range)
     Threashold for performance difference considered indicative of overfitting
     """
-    assets_data_all = get_assets(portfolio["tickers"], portfolio["proportions"], None, None)
+    assets_data_all = get_assets(
+        portfolio["tickers"], portfolio["proportions"], None, None
+    )
 
     s_date = max([asset.values.index[0] for asset in assets_data_all])
     e_date = min(asset.values.index[-1] for asset in assets_data_all)
@@ -95,8 +93,6 @@ def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     new_sharpe = round(anda.sharpe_ratio(new_strat, None), 2)
     new_sortino = round(anda.sortino_ratio(new_strat, None), 2)
 
-    return (
-        old_sharpe > new_sharpe + Decimal(sharpe_threshold)
-    ) or (
+    return (old_sharpe > new_sharpe + Decimal(sharpe_threshold)) or (
         old_sortino > new_sortino + Decimal(sortino_threshold)
     )

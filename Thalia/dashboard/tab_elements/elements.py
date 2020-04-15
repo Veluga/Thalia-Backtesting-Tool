@@ -3,6 +3,9 @@ import dash_core_components as dcc
 
 
 def graph_box(graph_name, visibility, id, height, size=6, figure={}):
+    """
+    Generic and resizable box that can take a go.Figure as input
+    """
     return html.Div(
         html.Div(
             [
