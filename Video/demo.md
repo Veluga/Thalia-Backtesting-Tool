@@ -97,6 +97,16 @@ If you're concerned about this, go to the _Overfitting_ tab and click on _Check 
 
 [Side-by-side examples of positive and negative results.]
 ​
+Now that we know how to create portfolios let's create two portfolios and see how they compare with each other. For demonstration purposes, we will showcase a portfolio with European Transportation assets and compare it to a portfolio with American transportation assets. To make our portfolio more realistic, we will look from the end of the last financial crisis until now.
+
+[European assets: BMW.DE, MTX, DPW]
+
+[American assets: F,GM,GD,CHRW,JBHT ] 
+
+We can make some interesting observations on the result of this backtest however we leave it to the audience to try our product and perform their analysis.
+​
+
+
 [Contact Us]
 
 If you'd like to request a feature, or if you have another reason for wanting to get in touch with the developer team, you can leave feedback for us on the _Contact Us_ page.
