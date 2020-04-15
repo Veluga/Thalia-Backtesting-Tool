@@ -30,7 +30,8 @@ def contact_test(driver):
 
     # Check message was recorded
     util.page_wait()
-    df0 = pd.read_csv("../../feedback.csv")
+    project_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    df0 = pd.read_csv(os.path.join(project_dir, "feedback.csv"))
     submitted = np.array([util.email, util.title, util.contents])
     assert (df0 == submitted).all(1).any()
 
