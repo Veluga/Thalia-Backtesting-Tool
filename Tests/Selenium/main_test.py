@@ -29,9 +29,12 @@ def run_tests(driver):
     print("[-] -- Closing driver.")
     driver.close()
 
-
 print("Testing on Mozilla Firefox webdriver ...")
-run_tests(webdriver.Firefox())
+firefox_ops = webdriver.firefox.options.Options()
+firefox_ops.headless = True
+run_tests(webdriver.Firefox(options=firefox_ops))
 print("Testing on Google Chrome webdriver ...")
-run_tests(webdriver.Chrome())
+chrome_ops = webdriver.chrome.options.Options()
+chrome_ops.add_argument("--headless")
+run_tests(webdriver.Chrome(options=chrome_ops))
 print("Testing successfull")

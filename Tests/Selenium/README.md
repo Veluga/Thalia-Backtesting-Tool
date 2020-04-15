@@ -6,5 +6,4 @@ Due to limitations of architecture and CircleCI, end-to-end tests with Selenium 
 
 Some issues may arise due when run on a particularly slow system (most likely driver address checks will fail). To counteract this increase the `page_wait` time in `util.py`.
 
-Tests can be run individually by running the appropriate python scripts. To run all tests on both drivers
-run the `main_test.py` script.
+Tests can be run individually by running the appropriate python scripts. If run individually the webdriver/s will not run in headless mode. This is done for easy debugging. To run all tests on both drivers run the `main_test.py` script.
