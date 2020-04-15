@@ -19,6 +19,28 @@ def register_allocations_tab(dashapp):
 
     register_save_portfolio(dashapp)
     register_list_portfolios(dashapp)
+    register_url_reading(dashapp)
+
+
+def register_url_reading(dashapp):
+    dashapp.callback(
+        Output("stored-portfolios-1", "value"),
+        [Input("page-location-url", "pathname")]
+    )(load_shared_portfolio)
+
+
+def load_shared_portfolio(path):
+    if path is None:
+        raise PreventUpdate
+
+    print(path)
+    porto_id = path.rsplit('/', 1)[1]
+    try:
+        porto_id = int(porto_id)
+    except ValueError:
+        raise PreventUpdate
+
+    return porto_id
 
 
 def register_table_callbacks(dashapp):

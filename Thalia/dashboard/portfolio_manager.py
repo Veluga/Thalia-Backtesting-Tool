@@ -31,5 +31,4 @@ def get_portfolios_list():
     portos = Portfolio.query.filter_by(owner=current_user.id).with_entities(
         Portfolio.id, Portfolio.name
     ).all()
-    print(portos)
     return portos
