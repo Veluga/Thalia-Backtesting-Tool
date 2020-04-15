@@ -18,7 +18,7 @@ install_requires = [
 
 tests_require = ["pytest", "coverage"]
 
-extras_require = {"dev": ["black", "flake8", "pre-commit"], "test": tests_require}
+extras_require = {"dev": ["black", "flake8", "pre-commit", "selenium"], "test": tests_require}
 
 setup(
     name="Thalia",
