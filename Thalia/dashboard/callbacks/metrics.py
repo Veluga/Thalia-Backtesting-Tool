@@ -41,7 +41,8 @@ def get_table_data(strat, total_return, portfolio_name):
 
 def combine_cols(table1, table2):
     """
-    Combines two lists of dictionaries
+    Combines two lists of dictionaries,
+    takes care if empty
     """
     to_return = []
     length = max(len(table1), len(table2))

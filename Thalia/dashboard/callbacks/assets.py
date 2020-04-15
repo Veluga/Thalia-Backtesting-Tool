@@ -51,7 +51,13 @@ def asset_contributions(n_clicks, *args):
         if table_data[i] is not None:
             for j in range(len(table_data[i])):
                 ticker = table_data[i][j]["AssetTicker"]
-                category = assets[assets.index == ticker]["AssetClassName"].values[0]
+                if "csv" in table_data[i][j]["AssetTicker"]:
+                    category = "user supplied csv"
+                else:
+                    category = assets[assets.index == ticker]["AssetClassName"].values[
+                        0
+                    ]
+
                 table_data[i][j]["Category"] = category.replace("_", " ").title()
 
     ret = []

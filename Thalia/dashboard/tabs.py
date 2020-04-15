@@ -1,10 +1,9 @@
 import dash_core_components as dcc
 import dash_html_components as html
 
-
 from .tab_elements.returns import returns_dashboard
 from .tab_elements.summary import summary_dashboard
-from .tab_elements.tickers import options_wrapper
+from .tab_elements.allocations import options_wrapper
 from .tab_elements.metrics import table
 from .tab_elements.overfitting import overfitting_test
 from .tab_elements.drawdowns import drawdowns_dashboard
@@ -41,15 +40,15 @@ def title(title):
     )
 
 
-def tickers():
+def allocations():
     return dcc.Tab(
-        label="Ticker Selection",
+        label="Allocations",
         children=[title("Select Constraints"), options_wrapper()],
         style=tab_style,
         selected_style=tab_selected_style,
         disabled_style=tab_disabled_style,
-        id="tickers",
-        value="tickers",
+        id="allocations",
+        value="allocations",
         disabled=False,
         className="has-text-vcentered",
     )
