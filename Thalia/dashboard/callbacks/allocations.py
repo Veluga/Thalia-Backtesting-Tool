@@ -24,7 +24,10 @@ def register_table_callbacks(dashapp):
     """ Callback tying the ticker dropdown to table """
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
-            Output(f"memory-table-{i}", "data"),
+            [
+                Output(f"memory-table-{i}", "data"),
+                Output(f"portfolio-name-{i}", "value"),
+            ],
             [
                 Input(f"memory-ticker-{i}", "value"),
                 Input(f"output-data-upload-{i}", "children"),
@@ -33,17 +36,6 @@ def register_table_callbacks(dashapp):
             ],
             [State(f"memory-table-{i}", "data")],
         )(add_ticker)
-
-
-def register_load_portfolios(dashapp):
-    for i in range(1, MAX_PORTFOLIOS + 1):
-        dashapp.callback(
-            [
-                Output(f"memory-table-{i}", "data"),
-                Output(f"portfolio-name-{i}", "value"),
-            ],
-            [Input(f"stored-portfolios-{i}", "value")],
-        )(load_stored_portfolio)
 
 
 def register_save_portfolio(dashapp):
@@ -85,7 +77,7 @@ def load_stored_portfolio(portfolio_id):
     porto, strat = retrieve_portfolio(portfolio_id)
     assets = []
     for tkr in strat.assets:
-        ticker, name = tkr.split("|")
+        ticker, name = tkr.ticker.split("|")
         assets.append({"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight})
     return assets, porto.name
 
@@ -150,17 +142,21 @@ def add_ticker(
     """
     Filters the selected tickers from the dropdown menu.
     """
+    if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
+        raise PreventUpdate
+
+    if table_data is None:
+        table_data = []
+    portfolio_name = dash.no_update  # only update the name when loading a portfolio
+
     ctx = dash.callback_context
     if not ctx.triggered:
         raise PreventUpdate
     else:
         trigger = ctx.triggered[0]["prop_id"].split(".")[0]
     if trigger.startswith("stored-portfolios"):
-        table_data, name = load_stored_portfolio(saved_portfolio)
-
-    # if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
-        # raise PreventUpdate
-    if lazy_portfolio is not None:
+        table_data, portfolio_name = load_stored_portfolio(saved_portfolio)
+    if trigger.startswith("lazy-portfolios"):
         table_data = []
         json_acceptable_string = lazy_portfolio.replace("'", '"')
         lazy_dict = json.loads(json_acceptable_string)
@@ -170,27 +166,24 @@ def add_ticker(
                 for existing in table_data
             ):
                 table_data.append(asset)
+    if trigger.startswith("output-data-upload"):
+        filename = user_supplied_csv[0]
+        handle = user_supplied_csv[1]
+        asset = {
+            "AssetTicker": filename,
+            "Handle": handle,
+            "Allocation": "0",
+        }
     else:
-        if ticker_selected is None:
-            filename = user_supplied_csv[0]
-            handle = user_supplied_csv[1]
-            asset = {
-                "AssetTicker": filename,
-                "Handle": handle,
-                "Allocation": "0",
-            }
-        else:
-            ticker, name = ticker_selected.split(" – ")
-            asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
+        ticker, name = ticker_selected.split(" – ")
+        asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
 
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in table_data
         ):
-            if table_data is None:
-                table_data = []
             table_data.append(asset)
 
-    return table_data
+    return table_data, portfolio_name
 
 
 def update_output(list_of_contents, list_of_names):
