@@ -102,7 +102,7 @@ def load_stored_portfolio(portfolio_id):
     for tkr in strat.assets:
         ticker, name = tkr.ticker.split("|")
         assets.append(
-            {"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight * 100}
+            {"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight}
         )
     return assets, porto.name
 
