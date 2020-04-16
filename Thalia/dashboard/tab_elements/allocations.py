@@ -334,9 +334,14 @@ def options_wrapper():
         "Please make sure that there is at least one year between "
         "the start date and the end date"
     )
+    csv_format_msg = "The format you inputed in not compatible"
 
     allocation_messages = (
         warning_message(f"confirm-allocation-{i}", zero_allocation_msg)
+        for i in range(1, MAX_PORTFOLIOS + 1)
+    )
+    csv_messages = (
+        warning_message(f"confirm-csv-{i}", csv_format_msg)
         for i in range(1, MAX_PORTFOLIOS + 1)
     )
 
@@ -362,6 +367,7 @@ def options_wrapper():
             warning_message("confirm-1", missing_params_warning_msg),
             *allocation_messages,
             warning_message("confirm-date", short_timerange_msg),
+            *csv_messages,
         ],
         id="portfolios-main",
     )

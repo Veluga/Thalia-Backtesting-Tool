@@ -10,6 +10,7 @@ from ..config import MAX_PORTFOLIOS
 def register_allocations_tab(dashapp):
     register_table_callbacks(dashapp)
     register_add_portfolio(dashapp)
+    register_warning_csv(dashapp)
     register_user_data(dashapp)
     register_warning_message(dashapp)
 
@@ -61,6 +62,14 @@ def register_warning_message(dashapp):
         )(warning_message)
 
 
+def register_warning_csv(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-csv-{i}", "displayed"),
+            [Input(f"upload-data-{i}", "contents")],
+        )(user_csv_warning)
+
+
 def warning_message(n_clicks, start_date, end_date, input_money, table):
     values = (start_date, end_date, input_money, table)
     if n_clicks:
@@ -107,16 +116,29 @@ def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_sta
     return param_state
 
 
+def user_csv_warning(contents):
+    if contents is not None:
+        for c in contents:
+            content_type, content_string = c.split(",")
+        try:
+            user_csv.store(content_string)
+        except user_csv.FormattingError:
+            return True
+
+
 def update_output(list_of_contents, list_of_names):
     if list_of_contents is not None:
         children = [user_data(c, n) for c, n in zip(list_of_contents, list_of_names)]
-        assert len(children) == 1
+        # assert len(children) == 1
         return children[0]
 
 
 def user_data(contents, filename):
     content_type, content_string = contents.split(",")
-    handle = user_csv.store(content_string)
+    try:
+        handle = user_csv.store(content_string)
+    except user_csv.FormattingError:
+        raise PreventUpdate
     return [filename, handle]
 
 

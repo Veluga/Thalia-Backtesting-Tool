@@ -12,6 +12,10 @@ USER_DATA_DIR = os.path.join(os.path.dirname(__file__), "user-data/")
 TIME_FMT = "%Y-%m-%d %H:%M:%S"
 
 
+class FormattingError(Exception):
+    pass
+
+
 def store(encoded, timeout=timedelta(minutes=30)):
     """
     Takes the base64 representation of a user's custom uploaded data and
@@ -28,12 +32,21 @@ def store(encoded, timeout=timedelta(minutes=30)):
     The files are stored in the directory `Thalia/dashboard/user-data/`.
     """
     decoded_bytes = base64.b64decode(encoded)
+
     identifier = uuid.uuid4()
     filepath = os.path.join(USER_DATA_DIR, str(identifier) + ".csv")
     end_time = datetime.now() + timeout
 
     with open(filepath, "w") as out_file:
         out_file.write(decoded_bytes.decode("utf-8"))
+
+    # Fail if the data is un-parsable. We need a file to do this - not a bytes object.
+    try:
+        with open(filepath, "r") as out_file:
+            extracted_data = parse_csv(out_file)
+    except FormattingError:
+        os.remove(filepath)
+        raise FormattingError
 
     # We want a bit of buffer time to avoid race conditions.
     delay_sec = int(timeout.total_seconds() * 1.2)
@@ -80,19 +93,22 @@ def parse_csv(data_file) -> pd.DataFrame:
     """
     Takes a csv file with columns [Date, Open, High, Low, Close] and returns
     a dataframe that can be put in an Asset object.
-    If invalid, throws ValueError. (TODO)
+    If invalid, throws FormattingError.
     """
-    df = pd.read_csv(
-        data_file,
-        index_col="Date",
-        converters={
-            "Open": Decimal,
-            "High": Decimal,
-            "Low": Decimal,
-            "Close": Decimal,
-        },
-    )
-    df.index = pd.to_datetime(df.index, format="%d/%m/%Y")
-    new_index = pd.date_range(df.index[0], df.index[-1], freq="D")
-    df = df.reindex(new_index).ffill()
-    return df
+    try:
+        df = pd.read_csv(
+            data_file,
+            index_col="Date",
+            converters={
+                "Open": Decimal,
+                "High": Decimal,
+                "Low": Decimal,
+                "Close": Decimal,
+            },
+        )
+        df.index = pd.to_datetime(df.index, format="%d/%m/%Y")
+        new_index = pd.date_range(df.index[0], df.index[-1], freq="D")
+        df = df.reindex(new_index).ffill()
+        return df
+    except:
+        raise FormattingError()
