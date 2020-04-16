@@ -8,17 +8,17 @@ After a brief overview of the project and the project plan, this section will fo
 
 \subsection{Overview}
 
-One of the first decision we have made this term was to completely recreate our prototype of Thalia. Firstly, this radical move was the consequence of a new implementation decision (for more detail see \ref{Web Framework}). Secondly, as prototypes are meant to be disposable and are designed only to answer key questions about the system \cite{pragmaticprog}, the proof of concept served its purpose, giving us a chance to refine the structure and the quality of the code.
+One of the first decision we have made this term was to completely recreate our prototype of Thalia. This radical move was the consequence of a new implementation decision (for more detail see \ref{Web Framework}) and designed to give us the opportunity to refine the structure and quality of our code (as prototypes are meant to be disposable and are designed only to answer key questions about the system \cite{pragmaticprog}).
 
-Despite the risks posed by using a Software Version Control (SVC) Host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR}, which highlights that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
+Despite the risks posed by using a Software Version Control (SVC) host such as GitHub, we have decided to continue using it as our software development platform. The reasoning behind this builds on the argument developed in our Technical Report \cite{TR}, which highlights that our Data Processing Module is a completely separate component in our system which none of the other components is able to access. Additionally, we are storing API keys as environment variables in a file that is not tracked by our SVC system, which minimizes the probability of us exposing sensitive data.
 
 We have also decided to develop the application with Python as our main choice of programming language. Even though this choice seemed obvious from the beginning, we did consider its main benefits, which are as follows:
 
 \begin{itemize}
-    \item Python is a high level programming language allowing us to better focus on the application.
+    \item Python is a high level programming language allowing us to focus more on the application.
     \item A standard choice for prototyping.
-    \item Provides superb third party libraries and frameworks for free.
-    \item Easy to integrate if we were to choose other languages at some point in our development.
+    \item Provides superb third party libraries and frameworks free of charge.
+    \item Easy to integrate with other languages, if we were to choose to do so at a later stage of development.
     \item The whole team was already familiar with the language, saving us the precious time needed to learn another programming language.
     \item Our application does not require an unreasonable amount of computation, so there is no need for a more efficient programming language such as C \ref{BL} \cite{languagescomparison}.
 \end{itemize}
@@ -27,11 +27,11 @@ We will discuss other technologies used in more detail after the discussion on p
 
 \subsection{Planning}
 
-Early in the inception phase of development, we decided that our goal was not to have fixed responsibilities in our team, allowing everybody to work on each component of the system. This decision has also eased the code review process, as we had no status differences to distort the error-correcting mechanism \cite{statusdifference}. Furthermore, since no team member was the sole developer of a system component, this allowed us to direct comments at the code and not the author \cite{howtoreview}. For these reasons we have decided to follow the Egalitarian Team structure and make use of the flexibility offered by it.
+Early in the inception phase of development, we decided to adopt the Egalitarian Team structure to make use of the flexibility offered by it. This meant that individual team members would not have fixed responsibilities, allowing anybody to work on each of the systems components. This decision also eased the code review process, as there were no internal power dynamics that might have adversely affected the error-correcting mechanism \cite{statusdifference}. Furthermore, since no team member was the sole developer of a system component, review comments were clearly directed at the code and not any individual author \cite{howtoreview}. 
 
-Our workflow was centred around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were sometimes given by the team on the weekly meetings, but occasionally they were chosen by the member proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks.
+Our workflow was centred around the tools provided by GitHub. We used a ticketing system to divide and distribute tasks among team members. These tickets were usually allocated by the team at the weekly meetings, but occasionally they were chosen by the person proposing the feature or change. Our goal with this approach was to divide larger jobs into smaller tasks, so units of work could be completed in a single sprint in line with our agile development approach.
 
-A typical ticket in our project was an encapsulation of a user story, which consisted of a title, a one liner, value, acceptance criteria, and sub tasks. In the first half of development, we also used effort-oriented metrics (story points) to measure the amount of work incurred by taking on a ticket, but we decided to abandon this aspect. An example of a ticket can be seen on \figurename{\ref{Ticket}}.
+A typical ticket in our project was an encapsulation of a user story, which consisted of a title, a one liner, value, acceptance criteria, and sub tasks. In the first half of development, we also used effort-oriented metrics (story points) to measure the amount of work incurred by taking on a ticket, but, as previously mentioned we later decided to abandon this aspect. An example of a ticket can be seen on \figurename{\ref{Ticket}}.
 
 \begin{figure}[H]
    \centering
@@ -66,24 +66,26 @@ In addition, we also had a scrum board as an overview for the ongoing tickets. A
    \label{Scrum}
 \end{figure}
 
-The workflow then largely depended on the task at hand and the person working on it. It was up to them if they met for pair-programming, or chose to work individually. In the beginning, we all agreed on the developing environment and coding standards (for a detailed analysis, see \ref{Coding Standards}). Since this report was a relevant portion of the workload, we decided to treat it as code. The report was written in \LaTeX with an overall structure of the document in a main.tex file which linked to individual sections. This let us to work on different sections separately, just like features in our software.
+The details of the workflow largely depended on the task at hand and the person working on it. The decision weather to do pair-programming, or chose to work individually was left up to individual members. Before we commenced coding, the team agreed on the what development environment and coding standards (for a detailed analysis, see \ref{Coding Standards}) to adopt. Since this report was a relevant portion of the workload, we decided to treat it as code. The report was written in \LaTeX with an overall structure of the document in a main.tex file which linked to individual sections. This allowed members to work on different sections concurrently just as with the features of our software.
 
-Regardless of the nature of the ticket, the week, or in case of some larger tasks, two weeks, ended by the creator indicating that the changes were ready to be integrated. This was done by publishing the changes and creating a new pull request, which - upon approval - pushed the changes onto the master branch. To ensure code quality, we set up a continuous integration (CI) environment (more on that in \ref{Coding Standards}). After all checks have passed, the changes were successfully integrated into the code base.
+Regardless of the nature of the ticket, the week, or in case of some larger tasks, two weeks long cycle ended with the creator indicating that the changes were ready to be integrated. This was done by publishing the changes and creating a new pull request, which - upon approval - pushed the changes onto the master branch of our project. To ensure code quality, we set up a continuous integration (CI) environment (more on that in \ref{Coding Standards}). After all checks passed, the changes were successfully integrated into the code base.
 
 \subsection{Key Implementation Decisions}
 
 Let us now discuss the main technologies used in our project. These can be categorised as follows:
 
+%%These next two are in really good english but im not sure the tone is appropriate for a report. Its seems conversational at times. Ive tried my best to correct this.
+
 \subsubsection{Web Framework}
 \label{Web Framework}
-Choosing the right web framework was more controversial than originally planned. The two major options for Python are Django and Flask. Although we decided to use Django for our MVP in the first semester, we had to spend a significant portion of the time available learning the framework, so we had to decide whether we were going to stick with it or learn Flask. In the end, we opted to go with Flask for the following reasons:
+Choosing the right web framework proved to be harder than we anticipated. The two major options for Python are Django and Flask. Although we decided to use Django for our MVP in the first semester, we had to spend a significant portion of the available time learning how to use the framework. At the beginning of the second semester, we had to decide whether we were going to continue using Django or switch to Flask. In the end, we opted to go with Flask for the following reasons:
 
 \begin{itemize}
     \item Django has one architecture that all projects must share, and we have designed the architecture for our project ourselves. While neither architecture is wrong, the two are not compatible. Flask, on the other hand, is structure-agnostic, so we can lay out the code as we see fit.
 
-    \item Flask comes with the bare minimum for web-development, which means that we don't need to manage the complexity of any feature we're not using. Django has a more complete feature-set from the beginning. This would be desirable in a large web application, but introduces significant overhead in our case, where the website has only a handful of pages.
+    \item Flask comes with the bare minimum for web-development, which means that we don't need to manage the complexity of any feature we're not using. Django has a more complete feature-set from the beginning. This would be desirable in a large web application, but introduces significant overhead in cases like ours, where our website has only a handful of pages.
 
-    \item Django all but insists on using its ORM for all database interaction, while we plan to have a more manual approach through the use of Finda.
+    \item Django all but insists on using its ORM for all database interaction, while we were planning to have a more manual approach through the use of Finda.
 \end{itemize}
 
 Thus, we chose Flask, a Python-based micro web framework. Flask provides functionality for building web applications, such as managing HTTP requests, using the `requests` library, and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}. We used the `render-template` library to process and parse the HTML templates for all the pages, except for the dashboard, which is described in more detail below. We used some of Flask's extensions, such as Flask-Login, which provides user session management for Flask \cite{flask-login}. To handle web forms we used the `flask-wtf` extension, which is a wrapper around the `WTForms` package \cite{wtforms-documentation}.
@@ -121,19 +123,19 @@ Fortunately, Dash offers great developer tools \cite{dash_dev_tools}, such as th
 \subsubsection*{Limitations}
 \label{dash_limitations}
 
-Although Dash is fairly intuitive and great for one-page applications, it has its limitations when it comes to dynamically creating components. To be more precise, all callbacks need to be registered before runtime. In our application the user is able to enter multiple portfolios via the `Add Portfolio` button. Doing so creates new input fields for the portfolio, which all need to be registered. 
+Although Dash is fairly intuitive and well suited for one-page applications, it has its limitations when it comes to dynamically creating components. To be more precise, all callbacks need to be registered before runtime. In our application the user is able to enter multiple portfolios via the `Add Portfolio` button. Doing so creates new input fields for the portfolio, which all need to be registered. 
 
-As this problem persisted with other components as well, we needed to find a general solution. Many approaches have been suggested by the Dash Community, some even by the developer team \cite{dash_workaround}. In the end, we have decided to use the most stable approach and generate all the components beforehand and hide them until activated. This means that the relevant function now also has the responsibility of returning the visibility of the required div element. Note that this is a highly requested feature in the Dash community, and is likely to be added soon, but for now, we needed to resort to workarounds.
+As this problem persisted with other components as well, we were forced to try and find a general solution. Many approaches have been suggested by the Dash Community, some even by the developer team \cite{dash_workaround}. In the end, we have decided to use the most stable approach identified, to generate all components beforehand and hide them from the user until activated. This means that the relevant function now also has the responsibility of returning the visibility of the required div element. Note that this is a highly requested feature in the Dash community, and is likely to be added soon, but for now, we needed to resort to workarounds.
 
 Furthermore, the data we show in the dashboard is greatly centered around the strategy object discussed in \ref{BL Structure}. At the beginning of every backtesting process, a new strategy object is initialised, which is a time-costly task. As this object holds most of the information our result pages require, many functions would need to access the same object. 
 
-One solution would be to have a callback for initialising the object, and then share it with all others. Although there exist ways to do so \cite{dash_share}, we were not satisfied with any of the approaches listed. Consequently, we decided to go forward with the original approach that Dash favours, and combine more outputs in one function. Even though this introduced more complexity to our code, it made the application faster overall.
+One solution would be to have a callback for initialising the object, and then share it with all others. Although there exist ways to do so \cite{dash_share}, we were not satisfied with any of the approaches listed. Consequently, we decided to go forward with the original approach, witch is also the approach favoured by Dash, and combine multiple outputs into one function. Although this introduced additional complexity to our code, it had a positive overall effect on the application's performance.
 
 \subsubsection*{Layout}
 
-The layout of the application, as discussed in \ref{GUI}, has been created with the use of the `Dash HTML components` library. Consequently, there was no need to write HTML for the dashboard, since the layout was composed using Python, which then generates HTML content. Dash uses the Flask web framework, which makes it fairly simple to embed a Dash app at a specific route of an existing Flask app \cite{flask-dash}. The framework also handles most of the communications between the front-end and back-end.
+The layout of the application, as discussed in \ref{GUI}, has been created with the use of the `Dash HTML components` library. Consequently, there was no need to write HTML for the dashboard, since the display elements were composed using Python. The library is then responsible for generating HTML content. Dash uses the Flask web framework, which makes it fairly simple to embed a Dash app at a specific route of an existing Flask app \cite{flask-dash}. The framework also handles most of the communications between the front-end and back-end.
 
-The User-Interface was made with the use of `Bulma`, which is an open-source CSS framework \cite{bulma}. Bulma is ideal for creating responsive elements, as it automatically adapts the website to different screen sizes \cite{responsiveness_2020}. It is also compatible with various web browsers. Another advantage of Bulma is that we could create a very modern-looking website quickly since the framework is doing a lot of the heavy lifting for us.
+The User-Interface was made with the use of `Bulma`, an open-source CSS framework \cite{bulma}. Bulma is ideal for creating responsive elements, as it automatically adapts the website to different screen sizes \cite{responsiveness_2020}. It is also compatible with most popular web browsers. Another advantage of Bulma is that we could create a very modern-looking website quickly since the framework automatically does a lot of work for us.
 
 It also provides pre-styled elements, components (such as the navigation bar) and alerts for the users. Additionally, it is intuitive to learn when compared to `Bootstrap`, as Bulma uses memorable class names, such as `.button`, and has a very straightforward modifier system. It consists of nothing but CSS stylesheets without any use of JavaScript, which makes it very compatible with a framework like Dash.
 
@@ -186,17 +188,17 @@ The main drawbacks of using SQLite, namely scalability and performance, are not 
 \subsubsection{Data Harvester}
 \label{Data Harvester}
 
-The role of the Data Harvester is the collection of live data from multiple source, parsing it to a format that makes it usable by Anda and easily storable by our in house DBMS system Finda. In addition to this, a mechanism for changing the data collected and adapting to the market demands has to exist. Another requirement relates to the limitations that are imposed by the third-party APIs we use. The first design decision made in order to accomplish the above was the creation of the updating mechanism.
+The role of the Data Harvester is the collection of live data from multiple sources, parsing it to a format that makes it usable by Anda and storing it to the Finda module. In addition to this, it requires a mechanism for managing collected data and adapting to market demands. Finally, it must have a mechanism by witch to insure it is compliant with API limitations, as breaching these could result in a ban and haemorrhaging data collection.
 
-All financial backtesting applications rely on having accurate data to work with. We required a system that can aggregate the data from multiple APIs and that would keep our database updated with live data.
-The requirements for such a system were:
+The first design decision made in order to accomplish the above was the creation of the updating mechanism. We required a system to aggregate the data from multiple APIs and to keep our database updated with live data.
+The requirements for this system were:
 
 \begin{itemize}
     \item \textbf{Standard data format:} To be able to store the data into a database with Finda and have the financial analysis done by Anda, the Harvester needs to parse all the data received through the APIs to a standard format without losing numerical accuracy or granularity.
     \item \textbf{Update the database:} The database has to be updated regularly to contain live data.
     \item \textbf{Data Interpolation:} Some financial assets require interpolation to account for days without any transactions (e.g. weekends and public holidays).
     \item \textbf{Redundancy:} We have no power over the APIs we are using. The required system needs to have redundancy measures so that we can retrieve live data even if an API fails.
-    \item \textbf{Maintenance:} The financial world is in a continuous change. Because of this, it is important to make sure that we can add and delete assets as time goes on.
+    \item \textbf{Maintenance:} Since there new potential assets are constantly being created, it is important to make sure that we can add and delete assets as time goes on.
 \end{itemize}
 
 \subsubsection{Continuous Updating Mechanism}
