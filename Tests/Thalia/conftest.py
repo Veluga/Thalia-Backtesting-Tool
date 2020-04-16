@@ -10,7 +10,7 @@ from Thalia.models.user import User
 from decimal import Decimal
 
 NAME = "test_default"
-PW = "test_mypw"
+PW = "test_mypw@2"
 
 
 class MockFdConnection:
