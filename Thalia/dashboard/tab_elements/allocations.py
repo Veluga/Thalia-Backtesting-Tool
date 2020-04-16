@@ -5,7 +5,7 @@ from datetime import datetime as dt
 
 from . import lazy_portfolio
 from .. import util
-from ..config import MAX_PORTFOLIOS
+from ..config import MAX_PORTFOLIOS, OFFICIAL_COLOURS
 
 
 def ticker_dropdown(id):
@@ -58,7 +58,7 @@ def ticker_table(id):
                         "column_id": "Allocation",
                         "filter_query": "{Allocation} > 100",
                     },
-                    "backgroundColor": "#f26a4b",
+                    "backgroundColor": OFFICIAL_COLOURS[0],
                     "color": "white",
                 },
             ],
@@ -279,7 +279,7 @@ def submit_button():
             "Submit",
             "submit-btn",
             className="button is-large is-primary",
-            style={"background-color": "#f26a4b"},
+            style={"background-color": OFFICIAL_COLOURS[0]},
         ),
         className="container has-text-centered",
     )
@@ -293,7 +293,7 @@ def add_portfolio_button():
             className="button is-medium",
             style={
                 "border": "0px",
-                "color": "#f26a4b",
+                "color": OFFICIAL_COLOURS[0],
                 "background-color": "transparent",
             },
         )
@@ -329,7 +329,7 @@ def upload_data(id):
                 children=html.Div(
                     [
                         "Drag and Drop or ",
-                        html.A("Select Files ", style={"color": "#f26a4b"}),
+                        html.A("Select Files ", style={"color": OFFICIAL_COLOURS[0]}),
                     ]
                 ),
                 style={
