@@ -33,7 +33,6 @@ def load_shared_portfolio(path):
     if path is None:
         raise PreventUpdate
 
-    print(path)
     porto_id = path.rsplit('/', 1)[1]
     try:
         porto_id = int(porto_id)
