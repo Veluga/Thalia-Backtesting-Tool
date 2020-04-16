@@ -113,7 +113,8 @@ def register_allocation_warning_message(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
             Output(f"confirm-allocation-{i}", "displayed"),
-            [Input("submit-btn", "n_clicks")],
+            [Input("submit-btn", "n_clicks"),
+             Input(f"save-portfolio-{i}", "n_clicks")],
             [State(f"memory-table-{i}", "data")],
         )(allocation_warning_message)
 
@@ -142,8 +143,8 @@ def register_tab_switch(dashapp):
     )(tab_switch)
 
 
-def allocation_warning_message(n_clicks, table_data):
-    if n_clicks is None or not table_data:
+def allocation_warning_message(submit_btn, save_btn, table_data):
+    if (submit_btn or save_btn) is None or not table_data:
         raise PreventUpdate
     for tkr in table_data:
         return any(tkr["Allocation"] == 0 for tkr in table_data)
