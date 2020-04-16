@@ -7,6 +7,7 @@ import multiprocessing
 
 from datetime import timedelta, datetime
 from decimal import Decimal
+from analyse_data import analyse_data as anda
 
 USER_DATA_DIR = os.path.join(os.path.dirname(__file__), "user-data/")
 TIME_FMT = "%Y-%m-%d %H:%M:%S"
@@ -14,6 +15,21 @@ TIME_FMT = "%Y-%m-%d %H:%M:%S"
 
 class FormattingError(Exception):
     pass
+
+
+def store_checked(encoded, timeout=timedelta(minutes=30)):
+    """
+    A wrapper for store that checks if the encoded file has at least a year of data.
+    Throws anda.InsufficientTimeframe if not.
+    """
+    handle = store(encoded, timeout=timeout)
+    recovered_dataframe = retrieve(handle)
+    begin = recovered_dataframe.index[0]
+    end = recovered_dataframe.index[-1]
+    if end - begin < timedelta(days=365):
+        raise anda.InsufficientTimeframe
+
+    return handle
 
 
 def store(encoded, timeout=timedelta(minutes=30)):

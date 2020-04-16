@@ -8,7 +8,7 @@ import time
 
 from datetime import timedelta, date
 from decimal import Decimal
-
+from analyse_data import analyse_data as anda
 
 def test_user_data():
     csv_data = (
@@ -36,3 +36,29 @@ def test_user_data():
     assert expected.equals(retrieved)
     time.sleep(4)
     assert empty == os.listdir(user_csv.USER_DATA_DIR)
+
+
+def test_short_data():
+    csv_data = (
+        "Date,Open,High,Low,Close\n"
+        "12/12/1980,0.51,0.50,0.51,0.51\n"
+        "15/12/1980,0.48,0.48,0.48,0.48\n"
+        "16/12/1980,0.45,0.45,0.45,0.45\n"
+    )
+    encoded = base64.b64encode(csv_data.encode("utf-8"))
+    with pytest.raises(anda.InsufficientTimeframe):
+        user_csv.store_checked(encoded)
+        pytest.fail("store_checked should reject short data")
+
+
+def test_unformatted_data():
+    bad_data = "vcnxzc\n"
+    encoded = base64.b64encode(bad_data.encode("utf-8"))
+ 
+    empty = os.listdir(user_csv.USER_DATA_DIR)
+
+    with pytest.raises(user_csv.FormattingError):
+        user_csv.store(encoded, timeout=timedelta(seconds=2))
+        pytest.fail("Exception should be raised when storing bad data.")
+    
+    assert empty == os.listdir(user_csv.USER_DATA_DIR), "Don't store bad files."
