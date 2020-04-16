@@ -144,7 +144,7 @@ def allocation_warning_message(n_clicks, table_data):
     if n_clicks is None or not table_data:
         raise PreventUpdate
     for tkr in table_data:
-        return any(int(tkr["Allocation"]) == 0 for tkr in table_data)
+        return any(Decimal(tkr["Allocation"]) == 0 for tkr in table_data)
 
 
 def check_date(start_date, end_date):
@@ -171,8 +171,9 @@ def tab_switch(n_clicks, *args):
 
         tkrs = args[3:]
         for tkr in tkrs:
-            if tkr and int(tkr[0]["Allocation"]) == 0:
-                raise PreventUpdate
+            if tkr:
+                if any(Decimal(tkr[i]["Allocation"]) == 0 for i in range(len(tkr))):
+                    raise PreventUpdate
 
     # Current tab + diasbled = False for all other
     return ["summary"] + [False] * (NO_TABS - 1)
@@ -368,7 +369,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             )
         )
 
-        if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
+        if any(Decimal(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
             raise PreventUpdate
 
         strategy = get_strategy(

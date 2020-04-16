@@ -13,6 +13,7 @@ def register_allocations_tab(dashapp):
     register_warning_csv(dashapp)
     register_user_data(dashapp)
     register_warning_message(dashapp)
+    register_warning_date_csv(dashapp)
 
 
 def register_table_callbacks(dashapp):
@@ -70,6 +71,14 @@ def register_warning_csv(dashapp):
         )(user_csv_warning)
 
 
+def register_warning_date_csv(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-csv-date-{i}", "displayed"),
+            [Input(f"upload-data-{i}", "contents")],
+        )(user_csv_date_warning)
+
+
 def warning_message(n_clicks, start_date, end_date, input_money, table):
     values = (start_date, end_date, input_money, table)
     if n_clicks:
@@ -118,18 +127,25 @@ def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_sta
 
 def user_csv_warning(contents):
     if contents is not None:
-        for c in contents:
-            content_type, content_string = c.split(",")
+        content_type, content_string = contents.split(",")
         try:
             user_csv.store(content_string)
         except user_csv.FormattingError:
             return True
 
 
+def user_csv_date_warning(contents):
+    if contents is not None:
+        content_type, content_string = contents.split(",")
+        try:
+            user_csv.store_checked(content_string)
+        except user_csv.anda.InsufficientTimeframe:
+            return True
+
+
 def update_output(list_of_contents, list_of_names):
     if list_of_contents is not None:
-        children = [user_data(c, n) for c, n in zip(list_of_contents, list_of_names)]
-        # assert len(children) == 1
+        children = [user_data(list_of_contents, list_of_names)]
         return children[0]
 
 
@@ -138,6 +154,10 @@ def user_data(contents, filename):
     try:
         handle = user_csv.store(content_string)
     except user_csv.FormattingError:
+        raise PreventUpdate
+    try:
+        handle = user_csv.store_checked(content_string)
+    except user_csv.anda.InsufficientTimeframe:
         raise PreventUpdate
     return [filename, handle]
 

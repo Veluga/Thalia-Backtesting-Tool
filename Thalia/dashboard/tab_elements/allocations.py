@@ -116,7 +116,7 @@ def select_dates():
 def initial_amount_of_money():
     return html.Div(
         [
-            html.I("Initial Amount"),
+            html.I("Initial Amount in $"),
             html.Br(),
             dcc.Input(
                 id="input-money",
@@ -134,7 +134,7 @@ def initial_amount_of_money():
 def contribution_amount(id):
     return html.Div(
         [
-            html.I("Contribution Amount"),
+            html.I("Contribution Amount in $"),
             html.Br(),
             dcc.Input(
                 id=f"input-contribution-{id}",
@@ -158,8 +158,8 @@ def contribution_dates(id):
                     {"label": "None", "value": "None"},
                     {"label": "Monthly", "value": "BM"},
                     {"label": "Quarterly", "value": "BQ"},
-                    {"label": "Annualy", "value": "BA"},
-                    {"label": "Semi-Annualy", "value": "6BM"},
+                    {"label": "Annually", "value": "BA"},
+                    {"label": "Semi-Annually", "value": "6BM"},
                 ],
             ),
             html.Div(id=f"output-contribution-dpp-{id}"),
@@ -178,8 +178,8 @@ def rebalancing_dates(id):
                     {"label": "None", "value": "None"},
                     {"label": "Monthly", "value": "BM"},
                     {"label": "Quarterly", "value": "BQ"},
-                    {"label": "Annualy", "value": "BA"},
-                    {"label": "Semi-Annualy", "value": "6BM"},
+                    {"label": "Annually", "value": "BA"},
+                    {"label": "Semi-Annually", "value": "6BM"},
                 ],
             ),
             html.Div(id=f"output-rebalancing-{id}"),
@@ -310,7 +310,6 @@ def upload_data(id):
                     "textAlign": "center",
                     "margin-left": "10px",
                 },
-                multiple=True,
             ),
             html.Div(id=f"output-data-upload-{id}"),
         ]
@@ -334,7 +333,11 @@ def options_wrapper():
         "Please make sure that there is at least one year between "
         "the start date and the end date"
     )
-    csv_format_msg = "The format you inputed in not compatible"
+    csv_format_msg = (
+        "The format you input is not compatible, please enter a csv with columns: "
+        "Date,Open,High,Low,Close\n in this format: 13/03/1986,100,105,99,103\n"
+    )
+    csv_date_msg = "Please enter a csv with at least a year of data"
 
     allocation_messages = (
         warning_message(f"confirm-allocation-{i}", zero_allocation_msg)
@@ -342,6 +345,10 @@ def options_wrapper():
     )
     csv_messages = (
         warning_message(f"confirm-csv-{i}", csv_format_msg)
+        for i in range(1, MAX_PORTFOLIOS + 1)
+    )
+    csv_date_messages = (
+        warning_message(f"confirm-csv-date-{i}", csv_date_msg)
         for i in range(1, MAX_PORTFOLIOS + 1)
     )
 
@@ -368,6 +375,7 @@ def options_wrapper():
             *allocation_messages,
             warning_message("confirm-date", short_timerange_msg),
             *csv_messages,
+            *csv_date_messages,
         ],
         id="portfolios-main",
     )
