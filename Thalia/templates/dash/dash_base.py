@@ -78,6 +78,8 @@ base_html = """
             {%config%}
             {%scripts%}
             {%renderer%}
+
+            </div>
         </footer>
         <div></div>
     </body>
