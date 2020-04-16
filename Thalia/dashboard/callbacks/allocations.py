@@ -111,7 +111,7 @@ def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data
     if n_clicks is None:
         raise PreventUpdate
 
-    if not table_data or any(int(tkr["Allocation"]) == 0 for tkr in table_data):
+    if not table_data or any(tkr["Allocation"] == 0 for tkr in table_data):
         raise PreventUpdate
 
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
@@ -190,8 +190,7 @@ def add_ticker(
 
     elif trigger.startswith("lazy-portfolios"):
         table_data = []
-        json_acceptable_string = lazy_portfolio.replace("'", '"')
-        lazy_dict = json.loads(json_acceptable_string)
+        lazy_dict = json.loads(lazy_portfolio)
         for asset in lazy_dict.values():
             if all(
                 asset["AssetTicker"] != existing["AssetTicker"]
@@ -210,7 +209,7 @@ def add_ticker(
 
     else:
         ticker, name = ticker_selected.split(" – ")
-        asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
+        asset = {"AssetTicker": ticker, "Name": name, "Allocation": 0}
 
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in table_data

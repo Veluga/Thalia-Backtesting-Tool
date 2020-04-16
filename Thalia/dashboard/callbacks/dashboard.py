@@ -146,7 +146,7 @@ def allocation_warning_message(n_clicks, table_data):
     if n_clicks is None or not table_data:
         raise PreventUpdate
     for tkr in table_data:
-        return any(int(tkr["Allocation"]) == 0 for tkr in table_data)
+        return any(tkr["Allocation"] == 0 for tkr in table_data)
 
 
 def check_date(start_date, end_date):
@@ -370,7 +370,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             )
         )
 
-        if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
+        if any(tkr["Allocation"] == 0 for tkr in args["Ticker Tables"][i]):
             raise PreventUpdate
 
         strategy = get_strategy(
