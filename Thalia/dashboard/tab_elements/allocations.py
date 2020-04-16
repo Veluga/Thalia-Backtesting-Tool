@@ -203,7 +203,10 @@ def lazy_portfolios(id):
 def portfolio_name(id):
     return html.Div(
         [
-            html.I(className="fas fa-edit fa-2x"),
+            html.Label(
+                html.Div(className="fas fa-pen fa-2x"), htmlFor=f"portfolio-name-{id}",
+                style={"float": "right"}
+            ),
             dcc.Input(
                 placeholder=f"Portfolio {id}",
                 type="text",
@@ -212,14 +215,17 @@ def portfolio_name(id):
                     "border-width": "0px",
                     "color": "#363636",
                     "font-size": "2rem",
+                    "height": "2.5rem",
                     "font-weight": "600",
                     "line-height": "1.125",
-                    "padding-bottom": "0.5cm",
+                    # "padding-bottom": "0.5cm"
                 },
                 id=f"portfolio-name-{id}",
+                # className="input"
             ),
         ],
-        className="column is-7 has-text-left",
+        className="column is-7 has-text-left input",
+        style={"height": "4rem"}
     )
 
 
@@ -243,12 +249,10 @@ def stored_portfolios_dropdown(id):
 
 
 def portfolio_management_div(id):
-    return (
-        html.Div(
-            [stored_portfolios_dropdown(id), save_portfolio_button(id)],
-            id=f"portfolio-management-{id}",
-            className="column is-3",
-        )
+    return html.Div(
+        [stored_portfolios_dropdown(id), save_portfolio_button(id)],
+        id=f"portfolio-management-{id}",
+        className="column is-3",
     )
 
 
