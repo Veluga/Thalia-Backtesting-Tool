@@ -48,12 +48,12 @@ base_html = """
                 More
             </a>
             <div class="navbar-dropdown">
-                <a class="navbar-item">
-                Contact
+                <a href="/us/" class="navbar-item">
+                About us
                 </a>
                 <hr class="navbar-divider">
                 <a href="/contact/" class="navbar-item">
-                Contact Us
+                Contact us
                 </a>
             </div>
             </div>
