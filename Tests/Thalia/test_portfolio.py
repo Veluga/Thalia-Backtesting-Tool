@@ -54,8 +54,8 @@ def test_storing_retrieving_portfolio(client):
     ), "Matching starting_balance"
     for i in range(len(retrieved_strat.assets)):
         assert (
-            strat.assets[i].weight - 0.01
+            strat.assets[i].weight*100 - 0.01
             <= retrieved_strat.assets[i].weight
-            <= strat.assets[i].weight + 0.01
+            <= strat.assets[i].weight*100 + 0.01
         )
     assert stored_portfolio.uuid is not None
