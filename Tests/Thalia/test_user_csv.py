@@ -47,7 +47,7 @@ def test_short_data():
     )
     encoded = base64.b64encode(csv_data.encode("utf-8"))
     with pytest.raises(anda.InsufficientTimeframe):
-        user_csv.store_checked(encoded)
+        user_csv.store_checked(encoded, timeout=timedelta(seconds=2))
         pytest.fail("store_checked should reject short data")
 
 
