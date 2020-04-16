@@ -3,6 +3,7 @@ import dash_core_components as dcc
 import dash_table
 from datetime import datetime as dt
 from dateutil.relativedelta import relativedelta
+
 from . import lazy_portfolio
 from .. import util
 from ..config import MAX_PORTFOLIOS
@@ -45,7 +46,7 @@ def ticker_table(id):
                 dash_table.DataTable(
                     id=f"memory-table-{id}",
                     columns=[
-                        {"name": "AssetTicker", "id": "AssetTicker", "type": "text",},
+                        {"name": "Ticker", "id": "AssetTicker", "type": "text"},
                         {"name": "Name", "id": "Name", "type": "text"},
                         {
                             "name": "Allocation",
@@ -92,7 +93,7 @@ def ticker_table(id):
 
 def ticker_selector(id):
     return html.Div(
-        [ticker_dropdown(id), ticker_table(id),],
+        [ticker_dropdown(id), ticker_table(id)],
         className="columns is-marginless is-multiline",
     )
 
@@ -150,7 +151,7 @@ def contribution_amount(id):
 def contribution_dates(id):
     return html.Div(
         [
-            html.I("Contribution frequency"),
+            html.I("Contribution Frequency"),
             html.Br(),
             dcc.Dropdown(
                 id=f"contribution-dropdown-{id}",
@@ -170,7 +171,7 @@ def contribution_dates(id):
 def rebalancing_dates(id):
     return html.Div(
         [
-            html.I("Rebalancing frequency"),
+            html.I("Rebalancing Frequency"),
             html.Br(),
             dcc.Dropdown(
                 id=f"rebalancing-dropdown-{id}",
@@ -192,7 +193,7 @@ def lazy_portfolios(id):
         html.Div(
             dcc.Dropdown(
                 id=f"lazy-portfolios-{id}",
-                placeholder="Lazy portfolio",
+                placeholder="Lazy Portfolio",
                 className="has-text-left",
                 options=lazy_portfolio.lazy_portfolio_options,
             ),

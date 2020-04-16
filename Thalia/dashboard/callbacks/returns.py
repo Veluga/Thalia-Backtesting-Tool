@@ -1,7 +1,8 @@
-import plotly.graph_objects as go
-from ..config import OFFICIAL_COLOURS
 import pandas as pd
 import dash_table
+import plotly.graph_objects as go
+
+from ..config import OFFICIAL_COLOURS
 
 
 def portfolios_figure(return_tab, no_portfolios):
@@ -34,8 +35,8 @@ def portfolios_figure(return_tab, no_portfolios):
         ]
     )
     annual_figure.update_layout(
-        xaxis_title="Time",
-        yaxis_title="Yearly Differences (%)",
+        xaxis_title="Year",
+        yaxis_title="Difference (%)",
         font=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
     )
     return annual_figure

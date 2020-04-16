@@ -1,6 +1,7 @@
 import dash_html_components as html
-from .elements import graph_box
 import dash_table
+
+from .elements import graph_box
 
 
 def drawdowns_table(id):
