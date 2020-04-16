@@ -1,11 +1,85 @@
 \documentclass[main.tex]{subfiles}
-\include{preamble.tex}
 
 \begin{document}
 
-\subsection{Appendix B - Maintenance Manual}
+\section{Appendix B - Maintenance Manual}
 \label{MaintenanceManual}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Please keep in mind that we wrote sections such as:
+
+> Early in the inception phase of development, we decided that our goal was not to have fixed responsibilities in our team, allowing everybody to work on each component of the system. This decision has also eased the code review process, as we had no status differences to distort the error-correcting mechanism \cite{statusdifference}.
+
+So maybe not go into much detail about our specializations...
+
+% Data Harvester Stuff. Please format appropriately
+\subsubsection{Maintenance Design}
+
+All the financial assets that the Data Harvester will retrieve data for are stored in a folder that contains a CSV file for each financial asset class, where the asset class name is the name of that CSV file. Each row of a CSV file will contain the ticker, the last and earliest record and the full name of an asset. If there is no data on the asset in the database, then the last and earliest records are left empty so that the Data Harvester will pull all available information on the first update of that asset.\newline
+
+\textbf{Logs\newline}
+\label{dhav_logs}
+
+An extensive logging mechanism that logs information from all running parts of the Data Harvester has been implemented. Logs should be consulted before and after making any modifications. All successful updating sessions have the following information:
+
+\begin{enumerate}
+    \item Date and time of when an update has started.
+    \item The name of the API currently being updated and how many calls are going to be made.
+    \item For each API call: 
+        \begin{itemize}
+        \item The asset class name, asset ticker and time range for the API call.
+        \item The type of data frame retrieved.  It is $<$class `pandas.core.frame.DataFrame`$>$ if the API returned that the call worked.
+        \item The time range in the data frame retrieved. The newest date always is the date of the last trading day for that asset.
+        \item The shape of the data frame before the interpolation.
+        \item The shape after the interpolation. For those assets that are traded every day, no new rows appear after the interpolation.
+        \item A message that we started writing the data frame to the database.
+    \end{itemize}
+    \item A message that the requested number of API calls has been done.
+    \item Repeated logs from point 2 if there are other APIs to be used or a log when the update has finished (i.e. if all APIs have been used).
+\end{enumerate}
+
+\textbf{Maintenance of the Assets:}
+
+\begin{itemize}
+    \item \textbf{Add/remove an asset class: }Create a new CSV file with the name of the asset class as a filename within the asset classes folder and add the columns in the following form:\newline
+    \begin{lstlisting}
+    Ticker,Last_Update,Earliest_Record,Name
+    \end{lstlisting}
+    It is important to remember to add the new asset class in the list of supported asset classes of the API that supports it.\newline
+    To remove an asset class, delete the respective CSV file and re-run the initialization script so that the asset class will be removed from the future updates. 
+    \item \textbf{Add/remove an asset: }Go into the asset class CSV file that contains the asset and add the required details under the correct columns.
+    At the end of the CSV asset class file, add a line containing the ticker and name of the asset.\newline
+    Example:
+    \begin{lstlisting}
+    Ticker,Last_Update,Earliest_Record,Name
+    SPY,,,S&P 500
+    \end{lstlisting}
+    To delete an asset, you simply have to remove the row that contains it.
+    
+    \item \textbf{Re-add an asset: } First check in the database for the last and earliest records. Then introduce a new row that contains them.
+\end{itemize}
+\textbf{Maintenance of the APIs:}
+\begin{itemize}
+    \item \textbf{Adding a new API: \newline}
+        The difficulty of adding a new API greatly varies. It depends on ease of API use for data access. As a general rule, the organisations that have financial incentives to provide functional APIs often have an easier integration process. On the other end, the governmental organisation or the NGOs that provide free data can have a lengthy implementation process.
+        
+        Here are the steps required for adding a new API.
+        \begin{enumerate}
+            \item Clearly outline the reason why you are adding the API. Is it for adding new assets that were not available before? Is it to replace an older API? Are you adding redundancy for a more reliable service?
+            In any of those cases, the appropriate adding and removing of assets and asset classes is required.
+            \item Add a wrapper to the API call so that it works with the updating mechanism. The updating mechanism passes an asset ticker, an asset class name and a time range for the dates it is requesting data for. In return, it expects a data frame with data from 1970-1-1 (in the case of assets that have been traded for a long time) or the first available date for newer ones. In the case that the API has no data on the requested ticker, the update mechanism expects single value 1. The call wrapper should have a name of the form `$<$api\_name$>$\_call`. 
+            \item Create a method that formats the data frame retrieved by the API. Use the format checker method from the API Handler class to verify whether your formatting is correct. 
+        \end{enumerate}
+    
+    \item \textbf{The API changes over time: }
+    While it is hard to predict what will change, we know that if any changes happen with the APIs, it will be seen from the logs. 
+    \begin{itemize}
+        \item \textbf{Format changes:} If the format of the data retrieved changes, then the format checker combined with the API logs will be able to tell what is the exact new format and what has to be changed and what the maintainer has to do to fix the problem.
+        \item \textbf{Network Errors:}  Depending on the error number, appropriate action should be taken. The network errors are match HTTP status codes.
+        \item \textbf{Empty data frame:} It is easy to see if the data frame retrieved is of the right size by looking at the logs. In this case, there is likely a problem with the API and extra work is required to find a solution.
+        \item \textbf{Malformed data:} This is hard to verify and unlikely to happen.  If an API is returning malformed data for all assets, then it should not be used for any further updates. If an API is working correctly but it provides bad data for one asset, then that asset should be removed. Depending on the combination of assets and API, one can check for malformed data by implementing cross-checks with multiple APIs for the same assets.
+        \item \textbf{APIs Internal Errors:} Verify the latest documentation and perform the required modifications of the calling methods. There is a good chance that our code is using an outdated version of the API.
+    \end{itemize}
+\end{itemize}
 
 
 \end{document}
