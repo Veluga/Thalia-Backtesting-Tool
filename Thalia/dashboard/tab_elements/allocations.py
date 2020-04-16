@@ -2,6 +2,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 import dash_table
 from datetime import datetime as dt
+from dateutil.relativedelta import relativedelta
 
 from . import lazy_portfolio
 from .. import util
@@ -79,7 +80,7 @@ def select_dates():
             dcc.DatePickerRange(
                 id="my-date-picker-range",
                 max_date_allowed=today,
-                start_date="1970-01-01",
+                start_date=today - relativedelta(years=5),
                 end_date=today,
             ),
             html.Div(id="date-picker-range-container"),
