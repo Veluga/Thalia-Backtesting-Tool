@@ -19,7 +19,8 @@
                     <p class="title has-text-centered">{{porto.name}}</p>
                     <hr> {% for asset in porto.strat.assets %}
                     <p class="subtitle" style="text-align:left;">
-                        {{asset.ticker}}
+                        {% set ticker = asset.ticker.split("|")[0] %}
+                        {{ticker}}
                         <span style="float:right;">
                         {{asset.weight}}%
                     </span>
