@@ -7,10 +7,30 @@
       }}
     </div>
 
+    {% if form.username.errors %}
+        <ul class="errors">
+        	{% for error in form.username.errors %}
+        		<li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <div class="column is-12">
       {{ form.password(placeholder="Password",class="input is-medium",
       type="password", size=32) }}
     </div>
+
+    {% if form.password.errors %}
+      {% if form.password.errors|length  > 1 %}
+        <ul class="errors register-errors">
+      {% else %}
+        <ul class="errors">
+    {% endif %}
+        	{% for error in form.password.errors %}
+            <li class="register-error-item">{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     <div class="column is-12">
       {{ form.confirm_password(placeholder="Confirm Password",class="input

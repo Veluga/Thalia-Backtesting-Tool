@@ -1,7 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
-from json import dump
 
 from .extensions import db
 from .forms import LoginForm, RegistrationForm, FeedbackForm
@@ -20,14 +19,15 @@ def index():
             return render_template(
                 "index.html", form=form, error=error, scroll="login_failed"
             )
-        elif form.password.data != form.confirm_password.data:
-            error = "passwords do not match"
-            return render_template(
-                "index.html", form=form, error=error, scroll="login_failed"
-            )
         else:
             save_user(form.username.data, form.password.data)
             return redirect(url_for("main.login"))
+
+    if form.is_submitted():
+        return render_template(
+            "index.html", form=form, scroll="login_failed"
+        )
+
     return render_template("index.html", title="Home Page", form=form)
 
 
@@ -59,8 +59,8 @@ def contact():
 @login_required
 def gallery():
     """
-    We extract relevant values from the portfolio record into a separate array 
-    as we can not overwrite the strategy attribute of a Portfolio record with a strategy object, 
+    We extract relevant values from the portfolio record into a separate array
+    as we can not overwrite the strategy attribute of a Portfolio record with a strategy object,
     since it is not JSON serializable.
     An unelegant workaround, but it works.
     """
@@ -134,9 +134,6 @@ def register():
     if form.validate_on_submit():
         if existing_username(form.username.data):
             error = "already registered"
-            return render_template("register.html", form=form, error=error)
-        elif form.password.data != form.confirm_password.data:
-            error = "passwords do not match"
             return render_template("register.html", form=form, error=error)
         else:
             save_user(form.username.data, form.password.data)
