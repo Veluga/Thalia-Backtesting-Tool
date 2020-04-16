@@ -6,7 +6,7 @@
         <div class="container">
             <div class="columns is-vcentered">
                 <div class="column has-text-centered">
-                    <p class="subtitle">It looks like you haven't saved any portfolios yet. Head to the <a href="{{ url_for('/dashboard/') }}">dashboard</a> to start backtesting.
+                    <p class="subtitle">It looks like you haven't saved any portfolios yet. Head to the <a href="{{ url_for('/dashboard/') }}" style=color:#f26a4b>dashboard</a> to start backtesting.
                     </p>
                 </div>
             </div>
@@ -19,8 +19,7 @@
                     <p class="title has-text-centered">{{porto.name}}</p>
                     <hr> {% for asset in porto.strat.assets %}
                     <p class="subtitle" style="text-align:left;">
-                        {% set ticker = asset.ticker.split("|")[0] %}
-                        {{ticker}}
+                        {% set ticker = asset.ticker.split("|")[0] %} {{ticker}}
                         <span style="float:right;">
                         {{asset.weight}}%
                     </span>

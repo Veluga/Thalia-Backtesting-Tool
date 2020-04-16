@@ -17,83 +17,58 @@ def ticker_dropdown(id):
         options.append({"value": tkr_name, "label": tkr_name})
 
     return html.Div(
-        html.Div(
-            [
-                html.Label("Ticker: ", className="label"),
-                html.Div(
-                    [
-                        dcc.Dropdown(
-                            id=f"memory-ticker-{id}",
-                            options=options,
-                            multi=False,
-                            className="",
-                        ),
-                    ],
-                    className="control",
+        [
+            html.I("Select an asset"),
+            html.Div(
+                dcc.Dropdown(
+                    id=f"memory-ticker-{id}",
+                    options=options,
+                    multi=False,
+                    className="",
                 ),
-            ],
-            className="field",
-        ),
-        className="column is-6 is-offset-3",
+                className="control",
+            ),
+        ],
+        className="field",
     )
 
 
 def ticker_table(id):
     return html.Div(
-        html.Div(
-            [
-                dash_table.DataTable(
-                    id=f"memory-table-{id}",
-                    columns=[
-                        {"name": "Ticker", "id": "AssetTicker", "type": "text"},
-                        {"name": "Name", "id": "Name", "type": "text"},
-                        {
-                            "name": "Allocation",
-                            "id": "Allocation",
-                            "type": "numeric",
-                            "editable": True,
-                        },
-                        {
-                            "name": "Handle",
-                            "id": "Handle",
-                            "type": "any",
-                            "visible": False,
-                        },
-                    ],
-                    hidden_columns=["Handle"],
-                    row_deletable=True,
-                    css=[{"selector": ".show-hide", "rule": "display: none"}],
-                    style_data_conditional=[
-                        {
-                            "if": {"row_index": "odd"},
-                            "backgroundColor": "rgb(248, 248, 248)",
-                        },
-                        {
-                            "if": {
-                                "column_id": "Allocation",
-                                "filter_query": "{Allocation} > 100",
-                            },
-                            "backgroundColor": "#f26a4b",
-                            "color": "white",
-                        },
-                    ],
-                    style_header={
-                        "backgroundColor": "rgb(230, 230, 230)",
-                        "fontWeight": "bold",
-                    },
-                    style_cell_conditional=[{"textAlign": "center"}],
-                )
+        dash_table.DataTable(
+            id=f"memory-table-{id}",
+            columns=[
+                {"name": "Ticker", "id": "AssetTicker", "type": "text"},
+                {"name": "Name", "id": "Name", "type": "text"},
+                {
+                    "name": "Allocation",
+                    "id": "Allocation",
+                    "type": "numeric",
+                    "editable": True,
+                },
+                {"name": "Handle", "id": "Handle", "type": "any", "visible": False,},
             ],
-            className="section",
+            hidden_columns=["Handle"],
+            row_deletable=True,
+            css=[{"selector": ".show-hide", "rule": "display: none"}],
+            style_data_conditional=[
+                {"if": {"row_index": "odd"}, "backgroundColor": "rgb(248, 248, 248)",},
+                {
+                    "if": {
+                        "column_id": "Allocation",
+                        "filter_query": "{Allocation} > 100",
+                    },
+                    "backgroundColor": "#f26a4b",
+                    "color": "white",
+                },
+            ],
+            style_header={
+                "backgroundColor": "rgb(230, 230, 230)",
+                "fontWeight": "bold",
+            },
+            style_cell_conditional=[{"textAlign": "center"}],
         ),
-        className="column is-4 is-offset-4",
-    )
-
-
-def ticker_selector(id):
-    return html.Div(
-        [ticker_dropdown(id), ticker_table(id)],
-        className="columns is-marginless is-multiline",
+        style={"padding-top": "25px"},
     )
 
 
@@ -188,15 +163,20 @@ def rebalancing_dates(id):
 
 
 def lazy_portfolios(id):
-    return (
-        html.Div(
-            dcc.Dropdown(
-                id=f"lazy-portfolios-{id}",
-                placeholder="Lazy Portfolio",
-                className="has-text-left",
-                options=lazy_portfolio.lazy_portfolio_options,
+    return html.Div(
+        [
+            html.I("Feeling lazy?"),
+            html.Div(
+                dcc.Dropdown(
+                    id=f"lazy-portfolios-{id}",
+                    placeholder="Lazy Portfolio",
+                    className="has-text-left",
+                    options=lazy_portfolio.lazy_portfolio_options,
+                ),
+                className="control",
             ),
-        ),
+        ],
+        className="field",
     )
 
 
@@ -230,25 +210,26 @@ def save_portfolio_button(id):
                 "Save portfolio", id=f"save-portfolio-{id}", className="button"
             ),
             html.Div(id=f"save-portfolio-success-{id}"),
-        ]
+        ],
+        className="has-text-centered",
+        style={"padding-top": "10px"},
     )
 
 
 def stored_portfolios_dropdown(id):
-    return dcc.Dropdown(
-        id=f"stored-portfolios-{id}",
-        placeholder="Saved portfolios",
-        className="has-text-left",
-    )
-
-
-def portfolio_management_div(id):
-    return (
-        html.Div(
-            [stored_portfolios_dropdown(id), save_portfolio_button(id)],
-            id=f"portfolio-management-{id}",
-            className="column is-3",
-        )
+    return html.Div(
+        [
+            html.I("Or want to select from your previous portfolios?"),
+            html.Div(
+                dcc.Dropdown(
+                    id=f"stored-portfolios-{id}",
+                    placeholder="Saved portfolios",
+                    className="has-text-left",
+                ),
+                className="control",
+            ),
+        ],
+        className="field",
     )
 
 
@@ -258,15 +239,30 @@ def options(id, visibility):
             html.Div(
                 [
                     portfolio_name(id),
-                    portfolio_management_div(id),
-                    html.Div(
-                        lazy_portfolios(id), className="column is-2 has-text-right"
-                    ),
                     html.Div(contribution_amount(id), className="column is-12"),
                     html.Div(contribution_dates(id), className="column is-12"),
                     html.Div(rebalancing_dates(id), className="column is-12"),
-                    html.Div(ticker_selector(id), className="column is-12"),
-                    html.Div(upload_data(id), className="column is-12"),
+                    html.Div(html.Hr(), className="column is-12"),
+                    html.Div(
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        ticker_dropdown(id),
+                                        upload_data(id),
+                                        html.Hr(style={"background-color": "grey"}),
+                                        lazy_portfolios(id),
+                                        stored_portfolios_dropdown(id),
+                                        save_portfolio_button(id),
+                                    ],
+                                    className="column is-4",
+                                ),
+                                html.Div([ticker_table(id),], className="column is-8"),
+                            ],
+                            className="columns",
+                        ),
+                        className="column is-12",
+                    ),
                 ],
                 className="columns is-multiline",
             )
@@ -325,20 +321,25 @@ def upload_data(id):
                         className="fa fa-question-circle",
                     ),
                 ],
+                className="has-text-centered",
                 style={"margin": "10px"},
             ),
             dcc.Upload(
                 id=f"upload-data-{id}",
-                children=html.Div(["Drag and Drop or ", html.A("Select Files ")]),
+                children=html.Div(
+                    [
+                        "Drag and Drop or ",
+                        html.A("Select Files ", style={"color": "#f26a4b"}),
+                    ]
+                ),
                 style={
-                    "width": "20%",
+                    "width": "100%",
                     "height": "60px",
                     "lineHeight": "60px",
                     "borderWidth": "1px",
                     "borderStyle": "dashed",
                     "borderRadius": "5px",
                     "textAlign": "center",
-                    "margin-left": "10px",
                 },
                 multiple=True,
             ),
