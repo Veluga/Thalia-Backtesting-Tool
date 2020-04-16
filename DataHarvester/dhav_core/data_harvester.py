@@ -120,7 +120,7 @@ class DataHarvester:
             return "full_circle"
         # for first update there is no date written in the update list so the ticker has NaN value
         if pd.isna(ticker_under_index["Last_Update"]):
-            start_date = "1970-1-1"
+            start_date = "2008-1-1"
         else:
             # get the date from the list
             start_date = ticker_under_index["Last_Update"]

@@ -3,4 +3,4 @@ import time
 
 while True:
     run_me()
-    time.sleep(1200)
+    time.sleep(10)
