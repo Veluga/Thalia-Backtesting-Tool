@@ -44,7 +44,7 @@ lazy_portfolio_options = [
     {
         "label": "Total World Equities",
         "value": """
-    {"Asset1": {"AssetTicker": "VT", "Name": "VANGUARD INTL E/TOTAL WORLD" "Allocation": 100}}
+    {"Asset1": {"AssetTicker": "VT", "Name": "VANGUARD INTL E/TOTAL WORLD", "Allocation": 100}}
     """,
     },
 ]
