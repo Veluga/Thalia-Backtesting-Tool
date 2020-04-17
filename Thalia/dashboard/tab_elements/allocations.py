@@ -204,8 +204,7 @@ def portfolio_name(id):
     return html.Div(
         [
             html.Label(
-                html.Div(className="fas fa-pen fa-2x"), htmlFor=f"portfolio-name-{id}",
-                style={"float": "right"}
+                html.Div(className="fas fa-pen fa-2x"),
             ),
             dcc.Input(
                 placeholder=f"Portfolio {id}",
@@ -249,8 +248,14 @@ def stored_portfolios_dropdown(id):
 
 
 def portfolio_management_div(id):
+    error_message = ("You already have a portfolio with the same name stored"
+                     "Please select a new one and try again")
     return html.Div(
-        [stored_portfolios_dropdown(id), save_portfolio_button(id)],
+        [
+            warning_message(f"portfolio-management-error-{id}", error_message),
+            stored_portfolios_dropdown(id),
+            save_portfolio_button(id),
+        ],
         id=f"portfolio-management-{id}",
         className="column is-3",
     )

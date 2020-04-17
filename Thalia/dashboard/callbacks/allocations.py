@@ -24,8 +24,7 @@ def register_allocations_tab(dashapp):
 
 def register_url_reading(dashapp):
     dashapp.callback(
-        Output("stored-portfolios-1", "value"),
-        [Input("page-location-url", "pathname")]
+        Output("stored-portfolios-1", "value"), [Input("page-location-url", "pathname")]
     )(load_shared_portfolio)
 
 
@@ -33,7 +32,7 @@ def load_shared_portfolio(path):
     if path is None:
         raise PreventUpdate
 
-    porto_id = path.rsplit('/', 1)[1]
+    porto_id = path.rsplit("/", 1)[1]
     try:
         porto_id = int(porto_id)
     except ValueError:
@@ -100,9 +99,7 @@ def load_stored_portfolio(portfolio_id):
     assets = []
     for tkr in strat.assets:
         ticker, name = tkr.ticker.split("|")
-        assets.append(
-            {"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight}
-        )
+        assets.append({"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight})
     return assets, porto.name
 
 
@@ -119,9 +116,19 @@ def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data
     allocations = [tkr["Allocation"] for tkr in table_data]
     normalise(allocations)
     tickers = (f"{tkr['AssetTicker']}|{tkr['Name']}" for tkr in table_data)
-    store_portfolio(start_date, end_date, input_money, name, zip(tickers, allocations))
 
-    return f"Portfolio {name} saved"
+    success = store_portfolio(
+        start_date, end_date, input_money, name, zip(tickers, allocations)
+    )
+    if success:
+        message = f"Portfolio {name} saved"
+    else:
+        message = (
+            f"You already have a portfolio called {name},"
+            " please rename the portfolio and try again"
+        )
+
+    return message
 
 
 def register_user_data(dashapp):

@@ -7,9 +7,13 @@ from analyse_data.analyse_data import Strategy, Asset
 
 
 def store_portfolio(start_date, end_date, starting_balance, name, table):
+    success = True
     strat = Strategy(start_date, end_date, starting_balance, [], [], None, [])
 
     strat.assets = [Asset(tkr, allocation, pd.DataFrame()) for tkr, allocation in table]
+
+    if Portfolio.query.filter_by(name=name).scalar() is not None:
+        success = False
 
     porto = Portfolio()
     porto.set_strategy(strat)
@@ -19,6 +23,8 @@ def store_portfolio(start_date, end_date, starting_balance, name, table):
 
     db.session.add(porto)
     db.session.commit()
+
+    return success
 
 
 def retrieve_portfolio(portfolio_id):
