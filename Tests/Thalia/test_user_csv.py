@@ -51,6 +51,21 @@ def test_short_data():
         pytest.fail("store_checked should reject short data")
 
 
+def test_non_calandar_year():
+    csv_data = (
+        "Date,Open,High,Low,Close\n"
+        "12/12/1980,0.513393,0.515625,0.513393,0.513393\n"
+        "15/12/1980,0.488839,0.488839,0.486607,0.486607\n"
+        "16/12/1980,0.453125,0.453125,0.450893,0.450893\n"
+        "17/12/1980,0.462054,0.464286,0.462054,0.462054\n"
+        "17/12/1981,0.462054,0.464286,0.462054,0.462054\n"
+    )
+    encoded = base64.b64encode(csv_data.encode("utf-8"))
+    with pytest.raises(anda.InsufficientTimeframe):
+        user_csv.store_checked(encoded, timeout=timedelta(seconds=2))
+        pytest.fail("store_checked should reject data that doesn't include a full calandar year.")
+
+
 def test_unformatted_data():
     bad_data = "vcnxzc\n"
     encoded = base64.b64encode(bad_data.encode("utf-8"))
