@@ -55,3 +55,11 @@ ul>li {
 #gallery-ancestor .is-parent:hover {
   cursor: pointer;
 }
+
+.register-errors {
+  list-style: disc;
+}
+
+.register-container {
+  color: white;
+}

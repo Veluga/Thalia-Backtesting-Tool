@@ -16,13 +16,17 @@ def test_register(client):
     with client as c:
         c.post(
             "/register",
-            data={"username": "a", "password": "a", "confirm_password": "a"},
+            data={
+                "username": "new_user",
+                "password": "helloworld@2",
+                "confirm_password": "helloworld@2",
+            },
             follow_redirects=True,
         )
         assert request.path == "/login/"
 
     # test that the user was inserted into the database
-    assert User.query.filter_by(username="a").first() is not None
+    assert User.query.filter_by(username="new_user").first() is not None
 
 
 @pytest.mark.parametrize(
@@ -61,10 +65,10 @@ def test_register_prevent_duplicates(client, default_user):
 def test_register_validate_input(client):
     response = client.post(
         "/register",
-        data={"username": "foo", "password": "bar", "confirm_password": "baz2312313"},
+        data={"username": "foo", "password": "bar", "confirm_password": "baz!2312313"},
         follow_redirects=True,
     )
-    assert b"passwords do not match" in response.data
+    assert b"Passwords must match" in response.data
 
 
 def test_login(client, auth, default_user):
