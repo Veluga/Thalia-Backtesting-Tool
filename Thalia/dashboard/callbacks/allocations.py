@@ -196,31 +196,27 @@ def add_ticker(
     else:
         trigger = ctx.triggered[0]["prop_id"].split(".")[0]
 
+    # load complete portfolio
     if trigger.startswith("stored-portfolios"):
         table_data, portfolio_name = load_stored_portfolio(saved_portfolio)
 
     elif trigger.startswith("lazy-portfolios"):
-        table_data = []
-        lazy_dict = json.loads(lazy_portfolio)
-        for asset in lazy_dict.values():
-            if all(
-                asset["AssetTicker"] != existing["AssetTicker"]
-                for existing in table_data
-            ):
-                table_data.append(asset)
+        table_data = list(json.loads(lazy_portfolio).values())
 
-    elif trigger.startswith("output-data-upload"):
-        filename = user_supplied_csv[0]
-        handle = user_supplied_csv[1]
-        asset = {
-            "AssetTicker": filename,
-            "Handle": handle,
-            "Allocation": "0",
-        }
-
+    # load single asset
     else:
-        ticker, name = ticker_selected.split(" – ")
-        asset = {"AssetTicker": ticker, "Name": name, "Allocation": 0}
+        if trigger.startswith("output-data-upload"):
+            filename = user_supplied_csv[0]
+            handle = user_supplied_csv[1]
+            asset = {
+                "AssetTicker": filename,
+                "Handle": handle,
+                "Allocation": "0",
+            }
+
+        else:
+            ticker, name = ticker_selected.split(" – ")
+            asset = {"AssetTicker": ticker, "Name": name, "Allocation": 0}
 
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in table_data
