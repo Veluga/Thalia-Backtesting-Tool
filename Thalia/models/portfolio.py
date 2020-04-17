@@ -55,7 +55,7 @@ class Portfolio(db.Model):
             [],
         )
         strat.assets = [
-            Asset(a["ticker"], Decimal(a["weight"]).quantize(PENNY), None, None,)
+            Asset(a["ticker"], Decimal(a["weight"]*100).quantize(PENNY), None, None,)
             for a in stripped_strat["assets"]
         ]
         return strat

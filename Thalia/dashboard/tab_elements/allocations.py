@@ -2,6 +2,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 import dash_table
 from datetime import datetime as dt
+from dateutil.relativedelta import relativedelta
 
 from . import lazy_portfolio
 from .. import util
@@ -104,7 +105,7 @@ def select_dates():
             dcc.DatePickerRange(
                 id="my-date-picker-range",
                 max_date_allowed=today,
-                start_date="1970-01-01",
+                start_date=today - relativedelta(years=5),
                 end_date=today,
             ),
             html.Div(id="date-picker-range-container"),
@@ -203,7 +204,11 @@ def lazy_portfolios(id):
 def portfolio_name(id):
     return html.Div(
         [
-            html.I(className="fas fa-edit fa-2x"),
+            html.Label(
+                html.Div(className="fas fa-pen fa-2x"),
+                htmlFor=f"portfolio-name-{id}",
+                style={"float": "right"},
+            ),
             dcc.Input(
                 placeholder=f"Portfolio {id}",
                 type="text",
@@ -212,14 +217,40 @@ def portfolio_name(id):
                     "border-width": "0px",
                     "color": "#363636",
                     "font-size": "2rem",
+                    "height": "2.5rem",
                     "font-weight": "600",
                     "line-height": "1.125",
-                    "padding-bottom": "0.5cm",
+                    # "padding-bottom": "0.5cm"
                 },
                 id=f"portfolio-name-{id}",
+                # className="input"
             ),
+            html.Div(id=f"save-portfolio-success-{id}", style={"padding": "0.6rem"}),
         ],
-        className="column is-10 has-text-left",
+        className="column is-7 has-text-left",
+        style={"height": "4rem"},
+    )
+
+
+def save_portfolio_button(id):
+    return html.Div(
+        [html.Button("Save portfolio", id=f"save-portfolio-{id}", className="button"),]
+    )
+
+
+def stored_portfolios_dropdown(id):
+    return dcc.Dropdown(
+        id=f"stored-portfolios-{id}",
+        placeholder="Saved portfolios",
+        className="has-text-left",
+    )
+
+
+def portfolio_management_div(id):
+    return html.Div(
+        [stored_portfolios_dropdown(id), save_portfolio_button(id),],
+        id=f"portfolio-management-{id}",
+        className="column is-3",
     )
 
 
@@ -229,6 +260,7 @@ def options(id, visibility):
             html.Div(
                 [
                     portfolio_name(id),
+                    portfolio_management_div(id),
                     html.Div(
                         lazy_portfolios(id), className="column is-2 has-text-right"
                     ),

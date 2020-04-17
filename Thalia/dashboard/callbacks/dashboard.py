@@ -1,17 +1,19 @@
+from datetime import datetime
+from decimal import Decimal
+
 import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-from decimal import Decimal
-from datetime import datetime
-from .returns import update_table, portfolios_figure
+
 from analyse_data import analyse_data as anda
 
 from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
 from ..strategy import get_strategy
-from .summary import get_pie_charts, get_yearly_differences_graph
-from .metrics import get_table_data, combine_cols
 from .drawdowns import get_drawdowns_tables
+from .metrics import combine_cols, get_table_data
+from .returns import portfolios_figure, update_table
+from .summary import get_pie_charts, get_yearly_differences_graph
 
 
 def register_dashboard(dashapp):
@@ -67,7 +69,7 @@ def register_update_dashboard(dashapp):
             Output(f"box-Start Date-{i}", "children"),
             Output(f"box-End Date-{i}", "children"),
             Output(f"box-Initial Investment-{i}", "children"),
-            Output(f"box-End Balance-{i}", "children"),
+            Output(f"box-Final Balance-{i}", "children"),
             Output(f"box-Difference in Best Year-{i}", "children"),
             Output(f"box-Difference in Worst Year-{i}", "children"),
             Output(f"box-Best Year-{i}", "children"),
@@ -111,7 +113,7 @@ def register_allocation_warning_message(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
             Output(f"confirm-allocation-{i}", "displayed"),
-            [Input("submit-btn", "n_clicks")],
+            [Input("submit-btn", "n_clicks"), Input(f"save-portfolio-{i}", "n_clicks")],
             [State(f"memory-table-{i}", "data")],
         )(allocation_warning_message)
 
@@ -140,11 +142,11 @@ def register_tab_switch(dashapp):
     )(tab_switch)
 
 
-def allocation_warning_message(n_clicks, table_data):
-    if n_clicks is None or not table_data:
+def allocation_warning_message(submit_btn, save_btn, table_data):
+    if (submit_btn or save_btn) is None or not table_data:
         raise PreventUpdate
     for tkr in table_data:
-        return any(Decimal(tkr["Allocation"]) == 0 for tkr in table_data)
+        return any(tkr["Allocation"] == 0 for tkr in table_data)
 
 
 def check_date(start_date, end_date):
@@ -374,7 +376,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             )
         )
 
-        if any(Decimal(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
+        if any(tkr["Allocation"] == 0 for tkr in args["Ticker Tables"][i]):
             raise PreventUpdate
 
         strategy = get_strategy(

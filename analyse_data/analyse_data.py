@@ -324,7 +324,7 @@ def _drawdown_periods(drawdown: pd.Series) -> List[pd.DataFrame]:
 def drawdown_summary(drawdown: pd.Series) -> pd.DataFrame:
     """
     Input: the return value of drawdowns().
-    
+
     Output: a dataframe with columns:
         Drawdown: float (negative percentage)
         Start: datetime
