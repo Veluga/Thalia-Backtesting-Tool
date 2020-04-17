@@ -62,7 +62,10 @@ def register_table_callbacks(dashapp):
 def register_save_portfolio(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
-            Output(f"save-portfolio-success-{i}", "children"),
+            [
+                Output(f"save-portfolio-success-{i}", "children"),
+                Output(f"save-portfolio-success-{i}", "className"),
+            ],
             [Input(f"save-portfolio-{i}", "n_clicks")],
             [
                 State("my-date-picker-range", "start_date"),
@@ -122,13 +125,15 @@ def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data
     )
     if success:
         message = f"Portfolio {name} saved"
+        notification_type = "notification is-success"
     else:
         message = (
             f"You already have a portfolio called {name},"
             " please rename the portfolio and try again"
         )
+        notification_type = "notification is-warning"
 
-    return message
+    return message, notification_type
 
 
 def register_user_data(dashapp):
