@@ -205,9 +205,8 @@ def portfolio_name(id):
                 id=f"portfolio-name-{id}",
                 # className="input"
             ),
-            html.Div(id=f"save-portfolio-success-{id}", style={"padding": "0.6rem"}),
         ],
-        className="column is-7 has-text-left",
+        className="column is-5 has-text-left",
         style={"height": "4rem"},
     )
 
@@ -215,10 +214,10 @@ def portfolio_name(id):
 def save_portfolio_button(id):
     return html.Div(
         [
+            html.Div(id=f"save-portfolio-success-{id}"),
             html.Button(
                 "Save portfolio", id=f"save-portfolio-{id}", className="button"
             ),
-            html.Div(id=f"save-portfolio-success-{id}"),
         ],
         className="has-text-centered",
         style={"padding-top": "10px"},
