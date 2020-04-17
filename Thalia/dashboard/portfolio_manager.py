@@ -11,6 +11,9 @@ def store_portfolio(start_date, end_date, starting_balance, name, table):
 
     strat.assets = [Asset(tkr, allocation, pd.DataFrame()) for tkr, allocation in table]
 
+    if Portfolio.query.filter_by(name=name, owner=current_user.id).first() is not None:
+        return False
+
     porto = Portfolio()
     porto.set_strategy(strat)
     porto.shared = False
@@ -19,6 +22,9 @@ def store_portfolio(start_date, end_date, starting_balance, name, table):
 
     db.session.add(porto)
     db.session.commit()
+
+    return True
+
 
 
 def retrieve_portfolio(portfolio_id):

@@ -134,8 +134,8 @@ def contribution_dates(id):
                     {"label": "None", "value": "None"},
                     {"label": "Monthly", "value": "BM"},
                     {"label": "Quarterly", "value": "BQ"},
-                    {"label": "Annualy", "value": "BA"},
-                    {"label": "Semi-Annualy", "value": "6BM"},
+                    {"label": "Annually", "value": "BA"},
+                    {"label": "Semi-Annually", "value": "6BM"},
                 ],
             ),
             html.Div(id=f"output-contribution-dpp-{id}"),
@@ -154,8 +154,8 @@ def rebalancing_dates(id):
                     {"label": "None", "value": "None"},
                     {"label": "Monthly", "value": "BM"},
                     {"label": "Quarterly", "value": "BQ"},
-                    {"label": "Annualy", "value": "BA"},
-                    {"label": "Semi-Annualy", "value": "6BM"},
+                    {"label": "Annually", "value": "BA"},
+                    {"label": "Semi-Annually", "value": "6BM"},
                 ],
             ),
             html.Div(id=f"output-rebalancing-{id}"),
@@ -184,7 +184,11 @@ def lazy_portfolios(id):
 def portfolio_name(id):
     return html.Div(
         [
-            html.I(className="fas fa-edit fa-2x"),
+            html.Label(
+                html.Div(className="fas fa-pen fa-2x"),
+                htmlFor=f"portfolio-name-{id}",
+                style={"float": "right"},
+            ),
             dcc.Input(
                 placeholder=f"Portfolio {id}",
                 type="text",
@@ -193,14 +197,18 @@ def portfolio_name(id):
                     "border-width": "0px",
                     "color": "#363636",
                     "font-size": "2rem",
+                    "height": "2.5rem",
                     "font-weight": "600",
                     "line-height": "1.125",
-                    "padding-bottom": "0.5cm",
+                    # "padding-bottom": "0.5cm"
                 },
                 id=f"portfolio-name-{id}",
+                # className="input"
             ),
+            html.Div(id=f"save-portfolio-success-{id}", style={"padding": "0.6rem"}),
         ],
         className="column is-7 has-text-left",
+        style={"height": "4rem"},
     )
 
 

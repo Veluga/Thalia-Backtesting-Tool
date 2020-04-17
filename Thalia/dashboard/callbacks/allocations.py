@@ -24,8 +24,7 @@ def register_allocations_tab(dashapp):
 
 def register_url_reading(dashapp):
     dashapp.callback(
-        Output("stored-portfolios-1", "value"),
-        [Input("page-location-url", "pathname")]
+        Output("stored-portfolios-1", "value"), [Input("page-location-url", "pathname")]
     )(load_shared_portfolio)
 
 
@@ -33,7 +32,7 @@ def load_shared_portfolio(path):
     if path is None:
         raise PreventUpdate
 
-    porto_id = path.rsplit('/', 1)[1]
+    porto_id = path.rsplit("/", 1)[1]
     try:
         porto_id = int(porto_id)
     except ValueError:
@@ -63,7 +62,10 @@ def register_table_callbacks(dashapp):
 def register_save_portfolio(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
-            Output(f"save-portfolio-success-{i}", "children"),
+            [
+                Output(f"save-portfolio-success-{i}", "children"),
+                Output(f"save-portfolio-success-{i}", "className"),
+            ],
             [Input(f"save-portfolio-{i}", "n_clicks")],
             [
                 State("my-date-picker-range", "start_date"),
@@ -100,9 +102,7 @@ def load_stored_portfolio(portfolio_id):
     assets = []
     for tkr in strat.assets:
         ticker, name = tkr.ticker.split("|")
-        assets.append(
-            {"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight}
-        )
+        assets.append({"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight})
     return assets, porto.name
 
 
@@ -113,15 +113,35 @@ def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data
     if not table_data or any(tkr["Allocation"] == 0 for tkr in table_data):
         raise PreventUpdate
 
+    if any(tkr.get("Handle") for tkr in table_data):
+        message = (
+            f"You can not save portfolios with your own uploaded assets,"
+            " please remove the asset before saving"
+        )
+        notification_type = "notification is-warning"
+        return message, notification_type
+
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
 
     allocations = [tkr["Allocation"] for tkr in table_data]
     normalise(allocations)
     tickers = (f"{tkr['AssetTicker']}|{tkr['Name']}" for tkr in table_data)
-    store_portfolio(start_date, end_date, input_money, name, zip(tickers, allocations))
 
-    return f"Portfolio {name} saved"
+    success = store_portfolio(
+        start_date, end_date, input_money, name, zip(tickers, allocations)
+    )
+    if success:
+        message = f"Portfolio {name} saved"
+        notification_type = "notification is-success"
+    else:
+        message = (
+            f"You already have a portfolio called {name},"
+            " please rename the portfolio and try again"
+        )
+        notification_type = "notification is-warning"
+
+    return message, notification_type
 
 
 def register_user_data(dashapp):
@@ -184,31 +204,27 @@ def add_ticker(
     else:
         trigger = ctx.triggered[0]["prop_id"].split(".")[0]
 
+    # load complete portfolio
     if trigger.startswith("stored-portfolios"):
         table_data, portfolio_name = load_stored_portfolio(saved_portfolio)
 
     elif trigger.startswith("lazy-portfolios"):
-        table_data = []
-        lazy_dict = json.loads(lazy_portfolio)
-        for asset in lazy_dict.values():
-            if all(
-                asset["AssetTicker"] != existing["AssetTicker"]
-                for existing in table_data
-            ):
-                table_data.append(asset)
+        table_data = list(json.loads(lazy_portfolio).values())
 
-    elif trigger.startswith("output-data-upload"):
-        filename = user_supplied_csv[0]
-        handle = user_supplied_csv[1]
-        asset = {
-            "AssetTicker": filename,
-            "Handle": handle,
-            "Allocation": "0",
-        }
-
+    # load single asset
     else:
-        ticker, name = ticker_selected.split(" – ")
-        asset = {"AssetTicker": ticker, "Name": name, "Allocation": 0}
+        if trigger.startswith("output-data-upload"):
+            filename = user_supplied_csv[0]
+            handle = user_supplied_csv[1]
+            asset = {
+                "AssetTicker": filename,
+                "Handle": handle,
+                "Allocation": "0",
+            }
+
+        else:
+            ticker, name = ticker_selected.split(" – ")
+            asset = {"AssetTicker": ticker, "Name": name, "Allocation": 0}
 
         if all(
             asset["AssetTicker"] != existing["AssetTicker"] for existing in table_data
