@@ -14,14 +14,15 @@
         {% else %}
         <div id="gallery-ancestor" class="tile is-ancestor">
             {% for porto in portfolios %}
-            <div onclick="window.location = '{{ url_for('/dashboard/') }}?id={{porto.id}}'" class="tile is-parent is-4">
+            <div onclick="window.location = '{{ url_for('/dashboard/') }}/{{porto.id}}'" class="tile is-parent is-4">
                 <article class="tile is-child box" style="background-color:#feedd0">
                     <p class="title has-text-centered">{{porto.name}}</p>
                     <hr> {% for asset in porto.strat.assets %}
                     <p class="subtitle" style="text-align:left;">
-                        {{asset.ticker}}
+                        {% set ticker = asset.ticker.split("|")[0] %}
+                        {{ticker}}
                         <span style="float:right;">
-                        {{asset.weight * 100 }}%
+                        {{asset.weight}}%
                     </span>
                     </p>
                     {% endfor %}
