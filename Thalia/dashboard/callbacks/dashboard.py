@@ -150,14 +150,17 @@ def allocation_warning_message(submit_btn, save_btn, table_data):
 
 
 def check_date(start_date, end_date):
+    """
+    Returns True if the dates are far enough apart for anda to make use of them properly,
+    False if not.
+    """
     real_end_date = datetime.strptime(end_date, "%Y-%m-%d")
     real_start_date = datetime.strptime(start_date, "%Y-%m-%d")
     if (real_end_date - real_start_date).days < 365:
         return True
 
     date_range_jans = pd.date_range(real_start_date, real_end_date, freq="D")
-    if len(anda._jan_firsts(date_range_jans)) < 2:
-        return True
+    return len(anda._jan_firsts(date_range_jans)) < 2
 
 
 def date_warning_message(n_clicks, start_date, end_date):
