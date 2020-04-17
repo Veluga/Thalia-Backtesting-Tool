@@ -9,7 +9,7 @@ from dash.exceptions import PreventUpdate
 from analyse_data import analyse_data as anda
 
 from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
-from ..strategy import get_strategy
+from ..strategy import get_strategy, get_assets
 from .drawdowns import get_drawdowns_tables
 from .metrics import combine_cols, get_table_data
 from .returns import portfolios_figure, update_table
@@ -21,7 +21,7 @@ def register_dashboard(dashapp):
     register_update_dashboard(dashapp)
 
     # Register tab switch upon submit
-    register_tab_switch(dashapp)
+    # register_tab_switch(dashapp)
 
     # register error message for allocations
     register_allocation_warning_message(dashapp)
@@ -41,6 +41,15 @@ def register_update_dashboard(dashapp):
     ]
 
     outputs = [
+        Output("tabs", "value"),
+        Output("summary", "disabled"),
+        Output("metrics", "disabled"),
+        Output("returns", "disabled"),
+        Output("drawdowns", "disabled"),
+        Output("assets", "disabled"),
+        Output("overfitting", "disabled"),
+        Output(f"portfoliosuccess", "children"),
+        Output(f"portfoliosuccess", "className"),
         # Portfolio Growth Graph
         Output(f"main-graph", "figure"),
         # Returns tab
@@ -113,8 +122,7 @@ def register_allocation_warning_message(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
             Output(f"confirm-allocation-{i}", "displayed"),
-            [Input("submit-btn", "n_clicks"),
-             Input(f"save-portfolio-{i}", "n_clicks")],
+            [Input("submit-btn", "n_clicks"), Input(f"save-portfolio-{i}", "n_clicks")],
             [State(f"memory-table-{i}", "data")],
         )(allocation_warning_message)
 
@@ -176,6 +184,8 @@ def tab_switch(n_clicks, *args):
         for tkr in tkrs:
             if tkr and int(tkr[0]["Allocation"]) == 0:
                 raise PreventUpdate
+
+        raise PreventUpdate
 
     # Current tab + diasbled = False for all other
     return ["summary"] + [False] * (NO_TABS - 1)
@@ -373,18 +383,25 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
         if any(tkr["Allocation"] == 0 for tkr in args["Ticker Tables"][i]):
             raise PreventUpdate
-
-        strategy = get_strategy(
-            tickers,
-            proportions,
-            handles,
-            start_date,
-            end_date,
-            Decimal(input_money),
-            contribution_amount,
-            contribution_dates,
-            rebalancing_dates,
-        )
+        try:
+            strategy = get_strategy(
+                tickers,
+                proportions,
+                handles,
+                start_date,
+                end_date,
+                Decimal(input_money),
+                contribution_amount,
+                contribution_dates,
+                rebalancing_dates,
+            )
+        except:
+            message = f"dates"
+            notification_type = "notification is-warning"
+            raise PreventUpdate
+        else:
+            message = f"all good"
+            notification_type = "notification is-warning"
 
         total_returns = anda.total_return(strategy)
         metrics = get_table_data(strategy, total_returns, portfolio_name)
@@ -461,4 +478,10 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     to_return = [main_graph, returns_table, annual_returns, drawdowns_graph] + to_return
     to_return += [table_cols, table_data, portfolio_params]
-    return to_return
+    return (
+        ["summary"]
+        + [False] * (NO_TABS - 1)
+        + [message]
+        + [notification_type]
+        + to_return
+    )

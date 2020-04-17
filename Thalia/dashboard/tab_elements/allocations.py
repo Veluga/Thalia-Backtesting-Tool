@@ -281,12 +281,15 @@ def options(id, visibility):
 
 def submit_button():
     return html.Div(
-        html.Button(
-            "Submit",
-            "submit-btn",
-            className="button is-large is-primary",
-            style={"background-color": "#f26a4b"},
-        ),
+        [
+            html.Div(id=f"portfoliosuccess", style={"padding": "0.6rem"}),
+            html.Button(
+                "Submit",
+                "submit-btn",
+                className="button is-large is-primary",
+                style={"background-color": "#f26a4b"},
+            ),
+        ],
         className="container has-text-centered",
     )
 
