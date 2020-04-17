@@ -125,7 +125,15 @@ We also wanted to take pride in our project and sign our work, following the adv
 
 \subsubsection{My Portfolios Page}
 
-The `My Portfolios` page is only accessible for authenticated users. Here, the user may view their saved portfolios with their asset allocations and load them by clicking the corresponding boxes. Upon loading a portfolio, the user will find themselves on the Dashboard. 
+The `My Portfolios` Page is only accessible for authenticated users. Here, the user may view their saved portfolios with their asset allocations. If you are running Thalia for the first time, this page will be empty, encouraging you to go and create a portfolio.
+To create a portfolio, simply head to the dashboard and allocate your assets following the instructions in \ref{create_portfolio}. Before submitting your investment strategy, make sure to save it for later. You can achieve this by clicking on the default portfolio name and changing it to something more fitting. Then, use the `Save Portfolio` button. When you next visit the `My Portfolios` Page, you can see the portfolio and its associated asset weights. Clicking on the box will take you back to the dashboard. The corresponding allocations will already be loaded to the table. Alternatively, you can select any of your previously saved portfolios directly from the dashboard by using the dropdown menu and selecting your chosen portfolio.
+
+The following image shows the aforementioned page with some example portfolios saved.
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=\textwidth]{08Appendices/081User/081Pictures/my_portfolios.png}
+   \caption{My Portfolios - Example (source: http://thaliabacktest.xyz/gallery/)}
+\end{figure}
 
 \subsection{Running a Backtest}
 
@@ -162,6 +170,8 @@ Let us now consider each tab individually.
 
 \subsubsection{Ticker Selector}
 
+\label{create_portfolio}
+
 Here, the user is required to input their backtesting strategy. As Thalia supports testing multiple portfolios at once (currently up to 5), there are input fields which are portfolio specific and others that are not. The latter consists only of:
 
 \begin{itemize}
@@ -180,7 +190,7 @@ The first two of these are standard date-selectors, but also allow for typing th
     \item Asset Allocations: Discussed below.
 \end{itemize}
 
-The last one is the most crucial information in a strategy. First, the user selects the desired asset from the dropdown menu. The menu item also allows for typing in order to find an asset faster. The selected item is then added to the table below.
+The last one is the most crucial information in a strategy. First, the user selects the desired asset from the dropdown menu. The menu item also allows for typing in order to find an asset faster. The selected item is then added into the table below.
 
 \begin{figure}[H]
    \centering
