@@ -8,7 +8,7 @@ def get_table_data(strat, total_return, portfolio_name):
     returns = total_return
     table = [
         {"Metric": "Initial Balance", portfolio_name: returns[strat.dates[0]]},
-        {"Metric": "End Balance", portfolio_name: returns[strat.dates[-1]]},
+        {"Metric": "Final Balance", portfolio_name: returns[strat.dates[-1]]},
     ]
     try:
         # We can't use append here because we want the table
@@ -21,9 +21,7 @@ def get_table_data(strat, total_return, portfolio_name):
                 portfolio_name: round(anda.max_drawdown(strat), 2),
             },
         ]
-        table = table + [
-            {"Metric": "CAGR", portfolio_name: round(anda.cagr(strat), 2)}
-        ]
+        table = table + [{"Metric": "CAGR", portfolio_name: round(anda.cagr(strat), 2)}]
         table = table + [
             {
                 "Metric": "Sortino Ratio",

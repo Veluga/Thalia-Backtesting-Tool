@@ -67,7 +67,7 @@ def register_update_dashboard(dashapp):
             Output(f"box-Start Date-{i}", "children"),
             Output(f"box-End Date-{i}", "children"),
             Output(f"box-Initial Investment-{i}", "children"),
-            Output(f"box-End Balance-{i}", "children"),
+            Output(f"box-Final Balance-{i}", "children"),
             Output(f"box-Difference in Best Year-{i}", "children"),
             Output(f"box-Difference in Worst Year-{i}", "children"),
             Output(f"box-Best Year-{i}", "children"),
