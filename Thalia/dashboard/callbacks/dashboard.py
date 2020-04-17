@@ -148,15 +148,20 @@ def allocation_warning_message(n_clicks, table_data):
 
 
 def check_date(start_date, end_date):
-    return (
-        datetime.strptime(end_date, "%Y-%m-%d")
-        - datetime.strptime(start_date, "%Y-%m-%d")
-    ).days < 365
+    real_end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    real_start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    if (real_end_date - real_start_date).days < 365:
+        return True
+
+    date_range_jans = pd.date_range(real_start_date, real_end_date, freq="D")
+    if len(anda._jan_firsts(date_range_jans)) < 2:
+        return True
 
 
 def date_warning_message(n_clicks, start_date, end_date):
     if n_clicks is None or start_date is None or end_date is None:
         raise PreventUpdate
+
     if n_clicks:
         return check_date(start_date, end_date)
 

@@ -26,7 +26,13 @@ def store_checked(encoded, timeout=timedelta(minutes=30)):
     recovered_dataframe = retrieve(handle)
     begin = recovered_dataframe.index[0]
     end = recovered_dataframe.index[-1]
+    jan_firsts_list = [
+        d for d in pd.date_range(begin, end, freq="D") if d.month == d.day == 1
+    ]
     if end - begin < timedelta(days=365):
+        raise anda.InsufficientTimeframe
+    date_range_jans = pd.date_range(begin, end, freq="D")
+    if len(anda._jan_firsts(date_range_jans)) < 2:
         raise anda.InsufficientTimeframe
 
     return handle

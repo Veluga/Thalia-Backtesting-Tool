@@ -329,15 +329,14 @@ def options_wrapper():
         "the first portfolio!"
     )
     zero_allocation_msg = "Please make sure that allocation is not zero for any ticker!"
-    short_timerange_msg = (
-        "Please make sure that there is at least one year between "
-        "the start date and the end date"
-    )
+    short_timerange_msg = "You need at least one full calendar year (Jan. 1 to Jan. 1)."
     csv_format_msg = (
         "The format you input is not compatible, please enter a csv with columns: "
         "Date,Open,High,Low,Close\n in this format: 13/03/1986,100,105,99,103\n"
     )
-    csv_date_msg = "Please enter a csv with at least a year of data"
+    csv_date_msg = (
+        "Please enter a csv with at least one full calendar year (Jan. 1 to Jan. 1)."
+    )
 
     allocation_messages = (
         warning_message(f"confirm-allocation-{i}", zero_allocation_msg)
