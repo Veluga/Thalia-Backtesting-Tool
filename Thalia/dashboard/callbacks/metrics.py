@@ -22,6 +22,9 @@ def get_table_data(strat, total_return, portfolio_name):
             },
         ]
         table = table + [
+            {"Metric": "CAGR", portfolio_name: round(anda.cagr(strat), 2)}
+        ]
+        table = table + [
             {
                 "Metric": "Sortino Ratio",
                 portfolio_name: round(anda.sortino_ratio(strat, None), 2),

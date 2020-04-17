@@ -19,7 +19,7 @@ def test_storing_retrieving_portfolio(client):
 
     # Dummy strategy
     strat = Strategy(
-        date(2019, 2, 1),
+        date(2011, 2, 1),
         date(2019, 12, 1),
         10000,
         [],
