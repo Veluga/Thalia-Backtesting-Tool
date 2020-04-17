@@ -113,6 +113,14 @@ def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data
     if not table_data or any(tkr["Allocation"] == 0 for tkr in table_data):
         raise PreventUpdate
 
+    if any(tkr.get("Handle") for tkr in table_data):
+        message = (
+            f"You can not save portfolios with your own uploaded assets,"
+            " please remove the asset before saving"
+        )
+        notification_type = "notification is-warning"
+        return message, notification_type
+
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
 
