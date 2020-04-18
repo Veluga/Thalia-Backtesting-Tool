@@ -83,7 +83,7 @@ def ticker_table(id):
                         "fontWeight": "bold",
                     },
                     style_cell_conditional=[{"textAlign": "center"}],
-                )
+                ),
             ],
             className="section",
         ),
@@ -146,6 +146,10 @@ def contribution_amount(id):
             html.Div(id=f"output-contribution-{id}"),
         ]
     )
+
+
+def show_error_ticker_timeframe():
+    return html.Div(html.Div(id=f"portfoliosuccess", style={"padding": "0.6rem"}))
 
 
 def contribution_dates(id):
@@ -282,7 +286,6 @@ def options(id, visibility):
 def submit_button():
     return html.Div(
         [
-            html.Div(id=f"portfoliosuccess", style={"padding": "0.6rem"}),
             html.Button(
                 "Submit",
                 "submit-btn",
@@ -391,6 +394,7 @@ def options_wrapper():
                 ],
                 id="portfolios-container",
             ),
+            show_error_ticker_timeframe(),
             add_portfolio_button(),
             html.Br(),
             submit_button(),

@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-
+from dash import no_update
 from analyse_data import analyse_data as anda
 
 from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
@@ -14,6 +14,7 @@ from .drawdowns import get_drawdowns_tables
 from .metrics import combine_cols, get_table_data
 from .returns import portfolios_figure, update_table
 from .summary import get_pie_charts, get_yearly_differences_graph
+import sys
 
 
 def register_dashboard(dashapp):
@@ -395,93 +396,99 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
                 contribution_dates,
                 rebalancing_dates,
             )
-        except:
-            message = f"dates"
+        except IndexError:
+            message = f"The dates for the selected ticker do
+            not exist for the selected timeframe!"
             notification_type = "notification is-warning"
-            raise PreventUpdate
+            tabs_to_switch = ["allocations"] + [True] * (NO_TABS - 1)
+            to_return += [no_update] * (87)
+
         else:
-            message = f"all good"
+            tabs_to_switch = ["summary"] + [False] * (NO_TABS - 1)
+            message = f"your backtest was run successfully!"
             notification_type = "notification is-warning"
+            total_returns = anda.total_return(strategy)
+            metrics = get_table_data(strategy, total_returns, portfolio_name)
+            table_data = combine_cols(table_data, metrics)
+            table_cols.append({"name": portfolio_name, "id": portfolio_name})
 
-        total_returns = anda.total_return(strategy)
-        metrics = get_table_data(strategy, total_returns, portfolio_name)
-        table_data = combine_cols(table_data, metrics)
-        table_cols.append({"name": portfolio_name, "id": portfolio_name})
-
-        # Store portfolio paramaters for overfitting test
-        portfolio_params.append(
-            {
-                "name": portfolio_name,
-                "tickers": tickers,
-                "proportions": proportions,
-                "input_money": input_money,
-                "contribution_amount": contribution_amount,
-                "contribution_dates": args["Contribution Frequencies"][i],
-                "rebalancing_dates": args["Rebalancing Frequencies"][i],
-                "sharpe": metrics[-1],
-                "sortino": metrics[-2],
-            }
-        )
-
-        # Add Portfolio Trace to Main Graph
-        main_graph.add_trace(
-            get_trace(
-                total_returns.index,
-                total_returns,
-                name=str(portfolio_name),
-                color=OFFICIAL_COLOURS[i],
+            # Store portfolio paramaters for overfitting test
+            portfolio_params.append(
+                {
+                    "name": portfolio_name,
+                    "tickers": tickers,
+                    "proportions": proportions,
+                    "input_money": input_money,
+                    "contribution_amount": contribution_amount,
+                    "contribution_dates": args["Contribution Frequencies"][i],
+                    "rebalancing_dates": args["Rebalancing Frequencies"][i],
+                    "sharpe": metrics[-1],
+                    "sortino": metrics[-2],
+                }
             )
-        )
 
-        # Visibility
-        to_return.append({"display": "block"})
-
-        # Box of Metrics
-        to_return += get_box_of_metrics(portfolio_name, strategy, table_data)
-
-        # Yearly Differences Graph
-        annual_figure = get_yearly_differences_graph(
-            portfolio_name,
-            anda.relative_yearly_returns(strategy),
-            strategy.dates[0],
-            strategy.dates[-1],
-        )
-
-        to_return.append(annual_figure)
-
-        returns_tab_data.append(
-            [anda.relative_yearly_returns(strategy), portfolio_name, total_returns],
-        )
-
-        # Pie Charts
-        to_return += get_pie_charts(tickers, proportions)
-
-        # Drawdowns Table
-        drawdowns = anda.drawdowns(total_returns)
-        to_return += get_drawdowns_tables(portfolio_name, drawdowns)
-
-        # Add trace to Drawdowns Graph
-        drawdowns_graph.add_trace(
-            get_trace(
-                drawdowns.index,
-                drawdowns,
-                name=str(portfolio_name),
-                color=OFFICIAL_COLOURS[i],
+            # Add Portfolio Trace to Main Graph
+            main_graph.add_trace(
+                get_trace(
+                    total_returns.index,
+                    total_returns,
+                    name=str(portfolio_name),
+                    color=OFFICIAL_COLOURS[i],
+                )
             )
-        )
 
-    # Data for the hidden divs
-    to_return += hidden_divs_data(no_portfolios)
-    # Returns tab
-    returns_table = update_table(returns_tab_data, no_portfolios)
-    annual_returns = portfolios_figure(returns_tab_data, no_portfolios)
+            # Visibility
+            to_return.append({"display": "block"})
 
-    to_return = [main_graph, returns_table, annual_returns, drawdowns_graph] + to_return
-    to_return += [table_cols, table_data, portfolio_params]
-    return (
-        ["summary"]
-        + [False] * (NO_TABS - 1)
-        + [message]
-        + [notification_type]
-        + to_return
-    )
+            # Box of Metrics
+            to_return += get_box_of_metrics(portfolio_name, strategy, table_data)
+
+            # Yearly Differences Graph
+            annual_figure = get_yearly_differences_graph(
+                portfolio_name,
+                anda.relative_yearly_returns(strategy),
+                strategy.dates[0],
+                strategy.dates[-1],
+            )
+
+            to_return.append(annual_figure)
+
+            returns_tab_data.append(
+                [anda.relative_yearly_returns(strategy), portfolio_name, total_returns],
+            )
+
+            # Pie Charts
+            to_return += get_pie_charts(tickers, proportions)
+
+            # Drawdowns Table
+            drawdowns = anda.drawdowns(total_returns)
+            to_return += get_drawdowns_tables(portfolio_name, drawdowns)
+
+            # Add trace to Drawdowns Graph
+            drawdowns_graph.add_trace(
+                get_trace(
+                    drawdowns.index,
+                    drawdowns,
+                    name=str(portfolio_name),
+                    color=OFFICIAL_COLOURS[i],
+                )
+            )
+
+            # Data for the hidden divs
+    print(len(to_return), file=sys.stdout)
+    if len(to_return) < 86:
+        to_return += hidden_divs_data(no_portfolios)
+        # Returns tab
+        returns_table = update_table(returns_tab_data, no_portfolios)
+        annual_returns = portfolios_figure(returns_tab_data, no_portfolios)
+
+        to_return = [
+            main_graph,
+            returns_table,
+            annual_returns,
+            drawdowns_graph,
+        ] + to_return
+        to_return += [table_cols, table_data, portfolio_params]
+    else:
+        to_return = [no_update] * 87
+    return tabs_to_switch + [message] + [notification_type] + to_return

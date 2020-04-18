@@ -1,7 +1,6 @@
 from analyse_data import analyse_data as anda
 
 from . import user_csv, util
-from dash.exceptions import PreventUpdate
 
 
 def get_strategy(
@@ -38,6 +37,7 @@ def get_strategy(
         for ticker, weight, handle in user_assets
     ]
     all_asset_data = user_supplied_data + thalia_data
+
     real_start_date = max(asset.values.index[0] for asset in all_asset_data)
     real_end_date = min(asset.values.index[-1] for asset in all_asset_data)
 
