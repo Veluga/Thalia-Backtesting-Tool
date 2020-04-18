@@ -1,37 +1,80 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="hero is-fullheight-with-navbar">
-    <div class="section">
-        {% if not portfolios %}
-        <div class="container">
-            <div class="columns is-vcentered">
-                <div class="column has-text-centered">
-                    <p class="subtitle">It looks like you haven't saved any portfolios yet. Head to the <a href="{{ url_for('/dashboard/') }}">dashboard</a> to start backtesting.
-                    </p>
-                </div>
-            </div>
+  <div class="section">
+    {% if not portfolios %}
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column has-text-centered">
+          <p class="subtitle">
+            It looks like you haven't saved any portfolios yet. Head to the
+            <a href="{{ url_for('/dashboard/') }}">dashboard</a> to start
+            backtesting.
+          </p>
         </div>
-        {% else %}
-        <div id="gallery-ancestor" class="tile is-ancestor">
-            {% for porto in portfolios %}
-            <div onclick="window.location = '{{ url_for('/dashboard/') }}/{{porto.id}}'" class="tile is-parent is-4">
-                <article class="tile is-child box" style="background-color:#feedd0">
-                    <p class="title has-text-centered">{{porto.name}}</p>
-                    <hr> {% for asset in porto.strat.assets %}
-                    <p class="subtitle" style="text-align:left;">
-                        {% set ticker = asset.ticker.split("|")[0] %}
-                        {{ticker}}
-                        <span style="float:right;">
-                        {{asset.weight}}%
-                    </span>
-                    </p>
-                    {% endfor %}
-                </article>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+      </div>
     </div>
+    {% else %}
+    <div id="gallery-ancestor" class="tile is-ancestor">
+      {% for porto in portfolios %}
+      <div class="tile is-parent is-4">
+        <!-- <button> onclick="share_portfolio({{porto.id}}, this)">Share</> -->
+        <article class="tile is-child box" style="background-color: #feedd0;">
+          <p class="title has-text-centered">{{porto.name}}</p>
+          <button
+            class="button"
+            onclick="window.location = '{{ url_for('/dashboard/') }}/{{porto.id}}'"
+          >
+            Open
+          </button>
+          <div class="button share-btn" data-portfolio="{{porto.id}}">
+            Make Public
+          </div>
+          {% if porto.link %}
+          <div class="columns">
+          {% else %}
+          <div
+            id="public-link-div-{{porto.id}}"
+           class="columns is-hidden">
+          {% endif %}
+            <!-- Target -->
+            <div class="column is-four-fifths">
+              <input
+                id="public-link-{{porto.id}}"
+                value="{{porto.link}}"
+                class="input"
+                readonly
+              />
+            </div>
+            <div class="column">
+              <!-- Trigger -->
+              <button
+                class="button btn"
+                data-clipboard-target="#public-link-{{porto.id}}"
+              >
+                <i class="fa fa-clipboard" alt="Copy to clipboard"></i>
+              </button>
+            </div>
+          </div>
+          <hr />
+          {% for asset in porto.strat.assets %}
+          <p class="subtitle" style="text-align: left;">
+            {% set ticker = asset.ticker.split("|")[0] %} {{ticker}}
+            <span style="float: right;">
+              {{asset.weight}}%
+            </span>
+          </p>
+          {% endfor %}
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
 </div>
 
+<script
+  type="text/javascript"
+  src="{{url_for('static', filename='scripts/share-porto.js')}}"
+></script>
 {% endblock %}

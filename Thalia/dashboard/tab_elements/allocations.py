@@ -344,7 +344,6 @@ def upload_data(id):
                 },
                 multiple=True,
             ),
-            html.Div(id=f"output-data-upload-{id}"),
         ]
     )
 
