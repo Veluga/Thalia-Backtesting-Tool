@@ -79,6 +79,7 @@ def select_dates():
         [
             dcc.DatePickerRange(
                 id="my-date-picker-range",
+                display_format="DD/MM/YYYY",
                 max_date_allowed=today,
                 start_date=today - relativedelta(years=5),
                 end_date=today,
@@ -92,7 +93,7 @@ def select_dates():
 def initial_amount_of_money():
     return html.Div(
         [
-            html.I("Initial Amount"),
+            html.I("Initial Amount in $"),
             html.Br(),
             dcc.Input(
                 id="input-money",
@@ -110,7 +111,7 @@ def initial_amount_of_money():
 def contribution_amount(id):
     return html.Div(
         [
-            html.I("Contribution Amount"),
+            html.I("Contribution Amount in $"),
             html.Br(),
             dcc.Input(
                 id=f"input-contribution-{id}",
@@ -349,7 +350,6 @@ def upload_data(id):
                     "borderRadius": "5px",
                     "textAlign": "center",
                 },
-                multiple=True,
             ),
             html.Div(id=f"output-data-upload-{id}"),
         ]
@@ -369,9 +369,13 @@ def options_wrapper():
         "the first portfolio!"
     )
     zero_allocation_msg = "Please make sure that allocation is not zero for any ticker!"
-    short_timerange_msg = (
-        "Please make sure that there is at least one year between "
-        "the start date and the end date"
+    short_timerange_msg = "You need at least one full calendar year (Jan. 1 to Jan. 1)."
+    csv_format_msg = (
+        "The format you input is not compatible, please enter a csv with columns: "
+        "Date,Open,High,Low,Close\n in this format: 13/03/1986,100,105,99,103\n"
+    )
+    csv_date_msg = (
+        "Please enter a csv with at least one full calendar year (Jan. 1 to Jan. 1)."
     )
     timeframe_overlap_msg = (
         "The dates for the selected ticker do not exist for the selected timeframe!"
@@ -379,6 +383,14 @@ def options_wrapper():
 
     allocation_messages = (
         warning_message(f"confirm-allocation-{i}", zero_allocation_msg)
+        for i in range(1, MAX_PORTFOLIOS + 1)
+    )
+    csv_messages = (
+        warning_message(f"confirm-csv-{i}", csv_format_msg)
+        for i in range(1, MAX_PORTFOLIOS + 1)
+    )
+    csv_date_messages = (
+        warning_message(f"confirm-csv-date-{i}", csv_date_msg)
         for i in range(1, MAX_PORTFOLIOS + 1)
     )
 
@@ -405,6 +417,8 @@ def options_wrapper():
             *allocation_messages,
             warning_message("confirm-date", short_timerange_msg),
             warning_message("timeframe_bug", timeframe_overlap_msg),
+            *csv_messages,
+            *csv_date_messages,
             html.Div(html.Button(id="exceptions-btn"), style={"display": "none"}),
         ],
         id="portfolios-main",
