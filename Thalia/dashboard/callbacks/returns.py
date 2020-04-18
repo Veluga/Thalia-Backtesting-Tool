@@ -39,6 +39,12 @@ def portfolios_figure(return_tab, no_portfolios):
         yaxis_title="Difference (%)",
         font=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
     )
+
+    years = len(df)
+    # If only 6 years of data show every year on the x axis
+    if years <= 6:
+        annual_figure.update_xaxes(dtick=1)
+    # Else let Dash figure it out
     return annual_figure
 
 
