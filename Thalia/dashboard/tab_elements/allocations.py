@@ -79,6 +79,7 @@ def select_dates():
         [
             dcc.DatePickerRange(
                 id="my-date-picker-range",
+                display_format="DD/MM/YYYY",
                 max_date_allowed=today,
                 start_date=today - relativedelta(years=5),
                 end_date=today,
