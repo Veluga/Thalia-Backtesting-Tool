@@ -26,6 +26,7 @@ def register_dashboard(dashapp):
     # register error message for allocations
     register_allocation_warning_message(dashapp)
     register_date_warning_message(dashapp)
+    register_overlap_timeframe(dashapp)
 
 
 def register_update_dashboard(dashapp):
@@ -111,6 +112,13 @@ def register_date_warning_message(dashapp):
     )(date_warning_message)
 
 
+def register_overlap_timeframe(dashapp):
+    dashapp.callback(
+        Output("timeframe_bug", "displayed"),
+        [Input("exceptions-btn", "exception_clicks")],
+    )(timeframe_overlap_warning)
+
+
 def register_allocation_warning_message(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
@@ -142,6 +150,11 @@ def register_tab_switch(dashapp):
         ]
         + [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(tab_switch)
+
+
+def timeframe_overlap_warning(n_clicks):
+    if n_clicks:
+        return True
 
 
 def allocation_warning_message(submit_btn, save_btn, table_data):
