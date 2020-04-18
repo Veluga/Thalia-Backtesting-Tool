@@ -401,6 +401,7 @@ def options_wrapper():
             warning_message("confirm-1", missing_params_warning_msg),
             *allocation_messages,
             warning_message("confirm-date", short_timerange_msg),
+            html.Div(html.Button(id="exceptions-btn"), style={"display": "none"}),
         ],
         id="portfolios-main",
     )
