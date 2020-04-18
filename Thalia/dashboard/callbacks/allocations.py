@@ -237,7 +237,7 @@ def add_ticker(
             asset = {
                 "AssetTicker": filename,
                 "Handle": handle,
-                "Allocation": "0",
+                "Allocation": 0,
             }
 
         else:
