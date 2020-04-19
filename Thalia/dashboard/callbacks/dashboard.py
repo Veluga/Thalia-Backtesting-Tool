@@ -401,7 +401,6 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
 
         # Store portfolio paramaters for overfitting test
-        print(args["Ticker Tables"][i])
         portfolio_params.append(
             {
                 "name": portfolio_name,

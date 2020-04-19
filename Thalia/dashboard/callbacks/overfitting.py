@@ -46,36 +46,49 @@ def update_overfitting(overfit_btn, portfolio_data):
         raise PreventUpdate
 
     overfitted_names = []
+    udata_names = []
     for portfolio in portfolio_data:
         if portfolio["has_user_uploaded"]:
-            message = (
-                f"You can not test for overfitting with your own uploaded assets,"
-                " please remove the asset and try again."
-            )
-            return html.Div(
-                children=message,
-                className="notification is-danger",
-                )
-        '''
-        if check_overfitting(portfolio):
+            udata_names.append(portfolio["name"])
+        elif check_overfitting(portfolio):
             overfitted_names.append(portfolio["name"])
-        '''
 
-    if len(overfitted_names) == 0:
+    udata_portfolios = html.Ul([html.Li(pname) for pname in udata_names])
+    overfitted_portfolios = html.Ul([html.Li(pname) for pname in overfitted_names])
+
+    if ((len(overfitted_names) == 0) and (len(udata_names) == 0)):
         return html.Div(
             children="We have not detected overfitting in any of your portfolios.",
             className="notification is-info",
         )
-    else:
-        overfitted_portfolios = html.Ul([html.Li(pname) for pname in overfitted_names])
+    elif(len(overfitted_names) == 0):
         return html.Div(
             children=[
-                "WARNING: We have detected overfitting on the folowing simulations: ",
+                "Although no overfitting was detected, the following portfolio(s) contain \
+                 user uploaded assets and therefore couldn't be checked: \n",
+                udata_portfolios,
+            ],
+            className="notification is-warning"
+        )
+    elif(len(udata_names) == 0):
+        return html.Div(
+            children=[
+                "WARNING: We have detected overfitting on the folowing simulations: \n",
                 overfitted_portfolios,
             ],
             className="notification is-warning",
         )
-
+    else:
+        return html.Div(
+            children=[
+                "WARNING: We have detected overfitting on the folowing simulations: \n",
+                overfitted_portfolios,
+                "Additionally the following portfolio(s) contained user uploaded assets \
+                and therefore couldn't be checked: \n",
+                udata_portfolios,
+            ],
+            className="notification is-warning",
+        )
 
 def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     """
@@ -109,3 +122,15 @@ def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     return (old_sharpe > new_sharpe + Decimal(sharpe_threshold)) or (
         old_sortino > new_sortino + Decimal(sortino_threshold)
     )
+
+'''
+
+            message = (
+                f"You can not test for overfitting with your own uploaded assets,"
+                " please remove the asset and try again."
+            )
+            return html.Div(
+                children=message,
+                className="notification is-danger",
+                )
+'''
