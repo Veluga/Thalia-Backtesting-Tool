@@ -49,6 +49,7 @@ class Strategy:
         self.contribution_amount = contribution_amount
         self.rebalancing_dates = rebalancing_dates
 
+        # Caches for expensive repeated calculations.
         self.returns = None
         self.annual_returns = None
 
@@ -119,6 +120,7 @@ def total_return(strat) -> pd.Series:
         balance = _calc_balance(investments, asset_vals_today)
         ret.at[day] = balance
 
+    strat.returns = ret
     return ret
 
 
@@ -217,9 +219,12 @@ def relative_yearly_returns(strat: Strategy) -> pd.Series:
         (returns.at[next_year] / returns.at[this_year]) - Decimal("1")
         for this_year, next_year in zip(year_begins, year_begins[1:])
     ]
-    return pd.Series(
+
+    ret = pd.Series(
         [x * Decimal("100") for x in rel_diffs], index=year_begins[:-1], dtype=object
     )
+    strat.annual_returns = ret
+    return ret
 
 
 def best_year(strat: Strategy) -> Decimal:
