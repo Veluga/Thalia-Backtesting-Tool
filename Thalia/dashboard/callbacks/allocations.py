@@ -97,9 +97,9 @@ def update_first_portfolio(
             ticker_selected,
             lazy_portfolio,
             saved_portfolio,
-            table_data,
             user_csv,
             filename,
+            table_data
         )
     return results
 
@@ -235,7 +235,7 @@ def warning_message(n_clicks, start_date, end_date, input_money, table):
 
 
 def update_portfolio(
-    ticker_selected, lazy_portfolio, saved_portfolio, table_data, user_csv, filename,
+    ticker_selected, lazy_portfolio, saved_portfolio, user_csv, filename, table_data
 ):
     """
     Filters the selected tickers from the dropdown menu.
