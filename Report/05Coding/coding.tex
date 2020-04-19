@@ -136,7 +136,7 @@ As this problem persisted with other components as well, we were forced to try a
 
 Furthermore, the data we show in the dashboard is centred around the strategy object discussed in \ref{BL Structure}. At the beginning of the backtesting process, a new strategy object is initialised, which is a time-costly task. As this object holds most of the information our result pages require, many functions would need to access the same object. 
 
-One solution would be to have a callback for initialising the object, and then share it with all other methods. Although there exist ways to do so \cite{dash_share}, we were not satisfied with any of the approaches listed. Consequently, we decided to go forward with the original approach, witch is also the approach favoured by Dash, and combine multiple outputs into one function. Although this introduced additional complexity to our code, it had a positive overall effect on the application's performance.
+One solution would be to have a callback for initialising the object, and then share it with all other methods. Although there exist ways to do so \cite{dash_share}, we were not satisfied with any of the approaches listed. Consequently, we decided to go forward with the original approach, which is also the approach favoured by Dash, and combine multiple outputs into one function. Although this introduced additional complexity to our code, it had a positive overall effect on the application's performance.
 
 \subsubsection*{Layout}
 
