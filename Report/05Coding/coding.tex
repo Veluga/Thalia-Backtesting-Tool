@@ -101,11 +101,12 @@ Dash is great for applications that require data visualisation, modelling, or an
 A typical callback using an example from our application can be seen below:
 
 \begin{lstlisting}[language=Python, caption=setup.py - Development environment, label=lst:callback_example]
-def register_add_portfolio_button(dashapp):
+def register_add_portfolio(dashapp):
     dashapp.callback(
-        Output("portfolios-container", "children"),
+        [Output(f"portfolio-{i}", "style") for i in range(1, MAX_PORTFOLIOS + 1)]
+        + [Output("add-portfolio-btn", "disabled")],
         [Input("add-portfolio-btn", "n_clicks")],
-        [State("portfolios-container", "children")],
+        [State(f"portfolio-{i}", "style") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(add_portfolio)
 \end{lstlisting}
 
@@ -346,7 +347,7 @@ extras_require = {"dev": ["black", "flake8", "pre-commit"], "test": tests_requir
 
 setup(
     name="Thalia",
-    version="0.2.0",
+    version="0.3.0",
     packages=find_packages(),
     install_requires=install_requires,
     extras_require=extras_require,
