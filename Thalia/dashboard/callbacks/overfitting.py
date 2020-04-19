@@ -44,34 +44,61 @@ def disable_button(overfit_btn, submit_btn):
 def update_overfitting(overfit_btn, portfolio_data):
     if overfit_btn is None:
         raise PreventUpdate
+
     overfitted_names = []
+    udata_names = []
     for portfolio in portfolio_data:
-        if check_overfitting(portfolio):
+        if portfolio["has_user_uploaded"]:
+            udata_names.append(portfolio["name"])
+        elif check_overfitting(portfolio):
             overfitted_names.append(portfolio["name"])
-    if len(overfitted_names) == 0:
+
+    udata_portfolios = html.Ul([html.Li(pname) for pname in udata_names])
+    overfitted_portfolios = html.Ul([html.Li(pname) for pname in overfitted_names])
+
+    if ((len(overfitted_names) == 0) and (len(udata_names) == 0)):
         return html.Div(
             children="We have not detected overfitting in any of your portfolios.",
             className="notification is-info",
         )
-    else:
-        overfitted_portfolios = html.Ul([html.Li(pname) for pname in overfitted_names])
+    elif(len(overfitted_names) == 0):
         return html.Div(
             children=[
-                "WARNING: We have detected overfitting on the folowing simulations: ",
+                "Although no overfitting was detected, the following portfolio(s) contain \
+                 user uploaded assets and therefore couldn't be checked: \n",
+                udata_portfolios,
+            ],
+            className="notification is-warning"
+        )
+    elif(len(udata_names) == 0):
+        return html.Div(
+            children=[
+                "WARNING: We have detected overfitting on the folowing simulations: \n",
                 overfitted_portfolios,
             ],
             className="notification is-warning",
         )
-
+    else:
+        return html.Div(
+            children=[
+                "WARNING: We have detected overfitting on the folowing simulations: \n",
+                overfitted_portfolios,
+                "Additionally the following portfolio(s) contained user uploaded assets \
+                and therefore couldn't be checked: \n",
+                udata_portfolios,
+            ],
+            className="notification is-warning",
+        )
 
 def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     """
     Checks and returns wether strategy is overfitted
     (By comparing to simulation results on rest of available date range)
-    Threashold for performance difference considered indicative of overfitting
+    Threshold for performance difference considered indicative of overfitting
     """
+    proportions = [Decimal(p) for p in portfolio["proportions"]]
     assets_data_all = get_assets(
-        portfolio["tickers"], portfolio["proportions"], None, None
+        portfolio["tickers"], proportions, None, None
     )
 
     s_date = max([asset.values.index[0] for asset in assets_data_all])
