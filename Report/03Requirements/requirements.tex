@@ -3,7 +3,7 @@
 \begin{document}
 
 \section{Requirements}
-Earlier in the inception phase of the development, we classified our requirements using the established FURPS+ model \cite{FURPS}. Ever since identifying requirements for our initial project report \cite{TR}, we have also identified some additional requirements that Thalia should fulfill, which are based on feedback from our project guide. Let us briefly revisit our main functional and non-functional requirements. The items outlined below focus on some of the key requirements we have so far identified as features necessary for providing a compelling product for paying customers.
+During the inception phase, we classified our requirements using the established FURPS+ model \cite{FURPS}. Since identifying the requirements listed in our initial project report \cite{TR}, we have identified additional requirements that Thalia should fulfill based on feedback from our project guide. Let us briefly revisit our main functional and non-functional requirements. The items outlined below focus on some of the key requirements we have so far identified as features necessary for providing a compelling product for paying customers.
 
 \subsection{Functional Requirements}
  
@@ -116,7 +116,7 @@ Choose assets from Equities, Fixed Income, Currencies, Commodities, and Cryptocu
 }
 
 \subsection{Non-functional Requirements}
-Non-functional requirements were elicited using the FURPS+ model developed by IBM to address the issues of the FURPS model, namely failure to take developer requirements into consideration \cite{FURPS_drawbacks}. The decision to use the FURPS+ model was made based on its wide adoption in industry as well as the high volume of literature and guides for identifying key requirements available. Using this model, we identified various categories of non-functional requirements based on either user or developer needs. Elicitation of user-focused non-functional requirements was performed based on feedback from our focus group from the first semester and the capabilities and properties of competing software (e.g. the legal requirements of providing a backtesting service). Although most requirements were identified during requirement elicitation in the first semester, several requirements and categories that we initially missed were added later during development, namely `Accessibility` and `Supportability` requirements.
+Non-functional requirements were elicited using the FURPS+ model developed by IBM to address the issues of the previously popular FURPS model, namely failure to take developer requirements into consideration \cite{FURPS_drawbacks}. The decision to use the FURPS+ model was made based on its wide adoption in industry as well as the high volume of literature and guides available for the identification of key requirements. Using this model, we identified various categories of non-functional requirements based on either user or developer needs. Elicitation of user-focused non-functional requirements was performed based on feedback from our focus group from the first semester and the capabilities and properties of competing software (e.g. the legal requirements of providing a backtesting service). Although most requirements were identified during requirement elicitation in the first semester, several new non-functional requirements and categories that we initially missed were added later during development, namely `Accessibility` and `Supportability` requirements.
 
 \begin{enumerate}
    \item Usability
@@ -191,7 +191,7 @@ Non-functional requirements were elicited using the FURPS+ model developed by IB
 \textbf{Purpose}: Show a user how their strategy would have performed in the past.
 \newline
 \newline
-\textbf{Overview}: The user selects they assets they want in their portfolio, along with how much to invest in each asset. They may also select contribution, withdrawal and rebalancing options. On completion, the user will see a graph plotting the value of their portfolio over time and a table of a few key metrics summarising performance.
+\textbf{Overview}: The user selects the assets they want in their portfolio, along with how much to invest in each asset. They may also select contribution, withdrawal and rebalancing options. On completion, the user will see a graph plotting the value of their portfolio over time and a table of a few key metrics summarising performance.
 \newline
 \newline
 \textbf{Preconditions}: The user must be logged in.
@@ -233,11 +233,11 @@ The following sections will analyse each of these areas in detail to allow for d
 
 \subsubsection{Technical}
 
-This area concerns the question of whether there exist technologies that enable us to realise our project idea. We consider the prototype developed over the last semester sufficient evidence for the technical feasibility of our project as we have successfully developed implementations for each of our system components, albeit in stripped-down form. As a result of familiarising ourselves with the technologies we used in developing this prototype, we are confident that scaling it up to a fully functional product will pose little technical challenge to our team.
+This area concerns the question of whether there exist technologies that enable us to realise our project idea. We consider the prototype developed over the last semester sufficient evidence of the technical feasibility of our project as we have successfully developed implementations for each of our system components, albeit in stripped-down form. As a result of familiarising ourselves with the technologies used in developing this prototype, we are confident that scaling it up to a fully functional product will pose little technical challenge to our team.
 
 \subsubsection{Economic}
 
-To reduced reliance on external funding for operating our business over time, license sales must outweigh costs. As part of our effort to determine economic feasibility, we have forecasted our cash flow for the year of 2020:
+To reduce reliance on external funding for the operation of our business over time, license sales must outweigh costs. As part of our effort to determine economic feasibility, we have forecasted our cash flow for the year of 2020:
 
 \begin{figure}[H]
     \caption{Thalia Cash Flow Forecast}
@@ -253,11 +253,11 @@ This forecast makes several assumptions that we deem justifiable:
     \item Being able to acquire a £20.000 business loan with less than 5\% interest p.a.
 \end{itemize}
 
-These assumptions lead to our company being profitable by mid 2021. Time to profitability of around 18 months is very typical for startups, as shown e.g. by Olsen and Kolvereid \cite{startup_profitability}. While these findings are indicators of economic feasibility, we will have to constantly revise our cash flow forecast to account for changing market conditions and advances in product development.
+These assumptions lead to our company being profitable by mid 2021. A time to profitability of around 18 months is typical for startups, as shown e.g. by Olsen and Kolvereid \cite{startup_profitability}. While these findings are indicators of economic feasibility, we will have to constantly revise our cash flow forecast to account for changing market conditions and advances in product development.
 
 \subsubsection{Legal}
 
-Fundamentally, backtesting is not considered to encourage purchases or sales of assets. Our company is merely providing information to our customers and thus can not be considered to provide financial advice. Decisions drawn from the information presented by Thalia solely consists of the opinions of our customers and do not reflect the opinions of the Thalia team or any associates. A disclaimer of this form will be placed on our website and within our terms and conditions which have to be accepted by users upon sign up.
+Fundamentally, backtesting is not considered to encourage the purchase or sale of assets. Our company is merely providing information to customers and thus can not be considered to provide financial advice. Decisions drawn from the information presented by Thalia are based solely on the opinions of customers and do not therefore reflect the opinions of the development team or any associated party. A disclaimer of this form will be placed on our website and within our terms and conditions, which will need to be accepted by users upon sign up.
 Within the framework of the Financial Conduct Authority, our product is understood to provide guidance on investment decisions. Entities offering guidance ``are responsible for the accuracy and quality of the information they provide`` \cite{fca_guidance_advice}. Thus, it is paramount that the information provided by our tool is accurate.
 
 Our research has not revealed any other potential legal issues with our service. Given correctness of our calculations, we thus consider this project to be legally feasible.
