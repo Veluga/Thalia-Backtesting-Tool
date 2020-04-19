@@ -3,8 +3,8 @@
 \usepackage{import}
 \usepackage{subfiles}
 
-
 \begin{document}
+
 
 \definecolor{codegreen}{RGB}{1, 67, 74}
 \definecolor{codegray}{RGB}{242, 61, 61}
@@ -60,10 +60,14 @@
  
     \end{center}
 \end{titlepage}
- 
- \section*{Acknowledgement}
- TO DO: Thank stackoverflow and everyone else here.
 
+\newenvironment{dedication}
+     {\vspace{6ex}\begin{quotation}\begin{center}\begin{em}}
+     {\par\end{em}\end{center}\end{quotation}}
+ 
+\begin{dedication}
+ Our thanks go out to Dr. Beacham and Dr. Compatangelo for their continued support and guidance, to our logo designer and video assistant Marton Kottmayer and the folks at Stackoverflow for assistance in any technical matters.
+\end{dedication}
 
 \break
 \tableofcontents
@@ -77,10 +81,8 @@
 \subfile{05Coding/coding.tex}
 \subfile{06Testing/testing.tex}
 \subfile{07Evaluation/evaluation.tex}
-\subfile{08Appendices/081User/user.tex}
-\subfile{08Appendices/082Maintenance/maintenance.tex}
-\subfile{08Appendices/083Glossaries/glossary_domain.tex}
-\subfile{08Appendices/083Glossaries/glossary_project.tex}
+\subfile{07XConclusions/conclusion.tex}
+\subfile{08Appendices/appendices.tex}
 
 \break
 \bibliographystyle{unsrt}
