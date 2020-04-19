@@ -228,7 +228,7 @@ class Strategy:
         start_date: date,
         end_date: date,
         starting_balance: Decimal,
-        assets: [Asset],
+        assets: List[Asset],
         contribution_dates,  # implements __contains__ for date
         contribution_amount: Decimal,
         rebalancing_dates,  # implements __contains__ for date
@@ -239,6 +239,9 @@ class Strategy:
         self.contribution_dates = contribution_dates
         self.contribution_amount = contribution_amount
         self.rebalancing_dates = rebalancing_dates
+
+        self.returns = None
+        self.annual_returns = None
 \end{lstlisting}
 
 Here, `Asset` is a simple dataclass consisting of a ticker string (e.g. `MSFT` for Microsoft), a weight as a share of the portfolio overall (e.g. 0.25), a pandas dataframe holding historical price data ordered by date, and a pandas dataframe for dividends data (if any). An overview over the class relationships can be found in \ref{umls}.

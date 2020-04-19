@@ -226,9 +226,6 @@ This module of the Data Harvester was assigned the responsibility of regularly u
     \caption{Flow chart for a round of updates\cite{TR}}
 \end{figure}
 
-For a more detailed breakdown of the updating mechanism refer to \ref{dhav_logs}.
-
-
 \subsubsection{Redundancy}
 
 Our current architecture allows for an asset to be served by several APIs. In the event of an API failure, the asset's data can still be collected from another available source. This makes it simple to integrate a high degree of redundancy for popular assets into our product. 
@@ -300,7 +297,6 @@ The following is a example of how such data is stored:
 \subsubsection{Security}
 In the future, we expect to collect data from sources that are not available free of charge. Additionally, our offering of financial data is key to our unique value proposition. It is therefore easy to see how a potential data breach could end up having catastrophic financial and legal implications for our company. To mitigate this risk, we decided to conduct an internal security audit of the Data Harvester module to identify any potential vulnerabilities. To do so, we created and analysed a scenario where an attacker is attempting to disrupt the operation or gain control of the Data Harvester. Our analysis yielded the following security concerns that needed to be preemptively addressed:
 
-\newline
 \textbf{Security Concerns}
 \begin{enumerate}
     \item \textbf{API calls: }The data received from an API may be intercepted or modified.
