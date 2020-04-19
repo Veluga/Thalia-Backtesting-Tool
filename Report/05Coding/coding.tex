@@ -91,7 +91,7 @@ Choosing the right web framework proved to be harder than we anticipated. The te
     \item Django all but insists on using its ORM for all database interaction. This conflicted with our plan to have a more manual approach through the use of the Finda module.
 \end{itemize}
 
-Thus, we chose Flask, a Python-based micro web framework. Flask provides the functionality required for building web applications, namely managing HTTP requests, using the `requests` library and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}. We used the `render-template` library to process and parse HTML templates for all of our website's pages, except for the dashboard, which is described in more detail below. We used some of Flask's extensions, such as Flask-Login, which provides user session management\cite{flask-login} and To the `flask-wtf` extension, a wrapper for the `WTForms` package, to manage web forms \cite{wtforms-documentation}.
+Thus, we chose Flask, a Python-based micro web framework. Flask provides the functionality required for building web applications, namely managing HTTP requests, using the `requests` library and rendering templates \cite{smyth_2018}. Flask leverages `Jinja2` as a template engine \cite{templates_2010}. We used the `render-template` library to process and parse HTML templates for all of our website's pages, except for the dashboard, which is described in more detail below. We used some of Flask's extensions, such as Flask-Login, which provides user session management\cite{flask-login} and `flask-wtf`, a wrapper for the `WTForms` package, to manage web forms \cite{wtforms-documentation}.
 
 \subsubsection{GUI}
 \label{GUI}
