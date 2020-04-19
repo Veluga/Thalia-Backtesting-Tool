@@ -314,7 +314,7 @@ We addressed these concerns in the following ways:
 \begin{enumerate}
     \item \textbf{API calls: }Depending on the API settings, we will use either an IPSec policy or a VPN connection. The details of this should first be discussed with the financial data provider.
     \item \textbf{API keys: }We will salt and then hash the API keys with SHA512 before storing them. Since the number of financial data APIs on the market is relatively small, we can use the SHA512 algorithm without worrying about computation time.
-    \item \textbf{Rogue API: }We have added several checks ensure data retrieved is what was expected. Should the Harvester receive malformed data, a critical error will be raised and the incident will be logged for later inspection. 
+    \item \textbf{Rogue API: }We have added several checks to ensure data retrieved is what was expected. Should the Harvester receive malformed data, a critical error will be raised and the incident will be logged for later inspection. 
 \end{enumerate}
 
 \subsection{Integration and Deployment}
