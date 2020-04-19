@@ -9,7 +9,7 @@ from .. import user_csv
 from ..config import MAX_PORTFOLIOS
 from ..portfolio_manager import (
     get_portfolios_list,
-    retrieve_portfolio,
+    get_own_portfolio,
     store_portfolio,
     load_public_portfolio,
 )
@@ -29,7 +29,6 @@ def register_allocations_tab(dashapp):
 
 def load_shared_portfolio(path):
 
-    print(path)
     arg = path.rsplit("/", 1)[1]
 
     try:
@@ -37,7 +36,7 @@ def load_shared_portfolio(path):
             portfolio, strategy = load_public_portfolio(arg)
         else:
             porto_id = int(arg)
-            portfolio, strategy = retrieve_portfolio(porto_id)
+            portfolio, strategy = get_own_portfolio(porto_id)
 
     except ValueError:
         raise PreventUpdate
@@ -256,7 +255,7 @@ def update_portfolio(
 
     # load complete portfolio
     if trigger.startswith("stored-portfolios"):
-        portfolio, strategy = retrieve_portfolio(saved_portfolio)
+        portfolio, strategy = get_own_portfolio(saved_portfolio)
         table_data, portfolio_name = parse_stored_portfolio(portfolio, strategy)
     elif trigger.startswith("lazy-portfolios"):
         table_data = list(json.loads(lazy_portfolio).values())
