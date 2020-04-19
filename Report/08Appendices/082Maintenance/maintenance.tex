@@ -28,7 +28,7 @@ Before running Thalia on a local setup, the following prerequisites must be fulf
 \subsection{Installation}
 \label{installation-instructions}
 
-In order to install Thalia, execute the following instructions in order of listing. The instruction assume a Unix shell. If you're running Windows, please substitute instructions as needed.
+In order to install Thalia, execute the following instructions in order of listing. The instructions assume a UNIX shell. If you're running Windows, please substitute instructions as needed.
 
 \begin{enumerate}
 
@@ -72,7 +72,7 @@ Create your own database with the Data Harvester will take some time due to the 
 Once all the assets have been updated at least once, you can proceed to the next section. This may take up to one day since we must abide by contractual API limits.
 
 \subsection{Running the application in a Development Environment}
-  To run the project in a development environment from a modern unix shell, you can use the \texttt{start.sh} script. After running it, you will be able to access the website from \texttt{localhost:5000}.
+  To run the project in a development environment from a modern UNIX shell, you can use the \texttt{start.sh} script. After running it, you will be able to access the website from \texttt{localhost:5000}.
 
 \subsubsection{Running the application in a Production
 Environment}
@@ -82,9 +82,9 @@ Procedures to run the application in production differ from the ones listed for 
 
 \begin{itemize}
 \item
-  Install the `gunicorn` HTTP server \cite{Gunicorn}.
+  Install the `gunicorn` HTTP server \cite{Gunicorn}. If you have installed the project's requirements from `requirements.txt`, this should already be available in your virtual environment.
 \item
-  Run the following command from a Unix terminal 
+  Run the following command from a UNIX terminal 
   \newline
   \texttt{sudo\ gunicorn\ -\/-bind\ 0.0.0.0:80\ -\/-daemon\ main:server}
 \end{itemize}
@@ -104,7 +104,7 @@ The following instructions have to be executed to test the application:
  \newline
  \texttt{pip\ install\ ".{[}test,dev{]}"}
   
-  \item Python and Selenium tests must be run seperately. The former can be achieved by issuing
+  \item Python and Selenium tests must be run separately. The former can be achieved by issuing
   \newline
   \texttt{python\ -m\ pytest\ -\/-ignore=./Tests/Selenium}
   
@@ -188,11 +188,11 @@ The following sections explain the responsibilities of every source code file.
 \item
   Finda/asset.db -- If only using the basic setup scripts, asset.db is the assumed main financial database.
 \item
-  Finda/dbSchema.sql -- SQL schema for the financial database.
+  Finda/dbSchema.sql -- SQL schema for the financial data database.
 \item
   Finda/fd\_manager.py -- Database controller for the financial data database.
 \item
-  Finda/fd\_read.py -- Methods for reading from financial data database.
+  Finda/fd\_read.py -- Methods for reading from the financial data database.
 \item
   Finda/fd\_remove.py -- Methods for deleting from financial data
   database.
@@ -387,7 +387,7 @@ The following sections explain the responsibilities of every source code file.
 \item
   setup.py -- Python setup file with more loose requirements. Includes requirements necessary for testing and contributing.
 \item
-  start.sh -- Commonly used script for running project in a development environment.
+  start.sh -- Commonly used script for running the project in a development environment.
 \item
   .pre-commit-config.yaml -- Pre-commit hook.
 \end{itemize}
