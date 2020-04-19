@@ -246,7 +246,7 @@ Columns: [AOpen<Decimal.decimal>, AClose<Decimal.decimal>,
 Index: [AssetTicker<String>, ADate <datetime.date>]
 \end{lstlisting}
 
-Data standardization is conducted as soon as the data has been received from the API. Each API is handled by a separate API Handler object. In addition to selecting what API to query for a specified asset this object ensures the data gathered has been converted to the appropriate format. The API Handler also logs any potential changes made to the data's format from the providers side.
+Data standardization is conducted as soon as the data has been received from the API. Each API is handled by a separate API Handler object. In addition to selecting what API to query for a specified asset, this object ensures the data gathered has been converted to the appropriate format. The API Handler also logs any potential changes made to the data's format from the provider's side.
 
 \begin{figure}[H]
     \centering
