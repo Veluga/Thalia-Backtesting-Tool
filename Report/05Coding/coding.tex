@@ -207,7 +207,7 @@ The following are the requirements our team identified for the Data Harvester mo
     \item \textbf{Redundancy:} As we are interfacing with third party software, redundancy measures must be implemented so that the Harvester can continue to gather live data in the event of an API call failing.
     \item \textbf{Maintenance:} Financial markets are dynamic and new financial instruments are constantly being created. Therefore, it must be easy for the team to add or remove assets from those tracked by the Harvester.
     \item \textbf{Standard Data Format:} To maintain data integrity and successfully interface with the Finda module, all data must be parsed to a standard format without sacrificing numerical accuracy or granularity.
-    \item \textbf{Data Interpolation:} Some financial assets require interpolation to account for days on witch data is unavailable (e.g. weekends and public holidays when most exchanges are closed).
+    \item \textbf{Data Interpolation:} Some financial assets require interpolation to account for days on which data is unavailable (e.g. weekends and public holidays when most exchanges are closed).
     \item \textbf{Security:} Since the Data Harvester interfaces with external APIs, it must not introduce any significant vulnerabilities that may jeopardize Thalias operation.
 \end{itemize}
 
