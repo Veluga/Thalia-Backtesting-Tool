@@ -1,11 +1,513 @@
 \documentclass[main.tex]{subfiles}
 \include{preamble.tex}
 
+
 \begin{document}
 
 \subsection{Appendix B - Maintenance Manual}
 \label{MaintenanceManual}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\section{Maintance manual}\label{maintance-manual}
 
+\subsection{Prerequisits for running
+Thalia}\label{prerequisits-for-running-thalia}
+
+\begin{itemize}
+
+\item
+  Project has been development to be run on a unix operating system. It
+  has been tested to work without problems on MacOS, Ubuntu, AWS Linux
+  2, Debian Jesse based docker images, and although technically works on
+  Windows 10 some issues have been found in running test, so we
+  recommend running
+\item
+  Python \textgreater=3.8
+\item
+  Python virtual environement module and pip modules
+\item
+  For testing the website: latest version of Chrome or Firefox to ensure
+  all features work on the website
+\item
+  For Selenium tests you will need both Chrome and Firefox installed,
+  with geckodriver and chromedriver to run the tests in headless mode.
+  You can find more information about this in the Selenium directories
+  README.md
+\end{itemize}
+
+\subsection{Installation instructions}\label{installation-instructions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+
+\item
+  \texttt{cd} into the project directory
+\item
+  create a virtual environment and activate it
+  (https://docs.python.org/3/tutorial/venv.html)
+
+  \begin{itemize}
+
+  \item
+    your operating system may not have virtual environment installed by
+    default and you may need to install it seperately yourself
+  \item
+    assuming everything works the usual argument for creation and
+    activation would be:
+    \texttt{python3\ -m\ ven\ venv\ \&\&\ source\ ./venv/bin/activate}
+    for a modern unix shell
+  \end{itemize}
+\item
+  install the python dependencies:
+  \texttt{pip\ install\ -r\ requirements.txt}
+
+  \begin{itemize}
+
+  \item
+    pip may also not be installed on your operating system by default,
+    so you may need to install it seperately yourself
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{Existing DB
+instructions}\label{existing-db-instructions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+
+\item
+  If you're using an premade financial database and are not using
+  Harvester to create it yourself, then please ensure the that the file
+  is inside the Finda directory.
+\item
+  Register the financial database with Finda, if the files name is
+  \texttt{asset.db} this can be done automatically by running the
+  \texttt{register\_findb.py} script.
+\item
+  To run the project in a development environment on a modern unix
+  shell, you can use the \texttt{start.sh} script, you should then be
+  able to see the website on your browser at the location:
+  \texttt{localhost:5000}.
+\end{enumerate}
+
+\subsubsection{Make your own DB
+instructions}\label{make-your-own-db-instructions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+
+\item
+  If you want to create your own database with the Data Harvester
+  module, you save a bit of time to gather the data and possibly open a
+  new shell instance so you can leave it running. You will need an API
+  key from yahoo finance and nomics for Harvester to gather all the
+  necessary assets. Both are free
+  (https://p.nomics.com/cryptocurrency-bitcoin-api)
+\item
+  First run \texttt{python\ first\_run\_dh.py} to create, register and
+  seed the database.
+\item
+  Then you can start harvester with \texttt{python\ run\_harvester.py},
+  which will run forever, but you can check up on how it's doing by
+  reading the log-file with somethign like \texttt{tail\ -F\ dh.log}.
+  Once all the assets have been updates at least once (this may take a
+  day as we don't want to bombard our financial data providers with too
+  many requests too fast), you can proceed to use Thalia.
+\item
+  You can run the app now with the 3rd step from the ``Existing DB
+  instructions''
+\end{enumerate}
+
+Notes:
+
+\begin{itemize}
+
+\item
+  To see what assets have been updated and for what dates go in the
+  persistent\_data folder inside the DataHarvester.
+\item
+  You can start and stop the Harvester at any time you want. When
+  restarted it will continue the updating session if any updates remain.
+\item
+  To modify the time in between update sessions go into the
+  run\_harvester.py file and modify the sleep time.
+\end{itemize}
+
+\subsubsection{Run in a production
+environemnt}\label{run-in-a-production-environemnt}
+
+\begin{itemize}
+
+\item
+  We recommend using \texttt{gunicorn} to run the website in production.
+\item
+  Please ensure that you set environmental variables for production
+  appropriate settings, you can find the env vars we use inside
+  config.py.
+\item
+  An easy way to set it up is running just by running the following
+  command
+  \texttt{sudo\ gunicorn\ -\/-bind\ 0.0.0.0:80\ -\/-daemon\ main:server}.
+
+  \begin{itemize}
+
+  \item
+    you may need to provide the path to the gunicorn binary as an
+    absolute path.
+  \end{itemize}
+\item
+  The website should now be accessible on your IP address without
+  specifying the port number and ready for production.
+\end{itemize}
+
+\subsection{Test instructions}\label{test-instructions}
+
+\begin{itemize}
+\item
+  The project uses pytest (https://docs.pytest.org/) to run most test,
+  with the exception of Selenium tests, which we have a seperate script
+  for running.
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \item
+    To run the tests you should ensure you have the proper requirements
+    first installed from the requirements.txt file
+    \texttt{pip\ install\ -r\ requirements.txt}
+  \item
+    Then install the development and testing requirements with
+    \texttt{pip\ install\ ".{[}test,dev{]}"}
+  \item
+    The run the python tests with
+    \texttt{python\ -m\ pytest\ -\/-ignore=./Tests/Selenium}
+  \item
+    After you can run the Selenium tests by first starting the website
+    normally and ensuring it's available on http://127.0.0.1:5000, then
+    running \texttt{python\ Tests/Selenium/main\_test.py}
+  \end{enumerate}
+\end{itemize}
+
+\subsection{Source code files}\label{source-code-files}
+
+\subsubsection{Anda}\label{anda}
+
+\begin{itemize}
+
+\item
+  analyse\_data/analyse\_data.py -- The financial calculation library
+  that handles all backtesting calculations
+\end{itemize}
+
+\paragraph{Tests}\label{tests}
+
+\begin{itemize}
+
+\item
+  Tests/analyse\_data/test\_anda.py -- Tests for analyse\_data.py
+\item
+  Tests/analyse\_data/test\_data -- Test data used by test\_anda.py
+\end{itemize}
+
+\subsubsection{Data Harvester}\label{data-harvester}
+
+\begin{itemize}
+
+\item
+  DataHarvester/apis\_access/ -- Contains all our API keys for
+  harvesters raw data retrieval
+\item
+  DataHarvester/dhav\_core/api\_class.py -- Abstracts individual API
+  services methods for data retrieval from other parts of code
+\item
+  DataHarvester/dhav\_core/data\_harvester.py -- Main module for the
+  package, which manages jobs and the other modules and stores data
+\item
+  DataHarvester/dhav\_core/init\_finda\_db\_structure.py -- Seeds
+  database with current assets and metadata Harvester knows
+\item
+  DataHarvester/dhav\_core/init\_update\_list.py -- Script for resetting
+  the persistent data the harvester has accumulated while running
+\item
+  DataHarvester/dhav\_core/initialization.py -- Does initial setup for
+  other modules in package to function
+\item
+  DataHarvester/dhav\_core/logger\_class.py -- Basic logging class for
+  Harvester
+\item
+  DataHarvester/dhav\_core/run\_updates.py -- Basic script used to setup
+  api keys and batch sizes for a harvester update cycle
+\item
+  DataHarvester/dhav\_core/tickers/ -- Directory contains the source
+  files for assets in different assets classes. The files dictate our
+  supported assets in production
+\item
+  run\_harvester.py -- script for running harvester on a timer, should
+  be made into a daemon in production
+\item
+  first\_run\_dh.py -- initialising Harvester for the project to be run
+  only once
+\end{itemize}
+
+\paragraph{Tests}\label{tests-1}
+
+\begin{itemize}
+
+\item
+  Tests/Harvester/test\_api\_caller.py -- tests for api handling
+\item
+  Tests/Harvester/test\_interpolation.py -- tests financial data
+  interpolation
+\item
+  Tests/Harvester/interpolation\_result.csv -- expected interpolation
+  results
+\item
+  Tests/Harvester/to\_interpolate.csv -- data to be interpolated for
+  tests
+\end{itemize}
+
+\subsubsection{Finda}\label{finda}
+
+\begin{itemize}
+
+\item
+  Finda/asset.db -- if only using the basic setup scripts asset.db is
+  the assumed main financial database
+\item
+  Finda/dbSchema.sql -- SQL schema for the financial database
+\item
+  Finda/fd\_manager.py -- Controler for the financial data database
+\item
+  Finda/fd\_read.py -- Methods for reading from financial data database
+\item
+  Finda/fd\_remove.py -- Methods for deleting from financial data
+  database
+\item
+  Finda/fd\_write.py -- Methods for writing to financial database
+\item
+  register\_findb.py -- script used for ensuring the financial database
+  has been registered, only ever needs to be run once
+\end{itemize}
+
+\paragraph{Tests}\label{tests-2}
+
+\begin{itemize}
+
+\item
+  Tests/Finda/conftest.py -- setup and tear down code for Finda tests
+\item
+  Tests/Finda/finData.db -- test database
+\item
+  Tests/Finda/helpers.py -- testing helper methods for Finda
+\item
+  Tests/Finda/test\_fd\_manager.py -- tests for fd\_manager
+\item
+  Tests/Finda/test\_fd\_read.py -- tests for fd\_read
+\item
+  Tests/Finda/test\_fd\_remove.py -- tests for fd\_remove
+\item
+  Tests/Finda/test\_fd\_write.py -- tests for fd\_write
+\end{itemize}
+
+\subsubsection{Thalia}\label{thalia}
+
+\paragraph{Dashboard specific}\label{dashboard-specific}
+
+\begin{itemize}
+
+\item
+  Thalia/dashboard/callbacks/allocations.py -- Controller for portfolio
+  creation, saving and loading
+\item
+  Thalia/dashboard/callbacks/assets.py -- Controller for the asset
+  contribution tab
+\item
+  Thalia/dashboard/callbacks/callbacks.py -- Collects all other
+  callbacks for easy importing
+\item
+  Thalia/dashboard/callbacks/dashboard.py -- Controller for running a
+  backtest and side effects of running a backtest
+\item
+  Thalia/dashboard/callbacks/drawdowns.py -- Controller for the
+  drawdowns tab
+\item
+  Thalia/dashboard/callbacks/metrics.py -- Controller for the metrics
+  tab
+\item
+  Thalia/dashboard/callbacks/overfitting.py -- Controller for
+  overfitting checking
+\item
+  Thalia/dashboard/callbacks/returns.py -- Controller for returns tab
+\item
+  Thalia/dashboard/callbacks/summary.py -- Controller for the summary
+  tab
+\item
+  Thalia/dashboard/tab\_elements/ -- Directory contains UI generation
+  code, with the exception of the modules are seperated to handle an
+  entire individual tabs contents, which mirrors its controller's name.
+\item
+  Thalia/dashboard/tab\_elements/elements.py -- Generic elements shared
+  by multiple tabs
+\item
+  Thalia/dashboard/tab\_elements/lazy\_portfolios -- A list of formatted
+  pre-made portfolios
+\item
+  Thalia/dashboard/user-data -- Directory contains the temporary user
+  uploaded CSVs
+\item
+  Thalia/dashboard/config.py -- Commonly used constants used in the
+  dashboard codebase
+\item
+  Thalia/dashboard/layout.py -- Declaration of the main UI elements
+\item
+  Thalia/dashboard/portfolio\_manager.py -- Methods for storing and
+  retrieving portfolios from the database
+\item
+  Thalia/dashboard/strategy.py -- Adapter for passing user input to Anda
+\item
+  Thalia/dashboard/tabs.py -- Tab element configuration and declarations
+\item
+  Thalia/dashboard/user\_csv.py -- Backend code for handling temporary
+  user uploaded CSVs
+\item
+  Thalia/dashboard/util.py -- Methods for accessing Finda in the
+  dashboard
+\end{itemize}
+
+\paragraph{Tests}\label{tests-3}
+
+\begin{itemize}
+
+\item
+  Tests/Thalia/callbacks/test\_allocations.py -- tests for allocation
+  tab
+\item
+  Tests/Thalia/callbacks/test\_dashboard.py -- general tests for
+  elements across dashboard
+\item
+  Tests/Thalia/callbacks/test\_summary.py -- tests for summary tab
+\item
+  Tests/Thalia/test\_user\_csv.py -- tests for user uploaded csv
+  handling
+\item
+  Tests/Thalia/test\_portfolio.py -- test for portfolio storage
+\end{itemize}
+
+
+\subsubsection{Flask}\label{flask}
+
+\begin{itemize}
+
+\item
+  Thalia/models/portfolio.py -- The Portfolio ORM module, handles user
+  saved portfolio interactions with the database
+\item
+  Thalia/models/user.py -- The User account ORM module, handles user
+  account interactions with the database
+\item
+  Thalia/static/ -- Contains static assets images, scripts, stylesheets
+  used in the Flask parts of the website
+\item
+  Thalia/templates -- Contains Jinja2 templates for different parts of
+  the Flask website. Including the base html, homepage, authentication
+  pages, different info pages, user portfolio gallery
+\item
+  Thalia/\_\_init\_\_.py -- Module responsible for the app factory of
+  the flask app, passes complete flask apps to web workers such
+  gunicorns. Includes flask app setup, configuration, dash app
+  registrations and protection, database registrations, extension setup.
+\item
+  Thalia/extensions.py -- Module for initalising different Flask
+  extensions
+\item
+  Thalia/findb\_conn.py -- Module for accessing finda. Seperated from
+  other modules to avoid circular imports
+\item
+  Thalia/forms.py -- Declarations of different HTML form controllers
+\item
+  Thalia/views.py -- Main UI logic for Flask code. Handles routing and
+  controlling user interactions with the Flask code.
+\item
+  app.dbexport -- The user data containing database
+\item
+  config.py -- Flask app configuration declarations, includes
+  development defaults incase user has not defined the necessary
+  enviromental variables.
+\item
+  feedback.csv -- user submitted feedback from the website
+\item
+  main.py -- used as the main method for the project, it provides the
+  results of the app factory to be passed to a server
+\end{itemize}
+
+\paragraph{Tests}\label{tests-4}
+
+\begin{itemize}
+
+\item
+  Tests/Thalia/conftest.py -- setup and teardown code for Flask tests
+\item
+  Tests/Thalia/test\_factory.py -- test app factory pattern
+\item
+  Tests/Thalia/test\_user.py -- test user account handling
+\item
+  Tests/Thalia/test\_views.py -- integration tests for views.py
+\end{itemize}
+
+\subsubsection{Selenium tests}\label{selenium-tests}
+
+\begin{itemize}
+
+\item
+  Tests/Selenium/contact\_test.py -- test contact form
+\item
+  Tests/Selenium/dashboard\_test.py -- test dashboard
+\item
+  Tests/Selenium/login\_test.py -- test login
+\item
+  Tests/Selenium/main\_test.py -- convenience script to run all selenium
+  tests
+\item
+  Tests/Selenium/navbar\_test.py -- test navigation bar
+\item
+  Tests/Selenium/README.md -- instructions and info on Selenium tests
+\item
+  Tests/Selenium/register\_test.py -- registration tests
+\item
+  Tests/Selenium/social\_test.py -- tests for social media links
+\item
+  Tests/Selenium/util.py -- utilities used by other selenium tests
+\item
+  Tests/Selenium/webdriver\_test.py -- test for checking selenium config
+  is working
+\end{itemize}
+
+\subsubsection{Misc files}\label{misc-files}
+
+\begin{itemize}
+
+\item
+  .circleci/config.yml -- defines our continous integrations jobs for
+  circle-ci
+\item
+  .flake8 -- our teams style guide rules for linting python code for the
+  project with flake8
+\item
+  pyproject.toml -- our teams style rules for black, our projects
+  automatic code formatter
+\item
+  pytest.ini -- default rules for pytest to run our projects tests
+\item
+  README.md -- short instructions on installation, tests and other notes
+\item
+  requirements.txt -- our projects python requirements with versions
+  locked and tested as being compatible with the application
+\item
+  setup.py -- python setup file with more loose requirements and
+  includes requirements necessary for testing and contributing.
+\item
+  start.sh -- commonly used script for running project in a development
+  environment, requires unix shell to work
+\item
+  .pre-commit-config.yaml -- pre-commit hook for running black before a
+  git commit is made to ensure style guide is followed
+\end{itemize}
 
 \end{document}
