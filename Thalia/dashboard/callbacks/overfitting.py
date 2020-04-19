@@ -96,8 +96,9 @@ def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     (By comparing to simulation results on rest of available date range)
     Threshold for performance difference considered indicative of overfitting
     """
+    proportions = [Decimal(p) for p in portfolio["proportions"]]
     assets_data_all = get_assets(
-        portfolio["tickers"], portfolio["proportions"], None, None
+        portfolio["tickers"], proportions, None, None
     )
 
     s_date = max([asset.values.index[0] for asset in assets_data_all])
