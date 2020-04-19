@@ -26,7 +26,6 @@ def store_portfolio(start_date, end_date, starting_balance, name, table):
     return True
 
 
-
 def retrieve_portfolio(portfolio_id):
     porto = Portfolio.query.get(portfolio_id)
     strat = porto.get_strategy()
@@ -34,7 +33,9 @@ def retrieve_portfolio(portfolio_id):
 
 
 def get_portfolios_list():
-    portos = Portfolio.query.filter_by(owner=current_user.id).with_entities(
-        Portfolio.id, Portfolio.name
-    ).all()
+    portos = (
+        Portfolio.query.filter_by(owner=current_user.id)
+        .with_entities(Portfolio.id, Portfolio.name)
+        .all()
+    )
     return portos

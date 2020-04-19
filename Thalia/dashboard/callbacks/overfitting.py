@@ -122,15 +122,3 @@ def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     return (old_sharpe > new_sharpe + Decimal(sharpe_threshold)) or (
         old_sortino > new_sortino + Decimal(sortino_threshold)
     )
-
-'''
-
-            message = (
-                f"You can not test for overfitting with your own uploaded assets,"
-                " please remove the asset and try again."
-            )
-            return html.Div(
-                children=message,
-                className="notification is-danger",
-                )
-'''
