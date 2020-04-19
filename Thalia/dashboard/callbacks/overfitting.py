@@ -44,10 +44,23 @@ def disable_button(overfit_btn, submit_btn):
 def update_overfitting(overfit_btn, portfolio_data):
     if overfit_btn is None:
         raise PreventUpdate
+
     overfitted_names = []
     for portfolio in portfolio_data:
+        if portfolio["has_user_uploaded"]:
+            message = (
+                f"You can not test for overfitting with your own uploaded assets,"
+                " please remove the asset and try again."
+            )
+            return html.Div(
+                children=message,
+                className="notification is-danger",
+                )
+        '''
         if check_overfitting(portfolio):
             overfitted_names.append(portfolio["name"])
+        '''
+
     if len(overfitted_names) == 0:
         return html.Div(
             children="We have not detected overfitting in any of your portfolios.",
@@ -68,7 +81,7 @@ def check_overfitting(portfolio, sharpe_threshold=0.5, sortino_threshold=0.5):
     """
     Checks and returns wether strategy is overfitted
     (By comparing to simulation results on rest of available date range)
-    Threashold for performance difference considered indicative of overfitting
+    Threshold for performance difference considered indicative of overfitting
     """
     assets_data_all = get_assets(
         portfolio["tickers"], portfolio["proportions"], None, None

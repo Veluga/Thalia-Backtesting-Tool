@@ -399,7 +399,9 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
         table_data = combine_cols(table_data, metrics)
         table_cols.append({"name": portfolio_name, "id": portfolio_name})
 
+
         # Store portfolio paramaters for overfitting test
+        print(args["Ticker Tables"][i])
         portfolio_params.append(
             {
                 "name": portfolio_name,
@@ -411,6 +413,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
                 "rebalancing_dates": args["Rebalancing Frequencies"][i],
                 "sharpe": metrics[-1],
                 "sortino": metrics[-2],
+                "has_user_uploaded":any(tkr.get("Handle") for tkr in args["Ticker Tables"][i]),
             }
         )
 
