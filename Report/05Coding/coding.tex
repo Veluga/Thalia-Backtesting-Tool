@@ -215,7 +215,7 @@ The following are the requirements our team identified for the Data Harvester mo
 This module of the Data Harvester was assigned the responsibility of regularly updating the database. It consists of a group of closely coupled components each fulfilling a specific role. These are:
 
 \begin{itemize}
-    \item \textbf{The run\_updates script} Running this script triggers a round of updates. It contains data for the specific configuration necessary to poll for each API (eg. the location of the API access key to be used and the number of calls to be made).
+    \item \textbf{The run\_updates script} Running this script triggers a round of updates. It contains data for the specific configuration necessary to poll each API (e.g. the location of the API access key to be used and the number of calls to be made).
     \item \textbf{The update procedure} Runs a series of methods in turn. Firstly each supported API is checked for availability. For each asset assigned to that API, the module then fetches the appropriate amount of data. If the asset has no data available all data is collected from a fixed start date onwards. During this stage, the module also tracks the number of calls made to enforce compliance with the each API's terms and conditions. Whenever possible the Data Harvester makes sure that data is updated as soon as required so that the data stored is as close to being fully live as can be.
     \item \textbf{An initialiser} This sub-module loads and handles the persistent data specifying what assets and and asset classes to query APIs for. Persistent data is stored in CSV files so as to be human-readable. This makes it relatively easy to add support for new assets to the Harvester.
 \end{itemize}
