@@ -130,7 +130,7 @@ Fortunately, Dash offers great developer tools \cite{dash_dev_tools}, such as th
 \subsubsection*{Limitations}
 \label{dash_limitations}
 
-Although Dash is fairly intuitive and well suited for one-page applications, it has its limitations when trying to dynamically create components. To be more precise, all callbacks need to be registered before runtime. In our application the user is able to enter multiple portfolios via the `Add Portfolio` button. Doing so creates new input fields for the portfolio, which all need to be registered. 
+Although Dash is fairly intuitive and well suited for one-page applications, it has its limitations when trying to dynamically create components. To be more precise, all callbacks need to be registered before runtime. In our application, the user is able to enter multiple portfolios via the `Add Portfolio` button. Doing so creates new input fields for the portfolio, which all need to be registered. 
 
 As this problem persisted with other components as well, we were forced to try and find a general solution to this problem. Many approaches have been suggested by the Dash Community, some even by the development team themselves\cite{dash_workaround}. In the end, we decided to use the most stable approach we identified, generating all components beforehand and hiding them from the user until activated. This means that the relevant function now also has the responsibility of returning the visibility of the required div element. Note that this is a highly requested feature in the Dash community, and is likely to be added soon, but for now, we are forced to resort to workarounds.
 
