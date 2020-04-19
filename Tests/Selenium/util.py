@@ -6,7 +6,8 @@ from selenium.webdriver.common.keys import Keys
 
 # Credentials for testing
 uname = "selenium_test0"
-pwd = "selenium_test_pwd0"
+# Password must comply with website restrictions(be over 8 chars with number and symbol)
+pwd = "selenium_test_pwd0!"
 
 # Correct url's for Thalia social media
 fb_url = "https://www.facebook.com/Thalia-Backtester-101459001526511/"
