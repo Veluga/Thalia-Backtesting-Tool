@@ -8,14 +8,16 @@ import datetime
 
 def test_tab_switch():
     with pytest.raises(PreventUpdate):
-        dashboard.tab_switch(1, None)
+        dashboard.tab_switch(1, None, None)
         pytest.fail("Tab Switch should fail on incomplete Data")
 
     with pytest.raises(PreventUpdate):
-        dashboard.tab_switch(None)
+        dashboard.tab_switch(None, None)
         pytest.fail("Tab Switch should fail on if button has not been pressed")
 
-    assert dashboard.tab_switch(1, [None]) == ["summary"] + [False] * (NO_TABS - 1)
+    assert dashboard.tab_switch(1, None, [None]) == ["summary"] + [False] * (
+        NO_TABS - 1
+    )
 
 
 def test_retrieve_args():

@@ -26,6 +26,7 @@ def register_dashboard(dashapp):
     # register error message for allocations
     register_allocation_warning_message(dashapp)
     register_date_warning_message(dashapp)
+    register_overlap_timeframe(dashapp)
 
 
 def register_update_dashboard(dashapp):
@@ -91,6 +92,8 @@ def register_update_dashboard(dashapp):
         Output("key_metrics_table", "data"),
         # Store data for overfitting tests
         Output("portfolio-results", "data"),
+        # exception button click
+        Output("exceptions-btn", "exception_clicks"),
     ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -107,6 +110,13 @@ def register_date_warning_message(dashapp):
             State("my-date-picker-range", "end_date"),
         ],
     )(date_warning_message)
+
+
+def register_overlap_timeframe(dashapp):
+    dashapp.callback(
+        Output("timeframe_bug", "displayed"),
+        [Input("exceptions-btn", "exception_clicks")],
+    )(timeframe_overlap_warning)
 
 
 def register_allocation_warning_message(dashapp):
@@ -132,7 +142,7 @@ def register_tab_switch(dashapp):
             Output("assets", "disabled"),
             Output("overfitting", "disabled"),
         ],
-        [Input("submit-btn", "n_clicks")],
+        [Input("submit-btn", "n_clicks"), Input("exceptions-btn", "exception_clicks"),],
         [
             State("my-date-picker-range", "start_date"),
             State("my-date-picker-range", "end_date"),
@@ -140,6 +150,11 @@ def register_tab_switch(dashapp):
         ]
         + [State(f"memory-table-{i}", "data") for i in range(1, MAX_PORTFOLIOS + 1)],
     )(tab_switch)
+
+
+def timeframe_overlap_warning(n_clicks):
+    if n_clicks:
+        return True
 
 
 def allocation_warning_message(submit_btn, save_btn, table_data):
@@ -171,7 +186,10 @@ def date_warning_message(n_clicks, start_date, end_date):
         return check_date(start_date, end_date)
 
 
-def tab_switch(n_clicks, *args):
+def tab_switch(n_clicks, exception_clicks, *args):
+    if exception_clicks is not None:
+        return ["allocations"] + [True] * (NO_TABS - 1)
+
     if n_clicks is None or not all(args[:4]):
         raise PreventUpdate
 
@@ -394,6 +412,15 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             rebalancing_dates,
         )
 
+        if strategy is None:
+            to_return = [None] * 4
+            to_return += hidden_divs_data(0)
+            to_return += [None] * 3
+
+            # press exceptions
+            to_return += [1]
+            return to_return
+
         total_returns = anda.total_return(strategy)
         metrics = get_table_data(strategy, total_returns, portfolio_name)
         table_data = combine_cols(table_data, metrics)
@@ -469,4 +496,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     to_return = [main_graph, returns_table, annual_returns, drawdowns_graph] + to_return
     to_return += [table_cols, table_data, portfolio_params]
+
+    # no exception
+    to_return += [None]
     return to_return

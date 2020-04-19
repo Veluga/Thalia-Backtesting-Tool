@@ -377,6 +377,9 @@ def options_wrapper():
     csv_date_msg = (
         "Please enter a csv with at least one full calendar year (Jan. 1 to Jan. 1)."
     )
+    timeframe_overlap_msg = (
+        "The dates for the selected ticker do not exist for the selected timeframe!"
+    )
 
     allocation_messages = (
         warning_message(f"confirm-allocation-{i}", zero_allocation_msg)
@@ -413,8 +416,10 @@ def options_wrapper():
             warning_message("confirm-1", missing_params_warning_msg),
             *allocation_messages,
             warning_message("confirm-date", short_timerange_msg),
+            warning_message("timeframe_bug", timeframe_overlap_msg),
             *csv_messages,
             *csv_date_messages,
+            html.Div(html.Button(id="exceptions-btn"), style={"display": "none"}),
         ],
         id="portfolios-main",
     )
