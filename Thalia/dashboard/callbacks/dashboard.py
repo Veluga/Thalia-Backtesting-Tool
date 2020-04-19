@@ -1,17 +1,19 @@
+from datetime import datetime
+from decimal import Decimal
+
 import pandas as pd
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-from decimal import Decimal
-from datetime import datetime
-from .returns import update_table, portfolios_figure
+
 from analyse_data import analyse_data as anda
 
 from ..config import MAX_PORTFOLIOS, NO_TABS, OFFICIAL_COLOURS
 from ..strategy import get_strategy
-from .summary import get_pie_charts, get_yearly_differences_graph
-from .metrics import get_table_data, combine_cols
 from .drawdowns import get_drawdowns_tables
+from .metrics import combine_cols, get_table_data
+from .returns import portfolios_figure, update_table
+from .summary import get_pie_charts, get_yearly_differences_graph
 
 
 def register_dashboard(dashapp):
@@ -24,6 +26,7 @@ def register_dashboard(dashapp):
     # register error message for allocations
     register_allocation_warning_message(dashapp)
     register_date_warning_message(dashapp)
+    register_overlap_timeframe(dashapp)
 
 
 def register_update_dashboard(dashapp):
@@ -67,7 +70,7 @@ def register_update_dashboard(dashapp):
             Output(f"box-Start Date-{i}", "children"),
             Output(f"box-End Date-{i}", "children"),
             Output(f"box-Initial Investment-{i}", "children"),
-            Output(f"box-End Balance-{i}", "children"),
+            Output(f"box-Final Balance-{i}", "children"),
             Output(f"box-Difference in Best Year-{i}", "children"),
             Output(f"box-Difference in Worst Year-{i}", "children"),
             Output(f"box-Best Year-{i}", "children"),
@@ -89,6 +92,8 @@ def register_update_dashboard(dashapp):
         Output("key_metrics_table", "data"),
         # Store data for overfitting tests
         Output("portfolio-results", "data"),
+        # exception button click
+        Output("exceptions-btn", "exception_clicks"),
     ]
 
     dashapp.callback(outputs, [Input("submit-btn", "n_clicks")], states)(
@@ -107,11 +112,18 @@ def register_date_warning_message(dashapp):
     )(date_warning_message)
 
 
+def register_overlap_timeframe(dashapp):
+    dashapp.callback(
+        Output("timeframe_bug", "displayed"),
+        [Input("exceptions-btn", "exception_clicks")],
+    )(timeframe_overlap_warning)
+
+
 def register_allocation_warning_message(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
             Output(f"confirm-allocation-{i}", "displayed"),
-            [Input("submit-btn", "n_clicks")],
+            [Input("submit-btn", "n_clicks"), Input(f"save-portfolio-{i}", "n_clicks")],
             [State(f"memory-table-{i}", "data")],
         )(allocation_warning_message)
 
@@ -130,7 +142,7 @@ def register_tab_switch(dashapp):
             Output("assets", "disabled"),
             Output("overfitting", "disabled"),
         ],
-        [Input("submit-btn", "n_clicks")],
+        [Input("submit-btn", "n_clicks"), Input("exceptions-btn", "exception_clicks"),],
         [
             State("my-date-picker-range", "start_date"),
             State("my-date-picker-range", "end_date"),
@@ -140,28 +152,44 @@ def register_tab_switch(dashapp):
     )(tab_switch)
 
 
-def allocation_warning_message(n_clicks, table_data):
-    if n_clicks is None or not table_data:
+def timeframe_overlap_warning(n_clicks):
+    if n_clicks:
+        return True
+
+
+def allocation_warning_message(submit_btn, save_btn, table_data):
+    if (submit_btn or save_btn) is None or not table_data:
         raise PreventUpdate
     for tkr in table_data:
-        return any(int(tkr["Allocation"]) == 0 for tkr in table_data)
+        return any(tkr["Allocation"] == 0 for tkr in table_data)
 
 
 def check_date(start_date, end_date):
-    return (
-        datetime.strptime(end_date, "%Y-%m-%d")
-        - datetime.strptime(start_date, "%Y-%m-%d")
-    ).days < 365
+    """
+    Returns True if the dates are far enough apart for anda to make use of them properly,
+    False if not.
+    """
+    real_end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    real_start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    if (real_end_date - real_start_date).days < 365:
+        return True
+
+    date_range_jans = pd.date_range(real_start_date, real_end_date, freq="D")
+    return len(anda._jan_firsts(date_range_jans)) < 2
 
 
 def date_warning_message(n_clicks, start_date, end_date):
     if n_clicks is None or start_date is None or end_date is None:
         raise PreventUpdate
+
     if n_clicks:
         return check_date(start_date, end_date)
 
 
-def tab_switch(n_clicks, *args):
+def tab_switch(n_clicks, exception_clicks, *args):
+    if exception_clicks is not None:
+        return ["allocations"] + [True] * (NO_TABS - 1)
+
     if n_clicks is None or not all(args[:4]):
         raise PreventUpdate
 
@@ -171,8 +199,9 @@ def tab_switch(n_clicks, *args):
 
         tkrs = args[3:]
         for tkr in tkrs:
-            if tkr and int(tkr[0]["Allocation"]) == 0:
-                raise PreventUpdate
+            if tkr:
+                if any(Decimal(tkr[i]["Allocation"]) == 0 for i in range(len(tkr))):
+                    raise PreventUpdate
 
     # Current tab + diasbled = False for all other
     return ["summary"] + [False] * (NO_TABS - 1)
@@ -368,7 +397,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             )
         )
 
-        if any(int(tkr["Allocation"]) == 0 for tkr in args["Ticker Tables"][i]):
+        if any(tkr["Allocation"] == 0 for tkr in args["Ticker Tables"][i]):
             raise PreventUpdate
 
         strategy = get_strategy(
@@ -382,6 +411,15 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
             contribution_dates,
             rebalancing_dates,
         )
+
+        if strategy is None:
+            to_return = [None] * 4
+            to_return += hidden_divs_data(0)
+            to_return += [None] * 3
+
+            # press exceptions
+            to_return += [1]
+            return to_return
 
         total_returns = anda.total_return(strategy)
         metrics = get_table_data(strategy, total_returns, portfolio_name)
@@ -458,4 +496,7 @@ def update_dashboard(n_clicks, start_date, end_date, input_money, *args):
 
     to_return = [main_graph, returns_table, annual_returns, drawdowns_graph] + to_return
     to_return += [table_cols, table_data, portfolio_params]
+
+    # no exception
+    to_return += [None]
     return to_return

@@ -1,40 +1,191 @@
 import json
+from datetime import datetime
 
+import dash
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
 from .. import user_csv
 from ..config import MAX_PORTFOLIOS
+from ..portfolio_manager import (
+    get_portfolios_list,
+    get_own_portfolio,
+    store_portfolio,
+    load_public_portfolio,
+)
+from ..strategy import normalise
 
 
 def register_allocations_tab(dashapp):
-    register_table_callbacks(dashapp)
+    register_update_portfolio(dashapp)
     register_add_portfolio(dashapp)
-    register_user_data(dashapp)
+    register_warning_csv(dashapp)
     register_warning_message(dashapp)
+    register_warning_date_csv(dashapp)
+
+    register_save_portfolio(dashapp)
+    register_list_portfolios(dashapp)
 
 
-def register_table_callbacks(dashapp):
+def load_shared_portfolio(path):
+
+    arg = path.rsplit("/", 1)[1]
+
+    try:
+        if len(arg) == 64:
+            portfolio, strategy = load_public_portfolio(arg)
+        else:
+            porto_id = int(arg)
+            portfolio, strategy = get_own_portfolio(porto_id)
+
+    except ValueError:
+        raise PreventUpdate
+
+    return parse_stored_portfolio(portfolio, strategy)
+
+
+def register_update_portfolio(dashapp):
     """ Callback tying the ticker dropdown to table """
+    states = []
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        states.append(
+            (
+                [
+                    Output(f"memory-table-{i}", "data"),
+                    Output(f"portfolio-name-{i}", "value"),
+                ],
+                [
+                    Input(f"memory-ticker-{i}", "value"),
+                    Input(f"lazy-portfolios-{i}", "value"),
+                    Input(f"stored-portfolios-{i}", "value"),
+                    Input(f"upload-data-{i}", "contents"),
+                ],
+                [
+                    State(f"upload-data-{i}", "filename"),
+                    State(f"memory-table-{i}", "data"),
+                ],
+            )
+        )
+
+    first_portfolio = states[0]
+    first_portfolio[1].append(Input("page-location-url", "pathname"))
+    dashapp.callback(*first_portfolio)(update_first_portfolio)
+
+    for state in states[1:]:
+        dashapp.callback(*state)(update_portfolio)
+
+
+def update_first_portfolio(
+    ticker_selected,
+    lazy_portfolio,
+    saved_portfolio,
+    user_csv,
+    url_path,
+    filename,
+    table_data,
+):
+    ctx = dash.callback_context
+    if not ctx.triggered:
+        raise PreventUpdate
+    else:
+        trigger = ctx.triggered[0]["prop_id"].split(".")[0]
+
+    if trigger == "page-location-url" and url_path is not None:
+        results = load_shared_portfolio(url_path)
+    else:
+        results = update_portfolio(
+            ticker_selected,
+            lazy_portfolio,
+            saved_portfolio,
+            user_csv,
+            filename,
+            table_data
+        )
+    return results
+
+
+def register_save_portfolio(dashapp):
     for i in range(1, MAX_PORTFOLIOS + 1):
         dashapp.callback(
-            Output(f"memory-table-{i}", "data"),
             [
-                Input(f"memory-ticker-{i}", "value"),
-                Input(f"output-data-upload-{i}", "children"),
-                Input(f"lazy-portfolios-{i}", "value"),
+                Output(f"save-portfolio-success-{i}", "children"),
+                Output(f"save-portfolio-success-{i}", "className"),
             ],
-            [State(f"memory-table-{i}", "data")],
-        )(filter_tickers)
+            [Input(f"save-portfolio-{i}", "n_clicks")],
+            [
+                State("my-date-picker-range", "start_date"),
+                State("my-date-picker-range", "end_date"),
+                State("input-money", "value"),
+                State(f"portfolio-name-{i}", "value"),
+                State(f"memory-table-{i}", "data"),
+            ],
+        )(save_portfolio)
 
 
-def register_user_data(dashapp):
-    for i in range(1, MAX_PORTFOLIOS + 1):
-        dashapp.callback(
-            Output(f"output-data-upload-{i}", "children"),
-            [Input(f"upload-data-{i}", "contents")],
-            [State(f"upload-data-{i}", "filename")],
-        )(update_output)
+def register_list_portfolios(dashapp):
+    dashapp.callback(
+        [
+            Output(f"stored-portfolios-{i}", "options")
+            for i in range(1, MAX_PORTFOLIOS + 1)
+        ],
+        [
+            Input(f"save-portfolio-success-{i}", "children")
+            for i in range(1, MAX_PORTFOLIOS + 1)
+        ]
+        + [Input("page-location-url", "href")],
+    )(list_stored_portfolios)
+
+
+def list_stored_portfolios(*_):
+    portfolios = get_portfolios_list()
+    options = [{"label": name, "value": pid} for pid, name in portfolios]
+    return [options] * MAX_PORTFOLIOS
+
+
+def parse_stored_portfolio(porto, strat):
+    assets = []
+    for tkr in strat.assets:
+        ticker, name = tkr.ticker.split("|")
+        assets.append({"AssetTicker": ticker, "Name": name, "Allocation": tkr.weight})
+    return assets, porto.name
+
+
+def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data):
+    if n_clicks is None:
+        raise PreventUpdate
+
+    if not table_data or any(tkr["Allocation"] == 0 for tkr in table_data):
+        raise PreventUpdate
+
+    if any(tkr.get("Handle") for tkr in table_data):
+        message = (
+            f"You can not save portfolios with your own uploaded assets,"
+            " please remove the asset before saving"
+        )
+        notification_type = "notification is-warning"
+        return message, notification_type
+
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    end_date = datetime.strptime(end_date, "%Y-%m-%d")
+
+    allocations = [tkr["Allocation"] for tkr in table_data]
+    normalise(allocations)
+    tickers = (f"{tkr['AssetTicker']}|{tkr['Name']}" for tkr in table_data)
+
+    success = store_portfolio(
+        start_date, end_date, input_money, name, zip(tickers, allocations)
+    )
+    if success:
+        message = f"Portfolio {name} saved"
+        notification_type = "notification is-success"
+    else:
+        message = (
+            f"You already have a portfolio called {name},"
+            " please rename the portfolio and try again"
+        )
+        notification_type = "notification is-warning"
+
+    return message, notification_type
 
 
 def register_add_portfolio(dashapp):
@@ -61,62 +212,112 @@ def register_warning_message(dashapp):
         )(warning_message)
 
 
+def register_warning_csv(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-csv-{i}", "displayed"),
+            [Input(f"upload-data-{i}", "contents")],
+        )(user_csv_warning)
+
+
+def register_warning_date_csv(dashapp):
+    for i in range(1, MAX_PORTFOLIOS + 1):
+        dashapp.callback(
+            Output(f"confirm-csv-date-{i}", "displayed"),
+            [Input(f"upload-data-{i}", "contents")],
+        )(user_csv_date_warning)
+
+
 def warning_message(n_clicks, start_date, end_date, input_money, table):
     values = (start_date, end_date, input_money, table)
     if n_clicks:
         return not all(values)
 
 
-def filter_tickers(ticker_selected, user_supplied_csv, lazy_portfolio, param_state):
+def update_portfolio(
+    ticker_selected, lazy_portfolio, saved_portfolio, user_csv, filename, table_data
+):
     """
     Filters the selected tickers from the dropdown menu.
     """
-
-    if (ticker_selected or lazy_portfolio or user_supplied_csv) is None:
+    if (ticker_selected or lazy_portfolio or user_csv or saved_portfolio) is None:
         raise PreventUpdate
-    if param_state is None:
-        param_state = []
-    if lazy_portfolio is not None:
-        param_state = []
-        json_acceptable_string = lazy_portfolio.replace("'", '"')
-        lazy_dict = json.loads(json_acceptable_string)
-        for asset in lazy_dict.values():
-            if all(
-                asset["AssetTicker"] != existing["AssetTicker"]
-                for existing in param_state
-            ):
-                param_state.append(asset)
+
+    if table_data is None:
+        table_data = []
+    portfolio_name = dash.no_update  # only update the name when loading a portfolio
+
+    ctx = dash.callback_context
+    if not ctx.triggered:
+        raise PreventUpdate
     else:
-        if ticker_selected is None:
+        trigger = ctx.triggered[0]["prop_id"].split(".")[0]
+
+    # load complete portfolio
+    if trigger.startswith("stored-portfolios"):
+        portfolio, strategy = get_own_portfolio(saved_portfolio)
+        table_data, portfolio_name = parse_stored_portfolio(portfolio, strategy)
+    elif trigger.startswith("lazy-portfolios"):
+        table_data = list(json.loads(lazy_portfolio).values())
+
+    # load single asset
+    else:
+        if trigger.startswith("upload-data"):
+            user_supplied_csv = update_output(user_csv, filename)
             filename = user_supplied_csv[0]
             handle = user_supplied_csv[1]
             asset = {
                 "AssetTicker": filename,
                 "Handle": handle,
-                "Allocation": "0",
+                "Allocation": 0,
             }
+
         else:
             ticker, name = ticker_selected.split(" – ")
-            asset = {"AssetTicker": ticker, "Name": name, "Allocation": "0"}
+            asset = {"AssetTicker": ticker, "Name": name, "Allocation": 0}
 
         if all(
-            asset["AssetTicker"] != existing["AssetTicker"] for existing in param_state
+            asset["AssetTicker"] != existing["AssetTicker"] for existing in table_data
         ):
-            param_state.append(asset)
+            table_data.append(asset)
 
-    return param_state
+    return table_data, portfolio_name
+
+
+def user_csv_warning(contents):
+    if contents is not None:
+        content_type, content_string = contents.split(",")
+        try:
+            user_csv.store(content_string)
+        except user_csv.FormattingError:
+            return True
+
+
+def user_csv_date_warning(contents):
+    if contents is not None:
+        content_type, content_string = contents.split(",")
+        try:
+            user_csv.store_checked(content_string)
+        except user_csv.anda.InsufficientTimeframe:
+            return True
 
 
 def update_output(list_of_contents, list_of_names):
     if list_of_contents is not None:
-        children = [user_data(c, n) for c, n in zip(list_of_contents, list_of_names)]
-        assert len(children) == 1
+        children = [user_data(list_of_contents, list_of_names)]
         return children[0]
 
 
 def user_data(contents, filename):
     content_type, content_string = contents.split(",")
-    handle = user_csv.store(content_string)
+    try:
+        handle = user_csv.store(content_string)
+    except user_csv.FormattingError:
+        raise PreventUpdate
+    try:
+        handle = user_csv.store_checked(content_string)
+    except user_csv.anda.InsufficientTimeframe:
+        raise PreventUpdate
     return [filename, handle]
 
 

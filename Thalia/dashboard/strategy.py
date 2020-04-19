@@ -32,6 +32,11 @@ def get_strategy(
             user_assets.append((ticker, weight, handle))
 
     thalia_data = get_assets(thalia_tickers, thalia_weights, start_date, end_date)
+
+    if thalia_data is None:
+        # raise error
+        return None
+
     user_supplied_data = [
         anda.Asset(ticker, weight, user_csv.retrieve(handle))
         for ticker, weight, handle in user_assets
@@ -42,8 +47,8 @@ def get_strategy(
     real_end_date = min(asset.values.index[-1] for asset in all_asset_data)
 
     if real_end_date < real_start_date:
-        # raise Error
-        return None, None
+        # raise error
+        return None
 
     strategy = anda.Strategy(
         real_start_date,
@@ -77,6 +82,11 @@ def get_assets(tickers, proportions, start_date, end_date):
     data = data.rename(
         columns={"AOpen": "Open", "AClose": "Close", "ALow": "Low", "AHigh": "High"}
     )
+
+    if data.empty:
+        # raise error
+        return None
+
     assets = []
     for tick, prop in zip(tickers, proportions):
         asset_data = data[(data.AssetTicker == tick)]

@@ -7,6 +7,7 @@ from . import tabs
 layout = html.Div(
     html.Main(
         [
+            dcc.Location(id="page-location-url", refresh=False),
             html.Div(
                 [
                     dcc.Tabs(

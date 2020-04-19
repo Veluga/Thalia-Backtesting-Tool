@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Thalia</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/stylesheets/base.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -13,7 +14,7 @@
 
 <body>
     {% include 'navbar.html' %} {% block content %} {% endblock %}
-    <footer class="footer" style="padding-bottom:0px;">
+    <footer class="footer">
         <div class="content has-text-centered">
             <div>
                 <h1 class="subtitle is-5 has-text-weight-light has-text-black">
@@ -22,10 +23,10 @@
             </div>
             <div>
                 <a href="https://twitter.com/Thalia99627941" class="twitter-link">
-                    <i class="fab fa-twitter fa-2x"></i>
+                    <i class="fab fa-twitter fa-2x has-color-inspire"></i>
                 </a>
                 <a href="https://www.facebook.com/Thalia-Backtester-101459001526511/" class="facebook-link">
-                    <i class="fab fa-facebook fa-2x"></i>
+                    <i class="fab fa-facebook fa-2x has-color-inspire"></i>
                 </a>
             </div>
             <hr>

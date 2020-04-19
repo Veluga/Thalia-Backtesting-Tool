@@ -39,7 +39,7 @@ def get_yearly_differences_graph(name, diffs, start_date, end_date):
         yaxis_title="Difference (%)",
         font=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
     )
-    # If only 6 years of data show ever year on the x axis
+    # If only 6 years of data show every year on the x axis
     if len(years) <= 6:
         annual_figure.update_xaxes(dtick=1)
     # Else let Dash figure it out

@@ -54,12 +54,7 @@ def dashboard_test(driver):
     util.input_clear(portfolio_name)
     portfolio_name.send_keys(util.p_name)
 
-    input_contribution = driver.find_element_by_xpath(
-        "/html/body/div[1]/\
-                                                       div/main/div/div/div[2]\
-                                                       /div[2]/div[2]/div[1]/div\
-                                                       /div[3]/div/input"
-    )
+    input_contribution = driver.find_element_by_id("input-contribution-1")
     input_contribution.clear()
     input_contribution.send_keys(util.cont_amount)
 

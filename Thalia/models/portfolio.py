@@ -17,6 +17,15 @@ class Portfolio(db.Model):
     def __init__(self):
         self.shared = False
 
+    def share(self):
+        if not self.uuid:
+            self.gen_uuid()
+        if not self.shared:
+            self.shared = True
+            db.session.add(self)
+            db.session.commit()
+        return self.uuid
+
     def gen_uuid(self):
         if not self.id:
             raise ValueError  # ID must not be none
@@ -55,7 +64,7 @@ class Portfolio(db.Model):
             [],
         )
         strat.assets = [
-            Asset(a["ticker"], Decimal(a["weight"]).quantize(PENNY), None, None,)
+            Asset(a["ticker"], Decimal(a["weight"] * 100).quantize(PENNY), None, None,)
             for a in stripped_strat["assets"]
         ]
         return strat
