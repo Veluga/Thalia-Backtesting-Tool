@@ -351,7 +351,6 @@ def upload_data(id):
                     "textAlign": "center",
                 },
             ),
-            html.Div(id=f"output-data-upload-{id}"),
         ]
     )
 

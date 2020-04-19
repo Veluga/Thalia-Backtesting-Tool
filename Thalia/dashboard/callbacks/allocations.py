@@ -7,58 +7,101 @@ from dash.exceptions import PreventUpdate
 
 from .. import user_csv
 from ..config import MAX_PORTFOLIOS
-from ..portfolio_manager import get_portfolios_list, retrieve_portfolio, store_portfolio
+from ..portfolio_manager import (
+    get_portfolios_list,
+    get_own_portfolio,
+    store_portfolio,
+    load_public_portfolio,
+)
 from ..strategy import normalise
 
 
 def register_allocations_tab(dashapp):
-    register_table_callbacks(dashapp)
+    register_update_portfolio(dashapp)
     register_add_portfolio(dashapp)
     register_warning_csv(dashapp)
-    register_user_data(dashapp)
     register_warning_message(dashapp)
     register_warning_date_csv(dashapp)
 
     register_save_portfolio(dashapp)
     register_list_portfolios(dashapp)
-    register_url_reading(dashapp)
-
-
-def register_url_reading(dashapp):
-    dashapp.callback(
-        Output("stored-portfolios-1", "value"), [Input("page-location-url", "pathname")]
-    )(load_shared_portfolio)
 
 
 def load_shared_portfolio(path):
-    if path is None:
-        raise PreventUpdate
 
-    porto_id = path.rsplit("/", 1)[1]
+    arg = path.rsplit("/", 1)[1]
+
     try:
-        porto_id = int(porto_id)
+        if len(arg) == 64:
+            portfolio, strategy = load_public_portfolio(arg)
+        else:
+            porto_id = int(arg)
+            portfolio, strategy = get_own_portfolio(porto_id)
+
     except ValueError:
         raise PreventUpdate
 
-    return porto_id
+    return parse_stored_portfolio(portfolio, strategy)
 
 
-def register_table_callbacks(dashapp):
+def register_update_portfolio(dashapp):
     """ Callback tying the ticker dropdown to table """
+    states = []
     for i in range(1, MAX_PORTFOLIOS + 1):
-        dashapp.callback(
-            [
-                Output(f"memory-table-{i}", "data"),
-                Output(f"portfolio-name-{i}", "value"),
-            ],
-            [
-                Input(f"memory-ticker-{i}", "value"),
-                Input(f"output-data-upload-{i}", "children"),
-                Input(f"lazy-portfolios-{i}", "value"),
-                Input(f"stored-portfolios-{i}", "value"),
-            ],
-            [State(f"memory-table-{i}", "data")],
-        )(add_ticker)
+        states.append(
+            (
+                [
+                    Output(f"memory-table-{i}", "data"),
+                    Output(f"portfolio-name-{i}", "value"),
+                ],
+                [
+                    Input(f"memory-ticker-{i}", "value"),
+                    Input(f"lazy-portfolios-{i}", "value"),
+                    Input(f"stored-portfolios-{i}", "value"),
+                    Input(f"upload-data-{i}", "contents"),
+                ],
+                [
+                    State(f"upload-data-{i}", "filename"),
+                    State(f"memory-table-{i}", "data"),
+                ],
+            )
+        )
+
+    first_portfolio = states[0]
+    first_portfolio[1].append(Input("page-location-url", "pathname"))
+    dashapp.callback(*first_portfolio)(update_first_portfolio)
+
+    for state in states[1:]:
+        dashapp.callback(*state)(update_portfolio)
+
+
+def update_first_portfolio(
+    ticker_selected,
+    lazy_portfolio,
+    saved_portfolio,
+    user_csv,
+    url_path,
+    filename,
+    table_data,
+):
+    ctx = dash.callback_context
+    if not ctx.triggered:
+        raise PreventUpdate
+    else:
+        trigger = ctx.triggered[0]["prop_id"].split(".")[0]
+
+    if trigger == "page-location-url" and url_path is not None:
+        results = load_shared_portfolio(url_path)
+    else:
+        results = update_portfolio(
+            ticker_selected,
+            lazy_portfolio,
+            saved_portfolio,
+            user_csv,
+            filename,
+            table_data
+        )
+    return results
 
 
 def register_save_portfolio(dashapp):
@@ -99,8 +142,7 @@ def list_stored_portfolios(*_):
     return [options] * MAX_PORTFOLIOS
 
 
-def load_stored_portfolio(portfolio_id):
-    porto, strat = retrieve_portfolio(portfolio_id)
+def parse_stored_portfolio(porto, strat):
     assets = []
     for tkr in strat.assets:
         ticker, name = tkr.ticker.split("|")
@@ -144,15 +186,6 @@ def save_portfolio(n_clicks, start_date, end_date, input_money, name, table_data
         notification_type = "notification is-warning"
 
     return message, notification_type
-
-
-def register_user_data(dashapp):
-    for i in range(1, MAX_PORTFOLIOS + 1):
-        dashapp.callback(
-            Output(f"output-data-upload-{i}", "children"),
-            [Input(f"upload-data-{i}", "contents")],
-            [State(f"upload-data-{i}", "filename")],
-        )(update_output)
 
 
 def register_add_portfolio(dashapp):
@@ -201,15 +234,13 @@ def warning_message(n_clicks, start_date, end_date, input_money, table):
         return not all(values)
 
 
-def add_ticker(
-    ticker_selected, user_supplied_csv, lazy_portfolio, saved_portfolio, table_data
+def update_portfolio(
+    ticker_selected, lazy_portfolio, saved_portfolio, user_csv, filename, table_data
 ):
     """
     Filters the selected tickers from the dropdown menu.
     """
-    if (
-        ticker_selected or lazy_portfolio or user_supplied_csv or saved_portfolio
-    ) is None:
+    if (ticker_selected or lazy_portfolio or user_csv or saved_portfolio) is None:
         raise PreventUpdate
 
     if table_data is None:
@@ -224,14 +255,15 @@ def add_ticker(
 
     # load complete portfolio
     if trigger.startswith("stored-portfolios"):
-        table_data, portfolio_name = load_stored_portfolio(saved_portfolio)
-
+        portfolio, strategy = get_own_portfolio(saved_portfolio)
+        table_data, portfolio_name = parse_stored_portfolio(portfolio, strategy)
     elif trigger.startswith("lazy-portfolios"):
         table_data = list(json.loads(lazy_portfolio).values())
 
     # load single asset
     else:
-        if trigger.startswith("output-data-upload"):
+        if trigger.startswith("upload-data"):
+            user_supplied_csv = update_output(user_csv, filename)
             filename = user_supplied_csv[0]
             handle = user_supplied_csv[1]
             asset = {
