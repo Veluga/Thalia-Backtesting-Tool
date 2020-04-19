@@ -359,7 +359,7 @@ setup(
 
 One of the first decisions we had to make was to choose a standard coding style. For this, we used `flake8`, which can be seen amongst the extras in the code snippet above. The original documentation of flake8 defines it as ``[...] a command-line utility for enforcing style consistency across Python projects. By default it includes lint checks provided by the PyFlakes project, PEP-0008 inspired style checks provided by the PyCodeStyle project, and McCabe complexity checking provided by the McCabe project`` \cite{flake8}. However, as is common practice, we also decided to redefine the maximum line-length as 88 instead of 79, as we found this convention to be a hindrance when writing code.
 
-Another tool used to enforce uniform style was the `black` auto-formatter for Python \cite{black}, which formatted the code for us upon every save (if enabled) and when committing code to GitHub. This has been achieved by the use of githooks \cite{githooks}, which are programs that are triggered upon certain git actions. Setting up these hooks required pre-commit package. This ensured that both flake8 and black were guaranteed to run before publishing changes.
+Another tool used to enforce uniform style was the `black` auto-formatter for Python \cite{black}, which formatted the code for us upon every save (if enabled) and when committing code to GitHub. This has been achieved by the use of githooks \cite{githooks}, which are programs that are triggered upon certain git actions. Setting up these hooks required the `pre-commit` package. This ensured that both flake8 and black were guaranteed to run before publishing changes.
 
 
 \subsubsection{Continuous Integration}
