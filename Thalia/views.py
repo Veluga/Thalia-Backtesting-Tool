@@ -1,11 +1,13 @@
+from urllib.parse import urljoin
+
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
 from .extensions import db
-from .forms import LoginForm, RegistrationForm, FeedbackForm
-from .models.user import User
+from .forms import FeedbackForm, LoginForm, RegistrationForm
 from .models.portfolio import Portfolio
+from .models.user import User
 
 server_bp = Blueprint("main", __name__)
 
@@ -24,9 +26,7 @@ def index():
             return redirect(url_for("main.login"))
 
     if form.is_submitted():
-        return render_template(
-            "index.html", form=form, scroll="login_failed"
-        )
+        return render_template("index.html", form=form, scroll="login_failed")
 
     return render_template("index.html", title="Home Page", form=form)
 
@@ -55,19 +55,40 @@ def contact():
     return render_template("contact.html", title="Contact Us", form=form)
 
 
-@server_bp.route("/gallery/")
+@server_bp.route("/share/", methods=["POST"])
+@login_required
+def share_portfolio():
+    portfolio_id = request.get_json().get("portfolio_id")
+    portfolio = Portfolio.query.get(portfolio_id)
+    if portfolio.owner != current_user.id:
+        pass  # add redirect to 404
+        return "404"
+    else:
+        uuid = portfolio.share()
+        return uuid
+
+
+@server_bp.route("/gallery/", methods=["GET"])
 @login_required
 def gallery():
     """
     We extract relevant values from the portfolio record into a separate array
-    as we can not overwrite the strategy attribute of a Portfolio record with a strategy object,
-    since it is not JSON serializable.
+    as we can not overwrite the strategy attribute of a Portfolio
+    record with a strategy object, since it is not JSON serializable.
     An unelegant workaround, but it works.
+
+    Also has post method for handling deletion and sharing
     """
-    portfolios = [
-        {"id": p.id, "name": p.name, "strat": p.get_strategy()}
-        for p in Portfolio.query.filter_by(owner=current_user.id)
-    ]
+    portfolios = []
+    for p in Portfolio.query.filter_by(owner=current_user.id):
+        portfolio = {"id": p.id, "name": p.name, "strat": p.get_strategy()}
+        if p.uuid:
+            portfolio["link"] = urljoin(
+                request.host_url, url_for("/dashboard/") + p.uuid
+            )
+        else:
+            portfolio["link"] = None
+        portfolios.append(portfolio)
 
     return render_template("gallery.html", title="My Portfolios", portfolios=portfolios)
 

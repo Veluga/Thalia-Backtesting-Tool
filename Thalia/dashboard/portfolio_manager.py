@@ -26,9 +26,20 @@ def store_portfolio(start_date, end_date, starting_balance, name, table):
     return True
 
 
+def get_own_portfolio(portfolio_id):
+    portfolio, strategy = retrieve_portfolio(portfolio_id)
+    if portfolio.owner != current_user.id:
+        raise ValueError
+
+    return portfolio, strategy
+
+
 def retrieve_portfolio(portfolio_id):
     porto = Portfolio.query.get(portfolio_id)
-    strat = porto.get_strategy()
+    if porto:
+        strat = porto.get_strategy()
+    else:
+        raise ValueError
     return porto, strat
 
 
@@ -39,3 +50,17 @@ def get_portfolios_list():
         .all()
     )
     return portos
+
+
+def load_public_portfolio(uuid):
+    try:
+        porto = Portfolio.query.filter_by(uuid=uuid).one_or_none()
+    except Exception as e:
+        print(e)
+        raise ValueError
+
+    if porto and porto.shared:
+        strat = porto.get_strategy()
+        return porto, strat
+    else:
+        raise ValueError
