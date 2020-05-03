@@ -1,4 +1,4 @@
-# script for running in development environement
+# script for running in development environment
 
 export FLASK_APP=main.py
 export FLASK_DEBUG=1

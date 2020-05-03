@@ -1,3 +1,0 @@
-#!/bin/bash
-
-find . -regex ".*\.tex" -exec sed -i '' -E "s/\\cite{(TR_story|TR_SVC|TR_TO|TR_REQS|TR_OPTIONAL_FEATURES)}/\\cite{TR}/g; s/\\cite{(WP_IBC|WP_LTF)}/\\cite{WP}/g" {} \;
